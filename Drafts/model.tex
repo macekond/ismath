@@ -1,0 +1,111 @@
+﻿\documentclass[10pt,a4paper]{article}
+\usepackage[ascii]{inputenc}
+\usepackage{amsmath}
+\usepackage{amsfonts}
+\usepackage{amssymb}
+\begin{document}
+
+\section{Data centric use case model}
+\subsection{Prerequisites} 
+\begin{enumerate}
+	\item Set of string labels: $L$ 
+	\item Set of basic types : $T$ 
+	
+\end{enumerate}
+\subsubsection{Data model}
+The data model is a platform independent model (PIM) of domain data.
+$D = ( C$,$ A$,$ R$, $name$, $type$, $aclass$, $relation$, $card)$
+\begin{itemize}
+	\item $C$ is a set of classes,
+	\item $A$ is a set of attributes,
+	\item $R$ is a set of relation,
+	\item $name$ is a function assigning names to classes, atributes and relations $name: C \cup A \cup R \rightarrow L$,
+	\item $type$ assigns type to an attribute $type: A \rightarrow T$,
+	\item $aclass: A \rightarrow C$ assigns atributes to a class,
+	\item $relation: R \rightarrow C \times C$ connect two classes with a relation. The order is not importatnt in this relation: $r \in R, relation(r)=(C_1, C_2)=(C_2, C_1)$,
+	\item $card: C \times R \rightarrow \langle N_0 \times (N \cup \lbrace * \rbrace) \rangle$ assigns cardinality to a relation.
+\end{itemize}
+
+\subsection{Interaction model}
+The process model represents the interaction of the user and the system.
+$I=($S$, $U$, $A$, $F$, $name$, $type$, $astep$, $flow$, $perform$)$
+\begin{itemize}
+	\item $S$ is a set of interaction steps.
+	\item $U$ is a set of users (or actors). The system is held as one of actors. The models with two actors are prefered because of their simplicity. 
+	\item $A$ is a set of attributes,
+	\item $F$ is a set of interaction flows,
+	\item $name$ is a function assigning names to classes, atributes and relations $name: S \cup U \cup A \cup F \rightarrow L$,
+	\item $type$ assigns type to an attribute $type: A \rightarrow T$,
+	\item $astep: A \rightarrow S$ assigns attributes to a class,
+	\item $flow: F \rightarrow S \times S$ connect two interaction steps in a flow. The order is importatnt in this relation: $f \in F, flow(f)=(S_1, S_2)\neq(S_2, S_1)$,
+	\item $perform: U \rightarrow S$ assigns an user to a interaction step 
+\end{itemize}
+
+
+\textbf{Use Case Model}
+
+$M = (D$, $I$, $input$, $output)$
+\begin{itemize}
+	\item $D$ is a data model
+	\item $I$ is a interaction model
+	\item $input: D \rightarrow S$ is a function assigning an input data to a interaction step
+	\item $output: D \rightarrow S$ is a function assigning an output data to a ineteraction step
+\end{itemize}
+
+
+\end{document}\documentclass[10pt,a4paper]{article}
+\usepackage[ascii]{inputenc}
+\usepackage{amsmath}
+\usepackage{amsfonts}
+\usepackage{amssymb}
+\begin{document}
+
+\section{Data centric use case model}
+\subsection{Prerequisites} 
+\begin{enumerate}
+	\item Set of string labels: $L$ 
+	\item Set of basic types : $T$ 
+	
+\end{enumerate}
+\subsubsection{Data model}
+The data model is a platform independent model (PIM) of domain data.
+$D = ( C$,$ A$,$ R$, $name$, $type$, $aclass$, $relation$, $card)$
+\begin{itemize}
+	\item $C$ is a set of classes,
+	\item $A$ is a set of attributes,
+	\item $R$ is a set of relation,
+	\item $name$ is a function assigning names to classes, atributes and relations $name: C \cup A \cup R \rightarrow L$,
+	\item $type$ assigns type to an attribute $type: A \rightarrow T$,
+	\item $aclass: A \rightarrow C$ assigns atributes to a class,
+	\item $relation: R \rightarrow C \times C$ connect two classes with a relation. The order is not importatnt in this relation: $r \in R, relation(r)=(C_1, C_2)=(C_2, C_1)$,
+	\item $card: C \times R \rightarrow \langle N_0 \times (N \cup \lbrace * \rbrace) \rangle$ assigns cardinality to a relation.
+\end{itemize}
+
+\subsection{Interaction model}
+The process model represents the interaction of the user and the system.
+$I=($S$, $U$, $A$, $F$, $name$, $type$, $astep$, $flow$, $perform$)$
+\begin{itemize}
+	\item $S$ is a set of interaction steps.
+	\item $U$ is a set of users (or actors). The system is held as one of actors. The models with two actors are prefered because of their simplicity. 
+	\item $A$ is a set of attributes,
+	\item $F$ is a set of interaction flows,
+	\item $name$ is a function assigning names to classes, atributes and relations $name: S \cup U \cup A \cup F \rightarrow L$,
+	\item $type$ assigns type to an attribute $type: A \rightarrow T$,
+	\item $astep: A \rightarrow S$ assigns attributes to a class,
+	\item $flow: F \rightarrow S \times S$ connect two interaction steps in a flow. The order is importatnt in this relation: $f \in F, flow(f)=(S_1, S_2)\neq(S_2, S_1)$,
+	\item $perform: U \rightarrow S$ assigns an user to a interaction step 
+\end{itemize}
+
+
+\textbf{Use Case Model}
+
+$M = (D$, $I$, $input$, $output)$
+\begin{itemize}
+	\item $D$ is a data model
+	\item $I$ is a interaction model
+	\item $input: D \rightarrow S$ is a function assigning an input data to a interaction step
+	\item $output: D \rightarrow S$ is a function assigning an output data to a ineteraction step
+\end{itemize}
+
+
+\end{document}
