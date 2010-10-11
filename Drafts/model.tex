@@ -35,7 +35,7 @@ $D = ( C$,$ A$,$ R$, $name$, $type$, $aclass$, $relation$, $card)$
 The process model represents the interaction of the user and the system.
 $I=($S$, $U$, $A$, $F$, $name$, $type$, $astep$, $flow$, $perform$)$
 \begin{itemize}
-	\item $S$ is a set of interaction steps.
+	\item $S$ is a set of interaction steps. 
 	\item $U$ is a set of users (or actors). The system is held as one of actors. The models with two actors are prefered because of their simplicity. 
 	\item $A$ is a set of attributes,
 	\item $F$ is a set of interaction flows,
@@ -43,30 +43,32 @@ $I=($S$, $U$, $A$, $F$, $name$, $type$, $astep$, $flow$, $perform$)$
 	\item $type$ assigns type to an attribute $type: A \rightarrow T$,
 	\item $astep: A \rightarrow S$ assigns attributes to a class,
 	\item $flow: F \rightarrow S \times S$ connect two interaction steps in a flow. The order is importatnt in this relation: $f \in F, flow(f)=(S_1, S_2)\neq(S_2, S_1)$,
-	\item $perform: U \rightarrow S$ assigns an user to a interaction step 
+	\item $perform: S \rightarrow U$ assigns an user to a interaction step 
 \end{itemize}
+
+\begin{mydef}
+Let call an \textbf{Interaction} each tuple $s_1, s_2 \in S: \exists f \in F: flow(f)=(s_1,s_2) $ and  $perform(s_1) \neq perform(s_2)$ 
+\end{mydef}
+
 
 
 \subsection{Use Case Model}
 
-$M = (D$, $I$, $input$, $output)$
+$M = (D'$, $I'$, $input$, $output)$
 \begin{itemize}
-	\item $D$ is a data model
-	\item $I$ is a interaction model
-	\item $input: D \rightarrow S$ is a function assigning an input data to a interaction step
-	\item $output: D \rightarrow S$ is a function assigning an output data to a ineteraction step
+	\item $D' \supset D $ is a data model
+	\item $I' \supset I$ is a interaction model
+	\item $input: D' \rightarrow S$ is a function assigning an input data to a interaction step
+	\item $output: D' \rightarrow S$ is a function assigning an output data to a ineteraction step
 \end{itemize}
 
 \begin{mydef}
-Interaction
+Atomic (or bidirectional) use case is an use case which interactions are only between two users.
 \end{mydef}
 
-\begin{mydef}
-Atomic UC
-\end{mydef}
 
 \begin{mydef}
-Structured UC
+Composite UC is an use case which is compound from two or more atomic use cases.
 \end{mydef}
 
 
