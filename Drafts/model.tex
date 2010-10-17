@@ -10,40 +10,44 @@
 \begin{document}
 
 \section{Data centric use case model}
-
 \subsection{Prerequisites} 
+
 \begin{enumerate}
 	\item Set of string labels: $L$ 
 	\item Set of basic types : $T$ 
-	
 \end{enumerate}
+
 \subsubsection{Data model}
 The data model is a platform independent model (PIM) of domain data.
-$D = ( C$,$ A$,$ R$, $name$, $type$, $aclass$, $relation$, $card)$
+$D = ( C$,$ A$,$ R$, $L$ $name$, $type$, $aclass$, $assoc$, $card$, $ccons$, $acons$,$rcons)$
 \begin{itemize}
 	\item $C$ is a set of classes,
 	\item $A$ is a set of attributes,
-	\item $R$ is a set of relation,
+	\item $R$ is a set of associations,
+	\item $L$ is a set of constraints,
 	\item $name$ is a function assigning names to classes, atributes and relations $name: C \cup A \cup R \rightarrow L$,
 	\item $type$ assigns type to an attribute $type: A \rightarrow T$,
 	\item $aclass: A \rightarrow C$ assigns atributes to a class,
-	\item $relation: R \rightarrow C \times C$ connect two classes with a relation. The order is not importatnt in this relation: $r \in R, relation(r)=(C_1, C_2)=(C_2, C_1)$,
+	\item $assoc: R \rightarrow C \times C$ connect two classes with a association. The order is not importatnt in this relation: $r \in R, relation(r)=(C_1, C_2)=(C_2, C_1)$,
 	\item $card: C \times R \rightarrow \langle N_0 \times (N \cup \lbrace * \rbrace) \rangle$ assigns cardinality to a relation.
+	\item $ccons: L \rightarrow C$, $acons: L \rightarrow A$, $rcons: L \rightarrow R$ assigns a constraints to a class, attribute, relation.
 \end{itemize}
 
 \subsection{Interaction model}
 The process model represents the interaction of the user and the system.
-$I=($S$, $U$, $A$, $F$, $name$, $type$, $astep$, $flow$, $perform$)$
+$I=(S$, $U$, $A$, $F$, $name$, $type$, $astep$, $flow$, $perform$, $artif)$
 \begin{itemize}
 	\item $S$ is a set of interaction steps. 
-	\item $U$ is a set of users (or actors). The system is held as one of actors. The models with two actors are prefered because of their simplicity. 
+	\item $U$ is a set of users (or actors). The softweare application is held as one of actors. The models with two actors (human user and software application) are prefered because of their simplicity. 
 	\item $A$ is a set of attributes,
 	\item $F$ is a set of interaction flows,
 	\item $name$ is a function assigning names to classes, atributes and relations $name: S \cup U \cup A \cup F \rightarrow L$,
 	\item $type$ assigns type to an attribute $type: A \rightarrow T$,
 	\item $astep: A \rightarrow S$ assigns attributes to a class,
-	\item $flow: F \rightarrow S \times S$ connect two interaction steps in a flow. The order is importatnt in this relation: $f \in F, flow(f)=(S_1, S_2)\neq(S_2, S_1)$,
-	\item $perform: S \rightarrow U$ assigns an user to a interaction step 
+	\item $perform: S \rightarrow U$ assigns an user to a interaction step,
+	\item $artif: \lbrace human, software \rbrace \rightarrow U$ helps to determine the user as a human user or software system,
+	\item $flow: F \rightarrow S \times S$ connect two interaction steps in a flow. The order is importatnt in this relation: $f \in F, flow(f)=(S_1, S_2)\neq(S_2, S_1)$.  As the model should capture human - software interaction we are not interested in human - human interactions. Hence $\forall f \in F: flow(f)=(S_1,S_2) \Rightarrow (artif(perform(S_1)) \neq human) \vee (artif(perform(S_2))\neq human) $. This rule forbids sequence of human steps too. We believe theese steps are not part of interaction model and should be modeled in other type of model (e.g. business process model).
+ 
 \end{itemize}
 
 \begin{mydef}
@@ -52,9 +56,9 @@ Let call an \textbf{Interaction} each tuple $s_1, s_2 \in S: \exists f \in F: fl
 
 
 
-\subsection{Use Case Model}
-
-$M = (D'$, $I'$, $input$, $output)$
+\subsection{Data Centric Use Case Model}
+The data centric use case model provides a two dimensional view on the human - software interaction. First view is on software actions human user can initiate and view on details of these actions. Second view is on data which initiate software actions and which are product of these actions. Another benefit of this model is a view on data interchangend between different software systems. The model is defined as follows:
+$M = (D'$, $I'$, $input$, $output)$, where
 \begin{itemize}
 	\item $D' \supset D $ is a data model
 	\item $I' \supset I$ is a interaction model
@@ -71,5 +75,10 @@ Atomic (or bidirectional) use case is an use case which interactions are only be
 Composite UC is an use case which is compound from two or more atomic use cases.
 \end{mydef}
 
+\section{PSM view}
+On the PSM view...
+%TODO: datum se pridaji anotace - podle specificke platformy; omezeni se zmeni na a) validatory b)strukturu dat (napr. v XML); system se rozpadne na drobnejsi komponenty (view/control/business classes), ktere spolu interaguji  vymenuji si data;
+
+%TODO: zamerit se na omezeni->validator a struktura, definici jednotlivych class, zrusit D' podmnozina D a a nahradit vztah nejakym dopocitavanim
 
 \end{document}
