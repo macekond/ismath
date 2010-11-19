@@ -4,13 +4,19 @@
 \usepackage{amsfonts}
 \usepackage{amssymb}
 
+\title{Class Model Refactoring}
+\author{Ond\v{r}ej Macek}
+
+
 \newtheorem{mydef}{Definition}
 
-%smìøovat k MDD - když refaktoruji nad PIM tak se to odrazí i v PSM (?)
+%smìøovat k MDD - když refaktoruji nad PIM tak se to odrazí i v PSM (?) - vykašlat se na dva modely, zmìny se zatím iniciují stejnì 1:1 => zamìøit se na co nejvíc operací
 %smìøovat k mezimodelovým vztahùm - více class modelù/ class-business model
 %diskutovat náš metamodel vzhledem k UML
 
+
 \begin{document}
+\maketitle
 \section{Model Refactoring}
 The code refactoring is defined as a disciplined technique for restructuring an existing body of code, altering its internal structure without changing its external behavior \cite{Fowler1999}. Its model analogy is defined in definition \ref{def:refactoring}. In this paper we presents basic techniques for class model refactoring. 
 
@@ -27,6 +33,8 @@ The main point of refactoring is to change structure but preserve behaviour. The
 \textbf{Correa} handles refactoring of UML/OCL models in \cite{CorreaW04}. This work presents OCL construct indicating the need of refactoring, several OCL refactoring methods and their automation.
 
 \textbf{Gorp} Other work using OCL in model refactoring is \cite{Gorp03towardsautomating}. OCL is used to determine a set of pre- and post- conditions of refactoring operations and "code smells".  Important part of this work is extending of UML metamodel for refactoring purposes. Although the main aim is model refactoring this work emphasize close connection between model and code.
+
+\textbf{Suny\'{e}} in \cite{Sunye01refactoringuml} provides an introduction into model refactoring area. This work discuss refactoring of class model and statechart. Some of the rules mentioned in this work are used in this work too however we disagree with some rules interpretation. The similarities and differences are discussed for each rule later. In contrast with this work we are focused on one model type only and we provide a formal description of refactoring rules. 
 
 There exist works handling transformation of behavioural UML models (such as sequence or state model) and their consistency \cite{DBLP:conf/uml/StraetenJM04}, \cite{straetenFormal}.
 
@@ -77,16 +85,21 @@ $D = ( C$,$ A$,$ M$,$ R$, $name$, $type$, $aclass$, $amethod$, $assoc$, $param$,
 \end{mydef}
 
 
-
+%add a remove jsou modelovací - na rozdíl od jzq
 
 
 \section{Refactoring methods}
 This section presents class refactoring methods. Except first two (move attribute and move method) all of them exists in pair representing action and its reaction. First two methods are special actions because they are its own reaction.
+\subsection{Rename}
+%má už jezequel
 \subsection{Move Attribute or Method}
+%vyvolává zmìnu/vznik nových vazeb
 \subsection{Split and Merge Class}
 \subsection{Introduce and Call off Parent}
 \subsection{Introduce Enumeration and Change Enumeration to Class}
-
+%adding abstract superclass
+%creating a generalization between two classes
+%merging two associations
 
 
 
