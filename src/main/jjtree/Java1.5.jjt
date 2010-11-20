@@ -29,6 +29,7 @@ options {
 }
 
 PARSER_BEGIN(JavaParser)
+package cz.cvut.fel.archanalyzer.parser;
 
 import java.io.*;
 
