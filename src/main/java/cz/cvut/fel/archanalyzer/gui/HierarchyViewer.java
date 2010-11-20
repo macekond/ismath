@@ -86,6 +86,8 @@ public class HierarchyViewer extends javax.swing.JFrame {
             try {
                 JavaParser javaParser = new JavaParser(filename);
                 javaParser.CompilationUnit();
+                ASTTreeModel model = new ASTTreeModel(javaParser.getRootNode());
+                jTree1.setModel(model);
                 JOptionPane.showMessageDialog(jMenu1, "Parse successful!");
             } catch (ParseException e) {
                 JOptionPane.showMessageDialog(jMenu1, e.getMessage());

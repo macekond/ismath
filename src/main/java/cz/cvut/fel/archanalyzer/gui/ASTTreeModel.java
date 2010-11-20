@@ -5,6 +5,8 @@
 
 package cz.cvut.fel.archanalyzer.gui;
 
+import cz.cvut.fel.archanalyzer.parser.Node;
+import java.util.Vector;
 import javax.swing.event.TreeModelListener;
 import javax.swing.tree.TreeModel;
 import javax.swing.tree.TreePath;
@@ -15,44 +17,57 @@ import javax.swing.tree.TreePath;
  */
 public class ASTTreeModel implements TreeModel {
 
+    private Node root;
+    private Vector<TreeModelListener> treeModelListeners = new Vector<TreeModelListener>();
+
+    public ASTTreeModel(Node root) {
+        this.root = root;
+    }
+
     @Override
     public Object getRoot() {
-        throw new UnsupportedOperationException("Not supported yet.");
+        return root;
     }
 
     @Override
     public Object getChild(Object parent, int index) {
-        throw new UnsupportedOperationException("Not supported yet.");
+        return ((Node) parent).jjtGetChild(index);
     }
 
     @Override
     public int getChildCount(Object parent) {
-        throw new UnsupportedOperationException("Not supported yet.");
+        return ((Node) parent).jjtGetNumChildren();
     }
 
     @Override
     public boolean isLeaf(Object node) {
-        throw new UnsupportedOperationException("Not supported yet.");
+        return ((Node) node).jjtGetNumChildren() == 0;
     }
 
     @Override
     public void valueForPathChanged(TreePath path, Object newValue) {
-        throw new UnsupportedOperationException("Not supported yet.");
+        // not used by this model
     }
 
     @Override
     public int getIndexOfChild(Object parent, Object child) {
-        throw new UnsupportedOperationException("Not supported yet.");
+        for (int i = 0; i < getChildCount(parent); i++) {
+            Node node = ((Node) parent).jjtGetChild(i);
+            if (node == child) {
+                return i;
+            }
+        }
+        return -1;
     }
 
     @Override
     public void addTreeModelListener(TreeModelListener l) {
-        throw new UnsupportedOperationException("Not supported yet.");
+        treeModelListeners.addElement(l);
     }
 
     @Override
     public void removeTreeModelListener(TreeModelListener l) {
-        throw new UnsupportedOperationException("Not supported yet.");
+        treeModelListeners.removeElement(l);
     }
 
 }

@@ -131,6 +131,11 @@ public class JavaParser
       catch(Exception e) { e.printStackTrace(); }
    }
 
+   public Node getRootNode()
+   {
+      return this.jjtree.rootNode();
+   }
+
 /*
   public static void main(String args[]) {
     JavaParser parser;
