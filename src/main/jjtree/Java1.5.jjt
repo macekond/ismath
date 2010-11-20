@@ -131,6 +131,7 @@ public class JavaParser
       catch(Exception e) { e.printStackTrace(); }
    }
 
+/*
   public static void main(String args[]) {
     JavaParser parser;
     if (args.length == 0) {
@@ -159,6 +160,7 @@ public class JavaParser
       System.out.println("Java Parser Version 1.1:  Encountered errors during parse.");
     }
   }
+*/
 
 }
 
