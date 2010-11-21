@@ -26,6 +26,7 @@ options {
   ERROR_REPORTING = false;
   STATIC = false;
   JDK_VERSION = "1.5";
+  NODE_CLASS = "ASTTreeNode";
 }
 
 PARSER_BEGIN(JavaParser)
@@ -1165,14 +1166,18 @@ void TypeDeclaration():
 void ClassOrInterfaceDeclaration(int modifiers):
 {
    boolean isInterface = false;
+   Token t;
 }
 {
   ( "class" | "interface" { isInterface = true; } )
-  <IDENTIFIER>
+  t=<IDENTIFIER>
   [ TypeParameters() ]
   [ ExtendsList(isInterface) ]
   [ ImplementsList(isInterface) ]
   ClassOrInterfaceBody(isInterface)
+  {
+    jjtThis.setName(t.image);
+  }
 }
 
 void ExtendsList(boolean isInterface):
@@ -1251,8 +1256,10 @@ void ClassOrInterfaceBodyDeclaration(boolean isInterface):
 {
    boolean isNestedInterface = false;
    int modifiers;
+   Token head = getToken(1);
 }
 {
+(
   LOOKAHEAD(2)
   Initializer()
   {
@@ -1277,6 +1284,18 @@ void ClassOrInterfaceBodyDeclaration(boolean isInterface):
   )
 |
   ";"
+)
+{
+      Token tail = getToken(0);
+      StringBuilder sb = new StringBuilder();
+      for (Token t = head; t != tail; t = t.next) {
+           sb.append(t.image);
+      }
+System.out.println(sb);
+System.out.println("parsing method");
+      jjtThis.setName(sb.toString());
+  }
+
 }
 
 void FieldDeclaration(int modifiers):
@@ -1451,11 +1470,20 @@ void Name():
  * A lookahead of 2 is required below since "Name" can be followed
  * by a ".*" when used in the context of an "ImportDeclaration".
  */
-{}
 {
-  <IDENTIFIER>
-  ( LOOKAHEAD(2) "." <IDENTIFIER>
-  )*
+    Token t = getToken(1);
+}
+{
+  
+  <IDENTIFIER> ( LOOKAHEAD(2) "." <IDENTIFIER> )*
+  {
+     Token t_end = getToken(1);
+     String varname = "";
+     for (Token p = t; p != t_end; p = p.next) {
+         varname = varname + p.image;
+     }
+     jjtThis.setName(varname);
+  }
 }
 
 void NameList():
