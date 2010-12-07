@@ -1,0 +1,50 @@
+\documentclass[10pt,a4paper]{article}
+\usepackage[ascii]{inputenc}
+\usepackage{amsmath}
+\usepackage{amsfonts}
+\usepackage{amssymb}
+
+\newtheorem{mydef}{Definition}
+
+\begin{document}
+\section{Model Refactoring}
+The code refactoring is defined as a disciplined technique for restructuring an existing body of code, altering its internal structure without changing its external behavior \cite{Fowler1999}. Its model analogy is defined in definition \ref{def:refactoring}. In this paper we presents basic techniques for class model refactoring. 
+\begin{mydef}
+\label{def:refactoring}
+Model refactoring is a disciplined technique for restructuring an existing model, altering its internal structure without loose of modelled information.
+\end{mydef}
+To assure clarity of each model refactoring operation we provide a formal description of each operation. This description is based on formal class model as is presented in definition \ref{def:classModel}. As you can see some parts of the UML class model \cite{umlInfra07} are ignored (such as associations cardinalities) because they are not important for us at the moment. On the other hand we had to extend the capability of class-class association. This extension is necessary for some of the refactoring methods.
+
+
+
+\begin{mydef}
+\label{def:classModel}
+Assuming $L$ is a set of labels ant $T$ is a set of basic type. The class model is 11-tuple 
+$D = ( C$,$ A$,$ M$,$ R$, $name$, $type$, $aclass$, $amethod$, $assoc$, $param$, $access )$
+\begin{itemize}
+	\item $C$ is a set of classes,
+	\item $A$ is a set of attributes,
+	\item $M$ is a set of methods,
+	\item $R$ is a set of associations,
+	\item $name$ is a function assigning names to classes, attributes and relations $name: C \cup A \cup R \rightarrow L$,
+	\item $type$ assigns type to an attribute $type: A \rightarrow T$,
+	\item $aclass: A \rightarrow C$ assigns attributes to a class; each attribute of a class can be accessed via dot notation e.g. $C.a_1$ means attribute $a_1$ of class $C$,
+	\item $amethod: M \rightarrow C$ assigns methods to a class; similar to attributes the methods can be accessed via dot notation,
+	\item $assoc: R \rightarrow C \times C$ connect two classes with a association. The order is important in this relation: $r \in R, assoc(r)=(C_1, C_2) \neq (C_2, C_1)$, $C_1$ is called source and $C_2$ target of  association $r$,
+	\item $param: A \rightarrow M$ assigns input parameters to a method,
+	\item $return: A \rightarrow M$ assigns an output value type to a method,
+	\item $acces: R \rightarrow A \cup M, \forall r \in R: relation(r)=(C_1,C_2)\Rightarrow acces(r)=C_2.a \vee acces(r)=C_2.m$ marks an attribute or method which accessed by concrete association. 
+	\end{itemize}
+\end{mydef}
+
+\section{Refactoring methods}
+This section presents class refactoring methods. Except first two (move attribute and move method) all of them exists in pair representing action and its reaction. First two methods are special actions because they are its own reaction.
+\subsection{Move Attribute or Method}
+\subsection{Split and Merge Class}
+\subsection{Introduce and Call off Parent}
+\subsection{Introduce Enumeration and Change Enumeration to Class}
+
+\bibliographystyle{plain} 
+\bibliography{class_model_refactoring}
+
+\end{document}

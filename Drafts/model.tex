@@ -1,0 +1,111 @@
+\documentclass[10pt,a4paper]{article}
+\usepackage[ascii]{inputenc}
+\usepackage{amsmath}
+\usepackage{amsthm}
+\usepackage{amsfonts}
+\usepackage{amssymb}
+
+\newtheorem{mydef}{Definition}
+
+\begin{document}
+\section{Why new model}
+\begin{enumerate}
+\item A gap between analysis and design models. This gap is obvious if we look at use case model and sequence or class model on design level.
+\item A low clarity of analysis models caused by misunderstanding of expression in natural language.
+\item The static(data)modelling is separated from the behaviour modelling. 
+\item It is necessary to use several model types to model a software system from analysis beginning to detailed design description. 
+\item In code generation we need both static and behaviour view - it is necessary to have consistent model (or models)
+\end{enumerate}
+
+It is based on common used model known from UML in contrast it combine both static and behavioural view on the system. The formal model description serves not only for model definitions, it should help to future modellers to create uniform, and hence easy to understood, models. As we plan to use this model for future code generation the formal description is necessary to provide a starting base for these generators. 
+
+System modelling is multi-level activity. It is necessary to describe a software system on several levels of abstraction to get full understanding of the problem. Typically there are distinguished two levels of models - platform independent and platform specific. Proposed model can be used on both levels - see discussion in section \ref{modelOnTwoLevels}. 
+
+We call the new model Data centric scenario model (DCSM) as the model was inspired by UML use case model and business process modelling notation such as BPMN or EPC. In contrast with these behavioural oriented models the new model emphasize data modelling.
+
+The paper is organized as follows: first all parts of the new model are formally described and explained, then follows the discussion of its usage during software development and on different abstraction levels.
+
+\section{Data centric scenario model definition}
+The Data centric scenario model consists of two parts. One part serves fr data modelling the other for modelling behaviour. Both parts are naturally connected together in one consistent model. This section provides formal definitions of both parts of model and their connection.
+
+There are two necessary prerequisites of following definitions. First we assume that there exist a set of basic types $T$ and a set of string labels $L$. Second we decide to use an \textit{object} as a parent word for system users and system components.
+
+\subsection{Interaction model}
+The interaction model represents the behavioural view on the system. It is based on representing of objects interactions. The interaction model is defined in definition \ref{def:interActionModel}.
+
+\begin{mydef}
+\label{def:interActionModel}
+The interaction model is a 10-tuple: $I=(S$, $U$, $A$, $F$, $name$, $type$, $astep$, $flow$, $perform$, $artif)$, where
+\begin{itemize}
+	\item $S$ is a set of steps (actions), 
+	\item $U$ is a set of users (or actors). The software application is held as one of actors. The models with two actors (human user and software application) are preferred because of their simplicity,
+	\item $A$ is a set of attributes,
+	\item $F$ is a set of interaction flows,
+	\item $name$ is a function assigning names to classes, attributes and relations $name: S \cup U \cup A \cup F \rightarrow L$,
+	\item $type$ assigns type to an attribute $type: A \rightarrow T$,
+	\item $astep: A \rightarrow S$ assigns attributes to a class,
+	\item $perform: S \rightarrow U$ assigns an user to a interaction step,
+	\item $artif: \lbrace human, software \rbrace \rightarrow U$ helps to determine the user as a human user or software system,
+	\item $flow: F \rightarrow S \times S$ connect two interaction steps in a flow. The order is importatnt in this relation: $f \in F, flow(f)=(S_1, S_2)\neq(S_2, S_1)$.  As the model should capture human - software interaction we are not interested in human - human interactions. Hence $\forall f \in F: flow(f)=(S_1,S_2) \Rightarrow (artif(perform(S_1)) \neq human) \vee (artif(perform(S_2))\neq human) $. This rule forbids sequence of human steps too. We believe theese steps are not part of interaction model and should be modelled in other type of model (e.g. business process model).
+\end{itemize}
+\end{mydef}
+
+\begin{mydef}
+Let call an \textbf{Interaction} each tuple $s_1, s_2 \in S: \exists f \in F: flow(f)=(s_1,s_2) $ and  $perform(s_1) \neq perform(s_2)$ 
+\end{mydef}
+
+\subsection{Data model}
+The data model is a platform independent model (PIM) of domain data.
+$D = ( C$,$ A$,$ R$, $L$ $name$, $type$, $aclass$, $assoc$, $card$, $ccons$, $acons$,$rcons)$
+\begin{itemize}
+	\item $C$ is a set of classes,
+	\item $A$ is a set of attributes,
+	\item $R$ is a set of associations,
+	\item $L$ is a set of constraints,
+	\item $name$ is a function assigning names to classes, attributes and relations $name: C \cup A \cup R \rightarrow L$,
+	\item $type$ assigns type to an attribute $type: A \rightarrow T$,
+	\item $aclass: A \rightarrow C$ assigns attributes to a class,
+	\item $assoc: R \rightarrow C \times C$ connect two classes with a association. The order is not importatnt in this relation: $r \in R, relation(r)=(C_1, C_2)=(C_2, C_1)$,
+	\item $card: C \times R \rightarrow \langle N_0 \times (N \cup \lbrace * \rbrace) \rangle$ assigns cardinality to a relation.
+	\item $ccons: L \rightarrow C$, $acons: L \rightarrow A$, $rcons: L \rightarrow R$ assigns a constraints to a class, attribute, relation.
+\end{itemize}
+
+
+
+\subsection{Data centric scenario model}
+The data centric use case model provides a two dimensional view on the human - software interaction. First view is on software actions human user can initiate and view on details of these actions. Second view is on data which initiate software actions and which are product of these actions. Another benefit of this model is a view on data interchanged between different software systems. The model is defined as follows:
+$M = (D'$, $I'$, $input$, $output)$, where
+\begin{itemize}
+	\item $D' \supset D $ is a data model
+	\item $I' \supset I$ is a interaction model
+	\item $input: D' \rightarrow S$ is a function assigning an input data to a interaction step
+	\item $output: D' \rightarrow S$ is a function assigning an output data to a interaction step
+\end{itemize}
+
+\begin{mydef}
+Atomic (or bidirectional) use case is an use case which interactions are only between two users.
+\end{mydef}
+
+The model as defined in this section can be used as platform independent model. The model provides the capability of following PIM models: UML use case model, UML activity model and domain UML class model. 
+
+
+
+
+\begin{mydef}
+Composite UC is an use case which is compound from two or more atomic use cases.
+\end{mydef}
+
+
+
+
+\section{PSM view}
+
+\subsection{Architecture view}
+As the development continues the general platform independent model become insufficient. It is not able to capture all needed details. 
+%TODO: datum se pridaji anotace - podle specificke platformy; omezeni se zmeni na a) validatory b)strukturu dat (napr. v XML); system se rozpadne na drobnejsi komponenty (view/control/business classes), ktere spolu interaguji  vymenuji si data;
+
+%TODO: testovani modelu - co se da, z budouciho SW, overit uz na urovni modelu?
+
+%TODO: zamerit se na omezeni->validator a struktura, definici jednotlivych class, zrusit D' podmnozina D a a nahradit vztah nejakym dopocitavanim
+
+\end{document}
