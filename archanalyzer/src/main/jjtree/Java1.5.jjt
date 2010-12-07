@@ -107,7 +107,7 @@ public class JavaParser
      }
 
      public boolean isTransient(int modifiers)
-      {
+     {
        return (modifiers & TRANSIENT) != 0;
      }
 
@@ -136,37 +136,6 @@ public class JavaParser
    {
       return this.jjtree.rootNode();
    }
-
-/*
-  public static void main(String args[]) {
-    JavaParser parser;
-    if (args.length == 0) {
-      System.out.println("Java Parser Version 1.1:  Reading from standard input . . .");
-      parser = new JavaParser(System.in);
-    } else if (args.length == 1) {
-      System.out.println("Java Parser Version 1.1:  Reading from file " + args[0] + " . . .");
-      try {
-        parser = new JavaParser(new java.io.FileInputStream(args[0]));
-      } catch (java.io.FileNotFoundException e) {
-        System.out.println("Java Parser Version 1.1:  File " + args[0] + " not found.");
-        return;
-      }
-    } else {
-      System.out.println("Java Parser Version 1.1:  Usage is one of:");
-      System.out.println("         java JavaParser < inputfile");
-      System.out.println("OR");
-      System.out.println("         java JavaParser inputfile");
-      return;
-    }
-    try {
-      parser.CompilationUnit();
-      System.out.println("Java Parser Version 1.1:  Java program parsed successfully.");
-    } catch (ParseException e) {
-      System.out.println(e.getMessage());
-      System.out.println("Java Parser Version 1.1:  Encountered errors during parse.");
-    }
-  }
-*/
 
 }
 
@@ -1291,8 +1260,6 @@ void ClassOrInterfaceBodyDeclaration(boolean isInterface):
       for (Token t = head; t != tail; t = t.next) {
            sb.append(t.image);
       }
-System.out.println(sb);
-System.out.println("parsing method");
       jjtThis.setName(sb.toString());
   }
 
@@ -1474,7 +1441,7 @@ void Name():
     Token t = getToken(1);
 }
 {
-  
+
   <IDENTIFIER> ( LOOKAHEAD(2) "." <IDENTIFIER> )*
   {
      Token t_end = getToken(1);
@@ -1934,7 +1901,7 @@ void ForStatement():
 
   (
       LOOKAHEAD(Modifiers() Type() <IDENTIFIER> ":")
-      Modifiers() Type() <IDENTIFIER> ":" Expression() 
+      Modifiers() Type() <IDENTIFIER> ":" Expression()
     |
      [ ForInit() ] ";" [ Expression() ] ";" [ ForUpdate() ]
   )
