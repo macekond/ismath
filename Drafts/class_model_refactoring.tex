@@ -4,16 +4,63 @@
 \usepackage{amsfonts}
 \usepackage{amssymb}
 
+\title{Class Model Refactoring}
+\author{Ond\v{r}ej Macek}
+
+
 \newtheorem{mydef}{Definition}
 
+%smìøovat k MDD - když refaktoruji nad PIM tak se to odrazí i v PSM (?) - vykašlat se na dva modely, zmìny se zatím iniciují stejnì 1:1 => zamìøit se na co nejvíc operací
+%smìøovat k mezimodelovým vztahùm - více class modelù/ class-business model
+%diskutovat náš metamodel vzhledem k UML
+
+
 \begin{document}
+\maketitle
 \section{Model Refactoring}
 The code refactoring is defined as a disciplined technique for restructuring an existing body of code, altering its internal structure without changing its external behavior \cite{Fowler1999}. Its model analogy is defined in definition \ref{def:refactoring}. In this paper we presents basic techniques for class model refactoring. 
+
 \begin{mydef}
 \label{def:refactoring}
 Model refactoring is a disciplined technique for restructuring an existing model, altering its internal structure without loose of modelled information.
 \end{mydef}
-To assure clarity of each model refactoring operation we provide a formal description of each operation. This description is based on formal class model as is presented in definition \ref{def:classModel}. As you can see some parts of the UML class model \cite{umlInfra07} are ignored (such as associations cardinalities) because they are not important for us at the moment. On the other hand we had to extend the capability of class-class association. This extension is necessary for some of the refactoring methods.
+
+The main point of refactoring is to change structure but preserve behaviour. There are two basic approach how to assure the consistency between two models by refactoring - after-refactoring verification and consistence-preserve refactoring rules. First approach is based on verifying consistency of original and refactored model after refactoring is done. In case of inconsistency the refactoring is withdrawn. Second approach uses a set of refactoring rules which are defined and proven to be consistency preserving. We choose the second approach while we think providing consistency-preservation refactoring is better than create an inconsistent model even for a short moment of consistency checking.
+
+\section{Related work}
+\textbf{Judson} presents a metamodel-based approach to model refactoring in \cite{Judson_ametamodeling}.  This approach consist in applying predefined template on source model, where all source and target model and transformation template are described in the same metamodel.  The approach is used for applying design patterns on existing PSM model. In contrast with this work this paper defines imperative description of refactorig methods. These methods are on lower level in compare with transformation templates.
+
+\textbf{Correa} handles refactoring of UML/OCL models in \cite{CorreaW04}. This work presents OCL construct indicating the need of refactoring, several OCL refactoring methods and their automation.
+
+\textbf{Gorp} Other work using OCL in model refactoring is \cite{Gorp03towardsautomating}. OCL is used to determine a set of pre- and post- conditions of refactoring operations and "code smells".  Important part of this work is extending of UML metamodel for refactoring purposes. Although the main aim is model refactoring this work emphasize close connection between model and code.
+
+\textbf{Suny\'{e}} in \cite{Sunye01refactoringuml} provides an introduction into model refactoring area. This work discuss refactoring of class model and statechart. Some of the rules mentioned in this work are used in this work too however we disagree with some rules interpretation. The similarities and differences are discussed for each rule later. In contrast with this work we are focused on one model type only and we provide a formal description of refactoring rules. 
+
+There exist works handling transformation of behavioural UML models (such as sequence or state model) and their consistency \cite{DBLP:conf/uml/StraetenJM04}, \cite{straetenFormal}.
+
+\section{Models definition}
+To assure clarity of each model refactoring operation we provide a formal description of each operation. This description is based on formal class model definition. We avoid to use the UML class model metamodel because of its insufficiency \cite{Gorp03towardsautomating} and complexity. We rather present our own lightweight formal model of classes. This bring us several benefits - we get independent on UML metamodel, get formal representation of a model while we can specify our formal model in a more refactoring-friendly way.
+
+Common practise in class modelling is to describe classes at (at least) two different levels or from two points of view \cite{uml}. Models on each level are called platform independent (PIM) on the first level and on the second level  as platform specific (PSM) models according the MDD. The class model created on the first level is called \textit{domain model} or \textit{model of analysis classes}. The class model on second level is called \textit{model of design classes} or just \textit{class model}. 
+
+We try to provide a formal description of refactoring for both used types of class models. Therefore we have to define them formally. The definition \ref{def:domainModel} of PIM domain model refers to the domain model description according \cite{uml}.
+
+\begin{mydef}
+\label{def:domainModel}
+Assuming $L$ is a set of labels ant $T$ is a set of basic type. The domain class model is 11-tuple 
+$D = ( C$,$ A$,$ R$, $name$, $type$, $aclass$, $amethod$, $assoc)$
+\begin{itemize}
+	\item $C$ is a set of classes,
+	\item $A$ is a set of attributes,
+	\item $R$ is a set of associations,
+	\item $name$ is a function assigning names to classes, attributes and relations $name: C \cup A \cup R \rightarrow L$,
+	\item $type$ assigns type to an attribute $type: A \rightarrow T$,
+	\item $aclass: A \rightarrow C$ assigns attributes to a class; each attribute of a class can be accessed via dot notation e.g. $C.a_1$ means attribute $a_1$ of class $C$,
+	\item $assoc: R \rightarrow C \times C$ connect two classes with a association. The order is important in this relation: $r \in R, assoc(r)=(C_1, C_2) \neq (C_2, C_1)$, $C_1$ is called source and $C_2$ target of  association $r$,
+	\end{itemize}
+\end{mydef}
+
+as is presented in definition \ref{def:classModel}. As you can see some parts of the UML class model \cite{umlInfra07} are ignored (such as associations cardinalities) because they are not important for us at the moment. On the other hand we had to extend the capability of class-class association. This extension is necessary for some of the refactoring methods.
 
 
 
@@ -37,12 +84,25 @@ $D = ( C$,$ A$,$ M$,$ R$, $name$, $type$, $aclass$, $amethod$, $assoc$, $param$,
 	\end{itemize}
 \end{mydef}
 
+
+%add a remove jsou modelovací - na rozdíl od jzq
+
+
 \section{Refactoring methods}
 This section presents class refactoring methods. Except first two (move attribute and move method) all of them exists in pair representing action and its reaction. First two methods are special actions because they are its own reaction.
+\subsection{Rename}
+%má už jezequel
 \subsection{Move Attribute or Method}
+%vyvolává zmìnu/vznik nových vazeb
 \subsection{Split and Merge Class}
 \subsection{Introduce and Call off Parent}
 \subsection{Introduce Enumeration and Change Enumeration to Class}
+%adding abstract superclass
+%creating a generalization between two classes
+%merging two associations
+
+
+
 
 \bibliographystyle{plain} 
 \bibliography{class_model_refactoring}
