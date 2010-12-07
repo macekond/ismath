@@ -16,7 +16,10 @@ import japa.parser.JavaParser;
 import japa.parser.ParseException;
 import japa.parser.ast.CompilationUnit;
 import japa.parser.ast.Node;
+import japa.parser.ast.body.BodyDeclaration;
+import japa.parser.ast.body.MethodDeclaration;
 import japa.parser.ast.body.TypeDeclaration;
+import japa.parser.ast.visitor.VoidVisitorAdapter;
 import java.io.File;
 import java.io.IOException;
 import java.util.List;
@@ -106,9 +109,9 @@ public class HierarchyViewer extends javax.swing.JFrame {
                 CompilationUnit cu = JavaParser.parse(file);
 
                 List<TypeDeclaration> tdlist = cu.getTypes();
-                for (TypeDeclaration typeDeclaration : tdlist) {
-                    System.out.println("type: " + typeDeclaration.getName());
-                }
+
+                new MethodVisitor().visit(cu, null);
+
                 // ASTTreeModel model = new ASTTreeModel(cu);
                 // jTree1.setModel(model);
                 JOptionPane.showMessageDialog(jMenu1, "Parse successful!");
@@ -144,4 +147,18 @@ public class HierarchyViewer extends javax.swing.JFrame {
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTree jTree1;
     // End of variables declaration//GEN-END:variables
+
+    /**
+     * Simple visitor implementation for visiting MethodDeclaration nodes.
+     */
+    private static class MethodVisitor extends VoidVisitorAdapter {
+
+        @Override
+        public void visit(MethodDeclaration n, Object arg) {
+            // here you can access the attributes of the method.
+            // this method will be called for all methods in this
+            // CompilationUnit, including inner class methods
+            System.out.println(n.getName());
+        }
+    }
 }
