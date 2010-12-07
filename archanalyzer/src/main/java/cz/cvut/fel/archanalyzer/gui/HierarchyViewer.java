@@ -8,13 +8,20 @@
  *
  * Created on 20.11.2010, 14:50:03
  */
-
 package cz.cvut.fel.archanalyzer.gui;
 
-import cz.cvut.fel.archanalyzer.parser.JavaParser;
-import cz.cvut.fel.archanalyzer.parser.ParseException;
+// import cz.cvut.fel.archanalyzer.parser.JavaParser;
+// import cz.cvut.fel.archanalyzer.parser.ParseException;
+import japa.parser.JavaParser;
+import japa.parser.ParseException;
+import japa.parser.ast.CompilationUnit;
+import japa.parser.ast.Node;
+import japa.parser.ast.body.TypeDeclaration;
 import java.io.File;
-import javax.swing.JDialog;
+import java.io.IOException;
+import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
 
@@ -93,15 +100,22 @@ public class HierarchyViewer extends javax.swing.JFrame {
         JFileChooser jFileChooser = new JFileChooser();
         if (jFileChooser.showOpenDialog(jMenu1) == JFileChooser.APPROVE_OPTION) {
             File file = jFileChooser.getSelectedFile();
-            String filename = file.getAbsolutePath();
+            // String filename = file.getAbsolutePath();
             try {
-                JavaParser javaParser = new JavaParser(filename);
-                javaParser.CompilationUnit();
-                ASTTreeModel model = new ASTTreeModel(javaParser.getRootNode());
-                jTree1.setModel(model);
+
+                CompilationUnit cu = JavaParser.parse(file);
+
+                List<TypeDeclaration> tdlist = cu.getTypes();
+                for (TypeDeclaration typeDeclaration : tdlist) {
+                    System.out.println("type: " + typeDeclaration.getName());
+                }
+                // ASTTreeModel model = new ASTTreeModel(cu);
+                // jTree1.setModel(model);
                 JOptionPane.showMessageDialog(jMenu1, "Parse successful!");
             } catch (ParseException e) {
                 JOptionPane.showMessageDialog(jMenu1, e.getMessage());
+            } catch (IOException ex) {
+                Logger.getLogger(HierarchyViewer.class.getName()).log(Level.SEVERE, null, ex);
             }
         }
     }//GEN-LAST:event_jMenuItem1ActionPerformed
@@ -112,16 +126,16 @@ public class HierarchyViewer extends javax.swing.JFrame {
     }//GEN-LAST:event_jMenuItem2ActionPerformed
 
     /**
-    * @param args the command line arguments
-    */
+     * @param args the command line arguments
+     */
     public static void main(String args[]) {
         java.awt.EventQueue.invokeLater(new Runnable() {
+
             public void run() {
                 new HierarchyViewer().setVisible(true);
             }
         });
     }
-
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JMenu jMenu1;
     private javax.swing.JMenuBar jMenuBar1;
@@ -130,5 +144,4 @@ public class HierarchyViewer extends javax.swing.JFrame {
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTree jTree1;
     // End of variables declaration//GEN-END:variables
-
 }
