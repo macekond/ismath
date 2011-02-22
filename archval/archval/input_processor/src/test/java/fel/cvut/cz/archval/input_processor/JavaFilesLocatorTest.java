@@ -1,7 +1,7 @@
 /*
  *  The MIT License
  *
- *  Copyright 2011 Martin Vejmelka <martin.vejmelka@fel.cvut.cz>.
+ *  Copyright 2011 Martin Vejmelka (martin.vejmelka@fel.cvut.cz).
  *
  *  Permission is hereby granted, free of charge, to any person obtaining a copy
  *  of this software and associated documentation files (the "Software"), to deal
@@ -37,7 +37,7 @@ import org.openide.util.Exceptions;
 
 /**
  *
- * @author Martin Vejmelka <martin.vejmelka@fel.cvut.cz>
+ * @author Martin Vejmelka (martin.vejmelka@fel.cvut.cz)
  */
 public class JavaFilesLocatorTest {
 
