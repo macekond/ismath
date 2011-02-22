@@ -61,11 +61,12 @@
     <modules>
         <module>branding</module>
         <module>application</module>
-    <module>input_processor</module>
-  </modules>
+        <module>input_processor</module>
+    </modules>
 
     <properties>
         <netbeans.version>RELEASE691</netbeans.version>
         <brandingToken>foo</brandingToken>
+        <netbeans.hint.license>mit</netbeans.hint.license>
     </properties>
 </project>
