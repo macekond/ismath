@@ -41,16 +41,16 @@ import org.openide.util.Exceptions;
  */
 public class JavaFilesLocatorTest {
 
-    private String dirs[] = {
+    private String[] dirs = {
         "./testdir1",};
-    private String files[] = {
+    private String[] files = {
         "./testdir1/TestFile.java",
         "./testdir1/SomeGarbage.txt",
         "./testdir1/SomeGarbage2.txt",
         "./testdir1/SomeGarbage3.java",
         "./testdir1/SomeGarbage4.java"
     };
-    private String expectedResults[] = {
+    private String[] expectedResults = {
         "SomeGarbage4.java",
         "TestFile.java",
         "SomeGarbage3.java"
