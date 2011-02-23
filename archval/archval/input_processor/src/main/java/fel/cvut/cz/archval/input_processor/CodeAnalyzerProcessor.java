@@ -23,17 +23,17 @@
  */
 package fel.cvut.cz.archval.input_processor;
 
-import java.util.Iterator;
-import java.util.List;
+import com.sun.source.util.TreePath;
+import com.sun.source.util.Trees;
 import java.util.Set;
 import javax.annotation.processing.AbstractProcessor;
+import javax.annotation.processing.ProcessingEnvironment;
 import javax.annotation.processing.RoundEnvironment;
 import javax.annotation.processing.SupportedAnnotationTypes;
 import javax.annotation.processing.SupportedSourceVersion;
 import javax.lang.model.SourceVersion;
 import javax.lang.model.element.Element;
 import javax.lang.model.element.TypeElement;
-import javax.swing.event.TreeSelectionEvent;
 
 /**
  *
@@ -43,25 +43,30 @@ import javax.swing.event.TreeSelectionEvent;
 @SupportedAnnotationTypes("*")
 class CodeAnalyzerProcessor extends AbstractProcessor {
 
-    public CodeAnalyzerProcessor() {
+    private Trees trees;
+
+    @Override
+    public void init(ProcessingEnvironment pe) {
+        super.init(pe);
+        trees = Trees.instance(pe);
     }
 
     @Override
     public boolean process(Set<? extends TypeElement> annotations, RoundEnvironment roundEnv) {
 
+        // Scanner class to scan through various component elements
+        // CodeAnalyzerTreeVisitor visitor = new CodeAnalyzerTreeVisitor();
+
         for (Element e : roundEnv.getRootElements()) {
+            TreePath tp = trees.getPath(e);
 
-            System.out.println("Element: [" + e.getSimpleName() + "]");
-
-            // listing subelements
-            List<? extends Element> elements = e.getEnclosedElements();
-            for (Iterator<? extends Element> it = elements.iterator(); it.hasNext();) {
-                Element element = it.next();
-
-                System.out.print(element.getSimpleName() + ": ");
-                System.out.println(element.getKind());
-            }
+            // invoke the scanner
+            // visitor.scan(tp, trees);
+            TypeElement typeElement = (TypeElement) e;
+            String className = typeElement.getQualifiedName().toString();
+            System.out.println(className);
         }
+
         return true;
     }
 }

@@ -40,7 +40,16 @@ import javax.tools.ToolProvider;
  * @author Martin Vejmelka (martin.vejmelka@fel.cvut.cz)
  */
 public class ASTTreeGetter {
+    
+    /*
+    private Trees trees;
 
+    @Override
+    public void init(ProcessingEnvironment pe) {
+        super.init(pe);
+        trees = Trees.instance(pe);
+    }
+*/
     public void compileSourceFiles(Iterable<File> files) {
 
         JavaCompiler compiler = ToolProvider.getSystemJavaCompiler();
