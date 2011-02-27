@@ -23,55 +23,49 @@
  */
 package fel.cvut.cz.archval.input_processor;
 
-import java.util.ArrayList;
 import java.io.File;
-import junit.framework.Assert;
-import org.junit.After;
-import org.junit.AfterClass;
-import org.junit.Before;
-import org.junit.BeforeClass;
-import org.junit.Test;
+import java.util.LinkedList;
+import java.util.List;
+import javax.annotation.processing.AbstractProcessor;
+import javax.tools.JavaCompiler;
+import javax.tools.JavaCompiler.CompilationTask;
+import javax.tools.JavaFileObject;
+import javax.tools.StandardJavaFileManager;
+import javax.tools.ToolProvider;
 
 /**
  *
+ * Compiles files supplied by parameter
+ *
  * @author Martin Vejmelka (martin.vejmelka@fel.cvut.cz)
  */
-public class ASTTreeGetterTest {
+public class CompilerWrapper {
 
-    private String testFilePath = "../samples/test_project1/TestClass.java";
+    private JavaCompiler compiler;
+    private StandardJavaFileManager fileManager;
 
-    public ASTTreeGetterTest() {
+    public CompilerWrapper() {
+        compiler = ToolProvider.getSystemJavaCompiler();
+        fileManager = compiler.getStandardFileManager(null, null, null);
+
     }
 
-    @BeforeClass
-    public static void setUpClass() throws Exception {
-    }
+    public void compileFiles(Iterable<File> files) {
 
-    @AfterClass
-    public static void tearDownClass() throws Exception {
-    }
+        // constructing compilation task
+        Iterable<? extends JavaFileObject> compilationUnits1 = fileManager.getJavaFileObjectsFromFiles(files);
+        CompilationTask task = compiler.getTask(null, fileManager, null, null, null, compilationUnits1);
 
-    @Before
-    public void setUp() {
-    }
+        // plugging custom annotation processor into compiler
+        List<AbstractProcessor> processors = new LinkedList<AbstractProcessor>();
+        processors.add(new CodeAnalyzerProcessor());
+        task.setProcessors(processors);
 
-    @After
-    public void tearDown() {
-    }
+        // invoking compilation
+        task.call();
 
-    /**
-     * Test of getCompilationUnits method, of class ASTTreeGetter.
-     */
-    @Test
-    public void testCompileSourceFiles() {
-        // TODO: write some meaningful test
-        try {
-            ArrayList<File> files = new ArrayList<File>();
-            files.add(new File(testFilePath));
-            ASTTreeGetter instance = new ASTTreeGetter();
-            instance.compileSourceFiles(files);
-        } catch (Exception e) {
-            Assert.fail(e.getMessage());
-        }
+        // TODO: handle exceptions
+        // TODO: obtain resulting AST from CodeAnalyzerProcessor
+
     }
 }

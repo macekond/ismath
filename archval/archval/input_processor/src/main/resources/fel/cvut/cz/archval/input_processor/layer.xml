@@ -3,22 +3,10 @@
 <filesystem>
  
     <folder name="Actions">
-        <folder name="Build">
-            <file name="fel-cvut-cz-archval-input_processor-ValidateDesignAction.instance">
-                <attr name="delegate" newvalue="fel.cvut.cz.archval.input_processor.ValidateDesignAction"/>
-                <attr name="displayName" bundlevalue="fel.cvut.cz.archval.input_processor.Bundle#CTL_ValidateDesignAction"/>
-                <attr name="iconBase" stringvalue="fel/cvut/cz/archval/input_processor/loadproject.png"/>
-                <attr name="instanceCreate" methodvalue="org.openide.awt.Actions.alwaysEnabled"/>
-                <attr name="noIconInMenu" boolvalue="false"/>
-            </file>
-        </folder>
+        <folder name="Build"/>
     </folder>
     <folder name="Menu">
         <folder name="File">
-            <file name="fel-cvut-cz-archval-input_processor-ValidateDesignAction.shadow">
-                <attr name="originalFile" stringvalue="Actions/Build/fel-cvut-cz-archval-input_processor-ValidateDesignAction.instance"/>
-                <attr name="position" intvalue="0"/>
-            </file>
         </folder>
     </folder>
 </filesystem>
