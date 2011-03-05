@@ -40,7 +40,9 @@
 % Styles required in your work follow %
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \usepackage{graphicx}
-%\usepackage{indentfirst} %1. odstavec jako v cestine.
+
+%%1. odstavec jako v cestine.
+%\usepackage{indentfirst}
 
 % thesis formatting macros
 \usepackage{k336_thesis_macros}
@@ -147,7 +149,7 @@ TODO: Zde můžete napsat své poděkování, pokud chcete a máte komu děkovat
 %
 \abstractpage
 
-TODO: Translation of Czech abstract into English.
+% TODO: Translation of Czech abstract into English.
 
 % Prace v cestine musi krome abstraktu v anglictine obsahovat i
 % abstrakt v cestine.
@@ -177,8 +179,9 @@ Očekávají se cca 1 -- 2 odstavce, maximálně půl stránky.
 %
 \listoftables
 
-
-%**************************************************************
+%
+% Initial settings and start of real work text
+%
 
 \mainbodystarts
 % horizontalní mezera mezi dvema odstavci
@@ -187,86 +190,29 @@ Očekávají se cca 1 -- 2 odstavce, maximálně půl stránky.
 \normalfont
 \parskip=0.2\baselineskip plus 0.2\baselineskip minus 0.1\baselineskip
 
-% Odsazeni prvniho radku odstavce resi class book (neaplikuje se na prvni
-% odstavce kapitol, sekci, podsekci atd.) Viz usepackage{indentfirst}.
-% Chcete-li selektivne zamezit odsazeni 1. radku nektereho odstavce,
-% pouzijte prikaz \noindent.
+%
+% Chapters
+%
 
-%**************************************************************
+\include{./chapters/01_introduction}
+\include{./chapters/02_requirements}
+\include{./chapters/03_analysis}
+\include{./chapters/04_design}
+\include{./chapters/05_implementation}
+\include{./chapters/06_testing}
+\include{./chapters/07_conclusion}
 
-% Pro snadnejsi praci s vetsimi texty je rozumne tyto rozdelit
-% do samostatnych souboru nejlepe dle kapitol a tyto potom vkladat
-% pomoci prikazu \include{jmeno_souboru.tex} nebo \include{jmeno_souboru}.
-% Napr.:
-% \include{1_uvod}
-% \include{2_teorie}
-% atd...
-
-%*****************************************************************************
-\chapter{Úvod}
-Úvod charakterizující kontext zadání, případně motivace.
-
-Výsledná struktura vaší práce a názvy a rozsahy jednotlivých kapitol se samozřejmě budou lišit podle typu práce a podle konkrétní povahy zpracovávaného tématu. Níže uvedená struktura práce odpovídá \textit{práci implementační}, viz \cite{infodp} respektive \cite{infobp}.
-
-
-%*****************************************************************************
-\chapter{Popis problému, specifikace cíle}
-
-\begin{itemize}
-\item Popis řešeného problému, vymezení cílů DP/BP a požadavků na implementovaný systém.
-\item Popis struktury DP/BP ve vztahu k vytyčeným cílům.
-\item Rešeršní zpracování existujících implementací, pokud jsou známy.
-\end{itemize}
-
-%*****************************************************************************
-\chapter{Analýza a návrh řešení}
-Analýza a návrh implementace (včetně diskuse různých alternativ a volby implementačního prostředí).
-
-
-%*****************************************************************************
-\chapter{Realizace}
-Popis implementace/realizace se zaměřením na nestandardní části řešení.
-
-
-%*****************************************************************************
-\chapter{Testování}
-
-\begin{itemize}
- \item Způsob, průběh a výsledky testování.
- \item Srovnání s existujícími řešeními, pokud jsou známy.
-\end{itemize}
-
-
-%*****************************************************************************
-\chapter{Závěr}
-
-\begin{itemize}
-\item Zhodnocení splnění cílů DP/BP a  vlastního přínosu práce (při formulaci je třeba vzít v potaz zadání práce).
-\item Diskuse dalšího možného pokračování práce.
-\end{itemize}
-
-%*****************************************************************************
-% Seznam literatury je v samostatnem souboru reference.bib. Ten
-% upravte dle vlastnich potreb, potom zpracujte (a do textu
-% zapracujte) pomoci prikazu bibtex a nasledne pdflatex (nebo
-% latex). Druhy z nich alespon 2x, aby se poresily odkazy.
-
-% originally following specification for bibliography formating was used
+% TODO: complete references
 %\bibliographystyle{abbrv}
-
-% Here is an improvment by Petr Dlouhy (April 2010).
-% It is mainly for supervisors who expect Czech fomrating rules for references
-% Additional feature is live url addresses to sources from your pdf file
-% It requires the file csplainnat.bst (included in this sample zipfile).
 
 \bibliographystyle{csplainnat}
 
 %bibliographystyle{plain}
 %\bibliographystyle{psc}
 {
-%JZ: 11.12.2008 Kdo chce mit v techto ukazkovych odkazech take odkaz na CSTeX:
-\def\CS{$\cal C\kern-0.1667em\lower.5ex\hbox{$\cal S$}\kern-0.075em $}
-\bibliography{reference}
+  %JZ: 11.12.2008 Kdo chce mit v techto ukazkovych odkazech take odkaz na CSTeX:
+  \def\CS{$\cal C\kern-0.1667em\lower.5ex\hbox{$\cal S$}\kern-0.075em $}
+  \bibliography{reference}
 }
 
 % M. Dušek radi:
@@ -274,59 +220,11 @@ Popis implementace/realizace se zaměřením na nestandardní části řešení.
 % kdy citace ma tvar [AutorRok] (napriklad [Cook97]). Sice to asi neni  podle ceske normy (BTW BibTeX stejne neodpovida ceske norme), ale je to nejprehlednejsi.
 % 3.5.2009 JZ polemizuje: BibTeX neobvinujte, napiste a poskytnete nam styl (.bst) splnujici citacni normu CSN/ISO.
 
-%*****************************************************************************
-%*****************************************************************************
 \appendix
 
-% JZ: 3.5.2009 \chapter z book zajistí automaticky
-%\subsection{Začátky kapitol na liché stránky}
-%Ve výsledném textu je dobré, když každá kapitola začíná na liché stránce. Tedy použijte:
-%\begin{verbatim}
-%  \cleardoublepage\include{1_uvod}
-%  \cleardoublepage\include{2_teorie}
-%   atd.\ldots{}
-%\end{verbatim}
-
-%
-% Abbreviation list
-%
-\chapter{Seznam použitých zkratek}
-
-\begin{description}
-\item[2D] Two-Dimensional
-\item[ABN] Abstract Boolean Networks
-\item[ASIC] Application-Specific Integrated Circuit
-\end{description}
-\vdots
-
-%*****************************************************************************
-\chapter{UML diagramy}
-\textbf{\large Tato příloha není povinná a zřejmě se neobjeví v každé práci. Máte-li ale větší množství podobných diagramů popisujících systém, není nutné všechny umísťovat do hlavního textu, zvláště pokud by to snižovalo jeho čitelnost.}
-
-%*****************************************************************************
-\chapter{Instalační a uživatelská příručka}
-\textbf{\large Tato příloha velmi žádoucí zejména u softwarových implementačních prací.}
-
-%*****************************************************************************
-\chapter{Obsah přiloženého CD}
-\textbf{\large Tato příloha je povinná pro každou práci. Každá práce musí totiž obsahovat přiložené CD. Viz dále.}
-
-Může vypadat například takto. Váš seznam samozřejmě bude odpovídat typu vaší práce. (viz \cite{infodp}):
-
-\begin{figure}[h]
-\begin{center}
-\includegraphics[width=14cm]{figures/seznamcd}
-\caption{Seznam přiloženého CD --- příklad}
-\label{fig:seznamcd}
-\end{center}
-\end{figure}
-
-Na GNU/Linuxu si strukturu přiloženého CD můžete snadno vyrobit příkazem:\\
-\verb|$ tree . >tree.txt|\\
-Ve vzniklém souboru pak stačí pouze doplnit komentáře.
-
-Z \textbf{README.TXT} (případne index.html apod.)  musí být rovněž zřejmé, jak programy instalovat, spouštět a jaké požadavky mají tyto programy na hardware.
-
-Adresář \textbf{text}  musí obsahovat soubor s vlastním textem práce v PDF nebo PS formátu, který bude později použit pro prezentaci diplomové práce na WWW.
+\include{./chapters/08_abbrev}
+\include{./chapters/09_diagrams}
+\include{./chapters/10_installation}
+\include{./chapters/11_cdcontents}
 
 \end{document}

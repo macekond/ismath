@@ -8,3 +8,4 @@ archval.pdf
 archval.toc
 archval.bbl
 archval.blg
+chapters/*.aux
