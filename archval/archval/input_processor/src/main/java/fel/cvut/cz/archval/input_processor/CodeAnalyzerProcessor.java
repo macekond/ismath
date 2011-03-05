@@ -59,35 +59,7 @@ class CodeAnalyzerProcessor extends AbstractProcessor {
             TreePath tp = trees.getPath(e);
             visitor.scan(tp, trees);
         }
-
-        /*
-        for (Element e : roundEnv.getRootElements()) {
-
-        System.out.println(e.getSimpleName());
-        TreePath tp = trees.getPath(e);
-
-        // invoke the scanner
-        // visitor.scan(tp, trees);
-        TypeElement typeElement = (TypeElement) e;
-        List<? extends Element> elist = e.getEnclosedElements();
-
-        for (Element element : elist) {
-        System.out.println(element.getKind());
-        if (element.getKind() == ElementKind.METHOD) {
-
-
-        for (Element element1 : element.getEnclosedElements()) {
-        System.out.println(element1.getKind());
-        }
-        }
-
-        }
-
-
-        String className = typeElement.getQualifiedName().toString();
-        System.out.println(className);
-        }
-         */
+        
         return true;
     }
 }
