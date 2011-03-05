@@ -23,12 +23,30 @@
  */
 package fel.cvut.cz.archval.input_processor;
 
+import com.sun.source.tree.VariableTree;
+import com.sun.source.util.TreePath;
 import com.sun.source.util.TreePathScanner;
 import com.sun.source.util.Trees;
+import javax.lang.model.element.Element;
 
 /**
  *
  * @author Martin Vejmelka (martin.vejmelka@fel.cvut.cz)
  */
 public class CodeAnalyzerTreeVisitor extends TreePathScanner<Object, Trees> {
+
+    @Override
+    public Object visitVariable(VariableTree vt, Trees p) {
+
+        System.out.println("Visited2!");
+
+        System.out.println(vt.getType().getKind());
+        TreePath tp1 = getCurrentPath();
+        Element el = p.getElement(tp1);
+        System.out.println(el.getSimpleName());
+        
+        return super.visitVariable(vt, p);
+    }
+
+
 }

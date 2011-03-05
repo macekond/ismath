@@ -44,6 +44,7 @@ import javax.lang.model.element.TypeElement;
 class CodeAnalyzerProcessor extends AbstractProcessor {
 
     private Trees trees;
+    private CodeAnalyzerTreeVisitor visitor = new CodeAnalyzerTreeVisitor();
 
     @Override
     public void init(ProcessingEnvironment pe) {
@@ -54,19 +55,39 @@ class CodeAnalyzerProcessor extends AbstractProcessor {
     @Override
     public boolean process(Set<? extends TypeElement> annotations, RoundEnvironment roundEnv) {
 
-        // Scanner class to scan through various component elements
-        // CodeAnalyzerTreeVisitor visitor = new CodeAnalyzerTreeVisitor();
-
         for (Element e : roundEnv.getRootElements()) {
             TreePath tp = trees.getPath(e);
-
-            // invoke the scanner
-            // visitor.scan(tp, trees);
-            TypeElement typeElement = (TypeElement) e;
-            String className = typeElement.getQualifiedName().toString();
-            System.out.println(className);
+            visitor.scan(tp, trees);
         }
 
+        /*
+        for (Element e : roundEnv.getRootElements()) {
+
+        System.out.println(e.getSimpleName());
+        TreePath tp = trees.getPath(e);
+
+        // invoke the scanner
+        // visitor.scan(tp, trees);
+        TypeElement typeElement = (TypeElement) e;
+        List<? extends Element> elist = e.getEnclosedElements();
+
+        for (Element element : elist) {
+        System.out.println(element.getKind());
+        if (element.getKind() == ElementKind.METHOD) {
+
+
+        for (Element element1 : element.getEnclosedElements()) {
+        System.out.println(element1.getKind());
+        }
+        }
+
+        }
+
+
+        String className = typeElement.getQualifiedName().toString();
+        System.out.println(className);
+        }
+         */
         return true;
     }
 }
