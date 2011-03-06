@@ -1,0 +1,16 @@
+digraph JavaTopElements {
+
+PackageDeclaration[label="PackageDeclaration?"];
+CompilationUnit -> PackageDeclaration;
+ImportDeclarations[label="ImportDeclarations?"];
+CompilationUnit -> ImportDeclarations;
+TypeDeclarations[label="TypeDeclarations?"];
+CompilationUnit -> TypeDeclarations;
+
+ImportDeclaration[label="ImportDeclaration*"];
+ImportDeclarations -> ImportDeclaration;
+
+TypeDeclaration[label="TypeDeclaration*"];
+TypeDeclarations -> TypeDeclaration;
+
+};
