@@ -1,0 +1,15 @@
+digraph ToplevelTypes {
+
+graph[rankdir=LR];
+node[fontname=Georgia,fontsize=13,shape=plaintext];
+
+TypeDeclaration -> ClassDeclaration;
+TypeDeclaration -> InterfaceDeclaration;
+
+ClassDeclaration -> NormalClassDeclaration;
+ClassDeclaration -> EnumDeclaration;
+
+InterfaceDeclaration -> NormalInterfaceDeclaration;
+InterfaceDeclaration -> AnnotationTypeDeclaration;
+
+};

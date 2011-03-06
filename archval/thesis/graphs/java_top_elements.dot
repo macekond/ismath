@@ -1,16 +1,20 @@
-digraph JavaTopElements {
+graph JavaTopElements {
 
+graph[rankdir=LR];
+node[shape=rectangle,fontsize=13,fontname=Georgia];
+
+CompilationUnit[shape=note];
 PackageDeclaration[label="PackageDeclaration?"];
-CompilationUnit -> PackageDeclaration;
+CompilationUnit -- PackageDeclaration;
 ImportDeclarations[label="ImportDeclarations?"];
-CompilationUnit -> ImportDeclarations;
+CompilationUnit -- ImportDeclarations;
 TypeDeclarations[label="TypeDeclarations?"];
-CompilationUnit -> TypeDeclarations;
+CompilationUnit -- TypeDeclarations;
 
 ImportDeclaration[label="ImportDeclaration*"];
-ImportDeclarations -> ImportDeclaration;
+ImportDeclarations -- ImportDeclaration;
 
 TypeDeclaration[label="TypeDeclaration*"];
-TypeDeclarations -> TypeDeclaration;
+TypeDeclarations -- TypeDeclaration;
 
 };

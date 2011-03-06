@@ -12,6 +12,7 @@ build_graphs()
 {
     dot -Tpng ./graphs/oop_design_principles.dot -o ./graphs/oop_design_principles.png
     dot -Tpng ./graphs/java_top_elements.dot -o ./graphs/java_top_elements.png
+    dot -Tpng ./graphs/toplevel_types.dot -o ./graphs/toplevel_types.png
 }
 
 build_deps()

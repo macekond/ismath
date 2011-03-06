@@ -49,6 +49,13 @@ Grafické znázornění základních syntaktických elementů, jejichž struktur
 \begin{figure}[h!]
 \centering
 \includegraphics[width=\textwidth]{./graphs/java_top_elements.png}
-
 \caption{Struktura základních syntaktických elementů programovacího jazyka Java.\label{toplevel_elements}}
+\end{figure}
+
+Pro analýzu založenou na vyhledávání závislostí mezi třídami pro nás bude nejdůležitější syntaktický element \emph{TypeDeclaration}. Tento neterminální symbol se dále přepisuje na symboly uvedené na obrázku \ref{type_declaration_options}.
+
+\begin{figure}[h!]
+\centering
+\includegraphics[width=\textwidth]{./graphs/toplevel_types.png}
+\caption{Rozklad elementu TypeDeclaration.\label{type_declaration_options}}
 \end{figure}
