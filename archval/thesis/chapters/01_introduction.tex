@@ -1,9 +1,17 @@
 \chapter{Úvod}
-%% Úvod charakterizující kontext zadání, případně motivace.
 
-%% Výsledná struktura vaší práce a názvy a rozsahy jednotlivých kapitol se samozřejmě budou lišit podle typu práce a podle konkrétní povahy zpracovávaného tématu. Níže uvedená struktura práce odpovídá \textit{práci implementační}, viz \cite{infodp} respektive \cite{infobp}.
+%% motivace projektu (popsat přechod od samotné gramatiky jazyka k dalším pravidlům, která musí výsledný zdrojový kód splňovat)
+
+% popis členění práce - co nalezne čtenář v jednotlivých kapitolách, jak je celé dílo strukturováno
 
 Vymezení práce je graficky znázorněno na obrázku \ref{work_scope}.
+
+TODO: sort and rewrite following paragraphs:
+
+Množina pravidel vymezuje \uv{coding conventions} $\rightarrow$ zpřesnění modelu (omezení množiny instancí daného jazyka) daného gramatikou jazyka.
+
+Analogie:
+XML -> well-formedness vs. validty (validace v tomto kontextu je analogická validaci xml dokumentu)
 
 \begin{figure}[h!]
 \centering
@@ -26,3 +34,6 @@ Vymezení práce je graficky znázorněno na obrázku \ref{work_scope}.
 \end{tikzpicture}
 \caption{Grafické znázornění zařazení práce.\label{work_scope}}
 \end{figure}
+
+% TODO: integrate following piece of text into main text flow
+Množina pravidel může být zadávána neformálně (např.: \uv{třída nesmí záviset na více než čtyřech dalších nesystémových třídách}) nebo pomocí vhodně definovaného formalismu.

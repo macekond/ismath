@@ -1,5 +1,30 @@
-\chapter{Analýza a návrh řešení}
-Analýza a návrh implementace (včetně diskuse různých alternativ a volby implementačního prostředí).
+\chapter{Analýza}
+%% Analýza a návrh implementace (včetně diskuse různých alternativ a volby implementačního prostředí).
+
+%% V části analýzy provést rozbor jednotlivých principů + výsledky rešerší - využívat hojně informace z článků a důsledně citovat zdroje
+
+\section{Analyzované principy objektového návrhu}
+
+Ukázkové návrhové principy analyzované v rámci této práce jsou znázorněny na obrázku \ref{analyzed_principles}. Poznamenejme, že tzv. Demeterův zákon je speciálním případem pravidla pro \uv{low coupling}.
+
+\begin{figure}[h!]
+\centering
+\includegraphics[width=0.5\textwidth]{./graphs/oop_design_principles.png}
+\caption{Znázornění analyzovaných návrhových principů.\label{analyzed_principles}}
+\end{figure}
+
+% TODO: v rámci každého návrhového principu uvést příklad porušení
+% tohoto principu (případně i příklad, který tento princip dodržuje)
+
+% Příklad pravidla:
+% ``Třídy z balíčku A nesmí záviset na jiných konkrétních třídách, ale nejvýše na rozhraních balícků B.''
+%  (programování proti rozhraní namísto proti kokrétní implementaci)"
+
+\subsection{Low coupling}
+
+\subsection{High cohesion}
+
+\subsection{Law of Demeter}
 
 \section{Ukázky kódu porušujících některá z pravidel}
 

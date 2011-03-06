@@ -1,0 +1,14 @@
+digraph G {
+
+	node[shape=rectangle,fontsize=13,fontname=Georgia];
+
+ 	design_principles[label="design principles"];
+	high_cohesion[label="high cohesion"];
+	low_coupling[label="low/loose coupling"];
+	demeter_law[label="Law of Demeter"];
+
+	design_principles -> low_coupling[dir="none"];
+	design_principles -> high_cohesion[dir="none"];
+	low_coupling -> demeter_law[dir="back"];
+
+};
