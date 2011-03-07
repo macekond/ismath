@@ -4,11 +4,23 @@
  year = {2005},
  isbn = {0321246780},
  publisher = {Addison-Wesley Professional},
-} 
+}
 
-% Pokud potrebujeme BibTeXu napovedet, kde je nutne zachovat velka a mala 
-% pismena, je potreba pouzit slozene zavorky {}. 
-% Vetsinou jde o zkratky a vlastnich jmena, ktera nejsou na zacatku nazvu 
+@ARTICLE{35588,
+author={Lieberherr, K.J. and Holland, I.M.},
+journal={Software, IEEE}, title={Assuring good style for object-oriented programs},
+year={1989},
+month=sep,
+volume={6},
+number={5},
+pages={ 38 - 48},
+keywords={ Demeter system; Law of Demeter; class forms; coupling control; encapsulation; good style; high-level interface; information hiding; information localization; information restriction; modularity; object forms; object-oriented programs; structured induction; object-oriented programming; programming environments; user interfaces;},
+doi={10.1109/52.35588},
+ISSN={0740-7459},}
+
+% Pokud potrebujeme BibTeXu napovedet, kde je nutne zachovat velka a mala
+% pismena, je potreba pouzit slozene zavorky {}.
+% Vetsinou jde o zkratky a vlastnich jmena, ktera nejsou na zacatku nazvu
 % publikace, pripadne o nazvy maker (viz napr. makro \LaTeX).
 
 % Nekdy musime dlouhe URL odkazy zalamovat rucne, jak je ukazano nize.
@@ -30,12 +42,12 @@
 }
 
 
-@Misc{infodp,
-  key    = "web:infodp",
-  author = "",
-  title  = "K336 {I}nfo --- pokyny pro psaní diplomových prací",
-  note   = "\\ \verb|https://info336.felk.cvut.cz/clanek.php?id=400|, stav ze 4.\,5.\,2009",
-}
+@Comment @Misc{infodp,
+@Comment   key    = "web:infodp",
+@Comment   author = "",
+@Comment   title  = "K336 {I}nfo --- pokyny pro psaní diplomových prací",
+@Comment   note   = "\\ \verb|https://info336.felk.cvut.cz/clanek.php?id=400|, stav ze 4.\,5.\,2009",
+@Comment }
 
 @Misc{infobp,
   key    = "web:infobp",
@@ -111,9 +123,9 @@ use full names whenever possible, BibTeX style will do the appropriate unificati
   year =         1997,
 }
 
-@COMMENT( It is always better to use TeX diacritical escape sequences, 
-e.g. {\'{L}}, in the bibliography database, making it encoding independent 
-and thus compilable under different document encoding settings. 
+@COMMENT( It is always better to use TeX diacritical escape sequences,
+e.g. {\'{L}}, in the bibliography database, making it encoding independent
+and thus compilable under different document encoding settings.
 Do not follow these examples! )
 
 @InProceedings{sbornik,

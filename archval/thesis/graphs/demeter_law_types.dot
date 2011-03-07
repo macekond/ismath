@@ -1,0 +1,17 @@
+digraph DemeterLawTypes {
+
+graph[rankdir=LR];
+node[shape=plaintext,fontsize=13,fontname=Georgia];
+
+lod[label="Law of Demeter"];
+class[label="class form"];
+object[label="object form"];
+strict1[label="strict form"];
+minimization[label="minimization form "];
+
+lod -> class;
+lod -> object;
+class -> strict1;
+class -> minimization;
+
+};
