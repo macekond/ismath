@@ -23,11 +23,17 @@
  */
 package fel.cvut.cz.archval.input_processor;
 
+import com.sun.source.tree.CompilationUnitTree;
+import com.sun.source.tree.Tree.Kind;
 import com.sun.source.tree.VariableTree;
 import com.sun.source.util.TreePath;
 import com.sun.source.util.TreePathScanner;
 import com.sun.source.util.Trees;
 import javax.lang.model.element.Element;
+import javax.lang.model.element.TypeElement;
+import javax.lang.model.element.VariableElement;
+import javax.lang.model.type.DeclaredType;
+import javax.lang.model.type.TypeKind;
 
 /**
  *
@@ -38,15 +44,14 @@ public class CodeAnalyzerTreeVisitor extends TreePathScanner<Object, Trees> {
     @Override
     public Object visitVariable(VariableTree vt, Trees p) {
 
-        System.out.println("Visited2!");
+        System.out.println("Found variable:");
 
-        System.out.println(vt.getType().getKind());
-        TreePath tp1 = getCurrentPath();
-        Element el = p.getElement(tp1);
-        System.out.println(el.getSimpleName());
-        
+        Element el = (VariableElement) p.getElement(getCurrentPath());
+
+        if (el.asType().getKind() == TypeKind.DECLARED) {
+            System.out.println(((TypeElement)((DeclaredType) el.asType()).asElement()).getQualifiedName());
+        }
+
         return super.visitVariable(vt, p);
     }
-
-
 }

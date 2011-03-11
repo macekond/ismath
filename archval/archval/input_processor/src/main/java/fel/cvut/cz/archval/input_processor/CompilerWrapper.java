@@ -62,10 +62,12 @@ public class CompilerWrapper {
         task.setProcessors(processors);
 
         // invoking compilation
-        task.call();
-
-        // TODO: handle exceptions
-        // TODO: obtain resulting AST from CodeAnalyzerProcessor
+        try {
+            boolean taskResult = task.call();
+            // TODO: if taskResult is false, some files weren't compiled successfully
+        } catch (Exception e) {
+            // TODO: handle some fatal error in user code in compiler plugins
+        }
 
     }
 }
