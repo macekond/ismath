@@ -72,12 +72,7 @@ public class CompilerWrapperTest {
             if (resultFileUrl != null) {
                 new File(resultFileUrl.getPath()).delete();
             }
-
-            if (sourceFileUrl == null) {
-
-                System.out.println("Huuuuuuuuuuuuuuuuuu!");
-            }
-
+            
             ArrayList<File> files = new ArrayList<File>();
             files.add(new File(sourceFileUrl.getPath()));
 
