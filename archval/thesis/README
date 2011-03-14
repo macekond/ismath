@@ -1,2 +1,12 @@
-This directory should contain master's thesis text source files (*.tex
+This directory contains master's thesis text source files (*.tex
 files and relatives)
+
+In order to generate *.pdf file, you need following programs:
+
+- latexmk (simple perl script, available in most linux distributions)
+- bash shell
+- graphviz (program for graph generation)
+
+If these conditions are met, you can translate source files into pdf
+by simply typing './build.sh' in this directory. (Maybe you'll have to
+set executable bit on this shell script.)
