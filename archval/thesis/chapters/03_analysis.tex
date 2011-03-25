@@ -25,7 +25,7 @@ Ukázkové návrhové principy analyzované v rámci této práce jsou znázorn�
 % ``Třídy z balíčku A nesmí záviset na jiných konkrétních třídách, ale nejvýše na rozhraních balícků B.''
 %  (programování proti rozhraní namísto proti kokrétní implementaci)"
 
-\subsubsection{Low coupling (nízká závislost/vazba)}
+\subsubsection{Low coupling/dependency (nízká závislost/vazba)}
 Důležitou návrhovou zásadou je snaha snížit provázanost modulů na minimum. Je možné kategorizovat způsob provázanosti modulů do různých skupin. Následující přehled je převzat z \cite{wiki:coupling} (ještě jemnější dělení je uváděno v \cite{STVR:STVR162}).
 
 \begin{itemize}
@@ -40,6 +40,15 @@ Důležitou návrhovou zásadou je snaha snížit provázanost modulů na minimu
 \item\emph{Message coupling (nejnižší forma závislosti)} -- provázanost modulů pouze pomocí zpráv, jedná se o nejnižší úroveň závislosti. Lze jí dosáhnout pomocí decentralizace stavu (u objektů), kde je komunikace dosahováno pomocí parametrů nebo předávání zpráv (\uv{message passing}).
 \item\emph{No coupling} -- žádná závislost -- moduly spolu vůbec nekomunikují.
 \end{itemize}
+
+%% TODO: sort
+%% ## Typy závislostí mezi třídami
+
+%% * třída A dědí ze třídy B
+%% * třída A provádí instanciaci třídy B
+%% * třída A používá existující intanci třídy B (pracuje s referencí na tuto třídu)
+
+%% Na základě těchto závislostí lze sestavit orientovaný graf. Hrany budeme dále klasifikovat podle toho, o jakou závislost se jedná (dědičnost vs. vyvolání metody).
 
 \subsubsection{High cohesion}
 
@@ -71,10 +80,24 @@ public class ...
 \section{Analýza problematiky v jazyce Java}
 
 \subsection{Statický model programu v Javě}
-% TODO: provide better name for this section
-\subsubsection{Struktura Java projektu}
+TODO: pojednání o tom, co všechno může být modelem programu (ast, graf, FSM, programovací jazyky, atd)
 
-\subsubsection{Základní syntaktické elementy programovacího jazyka Java}
+\subsubsection{Struktura softwarového projektu v Javě}
+
+% TODO: sort and rephrase
+\begin{itemize}
+\item\verb+*.java+ soubory - v gramatice programovacího jazyka Java 1.5 představují top-level element CompilationUnit \emph{\{(TODO: binární součásti projektu? class files?)\}}
+\item další soubory - resources, documentation, \ldots
+\end{itemize}
+
+Pro naše potřeby jsou důležité v podstatě pouze kompilační jednotky (java soubory) projektu.
+
+Statický pohled na program - neuvažujeme běh programu. Pracujeme nad definicemi tříd, nikoliv nad jejich instancemi v paměti JVM.
+
+% TODO: aktualizovat -> v konecnem dusledku budeme pracovat i nad projekty v jazyku 1.6 (protoze nam to rozhrani umoznuje)
+Budeme pracovat nad gramatikou jazyka Java 1.5. Java verze 6 se liší pouze úpravou standardních API poskytovaných platformou Java. Jazyk jako takový zůstává stejný.
+
+\subsubsection{Syntaktické elementy programovacího jazyka Java}
 Grafické znázornění základních syntaktických elementů, jejichž struktura a názvy jsou převzaty z \cite{Gosling:2005:JLS:1036643}, je na obrázku \ref{toplevel_elements}.
 % TODO: write some better accompanying text
 \begin{figure}[h!]
@@ -91,5 +114,46 @@ Pro analýzu založenou na vyhledávání závislostí mezi třídami pro nás b
 \caption{Rozklad elementu TypeDeclaration.\label{type_declaration_options}}
 \end{figure}
 
+%% TODO: zatridit tyto syntakticke elementy, ke kazdemu napsat, jak se bude zpracovavat
+%% interfaces
+%% enums
+%% annotations
+
+%% Modifikátory přístupu (private, public, protected, package private) nám umožní "ořezat" graf závislosti tříd. Je ale možné, že pro některé druhy analýzy bude toto nežádoucí.
+
+%% ## Speciální případy:
+
+%% * statické třídy
+%% * statické metody
+%% * vnitřní třídy
+
 \section{Existující nástroje pro statickou analýzu kódu v Javě}
-% TODO: add some background research on existing tools (take information from wiki, ../materials)
+% TODO: do background research on positives and negatives of these tools
+% TODO: v rychlosti zopakovat rešerši na nové nástroje a konkrétní vlastnosti, které jsou důležité pro tuto práci
+
+\subsection{JDepend}
+
+\begin{itemize}
+\item \href{http://www.clarkware.com/software/JDepend.html}{http://www.clarkware.com/software/JDepend.html}
+\item nástroj pro testování kvality návrhu
+\item pracuje nad \verb+*.class+ soubory (získává data z bytekódu)
+\end{itemize}
+
+\subsection{QJ-Pro}
+\begin{itemize}
+\item \href{http://qjpro.sourceforge.net}{http://qjpro.sourceforge.net}
+\end{itemize}
+
+\subsection{DP-Miner}
+\begin{itemize}
+\item \href{http://www.utdallas.edu/~yxz045100/DesignPattern/DP\_Miner/}{http://www.utdallas.edu/~yxz045100/DesignPattern/DP\_Miner/}
+\item hledání návrhových vzorů v existujících projektech
+\item článek: Jing Dong and Yajing Zhao, Experiments on Design Pattern Discovery \\ (\href{http://www.utdallas.edu/~jdong/papers/PROMISE07.pdf}{http://www.utdallas.edu/~jdong/papers/PROMISE07.pdf})
+\end{itemize}
+
+\subsection{Macker}
+\begin{itemize}
+\item \href{http://innig.net/macker/}{http://innig.net/macker/}
+\item build-time architectural rule checking utility for Java developers
+\item zpracovává \verb+*.class+ soubory (bytekód)
+\end{itemize}
