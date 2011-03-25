@@ -1,4 +1,6 @@
 \chapter{Analýza}
+%% TODO: zde napsat prehledovy text o tom, co vsechno tato kapitola obsahuje
+
 %% Analýza a návrh implementace (včetně diskuse různých alternativ a volby implementačního prostředí).
 
 %% V části analýzy provést rozbor jednotlivých principů + výsledky rešerší - využívat hojně informace z článků a důsledně citovat zdroje
@@ -23,7 +25,21 @@ Ukázkové návrhové principy analyzované v rámci této práce jsou znázorn�
 % ``Třídy z balíčku A nesmí záviset na jiných konkrétních třídách, ale nejvýše na rozhraních balícků B.''
 %  (programování proti rozhraní namísto proti kokrétní implementaci)"
 
-\subsubsection{Low coupling}
+\subsubsection{Low coupling (nízká závislost/vazba)}
+Důležitou návrhovou zásadou je snaha snížit provázanost modulů na minimum. Je možné kategorizovat způsob provázanosti modulů do různých skupin. Následující přehled je převzat z \cite{wiki:coupling} (ještě jemnější dělení je uváděno v \cite{STVR:STVR162}).
+
+\begin{itemize}
+\item\emph{Content coupling (nejvyšší forma závislosti)} -- závislost na obsahu modulu -- jeden modul modifikuje nebo se spoléhá na vnitřní fungování jiného modulu (např. přístup k lokálním datům jiného modulu). V důsledku platí, že změní-li se způsob, kterým tento druhý modul produkuje data (umístění, typ, časování), povede to zcela jiste ke změnám v závislém modulu.
+\item\emph{Common coupling} -- dva moduly sdílí stejná globální data (např. globální proměnnou), změna sdíleného globálního zdroje implikuje změny všech modulů, které je používají.
+\item\emph{External coupling} -- dva moduly sdílí externě definovaný (standardizovaný) datový formát, komunikační protokol nebo rozraní zařízení.
+\item\emph{Control coupling} -- jeden modul kontroluje tok druhého tím, že mu posílá informaci o tom, co má konat (např. předání \uv{to-do} příznaku).
+% CLARIFY
+\item\emph{Stamp coupling (Data-structured coupling)} -- mdouly sdílí složenou datovou strukturu a používají pouze její (často odlišnou) část (např. předávání kompletního záznamu funkci, která z něj potřebuje pouze jedno pole). Tato vazba může vést ke změně způsobu, kterým modul čte záznam, protože pole, které tento modul nepotřebuje bylo modifikováno.
+% Stamp coupling is when modules share a composite data structure and use only a part of it, possibly a different part (e.g., passing a whole record to a function that only needs one field of it). This may lead to changing the way a module reads a record because a field that the module doesn't need has been modified.
+\item\emph{Data coupling} -- moduly sdílí data pomocí parametrů. Každý parametr je elementární datový typ a jedná se o jediná data, která jsou sdílená (např. předávání celočíselné hodnoty funkci, která spočítá jeho druhou mocninu).
+\item\emph{Message coupling (nejnižší forma závislosti)} -- provázanost modulů pouze pomocí zpráv, jedná se o nejnižší úroveň závislosti. Lze jí dosáhnout pomocí decentralizace stavu (u objektů), kde je komunikace dosahováno pomocí parametrů nebo předávání zpráv (\uv{message passing}).
+\item\emph{No coupling} -- žádná závislost -- moduly spolu vůbec nekomunikují.
+\end{itemize}
 
 \subsubsection{High cohesion}
 
