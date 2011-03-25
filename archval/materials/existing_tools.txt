@@ -1,0 +1,20 @@
+# Nástroje pro statickou analýzu kódu (rešerše)
+
+### JDepend
+
+* [[JDepend - nástroj pro testování kvality návrhu|http://www.clarkware.com/software/JDepend.html]] - pracuje nad class soubory (získává data z bytekódu)
+
+### QJ-Pro
+
+* [[QJ-Pro|http://qjpro.sourceforge.net/]]
+
+### DP-Miner
+
+* [[DP-Miner - hledání návrhových vzorů v existujících projektech|http://www.utdallas.edu/~yxz045100/DesignPattern/DP_Miner/]]
+* [[Jing Dong and Yajing Zhao,   Experiments on Design Pattern Discovery|http://www.utdallas.edu/~jdong/papers/PROMISE07.pdf]]
+
+### Macker
+
+* [[Macker - build-time architectural rule checking utility for Java developers|http://innig.net/macker/]]
+* zpracovává `*.class` soubory (bytekód)
+

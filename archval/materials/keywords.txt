@@ -1,0 +1,13 @@
+# Klíčová slova, související pojmy
+
+Zde jsou soustředěny pojmy které ať už přímo nebo nepřímo souvisí s naší cílovou oblastí výzkumu. Většinou se jedná o pojmy, které je vhodné použít pro rešerše v internetových vyhledávačích.
+
+* design patterns discovery
+* model transformation
+
+* [[formal methods|http://en.wikipedia.org/wiki/Formal_methods]]
+* [[formal specification|http://en.wikipedia.org/wiki/Formal_specification]]
+* [[formal verification|http://en.wikipedia.org/wiki/Formal_verification]]
+
+* model verification
+

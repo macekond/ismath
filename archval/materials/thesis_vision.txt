@@ -1,0 +1,10 @@
+# Hledání a validace návrhových vzorů statickou analýzou kódu
+
+## Vize
+
+Cílem práce je pomocí statické analýzy java kódu posuzovat, klasifikovat a validovat správnost návrhu softwarové architektury.
+
+Základní nutnou komponentou bude frontend překladače - tak získáme nějakou vnitřní reprezentaci kódu (nějaký strom nebo graf objektů), kterou budeme dále zpracovávat.
+
+V rámci zpracování je možné využít vyhledávání konkrétních vzorů. Dále je možné použít některou z klasifikačních metod. Například můžeme vytvořit klasifikátor na základě existujících vzorků "dobrých" a "špatných" architektonických návrhů. Každý model totiž má velké množství statistických vlastností (features), které bychom mohli využít pro sestrojení nějakého klasifikátoru.
+

@@ -1,0 +1,10 @@
+# Model driven engineering
+
+* [[A Taxonomy of Model Transformations|http://drops.dagstuhl.de/opus/volltexte/2005/11/pdf/04101.SWM2.Paper.pdf]] - článek přehledně shrnuje základní pojmy týkající se transformace modelů
+
+# Architecture specific model
+
+V následujícím článku je demonstrován převod architektonicky závislého modelu (konkrétně MVC) na dva různé platformně specifické modely (EJB a Spring beans). Pro definici PIM je vytvořen vlastní jednoduchý UML profil.
+
+* [[Kazato H., Model-View-Controller Architecture Specific Model Transformation|http://www.dsmforum.org/events/DSM09/Papers/Kazato.pdf]]
+

@@ -1,0 +1,12 @@
+# Existující formalizace v softwarovém inženýrství
+
+## Featherweight Java
+
+* [[Featherweight Java]]
+
+## Z notation
+
+* [[The Z notation - wikipedia|http://en.wikipedia.org/wiki/Z_notation]]
+* [[ISO/IEC 13568:2002(E) - Information technology - Z formal specification notation — Syntax, type system and semantics|http://standards.iso.org/ittf/PubliclyAvailableStandards/c021573_ISO_IEC_13568_2002(E).zip]]
+* [[Z notation reference manual|http://www.rose-hulman.edu/class/csse/cs415/zrm.pdf]]
+

@@ -3,8 +3,11 @@
 
 %% V části analýzy provést rozbor jednotlivých principů + výsledky rešerší - využívat hojně informace z článků a důsledně citovat zdroje
 
-\section{Analyzované principy objektového návrhu}
+\section{Analýza principů objektového návrhu}
 
+%% PRINCIPY versus PATTERNY -> citovat clanek
+
+\subsection{Analyzované principy}
 Ukázkové návrhové principy analyzované v rámci této práce jsou znázorněny na obrázku \ref{analyzed_principles}. Poznamenejme, že tzv. Demeterův zákon je speciálním případem pravidla pro \uv{low coupling}.
 
 \begin{figure}[h!]
@@ -20,11 +23,11 @@ Ukázkové návrhové principy analyzované v rámci této práce jsou znázorn�
 % ``Třídy z balíčku A nesmí záviset na jiných konkrétních třídách, ale nejvýše na rozhraních balícků B.''
 %  (programování proti rozhraní namísto proti kokrétní implementaci)"
 
-\subsection{Low coupling}
+\subsubsection{Low coupling}
 
-\subsection{High cohesion}
+\subsubsection{High cohesion}
 
-\subsection{Law of Demeter}
+\subsubsection{Law of Demeter}
 
 Existuje několik forem Demeterova zákona \cite{35588}, které jsou vhodné pro různé oblasti aplikace. Tyto typy jsou znázorněny na obrázku \ref{demeter_law_types}.
 
@@ -36,9 +39,9 @@ Existuje několik forem Demeterova zákona \cite{35588}, které jsou vhodné pro
 
 Pro statickou analýzu lze použít \uv{class} formu Demeterova zákona.
 
-\section{Ukázky kódu porušujících některá z pravidel}
+\subsection{Ukázky kódu porušujících některá z pravidel}
 
-\subsection{Porušení principu law of Demeter}
+\subsubsection{Porušení principu law of Demeter}
 
 %% TODO: use some highlighter
 %% TODO: add example of demeter law violation from paper notes
@@ -49,11 +52,13 @@ public class ...
 
 \end{verbatim}
 
-\section{Analyzovaná doména, statický model programu v Javě}
-% TODO: provide better name for this section
-\subsection{Struktura Java projektu}
+\section{Analýza problematiky v jazyce Java}
 
-\subsection{Základní syntaktické elementy programovacího jazyka Java}
+\subsection{Statický model programu v Javě}
+% TODO: provide better name for this section
+\subsubsection{Struktura Java projektu}
+
+\subsubsection{Základní syntaktické elementy programovacího jazyka Java}
 Grafické znázornění základních syntaktických elementů, jejichž struktura a názvy jsou převzaty z \cite{Gosling:2005:JLS:1036643}, je na obrázku \ref{toplevel_elements}.
 % TODO: write some better accompanying text
 \begin{figure}[h!]
@@ -69,3 +74,6 @@ Pro analýzu založenou na vyhledávání závislostí mezi třídami pro nás b
 \includegraphics[width=\textwidth]{./graphs/toplevel_types.png}
 \caption{Rozklad elementu TypeDeclaration.\label{type_declaration_options}}
 \end{figure}
+
+\section{Existující nástroje pro statickou analýzu kódu v Javě}
+% TODO: add some background research on existing tools (take information from wiki, ../materials)

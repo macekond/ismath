@@ -1,0 +1,42 @@
+# Featherweight Java
+
+## Výrazy jazyka FJ
+FJ má pouze následující výrazy (expressions):
+
+* vytvoření objektu (object creation)
+* vyvolání metody (method invocation)
+* přístup k poli objektu (field access)
+* přetypování (casting)
+* proměnné (variables)
+
+FJ vynechává operátor přiřazení (s výjimkou konstruktorů).
+
+Přes to všechno je FJ výpočetně kompletní (computationally complete) - je snadné do FJ zakódovat *lambda kalkul*.
+
+Existuje přímá souvislost mezi FJ a programovacím jazykem Java. Každý FJ program je spustitelný Java program.
+
+## FJ program
+FJ program sestává ze souboru *několika tříd* a *výrazu*, který je vyhodnocen. Tento výraz odpovídá *main* metodě v plné verzi programovacího jazyka Java.
+
+Třídy sestávají z konstruktoru (který se vypisuje vždy) a z jednotlivých metod.
+
+Každá metoda vždy obsahuje pouze klíčové slovo *return* následované výrazem, který je vyhodnocen. Ve FJ totiž nejsou možné operace s vedlejším efektem (side-effect) vzhledem k absenci operátoru přiřazení. Vlastně se jedná o "funkcionální" část jazyka Java.
+
+## Možná uváznutí programu
+
+* pokus o příštup k poli, které není pro třídu nadefinované
+* pokus o vyvolání metody, která není pro třídu nadefinovaná
+* pokus o přetypování na něco jiného než je nadtřídou běhové třídy objektu
+
+V dobře typovaných programovacích jazycích by k něčemu takovému němělo dojít (to je cílem důkazu poskytovaného FJ).
+
+## Nástroje
+
+* [[FJ-Eclipse|http://fj-eclipse.sourceforge.net/]] - nepodporuje všechny prvky jazyka (např. vyhodnotí volání konstruktoru nadtřídy super() jako chybu)
+
+## Literatura
+
+* [[Atsushi Igarashi, Benjamin C. Pierce, and Philip Wadler. 2001. Featherweight Java: a minimal core calculus for Java and GJ. ACM Trans. Program. Lang. Syst. 23, 3 (May 2001), 396-450. DOI=10.1145/503502.503505 http://doi.acm.org/10.1145/503502.503505|http://portal.acm.org/citation.cfm?id=503505]]
+* [[http://klee.cs.depaul.edu/csc547/lecture-fj.html]]
+
+
