@@ -21,45 +21,37 @@
  *  OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  *  THE SOFTWARE.
  */
-package cz.cvut.fel.archval.input_processor;
+package cz.cvut.fel.archval.compiler;
 
+import com.sun.source.tree.CompilationUnitTree;
+import com.sun.source.tree.Tree.Kind;
+import com.sun.source.tree.VariableTree;
 import com.sun.source.util.TreePath;
+import com.sun.source.util.TreePathScanner;
 import com.sun.source.util.Trees;
-import java.util.Set;
-import javax.annotation.processing.AbstractProcessor;
-import javax.annotation.processing.ProcessingEnvironment;
-import javax.annotation.processing.RoundEnvironment;
-import javax.annotation.processing.SupportedAnnotationTypes;
-import javax.annotation.processing.SupportedSourceVersion;
-import javax.lang.model.SourceVersion;
 import javax.lang.model.element.Element;
 import javax.lang.model.element.TypeElement;
+import javax.lang.model.element.VariableElement;
+import javax.lang.model.type.DeclaredType;
+import javax.lang.model.type.TypeKind;
 
 /**
  *
  * @author Martin Vejmelka (martin.vejmelka@fel.cvut.cz)
  */
-@SupportedSourceVersion(SourceVersion.RELEASE_6)
-@SupportedAnnotationTypes("*")
-class CodeAnalyzerProcessor extends AbstractProcessor {
-
-    private Trees trees;
-    private CodeAnalyzerTreeVisitor visitor = new CodeAnalyzerTreeVisitor();
+public class CodeAnalyzerTreeVisitor extends TreePathScanner<Object, Trees> {
 
     @Override
-    public void init(ProcessingEnvironment pe) {
-        super.init(pe);
-        trees = Trees.instance(pe);
-    }
+    public Object visitVariable(VariableTree vt, Trees p) {
 
-    @Override
-    public boolean process(Set<? extends TypeElement> annotations, RoundEnvironment roundEnv) {
+        System.out.println("Found variable:");
 
-        for (Element e : roundEnv.getRootElements()) {
-            TreePath tp = trees.getPath(e);
-            visitor.scan(tp, trees);
+        Element el = (VariableElement) p.getElement(getCurrentPath());
+
+        if (el.asType().getKind() == TypeKind.DECLARED) {
+            System.out.println(((TypeElement)((DeclaredType) el.asType()).asElement()).getQualifiedName());
         }
-        
-        return true;
+
+        return super.visitVariable(vt, p);
     }
 }

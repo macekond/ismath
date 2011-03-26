@@ -21,9 +21,8 @@
  *  OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  *  THE SOFTWARE.
  */
-package cz.cvut.fel.archval.input_processor;
+package cz.cvut.fel.archval.compiler;
 
-import cz.cvut.fel.archval.input_processor.CompilerWrapper;
 import java.util.ArrayList;
 import java.io.File;
 import java.net.URL;

@@ -21,7 +21,7 @@
  *  OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  *  THE SOFTWARE.
  */
-package cz.cvut.fel.archval.input_processor;
+package cz.cvut.fel.archval.compiler;
 
 import java.io.File;
 import java.util.LinkedList;
@@ -37,6 +37,10 @@ import javax.tools.ToolProvider;
  *
  * Compiles files supplied by parameter
  *
+ * This class is important entry point. In this class multiple annotation
+ * processors can be plugged into compiler. Wihtin these processors, various
+ * static analysis tasks can be performed.
+ *
  * @author Martin Vejmelka (martin.vejmelka@fel.cvut.cz)
  */
 public class CompilerWrapper {
@@ -50,6 +54,11 @@ public class CompilerWrapper {
 
     }
 
+    /**
+     * Compiles files supplied as parameter
+     *
+     * @param files contains all files which are part of some project and are to be compiled
+     */
     public void compileFiles(Iterable<File> files) {
 
         // constructing compilation task
@@ -65,6 +74,7 @@ public class CompilerWrapper {
         try {
             boolean taskResult = task.call();
             // TODO: if taskResult is false, some files weren't compiled successfully
+            // TODO: throw exception, which will contain all reason messages
         } catch (Exception e) {
             // TODO: handle some fatal error in user code in compiler plugins
         }
