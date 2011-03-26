@@ -22,8 +22,9 @@
  *  THE SOFTWARE.
  */
 
-package fel.cvut.cz.archval.input_processor;
+package cz.cvut.fel.archval.input_processor;
 
+import cz.cvut.fel.archval.input_processor.JavaFilesLocator;
 import java.io.File;
 import java.io.IOException;
 import java.util.List;

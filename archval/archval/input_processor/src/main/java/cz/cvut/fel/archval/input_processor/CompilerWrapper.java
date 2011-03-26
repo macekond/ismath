@@ -21,7 +21,7 @@
  *  OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  *  THE SOFTWARE.
  */
-package fel.cvut.cz.archval.input_processor;
+package cz.cvut.fel.archval.input_processor;
 
 import java.io.File;
 import java.util.LinkedList;

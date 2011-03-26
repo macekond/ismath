@@ -1,18 +1,18 @@
 /*
  *  The MIT License
- * 
+ *
  *  Copyright 2011 Martin Vejmelka (martin.vejmelka@fel.cvut.cz).
- * 
+ *
  *  Permission is hereby granted, free of charge, to any person obtaining a copy
  *  of this software and associated documentation files (the "Software"), to deal
  *  in the Software without restriction, including without limitation the rights
  *  to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
  *  copies of the Software, and to permit persons to whom the Software is
  *  furnished to do so, subject to the following conditions:
- * 
+ *
  *  The above copyright notice and this permission notice shall be included in
  *  all copies or substantial portions of the Software.
- * 
+ *
  *  THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
  *  IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
  *  FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
@@ -21,37 +21,43 @@
  *  OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  *  THE SOFTWARE.
  */
-package fel.cvut.cz.archval.input_processor;
 
-import com.sun.source.tree.CompilationUnitTree;
-import com.sun.source.tree.Tree.Kind;
-import com.sun.source.tree.VariableTree;
-import com.sun.source.util.TreePath;
-import com.sun.source.util.TreePathScanner;
-import com.sun.source.util.Trees;
-import javax.lang.model.element.Element;
-import javax.lang.model.element.TypeElement;
-import javax.lang.model.element.VariableElement;
-import javax.lang.model.type.DeclaredType;
-import javax.lang.model.type.TypeKind;
+package cz.cvut.fel.archval.input_processor;
+
+import java.io.File;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
+ * Searches all *.java files in directory specified as an argument.
  *
  * @author Martin Vejmelka (martin.vejmelka@fel.cvut.cz)
+ * 
  */
-public class CodeAnalyzerTreeVisitor extends TreePathScanner<Object, Trees> {
+public class JavaFilesLocator {
 
-    @Override
-    public Object visitVariable(VariableTree vt, Trees p) {
+    private List<File> javaFiles;
 
-        System.out.println("Found variable:");
+    public JavaFilesLocator() {
+        javaFiles = new ArrayList<File>();
+    }
 
-        Element el = (VariableElement) p.getElement(getCurrentPath());
+    public List<File> getProjectJavaFiles(String directory) {
+        javaFiles.clear();
+        File dirFile = new File(directory);
+        list(dirFile);
+        return javaFiles;
+    }
 
-        if (el.asType().getKind() == TypeKind.DECLARED) {
-            System.out.println(((TypeElement)((DeclaredType) el.asType()).asElement()).getQualifiedName());
+    private void list(File file) {
+        if (file.isDirectory()) {
+            File[] children = file.listFiles();
+            for (File child : children) {
+                if (child.getName().endsWith(".java")) {
+                    javaFiles.add(child);
+                }
+                list(child);
+            }
         }
-
-        return super.visitVariable(vt, p);
     }
 }
