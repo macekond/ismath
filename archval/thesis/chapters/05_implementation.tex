@@ -1,3 +1,25 @@
 \chapter{Implementace}
 
 TODO: Popis implementace/realizace se zaměřením na nestandardní části řešení.
+
+\section{Specifikace pravidel požadovaných zadáním práce}
+
+TODO: Demeter, low coupling, high cohesion rules in designed formalism
+
+\section{Implementace jádra systému}
+TODO: describe technologies used to implement parser and analysis part
+\begin{itemize}
+\item Java 6 Compiler API (JSR 199) \emph{\{TODO: add reference\}}
+\item annotation processor (JSR 269) \emph{\{TODO: add reference\}}
+\item Compiler Tree API
+  \begin{itemize}
+  \item \verb+com.sun.source.tree+ 
+  \item \verb+com.sun.source.util+
+  \end{itemize}
+\end{itemize}
+
+TODO: zapracovat:
+
+je nutné použít nestandardní API, které je součástí Sun Javy - balíčky \verb+com.sun.*+ (je potřeba přidat \$\{java\_home\}/../lib/tools.jar do classpath)
+
+lze se inspirovat v programu Sorcerer (\href{https://sorcerer.dev.java.net/}{https://sorcerer.dev.java.net/}), který pomocí Java Tree API provádí zpracovávání Java kódu a generování přesné HTML dokumentace. \emph{TODO: in case of usage of this material, add reference!}

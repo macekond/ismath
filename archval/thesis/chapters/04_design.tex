@@ -4,7 +4,12 @@
 
 \subsection{Formalizace pravidel}
 
-TODO: vyjit z gramatiky, vytvorit nejakou mnozinu objektu nad nimiz budeme pracovat, vzit v uvahu FJ
+\begin{itemize}
+\item definice jazyka pro specifikaci pravidel
+\item specifikovat množinu objektů, nad nimiž budou pravidla stavěna -- nad čím budeme operovat (možnosti: gramatika, třídy, FJ, graf, \ldots)
+\item lze vyjít z Java Language Specification (množina neterminálních a terminálních symbolů)
+\item může být nějaký DSL
+\end{itemize}
 
 \subsection{Typy pravidel}
 \begin{itemize}
@@ -12,26 +17,28 @@ TODO: vyjit z gramatiky, vytvorit nejakou mnozinu objektu nad nimiz budeme praco
 \item uživatelsky programovaná pravidla (custom code java code, asserts)
 \end{itemize}
 
-\subsection{Návrh rozhraní pro zadávání pravidel}
+\section{Návrh architektury systému}
+TODO: highlevel design $\rightarrow$ jaké budou moduly a co budou dělat (zatím bez konkrétní použité technologie)
+\begin{itemize}
+\item compiler
+\item generátor vnitřní sturktury (modelu)
+\item analyzátor
+\item rozhraní
+  \begin{itemize}
+  \item rozhraní pro zadávání pravidel
+  \item rozhraní pro ověřování platnosti pravidel (validaci)
+  \end{itemize}
+\end{itemize}
+
+\section{Návrh rozhraní pro zadávání pravidel}
+%% rozhraní pro zadávání pravidel bude dáno jazykem, který se pro definici pravidel bude používat - možná kompilátor DSL jazyka, výrazy, atd.
 \begin{itemize}
 \item rozhraní pro zadávání pravidel
 \item formát zadávání pravidel (serializace formalismu tak, aby jej bylo možné textově nebo jinak zadávat)
 \end{itemize}
 
-\subsection{Návrh rozhraní pro ověřování platnosti pravidel (validaci)}
+\section{Návrh rozhraní pro ověřování platnosti pravidel (validaci)}
 \begin{itemize}
 \item výstupní rozhraní
 \item validační události
 \end{itemize}
-
-%% TODO: rozsekat do jednotlivych sekci a podsekci a zpracovat
-%% Součásti práce (samostatně realizovatelné celky):
-%% - definovat jazyk pro definici pravidel
-%%    - nad čím bude operovat (gramatika?, třídy?, FJ?)
-%%    - lze vyjít z Java Language Specification (množina neterminálních a
-%%      terminálních symbolů)
-%%    - může být dsl
-%% - rozhraní pro definici pravidel (bude dáno jazykem, který se pro
-%%   definici pravidel bude používat - možná kompilátor DSL jazyka,
-%%   výrazy, atd.)
-%% - rozhraní pro validaci

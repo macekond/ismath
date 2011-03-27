@@ -7,4 +7,3 @@
 V následujícím článku je demonstrován převod architektonicky závislého modelu (konkrétně MVC) na dva různé platformně specifické modely (EJB a Spring beans). Pro definici PIM je vytvořen vlastní jednoduchý UML profil.
 
 * [[Kazato H., Model-View-Controller Architecture Specific Model Transformation|http://www.dsmforum.org/events/DSM09/Papers/Kazato.pdf]]
-

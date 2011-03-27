@@ -13,9 +13,9 @@
 Ukázkové návrhové principy analyzované v rámci této práce jsou znázorněny na obrázku \ref{analyzed_principles}. Poznamenejme, že tzv. Demeterův zákon je speciálním případem pravidla pro \uv{low coupling}.
 
 \begin{figure}[h!]
-\centering
-\includegraphics[width=0.5\textwidth]{./graphs/oop_design_principles.png}
-\caption{Znázornění analyzovaných návrhových principů.\label{analyzed_principles}}
+  \centering
+  \includegraphics[width=0.5\textwidth]{./graphs/oop_design_principles.png}
+  \caption{Znázornění analyzovaných návrhových principů.\label{analyzed_principles}}
 \end{figure}
 
 % TODO: v rámci každého návrhového principu uvést příklad porušení
@@ -33,9 +33,9 @@ Důležitou návrhovou zásadou je snaha snížit provázanost modulů na minimu
 \item\emph{Common coupling} -- dva moduly sdílí stejná globální data (např. globální proměnnou), změna sdíleného globálního zdroje implikuje změny všech modulů, které je používají.
 \item\emph{External coupling} -- dva moduly sdílí externě definovaný (standardizovaný) datový formát, komunikační protokol nebo rozraní zařízení.
 \item\emph{Control coupling} -- jeden modul kontroluje tok druhého tím, že mu posílá informaci o tom, co má konat (např. předání \uv{to-do} příznaku).
-% CLARIFY
+  % TODO: CLARIFY
 \item\emph{Stamp coupling (Data-structured coupling)} -- mdouly sdílí složenou datovou strukturu a používají pouze její (často odlišnou) část (např. předávání kompletního záznamu funkci, která z něj potřebuje pouze jedno pole). Tato vazba může vést ke změně způsobu, kterým modul čte záznam, protože pole, které tento modul nepotřebuje bylo modifikováno.
-% Stamp coupling is when modules share a composite data structure and use only a part of it, possibly a different part (e.g., passing a whole record to a function that only needs one field of it). This may lead to changing the way a module reads a record because a field that the module doesn't need has been modified.
+  % Stamp coupling is when modules share a composite data structure and use only a part of it, possibly a different part (e.g., passing a whole record to a function that only needs one field of it). This may lead to changing the way a module reads a record because a field that the module doesn't need has been modified.
 \item\emph{Data coupling} -- moduly sdílí data pomocí parametrů. Každý parametr je elementární datový typ a jedná se o jediná data, která jsou sdílená (např. předávání celočíselné hodnoty funkci, která spočítá jeho druhou mocninu).
 \item\emph{Message coupling (nejnižší forma závislosti)} -- provázanost modulů pouze pomocí zpráv, jedná se o nejnižší úroveň závislosti. Lze jí dosáhnout pomocí decentralizace stavu (u objektů), kde je komunikace dosahováno pomocí parametrů nebo předávání zpráv (\uv{message passing}).
 \item\emph{No coupling} -- žádná závislost -- moduly spolu vůbec nekomunikují.
@@ -57,9 +57,9 @@ Důležitou návrhovou zásadou je snaha snížit provázanost modulů na minimu
 Existuje několik forem Demeterova zákona \cite{35588}, které jsou vhodné pro různé oblasti aplikace. Tyto typy jsou znázorněny na obrázku \ref{demeter_law_types}.
 
 \begin{figure}[h!]
-\centering
-\includegraphics[width=0.7\textwidth]{./graphs/demeter_law_types.png}
-\caption{Formy Demeterova zákona.\label{demeter_law_types}}
+  \centering
+  \includegraphics[width=0.7\textwidth]{./graphs/demeter_law_types.png}
+  \caption{Formy Demeterova zákona.\label{demeter_law_types}}
 \end{figure}
 
 Pro statickou analýzu lze použít \uv{class} formu Demeterova zákona.
@@ -101,17 +101,17 @@ Budeme pracovat nad gramatikou jazyka Java 1.5. Java verze 6 se liší pouze úp
 Grafické znázornění základních syntaktických elementů, jejichž struktura a názvy jsou převzaty z \cite{Gosling:2005:JLS:1036643}, je na obrázku \ref{toplevel_elements}.
 % TODO: write some better accompanying text
 \begin{figure}[h!]
-\centering
-\includegraphics[width=\textwidth]{./graphs/java_top_elements.png}
-\caption{Struktura základních syntaktických elementů programovacího jazyka Java.\label{toplevel_elements}}
+  \centering
+  \includegraphics[width=\textwidth]{./graphs/java_top_elements.png}
+  \caption{Struktura základních syntaktických elementů programovacího jazyka Java.\label{toplevel_elements}}
 \end{figure}
 
 Pro analýzu založenou na vyhledávání závislostí mezi třídami pro nás bude nejdůležitější syntaktický element \emph{TypeDeclaration}. Tento neterminální symbol se dále přepisuje na symboly uvedené na obrázku \ref{type_declaration_options}.
 
 \begin{figure}[h!]
-\centering
-\includegraphics[width=\textwidth]{./graphs/toplevel_types.png}
-\caption{Rozklad elementu TypeDeclaration.\label{type_declaration_options}}
+  \centering
+  \includegraphics[width=\textwidth]{./graphs/toplevel_types.png}
+  \caption{Rozklad elementu TypeDeclaration.\label{type_declaration_options}}
 \end{figure}
 
 %% TODO: zatridit tyto syntakticke elementy, ke kazdemu napsat, jak se bude zpracovavat
@@ -127,7 +127,87 @@ Pro analýzu založenou na vyhledávání závislostí mezi třídami pro nás b
 %% * statické metody
 %% * vnitřní třídy
 
+\subsection{Existující nástroje pro zpracování zdrojových kódů v jazyku Java}
+
+TODO: write some leading text 
+
+Možnosti zpracovávání kódu:
+
+TODO: roztřídit a vyházet nesmysly (e.g. JABA, apod.)
+
+TODO: použít jinou vhodnější strukturu místo itemize
+
+\begin{itemize}
+\item vlastní hand-written lexikální a syntaktický analyzátor (zbytečně náročné)
+\item parser vygenerovaný pomocí některého z dostupných compiler-compiler systémů
+  \begin{itemize}
+  \item tyto systémy na základě vstupní gramatiky vygenerují frontend pro překladač
+  \item lze specifikovat různé akce, které jsou navázány na události vyvolané v průběhu syntaktické analýzy
+  \item \emph{JavaCC}
+    \begin{itemize}
+    \item \href{http://www.cs.purdue.edu/homes/hosking/352/javaccdocs/docindex.html}{http://www.cs.purdue.edu/homes/hosking/352/javaccdocs/docindex.html}
+    \end{itemize}
+  \item \emph{JastAdd}
+    \begin{itemize}
+    \item \href{http://jastadd.org/}{http://jastadd.org/}
+    \end{itemize}
+  \item \emph{JLex}
+    \begin{itemize}
+    \item A Lexical Analyzer Generator for Java(TM)
+    \item \href{http://www.cs.princeton.edu/~appel/modern/java/JLex/}{http://www.cs.princeton.edu/~appel/modern/java/JLex/}
+    \end{itemize}
+  \item JFlex
+    \begin{itemize}
+    \item The Fast Scanner Generator for Java
+    \item \href{http://jflex.de/}{http://jflex.de/}
+    \end{itemize}
+  \item JABA
+    \begin{itemize}
+    \item \href{http://pleuma.cc.gatech.edu/aristotle/Tools/jaba.html}{http://pleuma.cc.gatech.edu/aristotle/Tools/jaba.html}
+    \item Java Architecture for Bytecode Analysis
+    \item nepoužitelné - dostupná pouze binární verze pro Solaris
+    \item pravděpodobně se dále nevyvíjí
+    \end{itemize}
+  \end{itemize}
+\item použití vhodné knihovny
+  \begin{itemize}
+  \item JavaParser
+    \begin{itemize}
+    \item \href{http://code.google.com/p/javaparser/}{http://code.google.com/p/javaparser/}
+    \item projekt na GoogleHosting 
+    \item v podstatě gramatika pro JJTree vytvářející strom tříd a objektů, který je možné procházet pomocí visitor patternu
+    \end{itemize}
+  \end{itemize}
+\item použití prostředků platformy NetBeans 
+  \begin{itemize}
+  \item Retouche API
+  \item \href{http://bits.netbeans.org/6.9.1/javadoc/}{http://bits.netbeans.org/6.9.1/javadoc/}
+  \end{itemize}
+\item použití prostředků poskytovaných platformou Java 6 (Sun verze) \cite{source_code_analysis_corejavatechtips}
+  \begin{itemize}
+  \item \emph{JSR 199 -- Java Compiler API}
+    \begin{itemize}
+    \item volání překladače jazyka Java pomocí API ze zdrojového kódu programu
+    \item balíček \verb+javax.tools+
+    \end{itemize}
+  \item \emph{JSR 269 -- Pluggable Annotation Processing API}
+    \begin{itemize}
+    \item přidání vlastního kódu pro zpracovávání anotací (resp. celého zdrojového kódu) do instance překladače
+    \item balíček \verb+javax.annotation.processing+ -- zpracovávání anotací
+    \item balíček \verb+javax.lang.model+ -- třídy poskytující model pro syntaktické elementy jazyka Java
+    \end{itemize}
+  \item \emph{Compiler Tree API}
+    \begin{itemize}
+    \item nestandardní rozšíření Java JDK
+    \item \href{http://download.oracle.com/javase/6/docs/jdk/api/javac/tree/index.html}{http://download.oracle.com/javase/6/docs/jdk/api/javac/tree/index.html}
+    \item balíček \verb+com.sun.source.tree+ -- poskytuje rozhraní pro reprezentaci zdrojového kódu jako AST
+    \item balíček \verb+com.sun.source.util+ -- poskytuje rozhraní pro operace nad AST
+    \end{itemize}
+  \end{itemize}
+\end{itemize}
+
 \section{Existující nástroje pro statickou analýzu kódu v Javě}
+\label{analysis-existing_tools}
 % TODO: do background research on positives and negatives of these tools
 % TODO: v rychlosti zopakovat rešerši na nové nástroje a konkrétní vlastnosti, které jsou důležité pro tuto práci
 
@@ -156,4 +236,11 @@ Pro analýzu založenou na vyhledávání závislostí mezi třídami pro nás b
 \item \href{http://innig.net/macker/}{http://innig.net/macker/}
 \item build-time architectural rule checking utility for Java developers
 \item zpracovává \verb+*.class+ soubory (bytekód)
+\end{itemize}
+
+TODO: přidat
+
+\begin{itemize}
+\item CheckStyle -- \href{http://checkstyle.sourceforge.net/}{http://checkstyle.sourceforge.net/}
+\item PMD -- \href{http://pmd.sourceforge.net/}{http://pmd.sourceforge.net/}
 \end{itemize}

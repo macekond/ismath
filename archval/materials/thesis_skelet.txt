@@ -9,28 +9,6 @@
 * návrh způsobu ověřování definovaných závislostí - návrh postupů
 * implementace nástroje pro podporu všech předchozích součástí
 * zpracování zdrojových kódů
-* testování výsledné práce (splňuje práce očekávaný výsledek?)
-
-## Zpracovávání zdrojových kódů (analysis)
-
-Možnosti zpracovávání kódu:
-
-* vlastní hand-written lexikální a syntaktický analyzátor (zbytečně náročné)
-* parser vygenerovaný pomocí některého z dostupných compiler-compiler systémů
-    * tyto systémy na základě vstupní gramatiky vygenerují frontend pro překladač
-    * lze specifikovat různé akce, které jsou navázány na události vyvolané v průběhu syntaktické analýzy
-    * [[JavaCC|http://www.cs.purdue.edu/homes/hosking/352/javaccdocs/docindex.html]]
-    * [[JastAdd|http://jastadd.org/]]
-    * [[JLex - A Lexical Analyzer Generator for Java(TM)|http://www.cs.princeton.edu/~appel/modern/java/JLex/]]
-    * [[JFlex - The Fast Scanner Generator for Java|http://jflex.de/]]
-    * [[JABA: Java Architecture for Bytecode Analysis|http://pleuma.cc.gatech.edu/aristotle/Tools/jaba.html]] - nepoužitelné - pouze binární verze pro Solaris, pravděpodobně se dále nevyvíjí
-    * [[JavaParser project na GoogleHosting|http://code.google.com/p/javaparser/]] - v podstatě gramatika pro JJTree vytvářející pěkný strom tříd a objektů
-* použití vhodné knihovny (např. [[JavaParser|http://code.google.com/p/javaparser/]])
-* použití prostředků platformy NetBeans (Retouche API) - [[NetBeans API Javadoc|http://bits.netbeans.org/6.9.1/javadoc/]]
-* použití [[Java 6 Compiler Tree API|http://download.oracle.com/javase/6/docs/jdk/api/javac/tree/index.html]]
-    * [[Source code analysis using Java 6 APIs|http://blogs.sun.com/CoreJavaTechTips/entry/source_code_analysis_using_java]] - je nutné použít non standard api, které je součástí Sun Javy - balíčky `com.sun.*` (je potřeba přidat ${java_home}/../lib/tools.jar do classpath)
-
-Lze se inspirovat v programu [[Sorcerer|https://sorcerer.dev.java.net/]], který pomocí Java Tree API provádí zpracovávání Java kódu a generování přesné HTML dokumentace. *{TODO: in case of usage of this material, add reference!}*
 
 ## Reprezentace analyzované domény (analysis)
 
@@ -105,4 +83,3 @@ Přístupy:
 * Applying UML and patterns : an introduction to object-oriented analysis and design and iterative development / Craig Larman. -- 3rd ed.. -- Upper Saddle River : Prentice Hall PTR, c2005. -- xxv, 703 s. : il.
 * [[Java SE 6 Documentation|http://download.oracle.com/javase/6/docs/index.html]]
 * [[NetBeans API Javadoc|http://bits.netbeans.org/6.9.1/javadoc/]]
-
