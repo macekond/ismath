@@ -1,0 +1,14 @@
+digraph processingWorkflow {
+
+    node[fontsize=13,fontname=Georgia]; 
+
+    set_of_rules -> validator;
+    input_project -> validator;
+    validator -> validation_report;
+
+    set_of_rules[label="množina pravidel", shape="note"];
+    input_project[label="vstupní projekt", shape="folder"];
+    validator[label="validátor", shape="invhouse"];
+    validation_report[label="validační report", shape="note"];
+
+};

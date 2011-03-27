@@ -82,6 +82,8 @@ public class ...
 \subsection{Statický model programu v Javě}
 TODO: pojednání o tom, co všechno může být modelem programu (ast, graf, FSM, programovací jazyky, atd)
 
+TODO: možná přidat poznámku o model driven engineering a jak může být aplikováno právě zde
+
 \subsubsection{Struktura softwarového projektu v Javě}
 
 % TODO: sort and rephrase
@@ -129,7 +131,7 @@ Pro analýzu založenou na vyhledávání závislostí mezi třídami pro nás b
 
 \subsection{Existující nástroje pro zpracování zdrojových kódů v jazyku Java}
 
-TODO: write some leading text 
+TODO: write some leading text
 
 Možnosti zpracovávání kódu:
 
@@ -174,11 +176,11 @@ TODO: použít jinou vhodnější strukturu místo itemize
   \item JavaParser
     \begin{itemize}
     \item \href{http://code.google.com/p/javaparser/}{http://code.google.com/p/javaparser/}
-    \item projekt na GoogleHosting 
+    \item projekt na GoogleHosting
     \item v podstatě gramatika pro JJTree vytvářející strom tříd a objektů, který je možné procházet pomocí visitor patternu
     \end{itemize}
   \end{itemize}
-\item použití prostředků platformy NetBeans 
+\item použití prostředků platformy NetBeans
   \begin{itemize}
   \item Retouche API
   \item \href{http://bits.netbeans.org/6.9.1/javadoc/}{http://bits.netbeans.org/6.9.1/javadoc/}
@@ -192,7 +194,7 @@ TODO: použít jinou vhodnější strukturu místo itemize
     \end{itemize}
   \item \emph{JSR 269 -- Pluggable Annotation Processing API}
     \begin{itemize}
-    \item přidání vlastního kódu pro zpracovávání anotací (resp. celého zdrojového kódu) do instance překladače
+    \item možnost přidání vlastního kódu pro zpracovávání anotací/kódu do instance překladače
     \item balíček \verb+javax.annotation.processing+ -- zpracovávání anotací
     \item balíček \verb+javax.lang.model+ -- třídy poskytující model pro syntaktické elementy jazyka Java
     \end{itemize}
@@ -204,43 +206,4 @@ TODO: použít jinou vhodnější strukturu místo itemize
     \item balíček \verb+com.sun.source.util+ -- poskytuje rozhraní pro operace nad AST
     \end{itemize}
   \end{itemize}
-\end{itemize}
-
-\section{Existující nástroje pro statickou analýzu kódu v Javě}
-\label{analysis-existing_tools}
-% TODO: do background research on positives and negatives of these tools
-% TODO: v rychlosti zopakovat rešerši na nové nástroje a konkrétní vlastnosti, které jsou důležité pro tuto práci
-
-\subsection{JDepend}
-
-\begin{itemize}
-\item \href{http://www.clarkware.com/software/JDepend.html}{http://www.clarkware.com/software/JDepend.html}
-\item nástroj pro testování kvality návrhu
-\item pracuje nad \verb+*.class+ soubory (získává data z bytekódu)
-\end{itemize}
-
-\subsection{QJ-Pro}
-\begin{itemize}
-\item \href{http://qjpro.sourceforge.net}{http://qjpro.sourceforge.net}
-\end{itemize}
-
-\subsection{DP-Miner}
-\begin{itemize}
-\item \href{http://www.utdallas.edu/~yxz045100/DesignPattern/DP\_Miner/}{http://www.utdallas.edu/~yxz045100/DesignPattern/DP\_Miner/}
-\item hledání návrhových vzorů v existujících projektech
-\item článek: Jing Dong and Yajing Zhao, Experiments on Design Pattern Discovery \\ (\href{http://www.utdallas.edu/~jdong/papers/PROMISE07.pdf}{http://www.utdallas.edu/~jdong/papers/PROMISE07.pdf})
-\end{itemize}
-
-\subsection{Macker}
-\begin{itemize}
-\item \href{http://innig.net/macker/}{http://innig.net/macker/}
-\item build-time architectural rule checking utility for Java developers
-\item zpracovává \verb+*.class+ soubory (bytekód)
-\end{itemize}
-
-TODO: přidat
-
-\begin{itemize}
-\item CheckStyle -- \href{http://checkstyle.sourceforge.net/}{http://checkstyle.sourceforge.net/}
-\item PMD -- \href{http://pmd.sourceforge.net/}{http://pmd.sourceforge.net/}
 \end{itemize}

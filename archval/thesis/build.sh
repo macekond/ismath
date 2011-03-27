@@ -14,6 +14,7 @@ build_graphs()
     dot -Tpng ./graphs/java_top_elements.dot -o ./graphs/java_top_elements.png
     dot -Tpng ./graphs/toplevel_types.dot -o ./graphs/toplevel_types.png
     dot -Tpng ./graphs/demeter_law_types.dot -o ./graphs/demeter_law_types.png
+    dot -Tpng ./graphs/global_structure.dot -o ./graphs/global_structure.png
 }
 
 build_deps()
