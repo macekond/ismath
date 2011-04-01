@@ -2,6 +2,31 @@
 
 \section{Návrh způsobu specifikace pravidel}
 
+Abychom mohli specifikovat pravidla, musíme nejprve definovat strukturu, nad kterou budou tato pravidla platit. V tomto textu formalizujeme model programu pomocí teorie grafů. Nad grafem je možné dále specifikovat pravidla, která musí vstupní projekt splňovat.
+
+\subsection{Formalizace modelu programu pomocí grafu}
+
+Analyzovaný softwarový projekt abstrahujeme jako orientovaný multigraf rozšířený o zobrazení množiny uzlů do množiny typů a zobrazení hran do množiny jejich klasifikátorů (označení typu vztahu mezi uzly). Získáme tak následující strukturu:
+
+\begin{displaymath}
+G = \langle V, E, \rho, K, C, \mathit{Kind}, \mathit{Class}\rangle
+\label{extended_multigraph}
+\end{displaymath}
+v níž platí:
+\begin{itemize}
+\item $V$ je množina elementů (v našem případě části kódu)
+\item $E$ je množina hran (v našem případě vztahy mezi částmi kódu - např. volání funkce, dědičnost)
+\item $V \cap E = \emptyset$
+\item $\rho: E \mapsto V \times V$ je zobrazení množiny hran do množiny uspořádaných dvojic vrcholů (incidence)
+\item $K$ je libovolná množina označení typů vrcholů\footnote{Pod pojmem typ zde rozumíme jakékoliv označení, které specifikuje o jaký objekt se jedná -- může to být třída, metoda, příkaz, \ldots},
+\item $\mathit{Kind}: V \mapsto K$ je zobrazení, které přiřadí každému vrcholu jeho typ,
+\item $C$ je množina klasifikátorů hran,
+\item $\mathit{Class}: E \mapsto C$ je zobrazení, které přiřadí každé hraně její klasifikátor (zda se jedná o \emph{method call}, \emph{dědičnost}, atd.)
+\end{itemize}
+
+%% Graf elementů použitých v kódu. Vrcholy $v \in V$ představují různé syntaktické elementy v analyzovaném kódu. Záleží na úrovni prováděné analýzy, jaké zvolíme vrcholy. V případě, že budeme analyzovat \uv{nízkoúrovňové} chování funkce, mohou být vrcholy jednotlivé příkazy a jejich části. Pokud budeme analyzovat míru provázanosti tříd nebo metod, stačí když použijeme jako vrcholy třídy a metody (případně parametry metod.)
+%% $G = (V, E)$
+
 \subsection{Formalizace pravidel}
 
 \begin{itemize}
