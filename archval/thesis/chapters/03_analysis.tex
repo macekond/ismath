@@ -50,7 +50,9 @@ Důležitou návrhovou zásadou je snaha snížit provázanost modulů na minimu
 
 %% Na základě těchto závislostí lze sestavit orientovaný graf. Hrany budeme dále klasifikovat podle toho, o jakou závislost se jedná (dědičnost vs. vyvolání metody).
 
-\subsubsection{High cohesion}
+\subsubsection{High cohesion (vysoká koheze/soudržnost)}
+\cite{wiki:cohesion}
+
 Článek \cite{ISI:000079726000029} uvádí dělení koheze podle tzv SMC\footnote{Podle původních autorů Stevens, Myers a Constantine.} Cohesion:
 \begin{enumerate}
 \item \emph{Coincidental association} -- neexistuje souvislost mezi elementy provádějícími zpracování,
@@ -104,9 +106,16 @@ TODO: možná přidat poznámku o model driven engineering a jak může být apl
 \subsubsection{Struktura softwarového projektu v Javě}
 
 % TODO: sort and rephrase
+
 \begin{itemize}
-\item\verb+*.java+ soubory - v gramatice programovacího jazyka Java 1.5 představují top-level element CompilationUnit \emph{\{(TODO: binární součásti projektu? class files?)\}}
-\item další soubory - resources, documentation, \ldots
+\item\verb+*.java+ soubory - v gramatice programovacího jazyka Java 1.5 představují top-level element CompilationUnit \emph{\{(TODO: binární součásti projektu? class files?)\}},
+\item build scripty a konfigurační soubory sestavovacích nástrojů (build.xml, pom.xml, \ldots),
+\item zdroje (resources),
+\item dokumentace,
+\item soubory gramatik pro parsery (lex, flex, javacc, \ldots),
+\item šablony (typické třeba pro webové projekty),
+\item konfigurační soubory (zpravidla XML, často odkazují konkrétní třídy progamovacího jazyka Java),
+\item jiné soubory
 \end{itemize}
 
 Pro naše potřeby jsou důležité v podstatě pouze kompilační jednotky (java soubory) projektu.
