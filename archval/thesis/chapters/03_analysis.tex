@@ -53,15 +53,21 @@ Důležitou návrhovou zásadou je snaha snížit provázanost modulů na minimu
 \subsubsection{High cohesion}
 Článek \cite{ISI:000079726000029} uvádí dělení koheze podle tzv SMC\footnote{Podle původních autorů Stevens, Myers a Constantine.} Cohesion:
 \begin{enumerate}
-\item \emph{Coincidental association} -- there is no relationship between the processing elements.
-\item \emph{Logical association} -- both processing elements belong to the same logical class of related functions.
-\item \emph{Temporal association} -- each occurrence of both processing elements occurs within the same limited period of time during execution.
-\item \emph{Procedural association} -- both processing elements are elements of a common procedural unit which is an iteration or decision process.
-\item \emph{Communicational association} -- both processing elements operate upon the same input data set and/or produce the same output data.
-\item \emph{Sequential association} -- the output data from one processing element is input to the other processing element.
-\item \emph{Functional association} -- both processing elements are essential to the performance of a single function.
+\item \emph{Coincidental association} -- neexistuje souvislost mezi elementy provádějícími zpracování,
+%\item \emph{Coincidental association} -- there is no relationship between the processing elements.
+\item \emph{Logical association} -- oba elementy provádějící zpracování patří do stejné logické třídy příbuzných funkcí,
+%\item \emph{Logical association} -- both processing elements belong to the same logical class of related functions.
+\item \emph{Temporal association} -- každý výskyt obou elementů provadějících zpracování je v tom samém omezeném časovém období při provádění programu,
+%\item \emph{Temporal association} -- each occurrence of both processing elements occurs within the same limited period of time during execution.
+\item \emph{Procedural association} -- oba elementy provádějící zpracování jsou elementy stejné procedurální jednotky, která je iterativním nebo rozhodovacím procesem,
+%\item \emph{Procedural association} -- both processing elements are elements of a common procedural unit which is an iteration or decision process.
+\item \emph{Communicational association} -- oba elementy provádějící zpracování pracují nad stejnou množinou vstupních dat a/nebo produkují stejná výstupní data,
+%\item \emph{Communicational association} -- both processing elements operate upon the same input data set and/or produce the same output data.
+\item \emph{Sequential association} -- výstupní data jednoho elementu jsou vstupními daty pro druhý element,
+%\item \emph{Sequential association} -- the output data from one processing element is input to the other processing element.
+\item \emph{Functional association} -- oba elementy jsou nezbytné pro provedení jedné funkce/operace.
+%\item \emph{Functional association} -- both processing elements are essential to the performance of a single function.
 \end{enumerate}
-
 
 \subsubsection{Law of Demeter}
 
