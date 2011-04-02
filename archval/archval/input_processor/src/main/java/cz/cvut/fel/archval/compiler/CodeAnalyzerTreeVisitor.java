@@ -23,10 +23,7 @@
  */
 package cz.cvut.fel.archval.compiler;
 
-import com.sun.source.tree.CompilationUnitTree;
-import com.sun.source.tree.Tree.Kind;
 import com.sun.source.tree.VariableTree;
-import com.sun.source.util.TreePath;
 import com.sun.source.util.TreePathScanner;
 import com.sun.source.util.Trees;
 import javax.lang.model.element.Element;

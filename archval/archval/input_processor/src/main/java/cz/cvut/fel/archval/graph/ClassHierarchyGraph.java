@@ -35,4 +35,19 @@ public class ClassHierarchyGraph {
     private List<Vertex> vertices;
     private List<Edge> edges;
 
+    public List<Edge> getEdges() {
+        return edges;
+    }
+
+    public void setEdges(List<Edge> edges) {
+        this.edges = edges;
+    }
+
+    public List<Vertex> getVertices() {
+        return vertices;
+    }
+
+    public void setVertices(List<Vertex> vertices) {
+        this.vertices = vertices;
+    }
 }

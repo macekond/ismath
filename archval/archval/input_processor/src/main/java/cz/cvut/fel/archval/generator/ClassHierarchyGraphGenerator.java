@@ -21,33 +21,31 @@
  *  OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  *  THE SOFTWARE.
  */
+package cz.cvut.fel.archval.generator;
 
-package cz.cvut.fel.archval.graph;
-
-import java.util.List;
+import cz.cvut.fel.archval.compiler.CodeAnalyzerCompiler;
+import cz.cvut.fel.archval.compiler.CodeAnalyzerProcessor;
+import cz.cvut.fel.archval.filesystem.JavaFilesLocator;
+import cz.cvut.fel.archval.graph.ClassHierarchyGraph;
 
 /**
+ * Class responsible for generating class hierarchy graph
  *
  * @author Martin Vejmelka (martin.vejmelka@fel.cvut.cz)
  */
-public class Vertex {
+public class ClassHierarchyGraphGenerator {
 
-    private List<Edge> incomingEdges;
-    private List<Edge> outgoingEdges;
+    private CodeAnalyzerCompiler codeAnalyzerCompiler;
+    private CodeAnalyzerProcessor codeAnalyzerProcessor;
 
-    public List<Edge> getIncomingEdges() {
-        return incomingEdges;
+    public ClassHierarchyGraphGenerator() {
+        codeAnalyzerCompiler = new CodeAnalyzerCompiler();
+        codeAnalyzerCompiler.addProcessor(codeAnalyzerProcessor);
     }
 
-    public void setIncomingEdges(List<Edge> incomingEdges) {
-        this.incomingEdges = incomingEdges;
-    }
-
-    public List<Edge> getOutgoingEdges() {
-        return outgoingEdges;
-    }
-
-    public void setOutgoingEdges(List<Edge> outgoingEdges) {
-        this.outgoingEdges = outgoingEdges;
+    public ClassHierarchyGraph generateClassHierarchyGraph(String projectDirectory) {
+        JavaFilesLocator javaFilesLocator = new JavaFilesLocator();
+        codeAnalyzerCompiler.compileFiles(javaFilesLocator.getProjectJavaFiles(projectDirectory));
+        return null;
     }
 }

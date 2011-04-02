@@ -43,15 +43,23 @@ import javax.tools.ToolProvider;
  *
  * @author Martin Vejmelka (martin.vejmelka@fel.cvut.cz)
  */
-public class CompilerWrapper {
+public class CodeAnalyzerCompiler {
 
     private JavaCompiler compiler;
     private StandardJavaFileManager fileManager;
+    private List<AbstractProcessor> processors;
 
-    public CompilerWrapper() {
+    /**
+     * Constructs CodeAnalyzerCompiler class instance
+     */
+    public CodeAnalyzerCompiler() {
         compiler = ToolProvider.getSystemJavaCompiler();
         fileManager = compiler.getStandardFileManager(null, null, null);
+        processors = new LinkedList<AbstractProcessor>();
+    }
 
+    public void addProcessor(AbstractProcessor processor) {
+        processors.add(processor);
     }
 
     /**
@@ -59,25 +67,27 @@ public class CompilerWrapper {
      *
      * @param files contains all files which are part of some project and are to be compiled
      */
-    public void compileFiles(Iterable<File> files) {
+    public boolean compileFiles(Iterable<File> files) {
 
         // constructing compilation task
         Iterable<? extends JavaFileObject> compilationUnits1 = fileManager.getJavaFileObjectsFromFiles(files);
         CompilationTask task = compiler.getTask(null, fileManager, null, null, null, compilationUnits1);
 
         // plugging custom annotation processor into compiler
-        List<AbstractProcessor> processors = new LinkedList<AbstractProcessor>();
-        processors.add(new CodeAnalyzerProcessor());
-        task.setProcessors(processors);
+        if (processors.size() > 0) {
+            task.setProcessors(processors);
+        }
 
         // invoking compilation
+        boolean taskResult = false;
         try {
-            boolean taskResult = task.call();
+            taskResult = task.call();
             // TODO: if taskResult is false, some files weren't compiled successfully
             // TODO: throw exception, which will contain all reason messages
         } catch (Exception e) {
             // TODO: handle some fatal error in user code in compiler plugins
         }
+        return taskResult;
 
     }
 }

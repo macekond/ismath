@@ -37,9 +37,9 @@ import org.junit.Test;
  *
  * @author Martin Vejmelka (martin.vejmelka@fel.cvut.cz)
  */
-public class CompilerWrapperTest {
+public class CodeAnalyzerCompilerTest {
 
-    public CompilerWrapperTest() {
+    public CodeAnalyzerCompilerTest() {
     }
 
     @BeforeClass
@@ -59,28 +59,29 @@ public class CompilerWrapperTest {
     }
 
     /**
-     * Test of getCompilationUnits method, of class CompilerWrapper.
+     * Test of getCompilationUnits method, of class CodeAnalyzerCompiler.
      */
     @Test
     public void testCompileFiles() {
 
         // TODO: use stronger test (test if class prints hello world - modify classpath)
-        URL sourceFileUrl = CompilerWrapperTest.class.getResource("helloworld/HelloWorld.java");
-        URL resultFileUrl = CompilerWrapperTest.class.getResource("helloworld/HelloWorld.class");
+        URL sourceFileUrl = CodeAnalyzerCompilerTest.class.getResource("helloworld/HelloWorld.java");
+        URL resultFileUrl = CodeAnalyzerCompilerTest.class.getResource("helloworld/HelloWorld.class");
         try {
 
             if (resultFileUrl != null) {
                 new File(resultFileUrl.getPath()).delete();
             }
-            
+
             ArrayList<File> files = new ArrayList<File>();
             files.add(new File(sourceFileUrl.getPath()));
 
-            CompilerWrapper instance = new CompilerWrapper();
-            instance.compileFiles(files);
+            CodeAnalyzerCompiler instance = new CodeAnalyzerCompiler();
+            boolean result = instance.compileFiles(files);
 
-            resultFileUrl = CompilerWrapperTest.class.getResource("helloworld/HelloWorld.class");
+            resultFileUrl = CodeAnalyzerCompilerTest.class.getResource("helloworld/HelloWorld.class");
             Assert.assertTrue(new File(resultFileUrl.getPath()).exists());
+            Assert.assertTrue(result);
         } catch (Exception e) {
             Assert.fail(e.getMessage());
         }

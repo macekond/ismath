@@ -21,7 +21,6 @@
  *  OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  *  THE SOFTWARE.
  */
-
 package cz.cvut.fel.archval.graph;
 
 /**
@@ -30,4 +29,22 @@ package cz.cvut.fel.archval.graph;
  */
 public class Edge {
 
+    private Vertex headVertex;
+    private Vertex tailVertex;
+
+    public Vertex getHeadVertex() {
+        return headVertex;
+    }
+
+    public void setHeadVertex(Vertex headVertex) {
+        this.headVertex = headVertex;
+    }
+
+    public Vertex getTailVertex() {
+        return tailVertex;
+    }
+
+    public void setTailVertex(Vertex tailVertex) {
+        this.tailVertex = tailVertex;
+    }
 }

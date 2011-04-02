@@ -24,7 +24,6 @@
 
 package cz.cvut.fel.archval.filesystem;
 
-import cz.cvut.fel.archval.filesystem.JavaFilesLocator;
 import java.io.File;
 import java.io.IOException;
 import java.util.List;
