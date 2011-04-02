@@ -21,7 +21,6 @@
  *  OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  *  THE SOFTWARE.
  */
-
 package cz.cvut.fel.archval.graph;
 
 import java.util.List;
@@ -34,20 +33,53 @@ public class Vertex {
 
     private List<Edge> incomingEdges;
     private List<Edge> outgoingEdges;
+    private String name;
 
+    /**
+     *
+     * @return
+     */
     public List<Edge> getIncomingEdges() {
         return incomingEdges;
     }
 
+    /**
+     *
+     * @param incomingEdges
+     */
     public void setIncomingEdges(List<Edge> incomingEdges) {
         this.incomingEdges = incomingEdges;
     }
 
+    /**
+     *
+     * @return
+     */
     public List<Edge> getOutgoingEdges() {
         return outgoingEdges;
     }
 
+    /**
+     *
+     * @param outgoingEdges
+     */
     public void setOutgoingEdges(List<Edge> outgoingEdges) {
         this.outgoingEdges = outgoingEdges;
+    }
+
+    /**
+     * Returns name of this vertex element.
+     * @return name of this vertex element
+     */
+    public String getName() {
+        return name;
+    }
+
+    /**
+     * Sets name of this vertex element.
+     * @param name the name of graph element (e. g. class name, method name, etc.)
+     */
+    public void setName(String name) {
+        this.name = name;
     }
 }
