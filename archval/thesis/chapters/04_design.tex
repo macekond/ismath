@@ -24,6 +24,83 @@ v níž platí:
 \item $\mathit{Class}: E \mapsto C$ je zobrazení, které přiřadí každé hraně její klasifikátor (zda se jedná o \emph{method call}, \emph{dědičnost}, atd.)
 \end{itemize}
 
+Ukázka formalizace zdrojového kódu pomocí grafu je na obrázku \ref{design-graph_example}. V uvedeném příkladě můžeme strukturu $G$ namapovat následujícím způsobem:
+\begin{figure}[h!]
+  \centering
+  \includegraphics[width=1.0\textwidth]{./graphs/graph_example.png}
+  \caption{Příklad formalizace hierarchie tříd jako grafu.\label{design-graph_example}}
+\end{figure}
+Množinu vrcholů můžeme ztotožnit s množinou názvů elementů (v našem případě třídy, pole, metody).
+\begin{align*}
+V = &\{ \\
+&Bicycle, Car, MotorCycle, MountainBike, RacingBike, Vehicle, \\
+&wheelNumber, doorNumber, \\
+&controlGear, gearUp, gearDown \\
+&\}
+\end{align*}
+Abychom mohli demonstrovat množinu hran, bylo provedeno očíslování. Hranu zde identifikujeme číslem. V počítačové reprezentaci se může jednat o konkrétní objekt uložený v poli. Množinu hran potom můžeme reprezentovat prostým výčtem čísel:
+\begin{displaymath}
+E = \{1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12\}
+\end{displaymath}
+Zobrazení $\rho$ můžeme formálně zapsat jako následující množinu\footnote{Zobrazení je binární relace. Proto jej můžeme reprezentovat jako množinu uspořádaných dvojic.}:
+\begin{align*}
+\rho = &\{ \\
+&(1, (Bicycle, Vehicle)), \\
+&(2, (Car, Vehicle)), \\
+&(3, (MotorCycle, Vehicle)), \\
+&(4, (MountainBike, Bicycle)), \\
+&(5, (RacingBike, Bicycle)), \\
+&(6, (Vehicle, wheelNumber)), \\
+&(7, (Car, gearUp)), \\
+&(8, Car, controlGear)), \\
+&(9, (Car, doorNumber)), \\
+&(10, (Car, gearDown)), \\
+&(11, (gear, gearUp)), \\
+&(12, (gear, gearDown)) \\
+&\}
+\end{align*}
+Zbývají nám množina typů $K$,
+\begin{align*}
+K = \{ class, public\_field, public\_method \}
+\end{align*}
+množina klasifikátorů hran $C$,
+\begin{align*}
+C = \{ \langle\langle{}extends\rangle\rangle, \langle\langle{}has\_member\rangle\rangle, \langle\langle{}calls\rangle\rangle \}
+\end{align*}
+přiřazení typů uzlům $Kind$,
+\begin{align*}
+Kind = &\{ \\
+&(Bicycle, class), \\
+&(Car, class), \\
+&(MotorCycle, class), \\
+&(MountainBike, class), \\
+&(RacingBike, class), \\
+&(Vehicle, class), \\
+&(wheelNumber, public\_field), \\
+&(doorNumber, public\_field), \\
+&(controlGear, public\_method), \\
+&(gearUp, public\_method), \\
+&(gearDown, public\_method) \\
+&\}
+\end{align*}
+a přiřazení klasifikátorů hranám:
+\begin{align*}
+Class = &\{ \\
+&(1, \langle\langle{}extends\rangle\rangle), \\
+&(2, \langle\langle{}extends\rangle\rangle), \\
+&(3, \langle\langle{}extends\rangle\rangle), \\
+&(4, \langle\langle{}extends\rangle\rangle), \\
+&(5, \langle\langle{}extends\rangle\rangle), \\
+&(6, \langle\langle{}has\_member\rangle\rangle), \\
+&(7, \langle\langle{}has\_member\rangle\rangle), \\
+&(8, \langle\langle{}has\_member\rangle\rangle), \\
+&(9, \langle\langle{}has\_memeber\rangle\rangle), \\
+&(10, \langle\langle{}has\_member\rangle\rangle), \\
+&(11, \langle\langle{}calls\rangle\rangle), \\
+&(12, \langle\langle{}calls\rangle\rangle), \\
+\}
+\end{align*}
+
 %% Graf elementů použitých v kódu. Vrcholy $v \in V$ představují různé syntaktické elementy v analyzovaném kódu. Záleží na úrovni prováděné analýzy, jaké zvolíme vrcholy. V případě, že budeme analyzovat \uv{nízkoúrovňové} chování funkce, mohou být vrcholy jednotlivé příkazy a jejich části. Pokud budeme analyzovat míru provázanosti tříd nebo metod, stačí když použijeme jako vrcholy třídy a metody (případně parametry metod.)
 %% $G = (V, E)$
 
