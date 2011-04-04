@@ -33,7 +33,7 @@ Ukázka formalizace zdrojového kódu pomocí grafu je na obrázku \ref{design-g
 Množinu vrcholů můžeme ztotožnit s množinou názvů elementů (v našem případě třídy, pole, metody).
 \begin{align*}
 V = &\{ \\
-&Bicycle, Car, MotorCycle, MountainBike, RacingBike, Vehicle, \\
+&Vehicle, Car, MotorCycle, Bicycle, MountainBike, RacingBike, \\
 &wheelNumber, doorNumber, \\
 &controlGear, gearUp, gearDown \\
 &\}
@@ -55,8 +55,8 @@ Zobrazení $\rho$ můžeme formálně zapsat jako následující množinu\footno
 &(8, Car, controlGear)), \\
 &(9, (Car, doorNumber)), \\
 &(10, (Car, gearDown)), \\
-&(11, (gear, gearUp)), \\
-&(12, (gear, gearDown)) \\
+&(11, (controlGear, gearUp)), \\
+&(12, (controlGear, gearDown)) \\
 &\}
 \end{align*}
 Zbývají nám množina typů $K$,

@@ -35,7 +35,7 @@ digraph GraphExample {
     Car -> doorNumber[label="(9) Class: <<has_memeber>>"];
     Car -> gearDown[label="(10) Class: <<has_member>>"];
 
-    gear -> gearUp[label="(11) Class: <<calls>>"];
-    gear -> gearDown[label="(12) Class: <<calls>>"];
+    controlGear -> gearUp[label="(11) Class: <<calls>>"];
+    controlGear -> gearDown[label="(12) Class: <<calls>>"];
 
 };
