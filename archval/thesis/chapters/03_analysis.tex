@@ -21,10 +21,6 @@ Ukázkové návrhové principy analyzované v rámci této práce jsou znázorn�
 % TODO: v rámci každého návrhového principu uvést příklad porušení
 % tohoto principu (případně i příklad, který tento princip dodržuje)
 
-% Příklad pravidla:
-% ``Třídy z balíčku A nesmí záviset na jiných konkrétních třídách, ale nejvýše na rozhraních balícků B.''
-%  (programování proti rozhraní namísto proti kokrétní implementaci)"
-
 \subsubsection{Low coupling/dependency (nízká závislost/vazba)}
 Důležitou návrhovou zásadou je snaha snížit provázanost modulů na minimum. Je možné kategorizovat způsob provázanosti modulů do různých skupin. Následující přehled je převzat z \cite{wiki:coupling} (ještě jemnější dělení je uváděno v \cite{STVR:STVR162}).
 
@@ -156,6 +152,8 @@ Pro analýzu založenou na vyhledávání závislostí mezi třídami pro nás b
 %% * statické třídy
 %% * statické metody
 %% * vnitřní třídy
+
+%% zpracovávání kódu -> zejména je potřeba resolvovat plná jména a použití elementů v kódu
 
 \subsection{Existující nástroje pro zpracování zdrojových kódů v jazyku Java}
 
