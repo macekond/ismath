@@ -11,6 +11,11 @@
 %% % nástroje ověřte na vzorových příkladech kódu. Při návrhu nástroje se
 %% % zaměřte na jeho budoucí rozšiřitelnost.
 
+%% TODO: check that this is satisfied and remove
+%% \begin{itemize}
+%% \item Popis řešeného problému, vymezení cílů DP/BP a požadavků na implementovaný systém.
+%% \end{itemize}
+
 \section{Cíle práce}
 \begin{itemize}
 \item definovat jazyk pro zadávání pravidel
@@ -37,6 +42,9 @@ Globální sturktura výsledné práce je na obrázku \ref{global_structure}.
 \end{itemize}
 
 \section{Rešerše existujících řešení}
+
+TODO: možná přidat i rešerši exisujících formalizací pro návrh software (Z-notation, UPPAAL, etc.)
+
 \label{requirements-existing_tools}
 % TODO: do background research on positives and negatives of these tools
 % TODO: v rychlosti zopakovat rešerši na nové nástroje a konkrétní vlastnosti, které jsou důležité pro tuto práci
@@ -68,19 +76,30 @@ Globální sturktura výsledné práce je na obrázku \ref{global_structure}.
 \item zpracovává \verb+*.class+ soubory (bytekód)
 \end{itemize}
 
-TODO: přidat
+TODO: complete research on following tools:
 
+\subsection{Squale}
 \begin{itemize}
-\item CheckStyle -- \href{http://checkstyle.sourceforge.net/}{http://checkstyle.sourceforge.net/}
-\item PMD -- \href{http://pmd.sourceforge.net/}{http://pmd.sourceforge.net/}
+\item \href{http://www.squale.org/}{http://www.squale.org/}
 \end{itemize}
 
-
-
+\subsection{FindBugs}
 \begin{itemize}
-\item Popis řešeného problému, vymezení cílů DP/BP a požadavků na implementovaný systém.
+\item \href{http://findbugs.sourceforge.net/}{http://findbugs.sourceforge.net/}
+\end{itemize}
 
-\item Rešeršní zpracování existujících implementací, pokud jsou známy.
-  %% zde budou výsledky rešerše souvisejících nástrojů
+\subsection{CheckStyle}
+\begin{itemize}
+\item \href{http://checkstyle.sourceforge.net/}{http://checkstyle.sourceforge.net/}
+\end{itemize}
 
+\subsection{PMD}
+\begin{itemize}
+\item \href{http://pmd.sourceforge.net/}{http://pmd.sourceforge.net/}
+\end{itemize}
+
+\subsection{Soot}
+\begin{itemize}
+\item \href{http://www.sable.mcgill.ca/soot/}{http://www.sable.mcgill.ca/soot/}
+\item Soot: a Java Optimization Framework
 \end{itemize}
