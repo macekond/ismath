@@ -58,6 +58,11 @@ public class CodeAnalyzerCompiler {
         processors = new LinkedList<AbstractProcessor>();
     }
 
+    /**
+     * Adds annotation processor to the compiler.
+     *
+     * @param processor AbstractProcessor subclass to be used as processor
+     */
     public void addProcessor(AbstractProcessor processor) {
         processors.add(processor);
     }
@@ -66,6 +71,7 @@ public class CodeAnalyzerCompiler {
      * Compiles files supplied as parameter
      *
      * @param files contains all files which are part of some project and are to be compiled
+     * @return true if all tasks have been successfully compiled, false otherwise
      */
     public boolean compileFiles(Iterable<File> files) {
 

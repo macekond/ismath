@@ -24,7 +24,10 @@
 package cz.cvut.fel.archval.compiler;
 
 import com.sun.source.util.TreePath;
+import com.sun.source.util.TreeScanner;
 import com.sun.source.util.Trees;
+import java.util.LinkedList;
+import java.util.List;
 import java.util.Set;
 import javax.annotation.processing.AbstractProcessor;
 import javax.annotation.processing.ProcessingEnvironment;
@@ -36,7 +39,7 @@ import javax.lang.model.element.Element;
 import javax.lang.model.element.TypeElement;
 
 /**
- * Annotation processor for Java Compiler API
+ * Annotation processor for Java Compiler API.
  *
  * @author Martin Vejmelka (martin.vejmelka@fel.cvut.cz)
  */
@@ -45,7 +48,14 @@ import javax.lang.model.element.TypeElement;
 public class CodeAnalyzerProcessor extends AbstractProcessor {
 
     private Trees trees;
-    private CodeAnalyzerTreeVisitor visitor = new CodeAnalyzerTreeVisitor();
+    private List<TreeScanner> treeVisitors;
+
+    /**
+     * Creates CodeAnalyzerProcessor instance.
+     */
+    public CodeAnalyzerProcessor() {
+        treeVisitors = new LinkedList<TreeScanner>();
+    }
 
     /**
      * {@inheritDoc}
@@ -64,9 +74,20 @@ public class CodeAnalyzerProcessor extends AbstractProcessor {
 
         for (Element e : roundEnv.getRootElements()) {
             TreePath tp = trees.getPath(e);
-            visitor.scan(tp, trees);
+            for (TreeScanner visitor : treeVisitors) {
+                visitor.scan(tp, trees);
+            }
         }
-        
+
         return true;
+    }
+
+    /**
+     * Adds TreeVisitor to the list of visitors to be called when processing.
+     *
+     * @param treeVisitor TreeScanner object to be added to the list
+     */
+    public void addVisitor(TreeScanner treeVisitor) {
+        treeVisitors.add(treeVisitor);
     }
 }

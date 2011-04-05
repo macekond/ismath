@@ -31,20 +31,53 @@ public class Edge {
 
     private Vertex headVertex;
     private Vertex tailVertex;
+    private String edgeClassifier;
 
+    /**
+     *
+     * @return
+     */
     public Vertex getHeadVertex() {
         return headVertex;
     }
 
+    /**
+     *
+     * @param headVertex
+     */
     public void setHeadVertex(Vertex headVertex) {
         this.headVertex = headVertex;
     }
 
+    /**
+     *
+     * @return
+     */
     public Vertex getTailVertex() {
         return tailVertex;
     }
 
+    /**
+     *
+     * @param tailVertex
+     */
     public void setTailVertex(Vertex tailVertex) {
         this.tailVertex = tailVertex;
+    }
+
+    /**
+     *
+     * @return
+     */
+    public String getEdgeClassifier() {
+        return edgeClassifier;
+    }
+
+    /**
+     * 
+     * @param edgeClassifier
+     */
+    public void setEdgeClassifier(String edgeClassifier) {
+        this.edgeClassifier = edgeClassifier;
     }
 }

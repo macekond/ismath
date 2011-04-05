@@ -34,6 +34,7 @@ public class Vertex {
     private List<Edge> incomingEdges;
     private List<Edge> outgoingEdges;
     private String name;
+    private String kind;
 
     /**
      *
@@ -81,5 +82,21 @@ public class Vertex {
      */
     public void setName(String name) {
         this.name = name;
+    }
+
+    /**
+     *
+     * @return
+     */
+    public String getKind() {
+        return kind;
+    }
+
+    /**
+     * 
+     * @param kind
+     */
+    public void setKind(String kind) {
+        this.kind = kind;
     }
 }

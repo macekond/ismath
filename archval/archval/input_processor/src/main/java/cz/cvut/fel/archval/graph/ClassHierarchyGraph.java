@@ -21,12 +21,13 @@
  *  OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  *  THE SOFTWARE.
  */
-
 package cz.cvut.fel.archval.graph;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
+ * Class hierarchy graph model
  *
  * @author Martin Vejmelka (martin.vejmelka@fel.cvut.cz)
  */
@@ -35,18 +36,42 @@ public class ClassHierarchyGraph {
     private List<Vertex> vertices;
     private List<Edge> edges;
 
+    /**
+     *
+     */
+    public ClassHierarchyGraph() {
+        vertices = new ArrayList<Vertex>();
+        edges = new ArrayList<Edge>();
+    }
+
+    /**
+     *
+     * @return
+     */
     public List<Edge> getEdges() {
         return edges;
     }
 
+    /**
+     *
+     * @param edges
+     */
     public void setEdges(List<Edge> edges) {
         this.edges = edges;
     }
 
+    /**
+     *
+     * @return
+     */
     public List<Vertex> getVertices() {
         return vertices;
     }
 
+    /**
+     *
+     * @param vertices
+     */
     public void setVertices(List<Vertex> vertices) {
         this.vertices = vertices;
     }

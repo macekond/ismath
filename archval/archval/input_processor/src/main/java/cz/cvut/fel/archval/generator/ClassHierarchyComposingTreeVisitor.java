@@ -21,11 +21,13 @@
  *  OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  *  THE SOFTWARE.
  */
-package cz.cvut.fel.archval.compiler;
+package cz.cvut.fel.archval.generator;
 
+import com.sun.source.tree.ClassTree;
 import com.sun.source.tree.VariableTree;
 import com.sun.source.util.TreePathScanner;
 import com.sun.source.util.Trees;
+import cz.cvut.fel.archval.graph.ClassHierarchyGraph;
 import javax.lang.model.element.Element;
 import javax.lang.model.element.TypeElement;
 import javax.lang.model.element.VariableElement;
@@ -36,19 +38,44 @@ import javax.lang.model.type.TypeKind;
  *
  * @author Martin Vejmelka (martin.vejmelka@fel.cvut.cz)
  */
-public class CodeAnalyzerTreeVisitor extends TreePathScanner<Object, Trees> {
+public class ClassHierarchyComposingTreeVisitor extends TreePathScanner<Object, Trees> {
 
+    private ClassHierarchyGraph chg;
+
+    /**
+     * Creates ClassHierarchyComposintTreeVisitor instance
+     */
+    public ClassHierarchyComposingTreeVisitor() {
+        chg = new ClassHierarchyGraph();
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public Object visitClass(ClassTree node, Trees p) {
+
+
+
+        return super.visitClass(node, p);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public Object visitVariable(VariableTree vt, Trees p) {
-
-        System.out.println("Found variable:");
 
         Element el = (VariableElement) p.getElement(getCurrentPath());
 
         if (el.asType().getKind() == TypeKind.DECLARED) {
-            System.out.println(((TypeElement)((DeclaredType) el.asType()).asElement()).getQualifiedName());
+            System.out.println(((TypeElement) ((DeclaredType) el.asType()).asElement()).getQualifiedName());
         }
 
         return super.visitVariable(vt, p);
+    }
+
+    ClassHierarchyGraph getResultingGraph() {
+        return chg;
     }
 }

@@ -29,7 +29,7 @@ import cz.cvut.fel.archval.filesystem.JavaFilesLocator;
 import cz.cvut.fel.archval.graph.ClassHierarchyGraph;
 
 /**
- * Class responsible for generating class hierarchy graph
+ * Class responsible for generating class hierarchy graph.
  *
  * @author Martin Vejmelka (martin.vejmelka@fel.cvut.cz)
  */
@@ -37,15 +37,30 @@ public class ClassHierarchyGraphGenerator {
 
     private CodeAnalyzerCompiler codeAnalyzerCompiler;
     private CodeAnalyzerProcessor codeAnalyzerProcessor;
+    private ClassHierarchyComposingTreeVisitor ctv;
 
+    /**
+     * Construct ClassHierarchyGraphGenerator instance.
+     */
     public ClassHierarchyGraphGenerator() {
         codeAnalyzerCompiler = new CodeAnalyzerCompiler();
+        codeAnalyzerProcessor = new CodeAnalyzerProcessor();
+
+        ctv = new ClassHierarchyComposingTreeVisitor();
+        codeAnalyzerProcessor.addVisitor(ctv);
+
         codeAnalyzerCompiler.addProcessor(codeAnalyzerProcessor);
     }
 
+    /**
+     * Generates class hierarchy graph for input files in specified directory.
+     *
+     * @param projectDirectory directory to be searched for input <code>*.java</code> files
+     * @return complete class hierarchy graph
+     */
     public ClassHierarchyGraph generateClassHierarchyGraph(String projectDirectory) {
         JavaFilesLocator javaFilesLocator = new JavaFilesLocator();
         codeAnalyzerCompiler.compileFiles(javaFilesLocator.getProjectJavaFiles(projectDirectory));
-        return null;
+        return ctv.getResultingGraph();
     }
 }
