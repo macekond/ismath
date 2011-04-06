@@ -23,6 +23,28 @@
 \item vytvořit nástroj, který umožní ověřovat pravidla v reálném projektu
 \end{itemize}
 
+TODO: zpracovat
+Cílem je vytvořit nástroj, který podpoří zásady dobrého návrhu software:
+\begin{itemize}
+\item materiály na wikipedia \emph{software design}
+\item design concepts (abstraction, refinement, modularity, \ldots)
+\item design considerations:
+% TODO: vybrat considerations, které můžeme podpořit
+  \begin{itemize}
+  \item Compatibility
+  \item Extensibility
+  \item Faul
+  \item Maintainability
+  \item Modularity
+  \item Packaging
+  \item Reliability
+  \item Reusability
+  \item Robustness
+  \item Security
+  \item Usability
+  \end{itemize}
+\end{itemize}
+
 \section{Struktura výsledného systému}
 Globální sturktura výsledné práce je na obrázku \ref{global_structure}.
 
@@ -31,6 +53,14 @@ Globální sturktura výsledné práce je na obrázku \ref{global_structure}.
   \includegraphics[width=0.5\textwidth]{./graphs/global_structure.png}
   \caption{Znázornění hlavních součástí práce.\label{global_structure}}
 \end{figure}
+
+TODO: zatřídit v rámci této sekce:
+TODO: ponechat pouze možnosti, které se budou implementovat:
+\emph{Možné případy užití systému}
+\begin{itemize}
+\item průběžná kontrola projektu a výpis zjištěných porušení pravidel (validace) do výstupního souboru
+\item provedení kontroly \uv{on demand} -- uživatel stiskne tlačítko, provede se kontrola projektu proti pravidlům a výstup se zobrazí ve výstupním souboru (např. konzoli)
+\end{itemize}
 
 \section{Funkční požadavky na výsledný systém}
 

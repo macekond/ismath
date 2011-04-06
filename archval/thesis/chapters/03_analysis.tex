@@ -5,9 +5,14 @@
 
 %% V části analýzy provést rozbor jednotlivých principů + výsledky rešerší - využívat hojně informace z článků a důsledně citovat zdroje
 
+%% TODO: zařadit na správné místo:
+
+Budeme provádět statickou analýzu kódu. Pracujeme nad definicemi tríd. Neuvažujeme tedy všechny možné běhové instance programu (všechny možné stavy objektů v paměti virtuálního stroje).
+
 \section{Analýza principů objektového návrhu}
 
-%% PRINCIPY versus PATTERNY -> citovat clanek
+%% TODO: PRINCIPY versus PATTERNY -> citovat clanek
+Porovnání rozdílu mezi principy a návrhovými vzory podává článek \cite{612257}.
 
 \subsection{Analyzované principy}
 Ukázkové návrhové principy analyzované v rámci této práce jsou znázorněny na obrázku \ref{analyzed_principles}. Poznamenejme, že tzv. Demeterův zákon je speciálním případem pravidla pro \uv{low coupling}.
@@ -47,9 +52,20 @@ Důležitou návrhovou zásadou je snaha snížit provázanost modulů na minimu
 %% Na základě těchto závislostí lze sestavit orientovaný graf. Hrany budeme dále klasifikovat podle toho, o jakou závislost se jedná (dědičnost vs. vyvolání metody).
 
 \subsubsection{High cohesion (vysoká koheze/soudržnost)}
-\cite{wiki:cohesion}
+Wikipedia \cite{wiki:cohesion}:
+\begin{itemize}
+\item míra, jak silně související je funkčnost vyjádřená zdrojovým kódem konkrétního modulu
+\end{itemize}
 
-Článek \cite{ISI:000079726000029} uvádí dělení koheze podle tzv SMC\footnote{Podle původních autorů Stevens, Myers a Constantine.} Cohesion:
+\noindent{}Článek \cite{Kang:1996:DCM:872750.873361}:
+\begin{itemize}
+\item association-based approach (coincidental, logical, \ldots),
+\item slice-based approach,
+\item def-use paths,
+\item velmi exaktní přístup.
+\end{itemize}
+
+\noindent{}Článek \cite{ISI:000079726000029} uvádí dělení koheze podle tzv SMC\footnote{Podle původních autorů Stevens, Myers a Constantine.} Cohesion:
 \begin{enumerate}
 \item \emph{Coincidental association} -- neexistuje souvislost mezi elementy provádějícími zpracování,
 %\item \emph{Coincidental association} -- there is no relationship between the processing elements.
@@ -69,7 +85,7 @@ Důležitou návrhovou zásadou je snaha snížit provázanost modulů na minimu
 
 \subsubsection{Law of Demeter}
 
-Existuje několik forem Demeterova zákona \cite{35588}, které jsou vhodné pro různé oblasti aplikace. Tyto typy jsou znázorněny na obrázku \ref{demeter_law_types}.
+Existuje několik forem Demeterova zákona \cite{35588}, které jsou vhodné pro různé oblasti aplikace. Tyto typy jsou znázorněny na obrázku \ref{demeter_law_types}. V \cite{35588} se též pojednává o demeterově zákoně z jiného úhlu -- uvažují se všechny možné třídy, které lze volat bez porušení tohto principu (tzv. preferred suppliers).
 
 \begin{figure}[h!]
   \centering
@@ -79,18 +95,48 @@ Existuje několik forem Demeterova zákona \cite{35588}, které jsou vhodné pro
 
 Pro statickou analýzu lze použít \uv{class} formu Demeterova zákona.
 
+TODO: rozhodnout, kterou verzi Demeterova zákona použít
+
+\emph{Zjednodušená verze \cite{wiki:lod}}
+
+method M of an object O may only invoke the methods of the following kinds of objects:
+
+\begin{itemize}
+\item O itself,
+\item M's parameters,
+\item any objects created instantiated within M,
+\item O's direct component objects,
+\item a global variable, accessible by O in the scope of M.
+\end{itemize}
+
 \subsection{Ukázky kódu porušujících některá z pravidel}
 
 \subsubsection{Porušení principu law of Demeter}
 
-%% TODO: use some highlighter
-%% TODO: add example of demeter law violation from paper notes
-\begin{verbatim}
-package handlers;
+%% TODO: maybe find some better example of demeter law violation on the web
+\lstset{
+    basicstyle=\ttfamily,
+    numbers=left,
+    numberstyle=\tiny,
+    commentstyle=\color{gray}\textit
+}
+\begin{lstlisting}[language=java]
+package violations;
 
-public class ...
+public class DemeterLawViolation {
 
-\end{verbatim}
+    void method(MyClass obj, int val) {
+
+        obj.getSomeInternalField().setValue(val);
+
+        // hidden violation:
+        InternalFieldDef internalField = obj.getSomeInternalField();
+        internalField.setValue(val);
+
+    }
+
+}
+\end{lstlisting}
 
 \section{Analýza problematiky v jazyce Java}
 
@@ -118,7 +164,16 @@ TODO: možná přidat poznámku o model driven engineering a jak může být apl
 
 Pro naše potřeby jsou důležité v podstatě pouze kompilační jednotky (java soubory) projektu.
 
+%% TODO: odstranit další výskyty této myšlenky v textu (aby tato věta byla jen na jednom místě)
 Statický pohled na program - neuvažujeme běh programu. Pracujeme nad definicemi tříd, nikoliv nad jejich instancemi v paměti JVM.
+
+Projekt závisí na dalších třídách, které analyzovat nebudeme (v určitém okamžiku analýzy je potřeba se \uv{odříznout}, jinak bychom mohli analyzovat všechny knihovny, s nimiž projekt pracuje). Takové závislosti mohou být např.:
+
+\begin{itemize}
+\item knihovny třetích stran
+\item standardní knihovna jazyka Java (např. Java 2 Platform SE 5.0 API pro Javu verze 5) -- zde například budou povoleny závislosti ze všech modulů (ale pro jiné druhy analýzy to může být nežádoucí - např. u logování budeme chtít, aby v projektu šlo striktně přes nějakou naši konkrétní \emph{fasádu})
+\item podprojekty a části projektu, které analyzovat nechceme, nepotřebujeme nebo z nějakého důvodu nemůžeme
+\end{itemize}
 
 % TODO: aktualizovat -> v konecnem dusledku budeme pracovat i nad projekty v jazyku 1.6 (protoze nam to rozhrani umoznuje)
 Budeme pracovat nad gramatikou jazyka Java 1.5. Java verze 6 se liší pouze úpravou standardních API poskytovaných platformou Java. Jazyk jako takový zůstává stejný.
@@ -145,13 +200,19 @@ Pro analýzu založenou na vyhledávání závislostí mezi třídami pro nás b
 %% enums
 %% annotations
 
-%% Modifikátory přístupu (private, public, protected, package private) nám umožní "ořezat" graf závislosti tříd. Je ale možné, že pro některé druhy analýzy bude toto nežádoucí.
+%% Modifikátory přístupu (private, public, protected, package private) nám umožní "ořezat" graf závislosti tříd.
+% Je ale možné, že pro některé druhy analýzy bude toto nežádoucí.
 
 %% ## Speciální případy:
 
 %% * statické třídy
 %% * statické metody
 %% * vnitřní třídy
+
+%% hlavní analyzované vazby
+% instanciace třídy
+% dedicnost (inheritance)
+% vyvolání metody
 
 %% zpracovávání kódu -> zejména je potřeba resolvovat plná jména a použití elementů v kódu
 
@@ -233,4 +294,31 @@ TODO: použít jinou vhodnější strukturu místo itemize
     \item balíček \verb+com.sun.source.util+ -- poskytuje rozhraní pro operace nad AST
     \end{itemize}
   \end{itemize}
+\end{itemize}
+
+TODO: zatřídit:
+
+Důležité části zpracování kódu:
+
+\begin{itemize}
+\item name resolution, jmenné prostory (namespaces), class loaders, class tables
+\item static classes, methods
+\item inner classes
+\item polymorphism
+\item vizualizace grafu ?
+\item generické třídy, wildcards
+\item pole objektů
+\item návratové typy metod
+\item vstupní parametry metod
+\item lokální proměnné
+\item globální objekty (statické metody a pole tříd, singletony - opět ale pouze ze statického pohledu!)
+\end{itemize}
+
+TODO: zatřídit
+
+úrovně práce:
+
+\begin{itemize}
+\item design level -- analýza správného návrhu softwarového díla (pracuje se na konceptuální úrovni, ještě není hotový kód)
+\item code level -- analýza existujícího kódu z pohledu návrhu (již máme kód, ale chceme zpětně ověřit, že představuje dobrý/špatný návrh)
 \end{itemize}

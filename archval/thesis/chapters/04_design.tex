@@ -5,6 +5,7 @@
 Abychom mohli specifikovat pravidla, musíme nejprve definovat strukturu, nad kterou budou tato pravidla platit. V tomto textu formalizujeme model programu pomocí teorie grafů. Nad grafem je možné dále specifikovat pravidla, která musí vstupní projekt splňovat.
 
 \subsection{Formalizace modelu programu pomocí grafu}
+\label{design-graph_formalization}
 
 Analyzovaný softwarový projekt abstrahujeme jako orientovaný multigraf rozšířený o zobrazení množiny uzlů do množiny typů a zobrazení hran do množiny jejich klasifikátorů (označení typu vztahu mezi uzly). Získáme tak následující strukturu:
 
@@ -119,6 +120,10 @@ Class = &\{ \\
 \item uživatelsky programovaná pravidla (custom code java code, asserts)
 \end{itemize}
 
+TODO: zapracovat:
+
+Ne všechna pravidla lze popsat exaktně ve smyslu splněno/nesplněno. Mnohdy můžeme kvalitu návrhu posuzovat pouze kvantitativně (dobrý návrh, lepší, moc vazeb, málo vazeb, atd.). Pro některé vlastnosti návrhu (např. low coupling, high cohesion) může být vhodnější poskytnou statistický přístup pro vyhodnocování (např. použití vhodného klasifikátoru).
+
 \section{Návrh architektury systému}
 TODO: highlevel design $\rightarrow$ jaké budou moduly a co budou dělat (zatím bez konkrétní použité technologie)
 
@@ -126,9 +131,19 @@ TODO: highlevel design $\rightarrow$ jaké budou moduly a co budou dělat (zatí
 
 \begin{itemize}
 \item compiler
-\item generátor vnitřní sturktury (modelu)
+\item generátor vnitřní struktury (modelu) -- modelem je v našem případě graf
+\begin{itemize}
+\item \emph{vstup:} množina cest k \verb+*.java+ souborům (kompilačním jednotkám), z nichž se skládá softwarový projekt
+\item \emph{výstup:} graf, reprezentující konkrétní analyzovanou doménu vhodný pro další zpracování (graf podle \ref{design-graph_formalization} \nameref{design-graph_formalization})
+\end{itemize}
+\item možnosti generování grafu závislostí mezi třídami (vnitřní reprezentace):
+  \begin{itemize}
+  \item on demand -- když bude potřeba, vybuduje se kompletně celý graf a poté se zahodí
+  \item on the fly -- při práci uživatele na kódu se bude vždy generovat znovu celý graf
+  \item kombinovaný přístup -- graf se ve vhodných okamžicích celý vybuduje a poté budou probíhat jeho následné aktualizace na základě uživatelovy práce nad kódem
+  \end{itemize}
 \item analyzátor
-\item rozhraní
+\item rozhraní - integrace do platformy NetBeans
   \begin{itemize}
   \item rozhraní pro zadávání pravidel
   \item rozhraní pro ověřování platnosti pravidel (validaci)
@@ -149,3 +164,10 @@ TODO: highlevel design $\rightarrow$ jaké budou moduly a co budou dělat (zatí
 \item výstupní rozhraní
 \item validační události
 \end{itemize}
+
+%% TODO:
+% typy grafů: class hierarchy graph, call graph
+% call graph: wikipedia (<<invokes>> vazby)
+%
+% http://en.wikipedia.org/wiki/Call_graph
+%
