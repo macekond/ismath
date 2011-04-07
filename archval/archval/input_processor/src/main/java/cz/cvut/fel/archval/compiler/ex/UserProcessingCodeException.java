@@ -1,18 +1,18 @@
 /*
  *  The MIT License
- *
+ * 
  *  Copyright 2011 Martin Vejmelka (martin.vejmelka@fel.cvut.cz).
- *
+ * 
  *  Permission is hereby granted, free of charge, to any person obtaining a copy
  *  of this software and associated documentation files (the "Software"), to deal
  *  in the Software without restriction, including without limitation the rights
  *  to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
  *  copies of the Software, and to permit persons to whom the Software is
  *  furnished to do so, subject to the following conditions:
- *
+ * 
  *  The above copyright notice and this permission notice shall be included in
  *  all copies or substantial portions of the Software.
- *
+ * 
  *  THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
  *  IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
  *  FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
@@ -21,51 +21,47 @@
  *  OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  *  THE SOFTWARE.
  */
-package cz.cvut.fel.archval.filesystem;
 
-import java.io.File;
-import java.util.ArrayList;
-import java.util.List;
+package cz.cvut.fel.archval.compiler.ex;
 
 /**
- * Searches all *.java files in directory specified as an argument.
+ * This exception is to be thrown when exception occurs in user annoation
+ * procesing code. Original exception is to be set using setUserCodeException 
+ * and can be obtained by getUserCodeException.
  *
  * @author Martin Vejmelka (martin.vejmelka@fel.cvut.cz)
- * 
  */
-public class JavaFilesLocator {
+public class UserProcessingCodeException extends Exception {
 
-    private List<File> javaFiles;
+    private Throwable userCodeException;
 
     /**
-     * Constructor for JavaFilesLocator class.
+     * Creates a new instance of <code>UserProcessingCodeException</code> without detail message.
      */
-    public JavaFilesLocator() {
-        javaFiles = new ArrayList<File>();
+    public UserProcessingCodeException() {
     }
 
     /**
-     * Returns all files ending with <code>*.java</code> extensions in List of File objects.
-     *
-     * @param projectDirectory directory which will be recursively searched for <code>*.java</code> files
-     * @return List of File objects
+     * Constructs an instance of <code>UserProcessingCodeException</code> with the specified detail message.
+     * @param msg the detail message.
      */
-    public List<File> getProjectJavaFiles(String projectDirectory) {
-        javaFiles.clear();
-        File dirFile = new File(projectDirectory);
-        list(dirFile);
-        return javaFiles;
+    public UserProcessingCodeException(String msg) {
+        super(msg);
     }
 
-    private void list(File file) {
-        if (file.isDirectory()) {
-            File[] children = file.listFiles();
-            for (File child : children) {
-                if (child.getName().endsWith(".java")) {
-                    javaFiles.add(child);
-                }
-                list(child);
-            }
-        }
+    /**
+     * Returns original Throwable which caused this exception to be thrown.
+     * @return
+     */
+    public Throwable getUserCodeException() {
+        return userCodeException;
+    }
+
+    /**
+     * Sets original Throwable which causes this exception to be thrown.
+     * @param userCodeException
+     */
+    public void setUserCodeException(Throwable userCodeException) {
+        this.userCodeException = userCodeException;
     }
 }

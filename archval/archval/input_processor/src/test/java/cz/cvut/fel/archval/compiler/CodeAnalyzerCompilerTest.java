@@ -77,11 +77,10 @@ public class CodeAnalyzerCompilerTest {
             files.add(new File(sourceFileUrl.getPath()));
 
             CodeAnalyzerCompiler instance = new CodeAnalyzerCompiler();
-            boolean result = instance.compileFiles(files);
+            instance.compileFiles(files);
 
             resultFileUrl = CodeAnalyzerCompilerTest.class.getResource("helloworld/HelloWorld.class");
             Assert.assertTrue(new File(resultFileUrl.getPath()).exists());
-            Assert.assertTrue(result);
         } catch (Exception e) {
             Assert.fail(e.getMessage());
         }

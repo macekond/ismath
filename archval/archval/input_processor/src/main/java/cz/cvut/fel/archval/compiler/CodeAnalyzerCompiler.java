@@ -23,6 +23,8 @@
  */
 package cz.cvut.fel.archval.compiler;
 
+import cz.cvut.fel.archval.compiler.ex.UserProcessingCodeException;
+import cz.cvut.fel.archval.compiler.ex.FailedToCompileFilesException;
 import java.io.File;
 import java.util.LinkedList;
 import java.util.List;
@@ -35,10 +37,10 @@ import javax.tools.ToolProvider;
 
 /**
  *
- * Compiles files supplied by parameter
+ * Compiles files supplied by parameter.
  *
  * This class is important entry point. In this class multiple annotation
- * processors can be plugged into compiler. Wihtin these processors, various
+ * processors can be plugged into compiler. Within these processors, various
  * static analysis tasks can be performed.
  *
  * @author Martin Vejmelka (martin.vejmelka@fel.cvut.cz)
@@ -73,7 +75,7 @@ public class CodeAnalyzerCompiler {
      * @param files contains all files which are part of some project and are to be compiled
      * @return true if all tasks have been successfully compiled, false otherwise
      */
-    public boolean compileFiles(Iterable<File> files) {
+    public void compileFiles(Iterable<File> files) throws FailedToCompileFilesException, UserProcessingCodeException {
 
         // constructing compilation task
         Iterable<? extends JavaFileObject> compilationUnits1 = fileManager.getJavaFileObjectsFromFiles(files);
@@ -85,15 +87,19 @@ public class CodeAnalyzerCompiler {
         }
 
         // invoking compilation
-        boolean taskResult = false;
         try {
-            taskResult = task.call();
-            // TODO: if taskResult is false, some files weren't compiled successfully
-            // TODO: throw exception, which will contain all reason messages
-        } catch (Exception e) {
-            // TODO: handle some fatal error in user code in compiler plugins
+            if (task.call() != true) {
+                // TODO: add more information about error to the exception data
+                // TODO: make access to compiler output object and write
+                // compiler output to the console
+                throw new FailedToCompileFilesException(
+                        "Some error occurred when compiling files");
+            }
+        } catch (RuntimeException e) {
+            UserProcessingCodeException userProcessingCodeException =
+                    new UserProcessingCodeException();
+            userProcessingCodeException.setUserCodeException(e.getCause());
+            throw userProcessingCodeException;
         }
-        return taskResult;
-
     }
 }

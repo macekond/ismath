@@ -25,8 +25,11 @@ package cz.cvut.fel.archval.generator;
 
 import cz.cvut.fel.archval.compiler.CodeAnalyzerCompiler;
 import cz.cvut.fel.archval.compiler.CodeAnalyzerProcessor;
+import cz.cvut.fel.archval.compiler.ex.FailedToCompileFilesException;
+import cz.cvut.fel.archval.compiler.ex.UserProcessingCodeException;
 import cz.cvut.fel.archval.filesystem.JavaFilesLocator;
 import cz.cvut.fel.archval.graph.ClassHierarchyGraph;
+import org.openide.util.Exceptions;
 
 /**
  * Class responsible for generating class hierarchy graph.
@@ -60,7 +63,13 @@ public class ClassHierarchyGraphGenerator {
      */
     public ClassHierarchyGraph generateClassHierarchyGraph(String projectDirectory) {
         JavaFilesLocator javaFilesLocator = new JavaFilesLocator();
-        codeAnalyzerCompiler.compileFiles(javaFilesLocator.getProjectJavaFiles(projectDirectory));
+        try {
+            codeAnalyzerCompiler.compileFiles(javaFilesLocator.getProjectJavaFiles(projectDirectory));
+        } catch (FailedToCompileFilesException ex) {
+            Exceptions.printStackTrace(ex);
+        } catch (UserProcessingCodeException ex) {
+            Exceptions.printStackTrace(ex);
+        }
         return ctv.getResultingGraph();
     }
 }

@@ -24,7 +24,7 @@
 package cz.cvut.fel.archval.compiler;
 
 import com.sun.source.util.TreePath;
-import com.sun.source.util.TreeScanner;
+import com.sun.source.util.TreePathScanner;
 import com.sun.source.util.Trees;
 import java.util.LinkedList;
 import java.util.List;
@@ -48,13 +48,13 @@ import javax.lang.model.element.TypeElement;
 public class CodeAnalyzerProcessor extends AbstractProcessor {
 
     private Trees trees;
-    private List<TreeScanner> treeVisitors;
+    private List<TreePathScanner> treeVisitors;
 
     /**
      * Creates CodeAnalyzerProcessor instance.
      */
     public CodeAnalyzerProcessor() {
-        treeVisitors = new LinkedList<TreeScanner>();
+        treeVisitors = new LinkedList<TreePathScanner>();
     }
 
     /**
@@ -74,7 +74,7 @@ public class CodeAnalyzerProcessor extends AbstractProcessor {
 
         for (Element e : roundEnv.getRootElements()) {
             TreePath tp = trees.getPath(e);
-            for (TreeScanner visitor : treeVisitors) {
+            for (TreePathScanner visitor : treeVisitors) {
                 visitor.scan(tp, trees);
             }
         }
@@ -87,7 +87,7 @@ public class CodeAnalyzerProcessor extends AbstractProcessor {
      *
      * @param treeVisitor TreeScanner object to be added to the list
      */
-    public void addVisitor(TreeScanner treeVisitor) {
+    public void addVisitor(TreePathScanner treeVisitor) {
         treeVisitors.add(treeVisitor);
     }
 }
