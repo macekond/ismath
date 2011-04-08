@@ -51,9 +51,19 @@ public class JavaFilesLocator {
      * @return List of File objects
      */
     public List<File> getProjectJavaFiles(String projectDirectory) {
-        javaFiles.clear();
         File dirFile = new File(projectDirectory);
-        list(dirFile);
+        return getProjectJavaFiles(dirFile);        
+    }
+
+    /**
+     * Returns all files ending with <code>*.java</code> extension in List
+     *
+     * @param file File object determinig directory to be searched
+     * @return List of File objects
+     */
+    public List<File> getProjectJavaFiles(File file) {
+        javaFiles.clear();
+        list(file);
         return javaFiles;
     }
 

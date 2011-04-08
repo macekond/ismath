@@ -23,28 +23,69 @@
  */
 package cz.cvut.fel.archval.gui;
 
+import cz.cvut.fel.archval.filesystem.JavaFilesLocator;
+import java.awt.EventQueue;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import org.openide.util.Exceptions;
+import java.io.File;
+import java.util.List;
+import javax.swing.JFileChooser;
+import org.openide.filesystems.FileChooserBuilder;
 import org.openide.windows.IOProvider;
 import org.openide.windows.InputOutput;
+import org.openide.windows.WindowManager;
 
 public final class LoadProjectAction implements ActionListener {
 
     public void actionPerformed(ActionEvent e) {
-        InputOutput io = IOProvider.getDefault().getIO("Task", true);
-        io.select();
-        io.getOut().println("huhumessage");
-        io.getErr().println("this is error message");
-        io.getOut().println("tired... gonna sleep");
-        try {
-            Thread.sleep(4000);
-        } catch (InterruptedException ex) {
-            Exceptions.printStackTrace(ex);
-        }
-        io.select();
-        io.getOut().print("slept well!");
-        io.getOut().close();
-        io.getErr().close();
+        EventQueue.invokeLater(new Runnable() {
+
+            @Override
+            public void run() {
+
+                // initialize output window
+                InputOutput io = IOProvider.getDefault().getIO("File search", true);
+                io.select();
+
+                // start in user home directory
+                File initialDirectory = new File(
+                        System.getProperty("user.home")
+                        + File.separator + "lib");
+
+                FileChooserBuilder fileChooserBuilder = new FileChooserBuilder(
+                        "LoadProjectAction");
+                fileChooserBuilder.setTitle("Load project");
+                fileChooserBuilder.setDefaultWorkingDirectory(initialDirectory);
+                fileChooserBuilder.setApproveText("Load");
+                fileChooserBuilder.setDirectoriesOnly(true);
+                JFileChooser jfc = fileChooserBuilder.createFileChooser();
+
+                if (jfc.showOpenDialog(WindowManager.getDefault().getMainWindow())
+                        != JFileChooser.APPROVE_OPTION) {
+                    return; // nothing to do
+                }
+
+                // process the selected directory
+                File directory = jfc.getSelectedFile();
+                io.getOut().println("Searching files in directory '"
+                        + directory.getAbsolutePath() + "'...");
+
+                // list all java files
+                JavaFilesLocator jfl = new JavaFilesLocator();
+                List<File> fl = jfl.getProjectJavaFiles(directory);
+
+                // print all found java files to the output window
+                io.getOut().println("Search completed.");
+                io.getOut().println("Foolowing *.java files found:");
+                for (File file : fl) {
+                    io.getOut().println(file.getAbsolutePath());
+                }
+
+                // close output window streams
+                io.getOut().close();
+                io.getErr().close();
+            }
+        });
+
     }
 }

@@ -71,6 +71,11 @@
                 <artifactId>nbm-maven-plugin</artifactId>
                 <version>3.2</version>
                 <extensions>true</extensions>
+                <configuration>
+                    <publicPackages>
+                        <publicPackage>cz.cvut.fel.archval.filesystem</publicPackage>
+                    </publicPackages>
+                </configuration>
             </plugin>
 
             <plugin>
