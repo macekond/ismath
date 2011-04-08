@@ -55,7 +55,9 @@ public class ClassHierarchyComposingTreeVisitor extends TreePathScanner<Object, 
     @Override
     public Object visitClass(ClassTree node, Trees p) {
 
-
+        System.out.println("node name: " + node.getSimpleName());
+        System.out.println("kind is: ");
+        System.out.println(node.getExtendsClause().getKind());
 
         return super.visitClass(node, p);
     }
