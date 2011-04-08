@@ -51,7 +51,7 @@
                 <artifactId>nbm-maven-plugin</artifactId>
                 <extensions>false</extensions>
                 <configuration>
-                    <additionalArguments>nosplash</additionalArguments>
+                    <additionalArguments>--nosplash</additionalArguments>
                 </configuration>
             </plugin>
         </plugins>
