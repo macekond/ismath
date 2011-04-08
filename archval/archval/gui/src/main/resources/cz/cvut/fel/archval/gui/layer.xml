@@ -1,5 +1,37 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!DOCTYPE filesystem PUBLIC "-//NetBeans//DTD Filesystem 1.0//EN" "http://www.netbeans.org/dtds/filesystem-1_0.dtd">
+<!DOCTYPE filesystem PUBLIC "-//NetBeans//DTD Filesystem 1.2//EN" "http://www.netbeans.org/dtds/filesystem-1_2.dtd">
 <filesystem>
  
+    <folder name="Actions">
+        <folder name="File">
+            <file name="cz-cvut-fel-archval-gui-LoadProjectAction.instance">
+                <attr name="delegate" newvalue="cz.cvut.fel.archval.gui.LoadProjectAction"/>
+                <attr name="displayName" bundlevalue="cz.cvut.fel.archval.gui.Bundle#CTL_LoadProjectAction"/>
+                <attr name="iconBase" stringvalue="cz/cvut/fel/archval/gui/load_project.png"/>
+                <attr name="instanceCreate" methodvalue="org.openide.awt.Actions.alwaysEnabled"/>
+                <attr name="noIconInMenu" boolvalue="false"/>
+            </file>
+        </folder>
+    </folder>
+    <folder name="Menu">
+        <folder name="File">
+            <file name="cz-cvut-fel-archval-gui-LoadProjectAction.shadow">
+                <attr name="originalFile" stringvalue="Actions/File/cz-cvut-fel-archval-gui-LoadProjectAction.instance"/>
+                <attr name="position" intvalue="1300"/>
+            </file>
+        </folder>
+    </folder>
+    <folder name="Shortcuts">
+        <file name="D-L.shadow">
+            <attr name="originalFile" stringvalue="Actions/File/cz-cvut-fel-archval-gui-LoadProjectAction.instance"/>
+        </file>
+    </folder>
+    <folder name="Toolbars">
+        <folder name="File">
+            <file name="cz-cvut-fel-archval-gui-LoadProjectAction.shadow">
+                <attr name="originalFile" stringvalue="Actions/File/cz-cvut-fel-archval-gui-LoadProjectAction.instance"/>
+                <attr name="position" intvalue="300"/>
+            </file>
+        </folder>
+    </folder>
 </filesystem>

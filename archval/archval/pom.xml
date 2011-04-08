@@ -62,8 +62,8 @@
         <module>branding</module>
         <module>application</module>
         <module>input_processor</module>
-    <module>gui</module>
-  </modules>
+        <module>gui</module>
+    </modules>
 
     <properties>
         <netbeans.version>RELEASE691</netbeans.version>
