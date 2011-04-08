@@ -25,6 +25,7 @@ package cz.cvut.fel.archval.gui;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import org.openide.util.Exceptions;
 import org.openide.windows.IOProvider;
 import org.openide.windows.InputOutput;
 
@@ -35,6 +36,14 @@ public final class LoadProjectAction implements ActionListener {
         io.select();
         io.getOut().println("huhumessage");
         io.getErr().println("this is error message");
+        io.getOut().println("tired... gonna sleep");
+        try {
+            Thread.sleep(4000);
+        } catch (InterruptedException ex) {
+            Exceptions.printStackTrace(ex);
+        }
+        io.select();
+        io.getOut().print("slept well!");
         io.getOut().close();
         io.getErr().close();
     }

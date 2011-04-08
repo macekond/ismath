@@ -10,6 +10,7 @@
                 <attr name="iconBase" stringvalue="cz/cvut/fel/archval/gui/load_project.png"/>
                 <attr name="instanceCreate" methodvalue="org.openide.awt.Actions.alwaysEnabled"/>
                 <attr name="noIconInMenu" boolvalue="false"/>
+                <attr name="asynchronous" boolvalue="true"/>
             </file>
         </folder>
     </folder>
