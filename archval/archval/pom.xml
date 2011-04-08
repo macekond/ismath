@@ -40,7 +40,7 @@
                     <extensions>true</extensions>
                     <configuration>
                         <brandingToken>${brandingToken}</brandingToken>
-                        <cluster>foobar</cluster>
+                        <cluster>archval_cluster</cluster>
                     </configuration>
                 </plugin>
 
@@ -67,7 +67,7 @@
 
     <properties>
         <netbeans.version>RELEASE691</netbeans.version>
-        <brandingToken>foo</brandingToken>
+        <brandingToken>archval</brandingToken>
         <netbeans.hint.license>mit</netbeans.hint.license>
     </properties>
 </project>
