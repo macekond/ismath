@@ -5,6 +5,36 @@
 
 %% V části analýzy provést rozbor jednotlivých principů + výsledky rešerší - využívat hojně informace z článků a důsledně citovat zdroje
 
+TODO: úvod analýzy -- rozebrat jaké koncepty lze podpořit pomocí validace a jaká k čemu všemu je potřeba přihlédnout při návrhu software
+
+\paragraph{Design concepts} Zdroj: wikipedia \emph{software design}:
+\begin{itemize}
+\item \emph{Abstraction} - Abstraction is the process or result of generalization by reducing the information content of a concept or an observable phenomenon, typically in order to retain only information which is relevant for a particular purpose.
+\item \emph{Refinement} - It is the process of elaboration. A hierarchy is developed by decomposing a macroscopic statement of function in a stepwise fashion until programming language statements are reached. In each step, one or several instructions of a given program are decomposed into more detailed instructions. Abstraction and Refinement are complementary concepts.
+\item \emph{Modularity} - Software architecture is divided into components called modules.
+\item \emph{Software Architecture} - It refers to the overall structure of the software and the ways in which that structure provides conceptual integrity for a system. A good software architecture will yield a good return on investment with respect to the desired outcome of the project, e.g. in terms of performance, quality, schedule and cost.
+\item \emph{Control Hierarchy} - A program structure that represent the organization of a program components and implies a hierarchy of control.
+\item \emph{Structural Partitioning} - The program structure can be divided both horizontally and vertically. Horizontal partitions define separate branches of modular hierarchy for each major program function. Vertical partitioning suggests that control and work should be distributed top down in the program structure.
+\item \emph{Data Structure} - It is a representation of the logical relationship among individual elements of data.
+\item \emph{Software Procedure} - It focuses on the processing of each modules individually
+\item \emph{Information Hiding} - Modules should be specified and designed so that information contained within a module is inaccessible to other modules that have no need for such information.
+\end{itemize}
+
+\paragraph{Design considerations} Zdroj: wikipedia \emph{software design}:
+\begin{itemize}
+\item \emph{Compatibility} - The software is able to operate with other products that are designed for interoperability with another product. For example, a piece of software may be backward-compatible with an older version of itself.
+\item \emph{Extensibility} - New capabilities can be added to the software without major changes to the underlying architecture.
+\item \emph{Fault-tolerance} - The software is resistant to and able to recover from component failure.
+\item \emph{Maintainability} - The software can be restored to a specified condition within a specified period of time. For example, antivirus software may include the ability to periodically receive virus definition updates in order to maintain the software's effectiveness.
+\item \emph{Modularity} - the resulting software comprises well defined, independent components. That leads to better maintainability. The components could be then implemented and tested in isolation before being integrated to form a desired software system. This allows division of work in a software development project.
+\item \emph{Packaging} - Printed material such as the box and manuals should match the style designated for the target market and should enhance usability. All compatibility information should be visible on the outside of the package. All components required for use should be included in the package or specified as a requirement on the outside of the package.
+\item \emph{Reliability} - The software is able to perform a required function under stated conditions for a specified period of time.
+\item \emph{Reusability} - the software is able to add further features and modification with slight or no modification.
+\item \emph{Robustness} - The software is able to operate under stress or tolerate unpredictable or invalid input. For example, it can be designed with a resilience to low memory conditions.
+\item \emph{Security} - The software is able to withstand hostile acts and influences.
+\item \emph{Usability} - The software user interface must be usable for its target user/audience. Default values for the parameters must be chosen so that they are a good choice for the majority of the users.
+\end{itemize}
+
 %% TODO: zařadit na správné místo:
 
 Budeme provádět statickou analýzu kódu. Pracujeme nad definicemi tríd. Neuvažujeme tedy všechny možné běhové instance programu (všechny možné stavy objektů v paměti virtuálního stroje).
@@ -99,7 +129,7 @@ TODO: rozhodnout, kterou verzi Demeterova zákona použít
 
 \emph{Zjednodušená verze \cite{wiki:lod}}
 
-method M of an object O may only invoke the methods of the following kinds of objects:
+Method M of an object O may only invoke the methods of the following kinds of objects:
 
 \begin{itemize}
 \item O itself,
@@ -113,7 +143,7 @@ method M of an object O may only invoke the methods of the following kinds of ob
 
 \subsubsection{Porušení principu law of Demeter}
 
-%% TODO: maybe find some better example of demeter law violation on the web
+TODO: find some better (real world) example of demeter law violation on the web
 \lstset{
     basicstyle=\ttfamily,
     numbers=left,

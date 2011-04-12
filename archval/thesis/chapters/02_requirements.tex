@@ -1,83 +1,60 @@
 \chapter{Specifikace cílů práce}
 
-%% \section{Zadání}
-%% % ZADANI (bude vlozeno jako prvni stranka diplomove prace):
-%% %
-%% % Seznamte se se základními principy používanými při objektově
-%% % orientovaném návrhu a implementaci, konkrétně s low coupling, high
-%% % cohesion a Law of Demeter. Popište pravidla, která umožní ověřování
-%% % těchto principů. Vytvořte nástroj, který umožní analyzovat kód v
-%% % jazyce Java a vyhodnocovat vámi definovaná pravidla. Činnost
-%% % nástroje ověřte na vzorových příkladech kódu. Při návrhu nástroje se
-%% % zaměřte na jeho budoucí rozšiřitelnost.
+Účelem této sekce je stanovení přesného popisu řešené problematiky a cílů práce. Tyto cíle popíšeme formou požadavků na výsledky práce. Při specifikaci požadavků budeme vycházet ze zadání. Na základě zadání můžeme specifikovat tři oblasti požadavků.
 
-%% TODO: check that this is satisfied and remove
-%% \begin{itemize}
-%% \item Popis řešeného problému, vymezení cílů DP/BP a požadavků na implementovaný systém.
-%% \end{itemize}
+V první oblasti se budeme zabývat požadavky na rešeršní části práce -- analýzu \emph{principů} používaných při \emph{objektově orientovaném návrhu a implementaci}. Část druhá bude obsahovat požadavky na \emph{formalizaci pravidel}, která umožní popsat principy analyzované v části první. Třetí část poskytne rozbor \emph{požadavků na systém}, který by měl demonstrovat vyhodnocování/validaci definovaných pravidel na existujících zdrojových kódech.
 
-\section{Cíle práce}
-\begin{itemize}
-\item definovat jazyk pro zadávání pravidel
-\item specifikovat pravidla pro návrhové principy \emph{Law of Demeter}, \emph{low coupling} a \emph{high cohesion}
-\item vytvořit nástroj, který umožní ověřovat pravidla v reálném projektu
-\end{itemize}
+Na konci kapitoly rozebereme v rámci jedné sekce existující podobná řešení/nástroje, jejich výhody a nevýhody.
+
+\section{Požadavky na analýzu základních návrhových principů}
 
 TODO: zpracovat
-Cílem je vytvořit nástroj, který podpoří zásady dobrého návrhu software:
+popsat, které návrhové principy budeme analyzovat a z jakého úhlu pohledu
+
 \begin{itemize}
-\item materiály na wikipedia \emph{software design}
-\item design concepts (abstraction, refinement, modularity, \ldots)
-\item design considerations:
-% TODO: vybrat considerations, které můžeme podpořit
-  \begin{itemize}
-  \item Compatibility
-  \item Extensibility
-  \item Faul
-  \item Maintainability
-  \item Modularity
-  \item Packaging
-  \item Reliability
-  \item Reusability
-  \item Robustness
-  \item Security
-  \item Usability
-  \end{itemize}
+\item rozbor základních principů používaných při objektově orientovaném návrhu a implementaci, konkrétně low coupling, high cohesion a Law of Demeter
 \end{itemize}
 
-\section{Struktura výsledného systému}
-Globální sturktura výsledné práce je na obrázku \ref{global_structure}.
+\section{Požadavky na formalizaci pravidel}
+
+\begin{itemize}
+\item vhodně definovat problémovou doménu -- objekty nad nimiž budeme pracovat a základní vztahy mezi nimi
+\item definovat jazyk pro zadávání pravidel a specifikace pravidel pro návrhové principy \emph{Law of Demeter}, \emph{low coupling} a \emph{high cohesion}
+\end{itemize}
+
+\section{Požadavky na systém pro vyhodnocování pravidel}
+
+TODO: rephrase
+
+Vytvoření nástroje, který umožní, který umožní ověřovat pravidla v existujícím zdrojovém kódu
+Globální struktura výsledné práce je na obrázku \ref{requirements-system_structure}.
 
 \begin{figure}[h!]
   \centering
   \includegraphics[width=0.5\textwidth]{./graphs/global_structure.png}
-  \caption{Znázornění hlavních součástí práce.\label{global_structure}}
+  \caption{Struktura systému.\label{requirements-system_structure}}
 \end{figure}
 
-TODO: zatřídit v rámci této sekce:
-TODO: ponechat pouze možnosti, které se budou implementovat:
-\emph{Možné případy užití systému}
+\subsection{Funkční požadavky na výsledný systém}
 \begin{itemize}
 \item průběžná kontrola projektu a výpis zjištěných porušení pravidel (validace) do výstupního souboru
 \item provedení kontroly \uv{on demand} -- uživatel stiskne tlačítko, provede se kontrola projektu proti pravidlům a výstup se zobrazí ve výstupním souboru (např. konzoli)
 \end{itemize}
 
-\section{Funkční požadavky na výsledný systém}
-
-\section{Nefunkční požadavky na výsledný systém}
+\subsection{Nefunkční požadavky na výsledný systém}
 \begin{itemize}
-\item TODO: (NetBeans platform) -> není v zadaní specifikováno (spíš navrhnout v části Návrh)
 \item systém bude fungovat nad instancemi programovacího jazyka Java 6 (projekty napsané v jazyku Java)
-\item systém bude umožňovat definovat další pravidla
+\item systém bude umožňovat definovat další pravidla (požadavek rozšiřitelnosti ze zadání)
 \end{itemize}
 
 \section{Rešerše existujících řešení}
+\label{requirements-existing_tools}
 
 TODO: možná přidat i rešerši exisujících formalizací pro návrh software (Z-notation, UPPAAL, etc.)
 
-\label{requirements-existing_tools}
-% TODO: do background research on positives and negatives of these tools
-% TODO: v rychlosti zopakovat rešerši na nové nástroje a konkrétní vlastnosti, které jsou důležité pro tuto práci
+TODO: provest resersi o tom, co vsechny tyto nastroje umi, jejich pozitiva a negativa
+
+TODO: v rychlosti zopakovat rešerši na nové nástroje a konkrétní vlastnosti, které jsou důležité pro tuto práci
 
 \subsection{JDepend}
 
