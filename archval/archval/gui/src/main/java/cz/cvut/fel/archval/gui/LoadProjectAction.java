@@ -28,9 +28,14 @@ import java.awt.EventQueue;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
+import java.util.LinkedList;
 import java.util.List;
 import javax.swing.JFileChooser;
+import org.netbeans.api.java.source.ClasspathInfo;
+import org.netbeans.api.java.source.JavaSource;
 import org.openide.filesystems.FileChooserBuilder;
+import org.openide.filesystems.FileObject;
+import org.openide.filesystems.FileUtil;
 import org.openide.windows.IOProvider;
 import org.openide.windows.InputOutput;
 import org.openide.windows.WindowManager;
@@ -74,12 +79,15 @@ public final class LoadProjectAction implements ActionListener {
                 JavaFilesLocator jfl = new JavaFilesLocator();
                 List<File> fl = jfl.getProjectJavaFiles(directory);
 
+                // convert files to FileObjects
+                List<FileObject> fos = new LinkedList<FileObject>();
+
                 // print all found java files to the output window
-                io.getOut().println("Search completed.");
-                io.getOut().println("Foolowing *.java files found:");
                 for (File file : fl) {
-                    io.getOut().println(file.getAbsolutePath());
+                    fos.add(FileUtil.toFileObject(file));
                 }
+                JavaSource js = JavaSource.create(ClasspathInfo.create(directory), fos);
+                io.getOut().println("java source object is: " + js);
 
                 // close output window streams
                 io.getOut().close();
