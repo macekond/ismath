@@ -8,26 +8,25 @@ Na konci kapitoly rozebereme v rámci jedné sekce existující podobná řešen
 
 \section{Požadavky na analýzu základních návrhových principů}
 
-TODO: zpracovat
-popsat, které návrhové principy budeme analyzovat a z jakého úhlu pohledu
+Zadání práce specifikuje konkrétně tři návrhové principy -- \emph{low coupling}, \emph{high cohesion} a \emph{Law of Demeter}. Tyto principy jsou si v mnohém podobné. Všechny se zabývají zejména závislostmi mezi částmi zdrojových kódů a jejich propojeností.
 
-\begin{itemize}
-\item rozbor základních principů používaných při objektově orientovaném návrhu a implementaci, konkrétně low coupling, high cohesion a Law of Demeter
-\end{itemize}
+V části analýzy je nutné projít postupně tyto návrhové principy a určit jejich vlastnosti a možnosti ověřování. To zahrnuje zejména provedení rešerší a specifikaci konkrétních tvrzení, která bude následně možné převést na pravidla. Může se ukázat, že ne všechny principy jsou exaktně definované, ověřitelné a vynutitelné. V takových případech je možné uvažovat spíše statistický přístup oproti ověřování pravidel. Výsledkem by potom nebyl výsledek splňuje/nesplňuje, ale např. množina statistických atributů (feature), na níž by bylo možné provádět další druhy analýzy (klasifikaci, pattern matching, \ldots).
+
+Výsledkem analýzy principů by mělo být především vymezení oblasti, kterou se budeme zabývat v další části -- \emph{formalizaci pravidel}.
 
 \section{Požadavky na formalizaci pravidel}
 
-\begin{itemize}
-\item vhodně definovat problémovou doménu -- objekty nad nimiž budeme pracovat a základní vztahy mezi nimi
-\item definovat jazyk pro zadávání pravidel a specifikace pravidel pro návrhové principy \emph{Law of Demeter}, \emph{low coupling} a \emph{high cohesion}
-\end{itemize}
+Formalizace pravidel bude mít dvě hlavní součásti. V obecné části bude definován model nad nímž budeme stavět pravidla a formát/způsob zápisu pravidel. Konkrétní část potom poskytne specifikaci pravidel \emph{Law of Demeter}, \emph{low coupling} a \emph{high cohesion} v navrženém formalismu (bude-li to možné).
+
+Definice modelu bude zahrnovat určení vhodné reprezentace problémové domény. Je třeba provést namapování analyzovaných objektů (elementy zdrojového kódu) na zvolenou reprezentaci domény (model) a poskytnout jazyk, pomocí něhož bude možné specifikovat pravidla, která chceme ověřit.
+
+Po vytvoření vhodného modelu je nutné tento model následně převést do počítačové reprezentace a poskytnout vhodnou serializaci navrženého jazyka\footnote{Jazyk může obsahovat různé matematické symboly ($\forall$, $\exists$, \ldots), které je obtížné zadávat do počítače přímo. Proto je vhodné poskytnout alternativní reprezentaci jazyka zahrnující pouze omezené množství znaků.}, abychom mohli pravidla vyhodnotit pomocí systému pro vyhodnocování pravidel.
 
 \section{Požadavky na systém pro vyhodnocování pravidel}
 
-TODO: rephrase
+Třetí část požadovaná zadáním zahrnuje vytvoření nástroje pro ověřování pravidel. Vstupem pro tento nástroj bude \emph{množina pravidel} a vhodně předzpracované zdrojové kódy analyzovaného projektu (\emph{vstupní projekt}). Nástroj může být navržen obecněji, budeme-li na vstupu předpokládat vhodnou vnitřní reprezentaci zdrojových kódů. Doprogramováním vstupních modulů\footnote{Vstupní moduly musí provést zparsování zdrojových kódu, vygenerování AST a rozlišení jmen a typů (name/type resolution).} bude možné poskytnout podporu i pro další jazyky.
 
-Vytvoření nástroje, který umožní, který umožní ověřovat pravidla v existujícím zdrojovém kódu
-Globální struktura výsledné práce je na obrázku \ref{requirements-system_structure}.
+Celková struktura výsledného projektu je znázorněna na obrázku \ref{requirements-system_structure}.
 
 \begin{figure}[h!]
   \centering
@@ -35,17 +34,20 @@ Globální struktura výsledné práce je na obrázku \ref{requirements-system_s
   \caption{Struktura systému.\label{requirements-system_structure}}
 \end{figure}
 
+Výstupem systému by měl být \emph{validační report}, který vypíše, která pravidla ze vstupního souboru byla porušena. Formát vstupních pravidel a výstupního reportu bude definován dále.
+
 \subsection{Funkční požadavky na výsledný systém}
+
+Na základě obecných požadavků můžeme specifikovat základní funkční požadavky. Požadujeme, aby systém uměl provádět následující funkčnosti:
 \begin{itemize}
-\item průběžná kontrola projektu a výpis zjištěných porušení pravidel (validace) do výstupního souboru
-\item provedení kontroly \uv{on demand} -- uživatel stiskne tlačítko, provede se kontrola projektu proti pravidlům a výstup se zobrazí ve výstupním souboru (např. konzoli)
+\item načíst vhodně předzpracovaný projekt a vytvořit vniřní model pro další analýzu,
+\item načíst ze vstupního souboru množinu pravidel v definovaném formátu,
+\item provést validaci načteného modelu pomocí množiny pravidel,
+\item vypsat report obsahující informace o splnění resp. porušení pravidel.
 \end{itemize}
 
 \subsection{Nefunkční požadavky na výsledný systém}
-\begin{itemize}
-\item systém bude fungovat nad instancemi programovacího jazyka Java 6 (projekty napsané v jazyku Java)
-\item systém bude umožňovat definovat další pravidla (požadavek rozšiřitelnosti ze zadání)
-\end{itemize}
+Z nefunkčních požadavků můžeme zmínit podporu pro zpracování projektů realizovaných v programovacího jazyce Java. Druhým významným nefunkčním požadavkem je požadavek na rozšiřitelnost. Systém by mělo být možné rozšířit o další modely a možnosti specifikace nových/složitějších pravidel nad modely.
 
 \section{Rešerše existujících řešení}
 \label{requirements-existing_tools}
