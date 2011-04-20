@@ -16,6 +16,7 @@ build_graphs()
     dot -Tpng ./graphs/demeter_law_types.dot -o ./graphs/demeter_law_types.png
     dot -Tpng ./graphs/global_structure.dot -o ./graphs/global_structure.png
     dot -Tpng ./graphs/graph_example.dot -o ./graphs/graph_example.png
+    dot -Tpng ./graphs/demeter_graph.dot -o ./graphs/demeter_graph.png
 }
 
 build_deps()
