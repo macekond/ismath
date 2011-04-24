@@ -128,7 +128,7 @@ Ne všechna pravidla lze popsat exaktně ve smyslu splněno/nesplněno. Mnohdy m
 
 \section{Návrh architektury systému}
 TODO: highlevel design $\rightarrow$ jaké budou moduly a co budou dělat (zatím bez konkrétní použité technologie)
-
+TODO: odstavec o modulech systému, pro každou část/modul napsat samostatnou podsekci, která popíše, jaké třídy modul obsahuje a jaké jsou jejich zodpovědnosti (responsibilities)
 % NOTE: při zpracování většího projektu bude nejspíš nutné zavést nad jmény objektů vhodnou formu indexace pro zrychlení algoritmů (kanonická jména tříd jsou v javě poměrně dost dlouhá)
 
 Doménové objekty -- je potřeba definovat je dostatečně obecně -- interfaces (možnost oddědění vlastního rozšiřujícího rozhraní).
@@ -150,6 +150,9 @@ Doménové objekty -- je potřeba definovat je dostatečně obecně -- interface
   \item \emph{ReportGeneratorManager} (class) -- použije některé z dostupných poskytovatelů pro generování výstupu pro vygenerování reportu
   \end{itemize}
 \item \emph{av-graphgen-demeter} -- ukázkový poskytovatel generátoru grafu
+\begin{itemize}
+\item vstupem bude java maven projekt
+\end{itemize}
 \item \emph{av-operators-demeter} -- ukázkový balíček operátorů pro ověřování principu LoD
 \item \emph{av-reportgen-plaintext} -- ukázkový poskytovatel pro generování validačních reportů v prostém textu
 \end{itemize}
