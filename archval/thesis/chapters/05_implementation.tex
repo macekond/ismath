@@ -9,7 +9,7 @@ Pro specifikaci Demeter law definujeme predikát, který nám umožní vybrat vh
 Mějme graf $G = \langle V, E, \rho, K, C, \mathit{Kind}, \mathit{Class}\rangle$ se zobrazeními definovanými dříve. Definujme selektor $F(G, v', k', c')$, $v' \in V$, $k' \in K$, $c' \in C$ jako množinu vrcholů grafu $G$, které jsou dostupné z vrcholu $v'$ pomocí orientované cesty, pro jejíž všechny vrcholy $v''$ s~výjimou posledního platí $Kind(v) \ne k'$ a která obsahuje hranu $e$, pro niž platí $Class(e) = c' $.
 \end{definition}
 
-\subsection{Demeter law}
+\subsection{Law of Demeter}
 Pro provedení validace princip LoD využijeme graf podobný tomu na obrázku \ref{implementation-lod_graph}. Lze jej získat ze zdrojových kódů pogramu. Vazba $\langle\langle{}uses\rangle\rangle$ představuje všechna použití (přístup k~public a protected polím a volání metod) jiných tříd v rámci metody.
 
 \begin{figure}[h!]
@@ -30,7 +30,11 @@ Pravidlo LoD potom specifikujeme nad grafem $G = \langle V, E, \rho, K, C, \math
 
 Specifikované pravidlo vyjadřuje požadavek, aby množina vrcholů do níž se dostaneme pomocí hran, které představují povolené vstupy tříd do analyzované třídy (třídní proměnné, parametry, vytvářené objekty), byla totožná s množinou všech vrcholů, které představují všechny třídy používané (klasifikátor $\langle\langle{}uses\rangle\rangle$) v rámci některé z metod. Odečtení vrcholu $v$ z výsledné množiny je zde kvůli tomu, abychom nemuseli navíc zavádět zbytečnou hranu identifikující, že třída je známá sama sobě.
 
-TODO: low coupling, high cohesion pravidla
+\subsection{Low coupling}
+TODO:
+
+\subsection{High cohesion}
+TODO:
 
 \section{Implementace jádra systému}
 TODO: describe technologies used to implement parser and analysis part
@@ -44,7 +48,7 @@ Integrace s platformout NetBeans - třída Action.
 \item annotation processor (JSR 269) \emph{\{TODO: add reference\}}
 \item Compiler Tree API
   \begin{itemize}
-  \item \verb+com.sun.source.tree+ 
+  \item \verb+com.sun.source.tree+
   \item \verb+com.sun.source.util+
   \end{itemize}
 \end{itemize}

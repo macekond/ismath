@@ -1,5 +1,7 @@
 \chapter{Návrh}
 
+TODO: zmínky o konkrétních pravidlech (demeter law atd) přesunout až do implementace, zde se zabývat pouze tím, jak budou pravidla vypadat obecně
+
 \section{Návrh způsobu specifikace pravidel}
 
 Abychom mohli specifikovat pravidla, musíme nejprve definovat strukturu, nad kterou budou tato pravidla platit. V tomto textu formalizujeme model programu pomocí teorie grafů. Nad grafem je možné dále specifikovat pravidla, která musí vstupní projekt splňovat.
@@ -194,24 +196,35 @@ TODO: popis validačního procesu: rozepsat
 \item systém pomocí výstupních modulů vygeneruje reporty (na základě konfigurace ???)
 \end{itemize}
 
-\begin{itemize}
-\item \emph{Action} (class) -- integrace s běhovou platformou, vstupní/aktivační bod systému
-\item \emph{ValidationTask} (class) -- řízení procesu validace
-\item \emph{Validator} (class) -- bude provádět validaci pravidel v grafu na základě vstupních pravidel
-\item \emph{Analyzer} (class) -- bude provádět statistické analýzy (pro návrhové principy, které nelze popsat přesnými pravidly)
-\item \emph{ConfigurationManager} (class) -- komponenta zprostředkující konfigurační uživatelské volby jádru programu
-\item \emph{GraphGeneratorManager} (class) -- zinicializuje jednotlivé moduly pro generování grafů a použije je pro vygenerování grafů (pokud budou tyto grafy potřeba)
-\item \emph{ReportGeneratorManager} (class) -- použije některé z dostupných poskytovatelů pro generování výstupu pro vygenerování reportu
-\item \emph{GraphGeneratorIface} (interface) -- rozhraní, které musí implementovat poskytoval generátoru grafu
-\item \emph{OperatorIface} (interface) -- rozhraní, které musí implementovat poskytovatel balíčku operátorů
-\item \emph{ReportGeneratorIface} (interface) -- rozhraní, které musí implementovat poskystovatel modulu pro generování výstupních reportů
-\item \emph{AnalysisIface} (interface) --  rozhraní, které musí implementovat poskytovatel analýzy nad některým z grafů
-\item \emph{GraphGeneratorRegister} (class) -- třída poskytující přístup k informacím o existujících poskytovatelích generátorů grafu
-\item \emph{OperatorRegister} (class) -- třída poskytující přístup k informacím o existujících poskytovatelích operátorů
-\item \emph{AnalysesRegister} (class) -- třída poskytující přístup k informacím o existujících poskytovatelích komponent analýzy
-\item \emph{ReportGeneratorRegister} (class) -- třída poskytující přístup k informacím o existujících poskytovatelích generátorů výstupních reportů
-\end{itemize}
+Jádro systému bude poskytovat třídy a rozhraní popsané v tabulce \ref{design-archval_core_components}.
 
+\begin{table}
+\caption{Tabulka komponent jádra systému. \label{design-archval_core_components}}
+\begin{center}
+  \begin{tabular}{| l | l | p{8cm} | }
+    \hline
+    \textbf{Název} & \textbf{Typ} & \textbf{Zodpovědnost} \\
+    \hline
+    \hline
+    Action & class & integrace s běhovou platformou, vstupní/aktivační bod systému \\ \hline
+    ValidationTask & class & řízení procesu validace \\ \hline
+    Validator & class & bude provádět validaci pravidel v grafu na základě vstupních pravidel \\ \hline
+    Analyzer & class & bude provádět statistické analýzy (pro návrhové principy, které nelze popsat přesnými pravidly) \\ \hline
+    ConfigurationManager & class & komponenta zprostředkující konfigurační uživatelské volby jádru programu \\ \hline
+    GraphGeneratorManager & class & zinicializuje jednotlivé moduly pro generování grafů a použije je pro vygenerování grafů (pokud budou tyto grafy potřeba) \\ \hline
+    ReportGeneratorManager & class & použije některé z dostupných poskytovatelů pro generování výstupu pro vygenerování reportu \\ \hline
+    GraphGeneratorIface & interface & rozhraní, které musí implementovat poskytoval generátoru grafu \\ \hline
+    OperatorIface & interface & rozhraní, které musí implementovat poskytovatel balíčku operátorů \\ \hline
+    ReportGeneratorIface & interface & rozhraní, které musí implementovat poskystovatel modulu pro generování výstupních reportů \\ \hline
+    AnalysisIface & interface & rozhraní, které musí implementovat poskytovatel analýzy nad některým z grafů \\ \hline
+    GraphGeneratorRegister & class & třída poskytující přístup k informacím o existujících poskytovatelích generátorů grafu \\ \hline
+    OperatorRegister & class & třída poskytující přístup k informacím o existujících poskytovatelích operátorů \\ \hline
+    AnalysesRegister & class & třída poskytující přístup k informacím o existujících poskytovatelích komponent analýzy \\ \hline
+    ReportGeneratorRegister & class & třída poskytující přístup k informacím o existujících poskytovatelích generátorů výstupních reportů \\ \hline
+  \end{tabular}
+\end{center}
+
+\end{table}
 Na obrázku \ref{design-archval_core} jsou zobrazeny komponenty modulu \emph{archval-core}.
 
 \begin{figure}[h!]
@@ -281,7 +294,7 @@ TODO: nejprve navrhnout reprezentaci doménových objektů
 \subsubsection{DemeterGraphGeneratorProvider}
 
 \subsection{Modul av-operators-demeter}
-\subsubsection{DemeterOperatorPackageProvider}
+\subsubsection{DemeterOperatorProvider}
 
 \subsection{Modul av-reportgen-plaintext}
 \subsubsection{PlaintextReportGeneratorProvider}
