@@ -127,6 +127,7 @@ TODO: zapracovat:
 Ne všechna pravidla lze popsat exaktně ve smyslu splněno/nesplněno. Mnohdy můžeme kvalitu návrhu posuzovat pouze kvantitativně (dobrý návrh, lepší, moc vazeb, málo vazeb, atd.). Pro některé vlastnosti návrhu (např. low coupling, high cohesion) může být vhodnější poskytnou statistický přístup pro vyhodnocování (např. použití vhodného klasifikátoru).
 
 \section{Návrh architektury systému}
+\label{design-architecture}
 %TODO: highlevel design $\rightarrow$ jaké budou moduly a co budou dělat (zatím bez konkrétní použité technologie)
 TODO: odstavec o modulech systému, pro každou část/modul napsat samostatnou podsekci, která popíše, jaké třídy modul obsahuje a jaké jsou jejich zodpovědnosti (responsibilities)
 % NOTE: při zpracování většího projektu bude nejspíš nutné zavést nad jmény objektů vhodnou formu indexace pro zrychlení algoritmů (kanonická jména tříd jsou v javě poměrně dost dlouhá)
@@ -172,12 +173,16 @@ Doménové objekty -- je potřeba definovat je dostatečně obecně -- interface
 \begin{itemize}
 \item \emph{av-core} - jádro systému
   \begin{itemize}
-  \item \emph{Action} (class) -- integrace s NetBeans IDE
+  \item \emph{Action} (class) -- integrace s běhovou platformou
   \item \emph{Controller} (class) -- řízení procesu validace
   \item \emph{Validator} (class) -- bude provádět validaci pravidel v grafu na základě vstupních pravidel
   \item \emph{Analyzer} (class) -- bude provádět statistické analýzy (pro návrhové principy, které nelze popsat přesnými pravidly)
   \item \emph{GraphGeneratorManager} (class) -- zinicializuje jednotlivé moduly pro generování grafů a použije je pro vygenerování grafů (pokud budou tyto grafy potřeba)
   \item \emph{ReportGeneratorManager} (class) -- použije některé z dostupných poskytovatelů pro generování výstupu pro vygenerování reportu
+  \item \emph{GraphGeneratorIface} (interface) -- rozhraní, které musí implementovat poskytoval generátoru grafu
+  \item \emph{OperatorPackageIface} (interface) -- rozhraní, které musí implementovat poskytovatel balíčku operátorů
+  \item \emph{ReportGeneratorIface} (interface) -- rozhraní, které musí implementovat poskystovatel modulu pro generování výstupních reportů
+  \item \emph{Configuration} (interface/class ???) --  TBD
   \end{itemize}
 \item \emph{av-graphgen-demeter} -- ukázkový poskytovatel generátoru grafu
 \item \emph{av-operators-demeter} -- ukázkový balíček operátorů pro ověřování principu LoD
@@ -185,9 +190,85 @@ Doménové objekty -- je potřeba definovat je dostatečně obecně -- interface
 \end{itemize}
 
 \subsection{Modul av-core}
+TODO: popis validačního procesu: rozepsat
+\begin{itemize}
+\item systém načte moduly
+\item systém zkontroluje základní předpoklady - existuje alespoň jeden modul pro generování grafu, alespoň jeden modul operátorů (nebo poskytovatel analyzerů ???) a alespoň jeden modul s poskytovatelem generátou výstupu
+\item systém zparsuje soubor pravidel a vygeneruje AST
+\item systém zkontroluje, zda pro AST pravidel existují potřebné providery grafů
+\item systém zkontroluje, zda pro AST pravidel existují všechny operátory
+\item systém provede nabindování operátoru na uzly AST pravidel
+\item systém vygeneruje pro projekt všechny požadované grafy
+\item systém vyhodnotí AST nad grafy pomocí operátorů, zjištěná porušení pravidel bude zapisovat do validačního reportu
+\item systém projde všechny analyzátory a nechá je vygenerovat analyzační report
+\item systém pomocí výstupních modulů vygeneruje reporty (na základě konfigurace ???)
+\end{itemize}
+
+\subsubsection{Action}
+Integrace do běhové platformy. Reprezentuje uživatelskou akci. Bude implementováno na základě zvolené implementační platformy (akce v GUI).
+
+\subsubsection{Controller}
+Samostatné vlákno s řízením celého validačního procesu. Synchronized sekce. Vstupem bude vhodná specifikace umístění analyzovaného projektu.
+
+TODO: vyladit následující interface
+\begin{itemize}
+\item setProject()
+\item startValidationThread()
+\item cancelValidationThread()
+\item getReport()
+\end{itemize}
+
+\subsubsection{Validator}
+Vstupem bude soubor pravidel
+
+\begin{itemize}
+\item registerOperatorPackage()
+\item performValidation() : ValidationReport
+\end{itemize}
+
+Výstupem bude ValidationReport (vnitřní struktura, která se bude posléze převádět na vhodnou vnější reprezentaci).
+
+\subsubsection{Analyzer}
+TODO: analyzer providers ??? - analyzer nejspíš dostane k dispozici graf (opět musí specifikovat nad jakým grafem pracuje) a výstupem bude AnalysisReport (TBD!)
+
+\subsubsection{GraphGeneratorManager}
+Bude řídit přístup k jednotlivým graph generatorům. Umožní externím providerům registraci nových graph generátorů. Každý graph generátor (resp. graf) musí mít specifikované jedinečné id grafu. (To bude dále použito např. při specifikaci pravidel, kde je potřeba sdělit validátoru, nad kterým grafem má pravidlo platit).
+\begin{itemize}
+\item registerGraphGenerator()
+\item getGraphGeneratorIds()
+\item generateGraph(projectSpec, graphTypeId) : Graph
+\end{itemize}
+
+\subsubsection{ReportGeneratorManager}
+Umožní registraci poskytovatelů modulů pro výstup.
+
+\subsubsection{GraphGeneratorIface}
+\subsubsection{OperatorPackageIface}
+\subsubsection{ReportGeneratorIface}
+Podpora pro různé formáty výstupu. Popsat vnitřní reprezentaci reportu, tak aby jej bylo možné převést na vhodnou vnější reprezentaci. Podpora pro dopsání různých výstupních formátu jako např.:
+\begin{itemize}
+\item HTML
+\item prostý text
+\item zobrazení pomocí swing komponent (vygenerování modelu pro JTree)
+\item \ldots
+\end{itemize}
+
+
 \subsection{Modul av-graphgen-demeter}
+
+Vstupem bude Java projekt
+
+Výstupem bude Graf
+
+TODO: nejprve navrhnout reprezentaci doménových objektů
+
+\subsubsection{DemeterGraphGeneratorProvider}
+
 \subsection{Modul av-operators-demeter}
+\subsubsection{DemeterOperatorPackageProvider}
+
 \subsection{Modul av-reportgen-plaintext}
+\subsubsection{PlaintextReportGeneratorProvider}
 
 
 % TODO: navrhnout aplikaci tak, aby mela vice rozhrani (nejen GUI, ale i moznost integrace, moznost textoveho vstupu pravidel)
