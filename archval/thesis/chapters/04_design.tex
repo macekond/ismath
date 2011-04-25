@@ -174,21 +174,9 @@ Je potřeba definovat je dostatečně obecně -- interfaces (možnost odděděn�
 
 \begin{itemize}
 \item \emph{av-core} - jádro systému
-  \begin{itemize}
-  \item \emph{Action} (class) -- integrace s běhovou platformou
-  \item \emph{Controller} (class) -- řízení procesu validace
-  \item \emph{Validator} (class) -- bude provádět validaci pravidel v grafu na základě vstupních pravidel
-  \item \emph{Analyzer} (class) -- bude provádět statistické analýzy (pro návrhové principy, které nelze popsat přesnými pravidly)
-  \item \emph{GraphGeneratorManager} (class) -- zinicializuje jednotlivé moduly pro generování grafů a použije je pro vygenerování grafů (pokud budou tyto grafy potřeba)
-  \item \emph{ReportGeneratorManager} (class) -- použije některé z dostupných poskytovatelů pro generování výstupu pro vygenerování reportu
-  \item \emph{GraphGeneratorIface} (interface) -- rozhraní, které musí implementovat poskytoval generátoru grafu
-  \item \emph{OperatorPackageIface} (interface) -- rozhraní, které musí implementovat poskytovatel balíčku operátorů
-  \item \emph{ReportGeneratorIface} (interface) -- rozhraní, které musí implementovat poskystovatel modulu pro generování výstupních reportů
-  \item \emph{ConfigurationIface} (interface) --  TBD
-  \end{itemize}
 \item \emph{av-graphgen-demeter} -- ukázkový poskytovatel generátoru grafu
 \item \emph{av-operators-demeter} -- ukázkový balíček operátorů pro ověřování principu LoD
-\item \emph{av-reportgen-plaintext} -- ukázkový poskytovatel pro generování validačních reportů v prostém textu
+\item \emph{av-reportgen-plaintext} -- ukázkový poskytovatel pro generování validačních reportů v~prostém textu
 \end{itemize}
 
 \subsection{Modul av-core}
@@ -204,6 +192,24 @@ TODO: popis validačního procesu: rozepsat
 \item systém vyhodnotí AST nad grafy pomocí operátorů, zjištěná porušení pravidel bude zapisovat do validačního reportu
 \item systém projde všechny analyzátory a nechá je vygenerovat analyzační report
 \item systém pomocí výstupních modulů vygeneruje reporty (na základě konfigurace ???)
+\end{itemize}
+
+\begin{itemize}
+\item \emph{Action} (class) -- integrace s běhovou platformou, vstupní/aktivační bod systému
+\item \emph{ValidationTask} (class) -- řízení procesu validace
+\item \emph{Validator} (class) -- bude provádět validaci pravidel v grafu na základě vstupních pravidel
+\item \emph{Analyzer} (class) -- bude provádět statistické analýzy (pro návrhové principy, které nelze popsat přesnými pravidly)
+\item \emph{ConfigurationManager} (class) -- komponenta zprostředkující konfigurační uživatelské volby jádru programu
+\item \emph{GraphGeneratorManager} (class) -- zinicializuje jednotlivé moduly pro generování grafů a použije je pro vygenerování grafů (pokud budou tyto grafy potřeba)
+\item \emph{ReportGeneratorManager} (class) -- použije některé z dostupných poskytovatelů pro generování výstupu pro vygenerování reportu
+\item \emph{GraphGeneratorIface} (interface) -- rozhraní, které musí implementovat poskytoval generátoru grafu
+\item \emph{OperatorIface} (interface) -- rozhraní, které musí implementovat poskytovatel balíčku operátorů
+\item \emph{ReportGeneratorIface} (interface) -- rozhraní, které musí implementovat poskystovatel modulu pro generování výstupních reportů
+\item \emph{AnalysisIface} (interface) --  rozhraní, které musí implementovat poskytovatel analýzy nad některým z grafů
+\item \emph{GraphGeneratorRegister} (class) -- třída poskytující přístup k informacím o existujících poskytovatelích generátorů grafu
+\item \emph{OperatorRegister} (class) -- třída poskytující přístup k informacím o existujících poskytovatelích operátorů
+\item \emph{AnalysesRegister} (class) -- třída poskytující přístup k informacím o existujících poskytovatelích komponent analýzy
+\item \emph{ReportGeneratorRegister} (class) -- třída poskytující přístup k informacím o existujících poskytovatelích generátorů výstupních reportů
 \end{itemize}
 
 Na obrázku \ref{design-archval_core} jsou zobrazeny komponenty modulu \emph{archval-core}.
@@ -279,7 +285,6 @@ TODO: nejprve navrhnout reprezentaci doménových objektů
 
 \subsection{Modul av-reportgen-plaintext}
 \subsubsection{PlaintextReportGeneratorProvider}
-
 
 % TODO: navrhnout aplikaci tak, aby mela vice rozhrani (nejen GUI, ale i moznost integrace, moznost textoveho vstupu pravidel)
 
