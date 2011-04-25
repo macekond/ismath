@@ -7,6 +7,8 @@ Abychom mohli specifikovat pravidla, musíme nejprve definovat strukturu, nad kt
 \subsection{Formalizace modelu programu pomocí grafu}
 \label{design-graph_formalization}
 
+\emph{TODO:} (zapracovat nebo smazat): definice mapování zdrojových kódů na graf (zobrazení, které vybraným elementům AST přiřadí množinu vrcholů $V$ grafu $G$)
+
 Analyzovaný softwarový projekt abstrahujeme jako orientovaný multigraf rozšířený o zobrazení množiny uzlů do množiny typů a zobrazení hran do množiny jejich klasifikátorů (označení typu vztahu mezi uzly). Dále přidáme ke každému vrcholu zobrazení, které mu přiřadí jméno (řetězec). Získáme tak následující strukturu:
 
 \begin{displaymath}
@@ -162,12 +164,12 @@ Návrh highlevel struktury je na obrázku \ref{design-modules}.
   \caption{Rozdělení systému na samostatné komponenty.\label{design-modules}}
 \end{figure}
 
-Doménové objekty -- je potřeba definovat je dostatečně obecně -- interfaces (možnost oddědění vlastního rozšiřujícího rozhraní).
+Je potřeba definovat je dostatečně obecně -- interfaces (možnost oddědění vlastního rozšiřujícího rozhraní).
 
 \begin{itemize}
-\item Graph (class)
-\item Vertex (class)
-\item Edge (class)
+\item \emph{Graph} (class)
+\item \emph{Vertex} (class)
+\item \emph{Edge} (class)
 \end{itemize}
 
 \begin{itemize}
@@ -182,7 +184,7 @@ Doménové objekty -- je potřeba definovat je dostatečně obecně -- interface
   \item \emph{GraphGeneratorIface} (interface) -- rozhraní, které musí implementovat poskytoval generátoru grafu
   \item \emph{OperatorPackageIface} (interface) -- rozhraní, které musí implementovat poskytovatel balíčku operátorů
   \item \emph{ReportGeneratorIface} (interface) -- rozhraní, které musí implementovat poskystovatel modulu pro generování výstupních reportů
-  \item \emph{Configuration} (interface/class ???) --  TBD
+  \item \emph{ConfigurationIface} (interface) --  TBD
   \end{itemize}
 \item \emph{av-graphgen-demeter} -- ukázkový poskytovatel generátoru grafu
 \item \emph{av-operators-demeter} -- ukázkový balíček operátorů pro ověřování principu LoD
@@ -203,6 +205,14 @@ TODO: popis validačního procesu: rozepsat
 \item systém projde všechny analyzátory a nechá je vygenerovat analyzační report
 \item systém pomocí výstupních modulů vygeneruje reporty (na základě konfigurace ???)
 \end{itemize}
+
+Na obrázku \ref{design-archval_core} jsou zobrazeny komponenty modulu \emph{archval-core}.
+
+\begin{figure}[h!]
+  \centering
+  \includegraphics[width=1.0\textwidth]{./uml/archval_core_cmp.png}
+  \caption{Komponenty jádra systému ArchVal.\label{design-archval_core}}
+\end{figure}
 
 \subsubsection{Action}
 Integrace do běhové platformy. Reprezentuje uživatelskou akci. Bude implementováno na základě zvolené implementační platformy (akce v GUI).
@@ -274,6 +284,7 @@ TODO: nejprve navrhnout reprezentaci doménových objektů
 % TODO: navrhnout aplikaci tak, aby mela vice rozhrani (nejen GUI, ale i moznost integrace, moznost textoveho vstupu pravidel)
 
 \section{Návrh rozhraní pro zadávání pravidel}
+TODO: zapracovat: U každého pravidla musí být deklarace typu grafu, nad nímž má platit.
 %% rozhraní pro zadávání pravidel bude dáno jazykem, který se pro definici pravidel bude používat - možná kompilátor DSL jazyka, výrazy, atd.
 \begin{itemize}
 \item rozhraní pro zadávání pravidel
