@@ -127,35 +127,10 @@ TODO: zapracovat:
 Ne všechna pravidla lze popsat exaktně ve smyslu splněno/nesplněno. Mnohdy můžeme kvalitu návrhu posuzovat pouze kvantitativně (dobrý návrh, lepší, moc vazeb, málo vazeb, atd.). Pro některé vlastnosti návrhu (např. low coupling, high cohesion) může být vhodnější poskytnou statistický přístup pro vyhodnocování (např. použití vhodného klasifikátoru).
 
 \section{Návrh architektury systému}
-TODO: highlevel design $\rightarrow$ jaké budou moduly a co budou dělat (zatím bez konkrétní použité technologie)
+%TODO: highlevel design $\rightarrow$ jaké budou moduly a co budou dělat (zatím bez konkrétní použité technologie)
 TODO: odstavec o modulech systému, pro každou část/modul napsat samostatnou podsekci, která popíše, jaké třídy modul obsahuje a jaké jsou jejich zodpovědnosti (responsibilities)
 % NOTE: při zpracování většího projektu bude nejspíš nutné zavést nad jmény objektů vhodnou formu indexace pro zrychlení algoritmů (kanonická jména tříd jsou v javě poměrně dost dlouhá)
 
-Doménové objekty -- je potřeba definovat je dostatečně obecně -- interfaces (možnost oddědění vlastního rozšiřujícího rozhraní).
-
-\begin{itemize}
-\item Graph (class)
-\item Vertex (class)
-\item Edge (class)
-\end{itemize}
-
-\subsection{Moduly}
-\begin{itemize}
-\item \emph{av-core} - jádro systému
-  \begin{itemize}
-  \item \emph{Action} (class) -- integrace s NetBeans IDE
-  \item \emph{Controller} (class) -- řízení procesu validace
-  \item \emph{Validator} (class) -- bude provádět validaci pravidel v grafu na základě vstupních pravidel
-  \item \emph{GraphGeneratorManager} (class) -- zinicializuje jednotlivé moduly pro generování grafů a použije je pro vygenerování grafů (pokud budou tyto grafy potřeba)
-  \item \emph{ReportGeneratorManager} (class) -- použije některé z dostupných poskytovatelů pro generování výstupu pro vygenerování reportu
-  \end{itemize}
-\item \emph{av-graphgen-demeter} -- ukázkový poskytovatel generátoru grafu
-\begin{itemize}
-\item vstupem bude java maven projekt
-\end{itemize}
-\item \emph{av-operators-demeter} -- ukázkový balíček operátorů pro ověřování principu LoD
-\item \emph{av-reportgen-plaintext} -- ukázkový poskytovatel pro generování validačních reportů v prostém textu
-\end{itemize}
 
 \begin{itemize}
 \item compiler
@@ -177,6 +152,43 @@ Doménové objekty -- je potřeba definovat je dostatečně obecně -- interface
   \item rozhraní pro ověřování platnosti pravidel (validaci)
   \end{itemize}
 \end{itemize}
+
+Návrh highlevel struktury je na obrázku \ref{design-modules}.
+
+\begin{figure}[h!]
+  \centering
+  \includegraphics[width=1.0\textwidth]{./uml/archval_module_cmp.png}
+  \caption{Rozdělení systému na samostatné komponenty.\label{design-modules}}
+\end{figure}
+
+Doménové objekty -- je potřeba definovat je dostatečně obecně -- interfaces (možnost oddědění vlastního rozšiřujícího rozhraní).
+
+\begin{itemize}
+\item Graph (class)
+\item Vertex (class)
+\item Edge (class)
+\end{itemize}
+
+\begin{itemize}
+\item \emph{av-core} - jádro systému
+  \begin{itemize}
+  \item \emph{Action} (class) -- integrace s NetBeans IDE
+  \item \emph{Controller} (class) -- řízení procesu validace
+  \item \emph{Validator} (class) -- bude provádět validaci pravidel v grafu na základě vstupních pravidel
+  \item \emph{Analyzer} (class) -- bude provádět statistické analýzy (pro návrhové principy, které nelze popsat přesnými pravidly)
+  \item \emph{GraphGeneratorManager} (class) -- zinicializuje jednotlivé moduly pro generování grafů a použije je pro vygenerování grafů (pokud budou tyto grafy potřeba)
+  \item \emph{ReportGeneratorManager} (class) -- použije některé z dostupných poskytovatelů pro generování výstupu pro vygenerování reportu
+  \end{itemize}
+\item \emph{av-graphgen-demeter} -- ukázkový poskytovatel generátoru grafu
+\item \emph{av-operators-demeter} -- ukázkový balíček operátorů pro ověřování principu LoD
+\item \emph{av-reportgen-plaintext} -- ukázkový poskytovatel pro generování validačních reportů v prostém textu
+\end{itemize}
+
+\subsection{Modul av-core}
+\subsection{Modul av-graphgen-demeter}
+\subsection{Modul av-operators-demeter}
+\subsection{Modul av-reportgen-plaintext}
+
 
 % TODO: navrhnout aplikaci tak, aby mela vice rozhrani (nejen GUI, ale i moznost integrace, moznost textoveho vstupu pravidel)
 
@@ -207,6 +219,7 @@ Doménové objekty -- je potřeba definovat je dostatečně obecně -- interface
 \item NetBeans platform
 \item Maven project
 \item Java 1.6
+\item vstupem bude java maven projekt
 \item \ldots
   % TODO: vytvorit prehled technologii i s jejich popisy
 \end{itemize}
