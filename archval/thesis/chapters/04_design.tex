@@ -1,15 +1,11 @@
 \chapter{Návrh}
 
-TODO: zmínky o konkrétních pravidlech (demeter law atd) přesunout až do implementace, zde se zabývat pouze tím, jak budou pravidla vypadat obecně
-
 \section{Návrh způsobu specifikace pravidel}
 
 Abychom mohli specifikovat pravidla, musíme nejprve definovat strukturu, nad kterou budou tato pravidla platit. V tomto textu formalizujeme model programu pomocí teorie grafů. Nad grafem je možné dále specifikovat pravidla, která musí vstupní projekt splňovat.
 
 \subsection{Formalizace modelu programu pomocí grafu}
 \label{design-graph_formalization}
-
-\emph{TODO:} (zapracovat nebo smazat): definice mapování zdrojových kódů na graf (zobrazení, které vybraným elementům AST přiřadí množinu vrcholů $V$ grafu $G$)
 
 Analyzovaný softwarový projekt abstrahujeme jako orientovaný multigraf rozšířený o zobrazení množiny uzlů do množiny typů a zobrazení hran do množiny jejich klasifikátorů (označení typu vztahu mezi uzly). Dále přidáme ke každému vrcholu zobrazení, které mu přiřadí jméno (řetězec). Získáme tak následující strukturu:
 
@@ -113,12 +109,84 @@ a přiřazení klasifikátorů hranám:
 
 \subsection{Formalizace pravidel}
 
-\begin{itemize}
-\item definice jazyka pro specifikaci pravidel
-\item specifikovat množinu objektů, nad nimiž budou pravidla stavěna -- nad čím budeme operovat (možnosti: gramatika, třídy, FJ, graf, \ldots)
-\item lze vyjít z Java Language Specification (množina neterminálních a terminálních symbolů)
-\item může být nějaký DSL
-\end{itemize}
+Nyní, když máme definován model, můžeme popsat jazyk pravidel, která mají pro daný model platit. Vytvoříme jednoduchý jazyk (DSL) pro specifikaci validačních parametrů. Jazyk popíšeme jednoduchou gramatikou (listing \ref{design-grammar}). U této gramatiky předpokládáme, že bílé znaky jsou ignorovány (pokud nejsou uvnitř řetězce).
+
+\lstset{
+    basicstyle=\ttfamily,
+    numbers=left,
+    numberstyle=\footnotesize,
+    commentstyle=\color{gray}\textit,
+    caption={Gramatika DSL pro zadávání validačních pravidel.},
+    label=design-grammar
+}
+\begin{lstlisting}[mathescape]
+validation_unit :=
+    atomic_rule*
+    compound_rules*
+    validate_commands*
+    analyze_commands*
+
+atomic_rule :=
+    'atomic_rule' name '(' name ')' '{' atomic_rule_spec '}' ';'
+
+compound_rule :=
+    'compound_rule' name '{' compound_rule_spec '}' ';'
+
+validate_command :=
+    'validate' '(' validate_command_params ')' ';'
+
+analyze_command :=
+    'analyze' '(' analyze_command_params ')' ';'
+
+validate_command_params := name (',' | name)*
+
+analyze_command_params := name (',' | name)*
+
+atomic_rule_spec := set_spec_clause '{' orexpression '}'
+
+set_spec_clause :=
+    '$\forall v \in V$' (':' name '(v)')?
+    |
+    '$\forall e \in E$' (':' name '(e)')?
+
+orexpression := andexpression ('$\vee$' andexpression)*
+
+andexpression := notexpression ('$\wedge$' notexpression)*
+
+notexpression : ('$\neg$')? atom
+
+atom := condition | '(' orexpression ')'
+
+condition := 'true' | 'false' | name '(' predicate_params? ')'
+
+predicate_params := predicate_param (',' predicate_param)*
+
+predicate_param := number | label | set_expression
+
+set_expression := set_atom (('$\cap$' | '$\cup$' | '$\setminus$') set_atom)*
+
+set_atom :=
+    name '(' selector_params? ')'
+    |
+    '(' set_expression ')'
+
+selector_params := selector_param (',' selector_param)*
+
+predicate_param := 'v' | 'e' | number | label
+
+compound_rule_spec := candexpression ('$\vee$' candexpression)*
+
+candexpression := cnotexpression ('$\wedge$' cnotexpression)*
+
+cnotexpression : ('$\neg$')? name
+
+name := ('a..z'|'A..Z')+ ('a..z'|'A..Z'|'0..9')*
+
+number := '0..9'+
+
+label := '``' ('a..z'|'A..Z'|'0..9')*  '``'
+
+\end{lstlisting}
 
 \subsection{Typy pravidel}
 \begin{itemize}
@@ -174,13 +242,6 @@ Je potřeba definovat je dostatečně obecně -- interfaces (možnost odděděn�
 \item \emph{Edge} (class)
 \end{itemize}
 
-\begin{itemize}
-\item \emph{av-core} - jádro systému
-\item \emph{av-graphgen-demeter} -- ukázkový poskytovatel generátoru grafu
-\item \emph{av-operators-demeter} -- ukázkový balíček operátorů pro ověřování principu LoD
-\item \emph{av-reportgen-plaintext} -- ukázkový poskytovatel pro generování validačních reportů v~prostém textu
-\end{itemize}
-
 \subsection{Modul av-core}
 TODO: popis validačního procesu: rozepsat
 \begin{itemize}
@@ -199,33 +260,35 @@ TODO: popis validačního procesu: rozepsat
 Jádro systému bude poskytovat třídy a rozhraní popsané v tabulce \ref{design-archval_core_components}.
 
 \begin{table}
-\caption{Tabulka komponent jádra systému. \label{design-archval_core_components}}
-\begin{center}
-  \begin{tabular}{| l | l | p{8cm} | }
-    \hline
-    \textbf{Název} & \textbf{Typ} & \textbf{Zodpovědnost} \\
-    \hline
-    \hline
-    Action & class & integrace s běhovou platformou, vstupní/aktivační bod systému \\ \hline
-    ValidationTask & class & řízení procesu validace \\ \hline
-    Validator & class & bude provádět validaci pravidel v grafu na základě vstupních pravidel \\ \hline
-    Analyzer & class & bude provádět statistické analýzy (pro návrhové principy, které nelze popsat přesnými pravidly) \\ \hline
-    ConfigurationManager & class & komponenta zprostředkující konfigurační uživatelské volby jádru programu \\ \hline
-    GraphGeneratorManager & class & zinicializuje jednotlivé moduly pro generování grafů a použije je pro vygenerování grafů (pokud budou tyto grafy potřeba) \\ \hline
-    ReportGeneratorManager & class & použije některé z dostupných poskytovatelů pro generování výstupu pro vygenerování reportu \\ \hline
-    GraphGeneratorIface & interface & rozhraní, které musí implementovat poskytoval generátoru grafu \\ \hline
-    OperatorIface & interface & rozhraní, které musí implementovat poskytovatel balíčku operátorů \\ \hline
-    ReportGeneratorIface & interface & rozhraní, které musí implementovat poskystovatel modulu pro generování výstupních reportů \\ \hline
-    AnalysisIface & interface & rozhraní, které musí implementovat poskytovatel analýzy nad některým z grafů \\ \hline
-    GraphGeneratorRegister & class & třída poskytující přístup k informacím o existujících poskytovatelích generátorů grafu \\ \hline
-    OperatorRegister & class & třída poskytující přístup k informacím o existujících poskytovatelích operátorů \\ \hline
-    AnalysesRegister & class & třída poskytující přístup k informacím o existujících poskytovatelích komponent analýzy \\ \hline
-    ReportGeneratorRegister & class & třída poskytující přístup k informacím o existujících poskytovatelích generátorů výstupních reportů \\ \hline
-  \end{tabular}
-\end{center}
+  \caption{Tabulka komponent jádra systému. \label{design-archval_core_components}}
+  \begin{center}
+    \begin{tabular}{| l | l | p{8cm} | }
+      \hline
+      \textbf{Název} & \textbf{Typ} & \textbf{Zodpovědnost} \\
+      \hline
+      \hline
+      Action & class & integrace s běhovou platformou, vstupní/aktivační bod systému \\ \hline
+      ValidationTask & class & řízení procesu validace \\ \hline
+      Validator & class & bude provádět validaci pravidel v grafu na základě vstupních pravidel \\ \hline
+      Analyzer & class & bude provádět statistické analýzy (pro návrhové principy, které nelze popsat přesnými pravidly) \\ \hline
+      ConfigurationManager & class & komponenta zprostředkující konfigurační uživatelské volby jádru programu \\ \hline
+      GraphGeneratorManager & class & zinicializuje jednotlivé moduly pro generování grafů a použije je pro vygenerování grafů (pokud budou tyto grafy potřeba) \\ \hline
+      ReportGeneratorManager & class & použije některé z dostupných poskytovatelů pro generování výstupu pro vygenerování reportu \\ \hline
+      GraphGeneratorIface & interface & rozhraní, které musí implementovat poskytoval generátoru grafu \\ \hline
+      OperatorIface & interface & rozhraní, které musí implementovat poskytovatel balíčku operátorů \\ \hline
+      ReportGeneratorIface & interface & rozhraní, které musí implementovat poskystovatel modulu pro generování výstupních reportů \\ \hline
+      AnalysisIface & interface & rozhraní, které musí implementovat poskytovatel analýzy nad některým z grafů \\ \hline
+      GraphGeneratorRegister & class & třída poskytující přístup k informacím o existujících poskytovatelích generátorů grafu \\ \hline
+      OperatorRegister & class & třída poskytující přístup k informacím o existujících poskytovatelích operátorů \\ \hline
+      AnalysesRegister & class & třída poskytující přístup k informacím o existujících poskytovatelích komponent analýzy \\ \hline
+      ReportGeneratorRegister & class & třída poskytující přístup k informacím o existujících poskytovatelích generátorů výstupních reportů \\ \hline
+    \end{tabular}
+  \end{center}
 
 \end{table}
 Na obrázku \ref{design-archval_core} jsou zobrazeny komponenty modulu \emph{archval-core}.
+
+TODO: připsat k rozhraní graph generator: Reprezentuje komponentu, která provede převod zdrojových kódů na graf (zobrazení, které vybraným elementům AST přiřadí množinu vrcholů $V$ grafu $G$).
 
 \begin{figure}[h!]
   \centering
@@ -259,45 +322,6 @@ Výstupem bude ValidationReport (vnitřní struktura, která se bude posléze p�
 
 \subsubsection{Analyzer}
 TODO: analyzer providers ??? - analyzer nejspíš dostane k dispozici graf (opět musí specifikovat nad jakým grafem pracuje) a výstupem bude AnalysisReport (TBD!)
-
-\subsubsection{GraphGeneratorManager}
-Bude řídit přístup k jednotlivým graph generatorům. Umožní externím providerům registraci nových graph generátorů. Každý graph generátor (resp. graf) musí mít specifikované jedinečné id grafu. (To bude dále použito např. při specifikaci pravidel, kde je potřeba sdělit validátoru, nad kterým grafem má pravidlo platit).
-\begin{itemize}
-\item registerGraphGenerator()
-\item getGraphGeneratorIds()
-\item generateGraph(projectSpec, graphTypeId) : Graph
-\end{itemize}
-
-\subsubsection{ReportGeneratorManager}
-Umožní registraci poskytovatelů modulů pro výstup.
-
-\subsubsection{GraphGeneratorIface}
-\subsubsection{OperatorPackageIface}
-\subsubsection{ReportGeneratorIface}
-Podpora pro různé formáty výstupu. Popsat vnitřní reprezentaci reportu, tak aby jej bylo možné převést na vhodnou vnější reprezentaci. Podpora pro dopsání různých výstupních formátu jako např.:
-\begin{itemize}
-\item HTML
-\item prostý text
-\item zobrazení pomocí swing komponent (vygenerování modelu pro JTree)
-\item \ldots
-\end{itemize}
-
-
-\subsection{Modul av-graphgen-demeter}
-
-Vstupem bude Java projekt
-
-Výstupem bude Graf
-
-TODO: nejprve navrhnout reprezentaci doménových objektů
-
-\subsubsection{DemeterGraphGeneratorProvider}
-
-\subsection{Modul av-operators-demeter}
-\subsubsection{DemeterOperatorProvider}
-
-\subsection{Modul av-reportgen-plaintext}
-\subsubsection{PlaintextReportGeneratorProvider}
 
 % TODO: navrhnout aplikaci tak, aby mela vice rozhrani (nejen GUI, ale i moznost integrace, moznost textoveho vstupu pravidel)
 

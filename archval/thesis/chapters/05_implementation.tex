@@ -25,7 +25,7 @@ Pravidlo LoD potom specifikujeme nad grafem $G = \langle V, E, \rho, K, C, \math
 \end{align*}
 \begin{align*}
 [((&F(G, v, class, \langle\langle{}has\_field\rangle\rangle{}) \cup F(G, v, class, \langle\langle{}has\_param\rangle\rangle{}) \cup\\
-&F(G, v, class, \langle\langle{}instantiates\rangle\rangle{})) \cap F(v, class, \langle\langle{}uses\rangle\rangle{}) \setminus v] = \emptyset
+&F(G, v, class, \langle\langle{}instantiates\rangle\rangle{})) \cap F(v, class, \langle\langle{}uses\rangle\rangle{}) \setminus \{v\}] = \emptyset
 \end{align*}
 
 Specifikované pravidlo vyjadřuje požadavek, aby množina vrcholů do níž se dostaneme pomocí hran, které představují povolené vstupy tříd do analyzované třídy (třídní proměnné, parametry, vytvářené objekty), byla totožná s množinou všech vrcholů, které představují všechny třídy používané (klasifikátor $\langle\langle{}uses\rangle\rangle$) v rámci některé z metod. Odečtení vrcholu $v$ z výsledné množiny je zde kvůli tomu, abychom nemuseli navíc zavádět zbytečnou hranu identifikující, že třída je známá sama sobě.
@@ -58,3 +58,50 @@ TODO: zapracovat:
 je nutné použít nestandardní API, které je součástí Sun Javy - balíčky \verb+com.sun.*+ (je potřeba přidat \$\{java\_home\}/../lib/tools.jar do classpath)
 
 lze se inspirovat v programu Sorcerer (\href{https://sorcerer.dev.java.net/}{https://sorcerer.dev.java.net/}), který pomocí Java Tree API provádí zpracovávání Java kódu a generování přesné HTML dokumentace. \emph{TODO: in case of usage of this material, add reference!}
+
+\section{Implementace modulů}
+
+\begin{itemize}
+\item \emph{av-graphgen-demeter} -- ukázkový poskytovatel generátoru grafu
+\item \emph{av-operators-demeter} -- ukázkový balíček operátorů pro ověřování principu LoD
+\item \emph{av-reportgen-plaintext} -- ukázkový poskytovatel pro generování validačních reportů v~prostém textu
+\end{itemize}
+
+\subsubsection{GraphGeneratorManager}
+Bude řídit přístup k jednotlivým graph generatorům. Umožní externím providerům registraci nových graph generátorů. Každý graph generátor (resp. graf) musí mít specifikované jedinečné id grafu. (To bude dále použito např. při specifikaci pravidel, kde je potřeba sdělit validátoru, nad kterým grafem má pravidlo platit).
+\begin{itemize}
+\item registerGraphGenerator()
+\item getGraphGeneratorIds()
+\item generateGraph(projectSpec, graphTypeId) : Graph
+\end{itemize}
+
+\subsubsection{ReportGeneratorManager}
+Umožní registraci poskytovatelů modulů pro výstup.
+
+\subsubsection{GraphGeneratorIface}
+\subsubsection{OperatorPackageIface}
+\subsubsection{ReportGeneratorIface}
+Podpora pro různé formáty výstupu. Popsat vnitřní reprezentaci reportu, tak aby jej bylo možné převést na vhodnou vnější reprezentaci. Podpora pro dopsání různých výstupních formátu jako např.:
+\begin{itemize}
+\item HTML
+\item prostý text
+\item zobrazení pomocí swing komponent (vygenerování modelu pro JTree)
+\item \ldots
+\end{itemize}
+
+
+\subsection{Modul av-graphgen-demeter}
+
+Vstupem bude Java projekt
+
+Výstupem bude Graf
+
+TODO: nejprve navrhnout reprezentaci doménových objektů
+
+\subsubsection{DemeterGraphGeneratorProvider}
+
+\subsection{Modul av-operators-demeter}
+\subsubsection{DemeterOperatorProvider}
+
+\subsection{Modul av-reportgen-plaintext}
+\subsubsection{PlaintextReportGeneratorProvider}
