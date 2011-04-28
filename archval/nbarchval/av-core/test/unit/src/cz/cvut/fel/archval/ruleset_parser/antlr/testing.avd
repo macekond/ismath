@@ -1,0 +1,11 @@
+compound_rule P4 {
+  P2 AND cosi OR dlk OR NOT skd
+};
+
+compound_rule P6 {
+  sd OR huhu
+};
+
+validate(sldk, sldk, sldk, sldkf, sdlk);
+
+analyze(huhu);

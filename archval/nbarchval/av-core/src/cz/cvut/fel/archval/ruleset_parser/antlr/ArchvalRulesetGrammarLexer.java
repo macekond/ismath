@@ -1,6 +1,6 @@
-// $ANTLR 3.1.3 July 11, 2010 13:49:50 ArchvalRulesetGrammar.g 2011-04-26 22:08:59
+// $ANTLR 3.1.3 July 11, 2010 13:49:50 ArchvalRulesetGrammar.g 2011-04-28 19:36:22
 
-package cz.cvut.fel.archval.ruleset_parser.antlr;
+    package cz.cvut.fel.archval.ruleset_parser.antlr;
 
 
 import org.antlr.runtime.*;
@@ -9,6 +9,8 @@ import java.util.List;
 import java.util.ArrayList;
 
 public class ArchvalRulesetGrammarLexer extends Lexer {
+    public static final int VALIDATION_UNIT=4;
+    public static final int VALIDATE_COMMANDS=7;
     public static final int T__29=29;
     public static final int T__28=28;
     public static final int T__27=27;
@@ -16,30 +18,34 @@ public class ArchvalRulesetGrammarLexer extends Lexer {
     public static final int T__25=25;
     public static final int T__24=24;
     public static final int T__23=23;
+    public static final int ATOMIC_RULES=5;
     public static final int T__22=22;
     public static final int T__21=21;
+    public static final int RULE_EXPRESSION=9;
     public static final int T__20=20;
     public static final int EOF=-1;
-    public static final int T__9=9;
-    public static final int T__8=8;
     public static final int T__30=30;
     public static final int T__19=19;
     public static final int T__31=31;
     public static final int T__32=32;
     public static final int T__16=16;
     public static final int T__33=33;
-    public static final int WS=7;
+    public static final int COMPOUND_RULES=6;
+    public static final int WS=13;
     public static final int T__15=15;
+    public static final int T__34=34;
     public static final int T__18=18;
-    public static final int Number=5;
+    public static final int T__35=35;
+    public static final int Number=11;
     public static final int T__17=17;
-    public static final int T__12=12;
-    public static final int T__11=11;
+    public static final int T__36=36;
+    public static final int T__37=37;
+    public static final int T__38=38;
     public static final int T__14=14;
-    public static final int T__13=13;
-    public static final int T__10=10;
-    public static final int Name=4;
-    public static final int Label=6;
+    public static final int T__39=39;
+    public static final int ANALYZE_COMMANDS=8;
+    public static final int Name=10;
+    public static final int Label=12;
 
     // delegates
     // delegators
@@ -54,136 +60,15 @@ public class ArchvalRulesetGrammarLexer extends Lexer {
     }
     public String getGrammarFileName() { return "ArchvalRulesetGrammar.g"; }
 
-    // $ANTLR start "T__8"
-    public final void mT__8() throws RecognitionException {
-        try {
-            int _type = T__8;
-            int _channel = DEFAULT_TOKEN_CHANNEL;
-            // ArchvalRulesetGrammar.g:7:6: ( 'atomic_rule' )
-            // ArchvalRulesetGrammar.g:7:8: 'atomic_rule'
-            {
-            match("atomic_rule"); 
-
-
-            }
-
-            state.type = _type;
-            state.channel = _channel;
-        }
-        finally {
-        }
-    }
-    // $ANTLR end "T__8"
-
-    // $ANTLR start "T__9"
-    public final void mT__9() throws RecognitionException {
-        try {
-            int _type = T__9;
-            int _channel = DEFAULT_TOKEN_CHANNEL;
-            // ArchvalRulesetGrammar.g:8:6: ( '(' )
-            // ArchvalRulesetGrammar.g:8:8: '('
-            {
-            match('('); 
-
-            }
-
-            state.type = _type;
-            state.channel = _channel;
-        }
-        finally {
-        }
-    }
-    // $ANTLR end "T__9"
-
-    // $ANTLR start "T__10"
-    public final void mT__10() throws RecognitionException {
-        try {
-            int _type = T__10;
-            int _channel = DEFAULT_TOKEN_CHANNEL;
-            // ArchvalRulesetGrammar.g:9:7: ( ')' )
-            // ArchvalRulesetGrammar.g:9:9: ')'
-            {
-            match(')'); 
-
-            }
-
-            state.type = _type;
-            state.channel = _channel;
-        }
-        finally {
-        }
-    }
-    // $ANTLR end "T__10"
-
-    // $ANTLR start "T__11"
-    public final void mT__11() throws RecognitionException {
-        try {
-            int _type = T__11;
-            int _channel = DEFAULT_TOKEN_CHANNEL;
-            // ArchvalRulesetGrammar.g:10:7: ( '{' )
-            // ArchvalRulesetGrammar.g:10:9: '{'
-            {
-            match('{'); 
-
-            }
-
-            state.type = _type;
-            state.channel = _channel;
-        }
-        finally {
-        }
-    }
-    // $ANTLR end "T__11"
-
-    // $ANTLR start "T__12"
-    public final void mT__12() throws RecognitionException {
-        try {
-            int _type = T__12;
-            int _channel = DEFAULT_TOKEN_CHANNEL;
-            // ArchvalRulesetGrammar.g:11:7: ( '}' )
-            // ArchvalRulesetGrammar.g:11:9: '}'
-            {
-            match('}'); 
-
-            }
-
-            state.type = _type;
-            state.channel = _channel;
-        }
-        finally {
-        }
-    }
-    // $ANTLR end "T__12"
-
-    // $ANTLR start "T__13"
-    public final void mT__13() throws RecognitionException {
-        try {
-            int _type = T__13;
-            int _channel = DEFAULT_TOKEN_CHANNEL;
-            // ArchvalRulesetGrammar.g:12:7: ( ';' )
-            // ArchvalRulesetGrammar.g:12:9: ';'
-            {
-            match(';'); 
-
-            }
-
-            state.type = _type;
-            state.channel = _channel;
-        }
-        finally {
-        }
-    }
-    // $ANTLR end "T__13"
-
     // $ANTLR start "T__14"
     public final void mT__14() throws RecognitionException {
         try {
             int _type = T__14;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // ArchvalRulesetGrammar.g:13:7: ( 'compound_rule' )
-            // ArchvalRulesetGrammar.g:13:9: 'compound_rule'
+            // ArchvalRulesetGrammar.g:7:7: ( 'atomic_rule' )
+            // ArchvalRulesetGrammar.g:7:9: 'atomic_rule'
             {
-            match("compound_rule"); 
+            match("atomic_rule"); 
 
 
             }
@@ -201,11 +86,10 @@ public class ArchvalRulesetGrammarLexer extends Lexer {
         try {
             int _type = T__15;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // ArchvalRulesetGrammar.g:14:7: ( 'validate' )
-            // ArchvalRulesetGrammar.g:14:9: 'validate'
+            // ArchvalRulesetGrammar.g:8:7: ( '(' )
+            // ArchvalRulesetGrammar.g:8:9: '('
             {
-            match("validate"); 
-
+            match('('); 
 
             }
 
@@ -222,11 +106,10 @@ public class ArchvalRulesetGrammarLexer extends Lexer {
         try {
             int _type = T__16;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // ArchvalRulesetGrammar.g:15:7: ( 'analyze' )
-            // ArchvalRulesetGrammar.g:15:9: 'analyze'
+            // ArchvalRulesetGrammar.g:9:7: ( ')' )
+            // ArchvalRulesetGrammar.g:9:9: ')'
             {
-            match("analyze"); 
-
+            match(')'); 
 
             }
 
@@ -243,10 +126,10 @@ public class ArchvalRulesetGrammarLexer extends Lexer {
         try {
             int _type = T__17;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // ArchvalRulesetGrammar.g:16:7: ( ',' )
-            // ArchvalRulesetGrammar.g:16:9: ','
+            // ArchvalRulesetGrammar.g:10:7: ( '{' )
+            // ArchvalRulesetGrammar.g:10:9: '{'
             {
-            match(','); 
+            match('{'); 
 
             }
 
@@ -263,11 +146,10 @@ public class ArchvalRulesetGrammarLexer extends Lexer {
         try {
             int _type = T__18;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // ArchvalRulesetGrammar.g:17:7: ( 'ALL' )
-            // ArchvalRulesetGrammar.g:17:9: 'ALL'
+            // ArchvalRulesetGrammar.g:11:7: ( '}' )
+            // ArchvalRulesetGrammar.g:11:9: '}'
             {
-            match("ALL"); 
-
+            match('}'); 
 
             }
 
@@ -284,11 +166,10 @@ public class ArchvalRulesetGrammarLexer extends Lexer {
         try {
             int _type = T__19;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // ArchvalRulesetGrammar.g:18:7: ( 'EXISTS' )
-            // ArchvalRulesetGrammar.g:18:9: 'EXISTS'
+            // ArchvalRulesetGrammar.g:12:7: ( ';' )
+            // ArchvalRulesetGrammar.g:12:9: ';'
             {
-            match("EXISTS"); 
-
+            match(';'); 
 
             }
 
@@ -305,10 +186,11 @@ public class ArchvalRulesetGrammarLexer extends Lexer {
         try {
             int _type = T__20;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // ArchvalRulesetGrammar.g:19:7: ( 'v' )
-            // ArchvalRulesetGrammar.g:19:9: 'v'
+            // ArchvalRulesetGrammar.g:13:7: ( 'compound_rule' )
+            // ArchvalRulesetGrammar.g:13:9: 'compound_rule'
             {
-            match('v'); 
+            match("compound_rule"); 
+
 
             }
 
@@ -325,10 +207,10 @@ public class ArchvalRulesetGrammarLexer extends Lexer {
         try {
             int _type = T__21;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // ArchvalRulesetGrammar.g:20:7: ( 'IN' )
-            // ArchvalRulesetGrammar.g:20:9: 'IN'
+            // ArchvalRulesetGrammar.g:14:7: ( 'validate' )
+            // ArchvalRulesetGrammar.g:14:9: 'validate'
             {
-            match("IN"); 
+            match("validate"); 
 
 
             }
@@ -346,10 +228,11 @@ public class ArchvalRulesetGrammarLexer extends Lexer {
         try {
             int _type = T__22;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // ArchvalRulesetGrammar.g:21:7: ( 'V' )
-            // ArchvalRulesetGrammar.g:21:9: 'V'
+            // ArchvalRulesetGrammar.g:15:7: ( 'analyze' )
+            // ArchvalRulesetGrammar.g:15:9: 'analyze'
             {
-            match('V'); 
+            match("analyze"); 
+
 
             }
 
@@ -366,10 +249,10 @@ public class ArchvalRulesetGrammarLexer extends Lexer {
         try {
             int _type = T__23;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // ArchvalRulesetGrammar.g:22:7: ( ':' )
-            // ArchvalRulesetGrammar.g:22:9: ':'
+            // ArchvalRulesetGrammar.g:16:7: ( ',' )
+            // ArchvalRulesetGrammar.g:16:9: ','
             {
-            match(':'); 
+            match(','); 
 
             }
 
@@ -386,10 +269,11 @@ public class ArchvalRulesetGrammarLexer extends Lexer {
         try {
             int _type = T__24;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // ArchvalRulesetGrammar.g:23:7: ( 'e' )
-            // ArchvalRulesetGrammar.g:23:9: 'e'
+            // ArchvalRulesetGrammar.g:17:7: ( 'ALL' )
+            // ArchvalRulesetGrammar.g:17:9: 'ALL'
             {
-            match('e'); 
+            match("ALL"); 
+
 
             }
 
@@ -406,10 +290,11 @@ public class ArchvalRulesetGrammarLexer extends Lexer {
         try {
             int _type = T__25;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // ArchvalRulesetGrammar.g:24:7: ( 'E' )
-            // ArchvalRulesetGrammar.g:24:9: 'E'
+            // ArchvalRulesetGrammar.g:18:7: ( 'EXISTS' )
+            // ArchvalRulesetGrammar.g:18:9: 'EXISTS'
             {
-            match('E'); 
+            match("EXISTS"); 
+
 
             }
 
@@ -426,11 +311,10 @@ public class ArchvalRulesetGrammarLexer extends Lexer {
         try {
             int _type = T__26;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // ArchvalRulesetGrammar.g:25:7: ( 'OR' )
-            // ArchvalRulesetGrammar.g:25:9: 'OR'
+            // ArchvalRulesetGrammar.g:19:7: ( 'v' )
+            // ArchvalRulesetGrammar.g:19:9: 'v'
             {
-            match("OR"); 
-
+            match('v'); 
 
             }
 
@@ -447,10 +331,10 @@ public class ArchvalRulesetGrammarLexer extends Lexer {
         try {
             int _type = T__27;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // ArchvalRulesetGrammar.g:26:7: ( 'AND' )
-            // ArchvalRulesetGrammar.g:26:9: 'AND'
+            // ArchvalRulesetGrammar.g:20:7: ( 'IN' )
+            // ArchvalRulesetGrammar.g:20:9: 'IN'
             {
-            match("AND"); 
+            match("IN"); 
 
 
             }
@@ -468,11 +352,10 @@ public class ArchvalRulesetGrammarLexer extends Lexer {
         try {
             int _type = T__28;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // ArchvalRulesetGrammar.g:27:7: ( 'NOT' )
-            // ArchvalRulesetGrammar.g:27:9: 'NOT'
+            // ArchvalRulesetGrammar.g:21:7: ( 'V' )
+            // ArchvalRulesetGrammar.g:21:9: 'V'
             {
-            match("NOT"); 
-
+            match('V'); 
 
             }
 
@@ -489,11 +372,10 @@ public class ArchvalRulesetGrammarLexer extends Lexer {
         try {
             int _type = T__29;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // ArchvalRulesetGrammar.g:28:7: ( 'true' )
-            // ArchvalRulesetGrammar.g:28:9: 'true'
+            // ArchvalRulesetGrammar.g:22:7: ( 'e' )
+            // ArchvalRulesetGrammar.g:22:9: 'e'
             {
-            match("true"); 
-
+            match('e'); 
 
             }
 
@@ -510,11 +392,10 @@ public class ArchvalRulesetGrammarLexer extends Lexer {
         try {
             int _type = T__30;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // ArchvalRulesetGrammar.g:29:7: ( 'false' )
-            // ArchvalRulesetGrammar.g:29:9: 'false'
+            // ArchvalRulesetGrammar.g:23:7: ( 'E' )
+            // ArchvalRulesetGrammar.g:23:9: 'E'
             {
-            match("false"); 
-
+            match('E'); 
 
             }
 
@@ -531,11 +412,10 @@ public class ArchvalRulesetGrammarLexer extends Lexer {
         try {
             int _type = T__31;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // ArchvalRulesetGrammar.g:30:7: ( 'INTERSECT' )
-            // ArchvalRulesetGrammar.g:30:9: 'INTERSECT'
+            // ArchvalRulesetGrammar.g:24:7: ( ':' )
+            // ArchvalRulesetGrammar.g:24:9: ':'
             {
-            match("INTERSECT"); 
-
+            match(':'); 
 
             }
 
@@ -552,10 +432,10 @@ public class ArchvalRulesetGrammarLexer extends Lexer {
         try {
             int _type = T__32;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // ArchvalRulesetGrammar.g:31:7: ( 'UNION' )
-            // ArchvalRulesetGrammar.g:31:9: 'UNION'
+            // ArchvalRulesetGrammar.g:25:7: ( 'OR' )
+            // ArchvalRulesetGrammar.g:25:9: 'OR'
             {
-            match("UNION"); 
+            match("OR"); 
 
 
             }
@@ -573,6 +453,132 @@ public class ArchvalRulesetGrammarLexer extends Lexer {
         try {
             int _type = T__33;
             int _channel = DEFAULT_TOKEN_CHANNEL;
+            // ArchvalRulesetGrammar.g:26:7: ( 'AND' )
+            // ArchvalRulesetGrammar.g:26:9: 'AND'
+            {
+            match("AND"); 
+
+
+            }
+
+            state.type = _type;
+            state.channel = _channel;
+        }
+        finally {
+        }
+    }
+    // $ANTLR end "T__33"
+
+    // $ANTLR start "T__34"
+    public final void mT__34() throws RecognitionException {
+        try {
+            int _type = T__34;
+            int _channel = DEFAULT_TOKEN_CHANNEL;
+            // ArchvalRulesetGrammar.g:27:7: ( 'NOT' )
+            // ArchvalRulesetGrammar.g:27:9: 'NOT'
+            {
+            match("NOT"); 
+
+
+            }
+
+            state.type = _type;
+            state.channel = _channel;
+        }
+        finally {
+        }
+    }
+    // $ANTLR end "T__34"
+
+    // $ANTLR start "T__35"
+    public final void mT__35() throws RecognitionException {
+        try {
+            int _type = T__35;
+            int _channel = DEFAULT_TOKEN_CHANNEL;
+            // ArchvalRulesetGrammar.g:28:7: ( 'true' )
+            // ArchvalRulesetGrammar.g:28:9: 'true'
+            {
+            match("true"); 
+
+
+            }
+
+            state.type = _type;
+            state.channel = _channel;
+        }
+        finally {
+        }
+    }
+    // $ANTLR end "T__35"
+
+    // $ANTLR start "T__36"
+    public final void mT__36() throws RecognitionException {
+        try {
+            int _type = T__36;
+            int _channel = DEFAULT_TOKEN_CHANNEL;
+            // ArchvalRulesetGrammar.g:29:7: ( 'false' )
+            // ArchvalRulesetGrammar.g:29:9: 'false'
+            {
+            match("false"); 
+
+
+            }
+
+            state.type = _type;
+            state.channel = _channel;
+        }
+        finally {
+        }
+    }
+    // $ANTLR end "T__36"
+
+    // $ANTLR start "T__37"
+    public final void mT__37() throws RecognitionException {
+        try {
+            int _type = T__37;
+            int _channel = DEFAULT_TOKEN_CHANNEL;
+            // ArchvalRulesetGrammar.g:30:7: ( 'INTERSECT' )
+            // ArchvalRulesetGrammar.g:30:9: 'INTERSECT'
+            {
+            match("INTERSECT"); 
+
+
+            }
+
+            state.type = _type;
+            state.channel = _channel;
+        }
+        finally {
+        }
+    }
+    // $ANTLR end "T__37"
+
+    // $ANTLR start "T__38"
+    public final void mT__38() throws RecognitionException {
+        try {
+            int _type = T__38;
+            int _channel = DEFAULT_TOKEN_CHANNEL;
+            // ArchvalRulesetGrammar.g:31:7: ( 'UNION' )
+            // ArchvalRulesetGrammar.g:31:9: 'UNION'
+            {
+            match("UNION"); 
+
+
+            }
+
+            state.type = _type;
+            state.channel = _channel;
+        }
+        finally {
+        }
+    }
+    // $ANTLR end "T__38"
+
+    // $ANTLR start "T__39"
+    public final void mT__39() throws RecognitionException {
+        try {
+            int _type = T__39;
+            int _channel = DEFAULT_TOKEN_CHANNEL;
             // ArchvalRulesetGrammar.g:32:7: ( 'SETMINUS' )
             // ArchvalRulesetGrammar.g:32:9: 'SETMINUS'
             {
@@ -587,15 +593,15 @@ public class ArchvalRulesetGrammarLexer extends Lexer {
         finally {
         }
     }
-    // $ANTLR end "T__33"
+    // $ANTLR end "T__39"
 
     // $ANTLR start "Name"
     public final void mName() throws RecognitionException {
         try {
             int _type = Name;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // ArchvalRulesetGrammar.g:75:6: ( ( 'a' .. 'z' | 'A' .. 'Z' ) ( 'a' .. 'z' | 'A' .. 'Z' | '0' .. '9' | '_' )* )
-            // ArchvalRulesetGrammar.g:75:8: ( 'a' .. 'z' | 'A' .. 'Z' ) ( 'a' .. 'z' | 'A' .. 'Z' | '0' .. '9' | '_' )*
+            // ArchvalRulesetGrammar.g:221:6: ( ( 'a' .. 'z' | 'A' .. 'Z' ) ( 'a' .. 'z' | 'A' .. 'Z' | '0' .. '9' | '_' )* )
+            // ArchvalRulesetGrammar.g:221:8: ( 'a' .. 'z' | 'A' .. 'Z' ) ( 'a' .. 'z' | 'A' .. 'Z' | '0' .. '9' | '_' )*
             {
             if ( (input.LA(1)>='A' && input.LA(1)<='Z')||(input.LA(1)>='a' && input.LA(1)<='z') ) {
                 input.consume();
@@ -606,7 +612,7 @@ public class ArchvalRulesetGrammarLexer extends Lexer {
                 recover(mse);
                 throw mse;}
 
-            // ArchvalRulesetGrammar.g:75:30: ( 'a' .. 'z' | 'A' .. 'Z' | '0' .. '9' | '_' )*
+            // ArchvalRulesetGrammar.g:221:30: ( 'a' .. 'z' | 'A' .. 'Z' | '0' .. '9' | '_' )*
             loop1:
             do {
                 int alt1=2;
@@ -655,10 +661,10 @@ public class ArchvalRulesetGrammarLexer extends Lexer {
         try {
             int _type = Number;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // ArchvalRulesetGrammar.g:77:8: ( ( '0' .. '9' )+ )
-            // ArchvalRulesetGrammar.g:77:10: ( '0' .. '9' )+
+            // ArchvalRulesetGrammar.g:223:8: ( ( '0' .. '9' )+ )
+            // ArchvalRulesetGrammar.g:223:10: ( '0' .. '9' )+
             {
-            // ArchvalRulesetGrammar.g:77:10: ( '0' .. '9' )+
+            // ArchvalRulesetGrammar.g:223:10: ( '0' .. '9' )+
             int cnt2=0;
             loop2:
             do {
@@ -672,7 +678,7 @@ public class ArchvalRulesetGrammarLexer extends Lexer {
 
                 switch (alt2) {
             	case 1 :
-            	    // ArchvalRulesetGrammar.g:77:11: '0' .. '9'
+            	    // ArchvalRulesetGrammar.g:223:11: '0' .. '9'
             	    {
             	    matchRange('0','9'); 
 
@@ -704,11 +710,11 @@ public class ArchvalRulesetGrammarLexer extends Lexer {
         try {
             int _type = Label;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // ArchvalRulesetGrammar.g:79:7: ( '\"' ( 'a' .. 'z' | 'A' .. 'Z' | '0' .. '9' )* '\"' )
-            // ArchvalRulesetGrammar.g:79:9: '\"' ( 'a' .. 'z' | 'A' .. 'Z' | '0' .. '9' )* '\"'
+            // ArchvalRulesetGrammar.g:225:7: ( '\"' ( 'a' .. 'z' | 'A' .. 'Z' | '0' .. '9' )* '\"' )
+            // ArchvalRulesetGrammar.g:225:9: '\"' ( 'a' .. 'z' | 'A' .. 'Z' | '0' .. '9' )* '\"'
             {
             match('\"'); 
-            // ArchvalRulesetGrammar.g:79:13: ( 'a' .. 'z' | 'A' .. 'Z' | '0' .. '9' )*
+            // ArchvalRulesetGrammar.g:225:13: ( 'a' .. 'z' | 'A' .. 'Z' | '0' .. '9' )*
             loop3:
             do {
                 int alt3=2;
@@ -758,10 +764,10 @@ public class ArchvalRulesetGrammarLexer extends Lexer {
         try {
             int _type = WS;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // ArchvalRulesetGrammar.g:82:2: ( ( ' ' | '\\t' | '\\n' | '\\r' )+ )
-            // ArchvalRulesetGrammar.g:82:4: ( ' ' | '\\t' | '\\n' | '\\r' )+
+            // ArchvalRulesetGrammar.g:227:4: ( ( ' ' | '\\t' | '\\n' | '\\r' )+ )
+            // ArchvalRulesetGrammar.g:227:6: ( ' ' | '\\t' | '\\n' | '\\r' )+
             {
-            // ArchvalRulesetGrammar.g:82:4: ( ' ' | '\\t' | '\\n' | '\\r' )+
+            // ArchvalRulesetGrammar.g:227:6: ( ' ' | '\\t' | '\\n' | '\\r' )+
             int cnt4=0;
             loop4:
             do {
@@ -812,215 +818,215 @@ public class ArchvalRulesetGrammarLexer extends Lexer {
     // $ANTLR end "WS"
 
     public void mTokens() throws RecognitionException {
-        // ArchvalRulesetGrammar.g:1:8: ( T__8 | T__9 | T__10 | T__11 | T__12 | T__13 | T__14 | T__15 | T__16 | T__17 | T__18 | T__19 | T__20 | T__21 | T__22 | T__23 | T__24 | T__25 | T__26 | T__27 | T__28 | T__29 | T__30 | T__31 | T__32 | T__33 | Name | Number | Label | WS )
+        // ArchvalRulesetGrammar.g:1:8: ( T__14 | T__15 | T__16 | T__17 | T__18 | T__19 | T__20 | T__21 | T__22 | T__23 | T__24 | T__25 | T__26 | T__27 | T__28 | T__29 | T__30 | T__31 | T__32 | T__33 | T__34 | T__35 | T__36 | T__37 | T__38 | T__39 | Name | Number | Label | WS )
         int alt5=30;
         alt5 = dfa5.predict(input);
         switch (alt5) {
             case 1 :
-                // ArchvalRulesetGrammar.g:1:10: T__8
-                {
-                mT__8(); 
-
-                }
-                break;
-            case 2 :
-                // ArchvalRulesetGrammar.g:1:15: T__9
-                {
-                mT__9(); 
-
-                }
-                break;
-            case 3 :
-                // ArchvalRulesetGrammar.g:1:20: T__10
-                {
-                mT__10(); 
-
-                }
-                break;
-            case 4 :
-                // ArchvalRulesetGrammar.g:1:26: T__11
-                {
-                mT__11(); 
-
-                }
-                break;
-            case 5 :
-                // ArchvalRulesetGrammar.g:1:32: T__12
-                {
-                mT__12(); 
-
-                }
-                break;
-            case 6 :
-                // ArchvalRulesetGrammar.g:1:38: T__13
-                {
-                mT__13(); 
-
-                }
-                break;
-            case 7 :
-                // ArchvalRulesetGrammar.g:1:44: T__14
+                // ArchvalRulesetGrammar.g:1:10: T__14
                 {
                 mT__14(); 
 
                 }
                 break;
-            case 8 :
-                // ArchvalRulesetGrammar.g:1:50: T__15
+            case 2 :
+                // ArchvalRulesetGrammar.g:1:16: T__15
                 {
                 mT__15(); 
 
                 }
                 break;
-            case 9 :
-                // ArchvalRulesetGrammar.g:1:56: T__16
+            case 3 :
+                // ArchvalRulesetGrammar.g:1:22: T__16
                 {
                 mT__16(); 
 
                 }
                 break;
-            case 10 :
-                // ArchvalRulesetGrammar.g:1:62: T__17
+            case 4 :
+                // ArchvalRulesetGrammar.g:1:28: T__17
                 {
                 mT__17(); 
 
                 }
                 break;
-            case 11 :
-                // ArchvalRulesetGrammar.g:1:68: T__18
+            case 5 :
+                // ArchvalRulesetGrammar.g:1:34: T__18
                 {
                 mT__18(); 
 
                 }
                 break;
-            case 12 :
-                // ArchvalRulesetGrammar.g:1:74: T__19
+            case 6 :
+                // ArchvalRulesetGrammar.g:1:40: T__19
                 {
                 mT__19(); 
 
                 }
                 break;
-            case 13 :
-                // ArchvalRulesetGrammar.g:1:80: T__20
+            case 7 :
+                // ArchvalRulesetGrammar.g:1:46: T__20
                 {
                 mT__20(); 
 
                 }
                 break;
-            case 14 :
-                // ArchvalRulesetGrammar.g:1:86: T__21
+            case 8 :
+                // ArchvalRulesetGrammar.g:1:52: T__21
                 {
                 mT__21(); 
 
                 }
                 break;
-            case 15 :
-                // ArchvalRulesetGrammar.g:1:92: T__22
+            case 9 :
+                // ArchvalRulesetGrammar.g:1:58: T__22
                 {
                 mT__22(); 
 
                 }
                 break;
-            case 16 :
-                // ArchvalRulesetGrammar.g:1:98: T__23
+            case 10 :
+                // ArchvalRulesetGrammar.g:1:64: T__23
                 {
                 mT__23(); 
 
                 }
                 break;
-            case 17 :
-                // ArchvalRulesetGrammar.g:1:104: T__24
+            case 11 :
+                // ArchvalRulesetGrammar.g:1:70: T__24
                 {
                 mT__24(); 
 
                 }
                 break;
-            case 18 :
-                // ArchvalRulesetGrammar.g:1:110: T__25
+            case 12 :
+                // ArchvalRulesetGrammar.g:1:76: T__25
                 {
                 mT__25(); 
 
                 }
                 break;
-            case 19 :
-                // ArchvalRulesetGrammar.g:1:116: T__26
+            case 13 :
+                // ArchvalRulesetGrammar.g:1:82: T__26
                 {
                 mT__26(); 
 
                 }
                 break;
-            case 20 :
-                // ArchvalRulesetGrammar.g:1:122: T__27
+            case 14 :
+                // ArchvalRulesetGrammar.g:1:88: T__27
                 {
                 mT__27(); 
 
                 }
                 break;
-            case 21 :
-                // ArchvalRulesetGrammar.g:1:128: T__28
+            case 15 :
+                // ArchvalRulesetGrammar.g:1:94: T__28
                 {
                 mT__28(); 
 
                 }
                 break;
-            case 22 :
-                // ArchvalRulesetGrammar.g:1:134: T__29
+            case 16 :
+                // ArchvalRulesetGrammar.g:1:100: T__29
                 {
                 mT__29(); 
 
                 }
                 break;
-            case 23 :
-                // ArchvalRulesetGrammar.g:1:140: T__30
+            case 17 :
+                // ArchvalRulesetGrammar.g:1:106: T__30
                 {
                 mT__30(); 
 
                 }
                 break;
-            case 24 :
-                // ArchvalRulesetGrammar.g:1:146: T__31
+            case 18 :
+                // ArchvalRulesetGrammar.g:1:112: T__31
                 {
                 mT__31(); 
 
                 }
                 break;
-            case 25 :
-                // ArchvalRulesetGrammar.g:1:152: T__32
+            case 19 :
+                // ArchvalRulesetGrammar.g:1:118: T__32
                 {
                 mT__32(); 
 
                 }
                 break;
-            case 26 :
-                // ArchvalRulesetGrammar.g:1:158: T__33
+            case 20 :
+                // ArchvalRulesetGrammar.g:1:124: T__33
                 {
                 mT__33(); 
 
                 }
                 break;
+            case 21 :
+                // ArchvalRulesetGrammar.g:1:130: T__34
+                {
+                mT__34(); 
+
+                }
+                break;
+            case 22 :
+                // ArchvalRulesetGrammar.g:1:136: T__35
+                {
+                mT__35(); 
+
+                }
+                break;
+            case 23 :
+                // ArchvalRulesetGrammar.g:1:142: T__36
+                {
+                mT__36(); 
+
+                }
+                break;
+            case 24 :
+                // ArchvalRulesetGrammar.g:1:148: T__37
+                {
+                mT__37(); 
+
+                }
+                break;
+            case 25 :
+                // ArchvalRulesetGrammar.g:1:154: T__38
+                {
+                mT__38(); 
+
+                }
+                break;
+            case 26 :
+                // ArchvalRulesetGrammar.g:1:160: T__39
+                {
+                mT__39(); 
+
+                }
+                break;
             case 27 :
-                // ArchvalRulesetGrammar.g:1:164: Name
+                // ArchvalRulesetGrammar.g:1:166: Name
                 {
                 mName(); 
 
                 }
                 break;
             case 28 :
-                // ArchvalRulesetGrammar.g:1:169: Number
+                // ArchvalRulesetGrammar.g:1:171: Number
                 {
                 mNumber(); 
 
                 }
                 break;
             case 29 :
-                // ArchvalRulesetGrammar.g:1:176: Label
+                // ArchvalRulesetGrammar.g:1:178: Label
                 {
                 mLabel(); 
 
                 }
                 break;
             case 30 :
-                // ArchvalRulesetGrammar.g:1:182: WS
+                // ArchvalRulesetGrammar.g:1:184: WS
                 {
                 mWS(); 
 
@@ -1034,40 +1040,40 @@ public class ArchvalRulesetGrammarLexer extends Lexer {
 
     protected DFA5 dfa5 = new DFA5(this);
     static final String DFA5_eotS =
-        "\1\uffff\1\26\5\uffff\1\26\1\36\1\uffff\1\26\1\42\1\26\1\44\1\uffff"+
-        "\1\45\6\26\4\uffff\4\26\1\uffff\3\26\1\uffff\1\64\2\uffff\1\65\11"+
-        "\26\1\77\1\100\2\26\2\uffff\1\103\10\26\2\uffff\2\26\1\uffff\1\116"+
-        "\11\26\1\uffff\1\130\1\131\5\26\1\137\1\26\2\uffff\2\26\1\143\2"+
-        "\26\1\uffff\3\26\1\uffff\1\26\1\152\1\26\1\154\2\26\1\uffff\1\157"+
-        "\1\uffff\2\26\1\uffff\1\162\1\26\1\uffff\1\26\1\165\1\uffff";
+        "\1\uffff\1\26\5\uffff\1\26\1\36\1\uffff\1\26\1\42\1\26\1\44\1\45"+
+        "\1\uffff\6\26\4\uffff\4\26\1\uffff\3\26\1\uffff\1\64\2\uffff\1\65"+
+        "\11\26\1\77\1\100\2\26\2\uffff\1\103\10\26\2\uffff\2\26\1\uffff"+
+        "\1\116\11\26\1\uffff\1\130\1\131\5\26\1\137\1\26\2\uffff\2\26\1"+
+        "\143\2\26\1\uffff\3\26\1\uffff\1\26\1\152\1\26\1\154\2\26\1\uffff"+
+        "\1\157\1\uffff\2\26\1\uffff\1\162\1\26\1\uffff\1\26\1\165\1\uffff";
     static final String DFA5_eofS =
         "\166\uffff";
     static final String DFA5_minS =
-        "\1\11\1\156\5\uffff\1\157\1\60\1\uffff\1\114\1\60\1\116\1\60\1\uffff"+
-        "\1\60\1\122\1\117\1\162\1\141\1\116\1\105\4\uffff\1\157\1\141\1"+
-        "\155\1\154\1\uffff\1\114\1\104\1\111\1\uffff\1\60\2\uffff\1\60\1"+
-        "\124\1\165\1\154\1\111\1\124\1\155\1\154\1\160\1\151\2\60\1\123"+
-        "\1\105\2\uffff\1\60\1\145\1\163\1\117\1\115\1\151\1\171\1\157\1"+
-        "\144\2\uffff\1\124\1\122\1\uffff\1\60\1\145\1\116\1\111\1\143\1"+
-        "\172\1\165\1\141\2\123\1\uffff\2\60\1\116\1\137\1\145\1\156\1\164"+
-        "\1\60\1\105\2\uffff\1\125\1\162\1\60\1\144\1\145\1\uffff\1\103\1"+
-        "\123\1\165\1\uffff\1\137\1\60\1\124\1\60\1\154\1\162\1\uffff\1\60"+
-        "\1\uffff\1\145\1\165\1\uffff\1\60\1\154\1\uffff\1\145\1\60\1\uffff";
+        "\1\11\1\156\5\uffff\1\157\1\60\1\uffff\1\114\1\60\1\116\2\60\1\uffff"+
+        "\1\122\1\117\1\162\1\141\1\116\1\105\4\uffff\1\157\1\141\1\155\1"+
+        "\154\1\uffff\1\114\1\104\1\111\1\uffff\1\60\2\uffff\1\60\1\124\1"+
+        "\165\1\154\1\111\1\124\1\155\1\154\1\160\1\151\2\60\1\123\1\105"+
+        "\2\uffff\1\60\1\145\1\163\1\117\1\115\1\151\1\171\1\157\1\144\2"+
+        "\uffff\1\124\1\122\1\uffff\1\60\1\145\1\116\1\111\1\143\1\172\1"+
+        "\165\1\141\2\123\1\uffff\2\60\1\116\1\137\1\145\1\156\1\164\1\60"+
+        "\1\105\2\uffff\1\125\1\162\1\60\1\144\1\145\1\uffff\1\103\1\123"+
+        "\1\165\1\uffff\1\137\1\60\1\124\1\60\1\154\1\162\1\uffff\1\60\1"+
+        "\uffff\1\145\1\165\1\uffff\1\60\1\154\1\uffff\1\145\1\60\1\uffff";
     static final String DFA5_maxS =
-        "\1\175\1\164\5\uffff\1\157\1\172\1\uffff\1\116\1\172\1\116\1\172"+
-        "\1\uffff\1\172\1\122\1\117\1\162\1\141\1\116\1\105\4\uffff\1\157"+
-        "\1\141\1\155\1\154\1\uffff\1\114\1\104\1\111\1\uffff\1\172\2\uffff"+
-        "\1\172\1\124\1\165\1\154\1\111\1\124\1\155\1\154\1\160\1\151\2\172"+
-        "\1\123\1\105\2\uffff\1\172\1\145\1\163\1\117\1\115\1\151\1\171\1"+
-        "\157\1\144\2\uffff\1\124\1\122\1\uffff\1\172\1\145\1\116\1\111\1"+
-        "\143\1\172\1\165\1\141\2\123\1\uffff\2\172\1\116\1\137\1\145\1\156"+
-        "\1\164\1\172\1\105\2\uffff\1\125\1\162\1\172\1\144\1\145\1\uffff"+
-        "\1\103\1\123\1\165\1\uffff\1\137\1\172\1\124\1\172\1\154\1\162\1"+
-        "\uffff\1\172\1\uffff\1\145\1\165\1\uffff\1\172\1\154\1\uffff\1\145"+
-        "\1\172\1\uffff";
+        "\1\175\1\164\5\uffff\1\157\1\172\1\uffff\1\116\1\172\1\116\2\172"+
+        "\1\uffff\1\122\1\117\1\162\1\141\1\116\1\105\4\uffff\1\157\1\141"+
+        "\1\155\1\154\1\uffff\1\114\1\104\1\111\1\uffff\1\172\2\uffff\1\172"+
+        "\1\124\1\165\1\154\1\111\1\124\1\155\1\154\1\160\1\151\2\172\1\123"+
+        "\1\105\2\uffff\1\172\1\145\1\163\1\117\1\115\1\151\1\171\1\157\1"+
+        "\144\2\uffff\1\124\1\122\1\uffff\1\172\1\145\1\116\1\111\1\143\1"+
+        "\172\1\165\1\141\2\123\1\uffff\2\172\1\116\1\137\1\145\1\156\1\164"+
+        "\1\172\1\105\2\uffff\1\125\1\162\1\172\1\144\1\145\1\uffff\1\103"+
+        "\1\123\1\165\1\uffff\1\137\1\172\1\124\1\172\1\154\1\162\1\uffff"+
+        "\1\172\1\uffff\1\145\1\165\1\uffff\1\172\1\154\1\uffff\1\145\1\172"+
+        "\1\uffff";
     static final String DFA5_acceptS =
-        "\2\uffff\1\2\1\3\1\4\1\5\1\6\2\uffff\1\12\4\uffff\1\20\7\uffff\1"+
-        "\33\1\34\1\35\1\36\4\uffff\1\15\3\uffff\1\22\1\uffff\1\17\1\21\16"+
+        "\2\uffff\1\2\1\3\1\4\1\5\1\6\2\uffff\1\12\5\uffff\1\22\6\uffff\1"+
+        "\33\1\34\1\35\1\36\4\uffff\1\15\3\uffff\1\21\1\uffff\1\17\1\20\16"+
         "\uffff\1\16\1\23\11\uffff\1\13\1\24\2\uffff\1\25\12\uffff\1\26\11"+
         "\uffff\1\27\1\31\5\uffff\1\14\3\uffff\1\11\6\uffff\1\10\1\uffff"+
         "\1\32\2\uffff\1\30\2\uffff\1\1\2\uffff\1\7";
@@ -1075,9 +1081,9 @@ public class ArchvalRulesetGrammarLexer extends Lexer {
         "\166\uffff}>";
     static final String[] DFA5_transitionS = {
             "\2\31\2\uffff\1\31\22\uffff\1\31\1\uffff\1\30\5\uffff\1\2\1"+
-            "\3\2\uffff\1\11\3\uffff\12\27\1\16\1\6\5\uffff\1\12\3\26\1\13"+
+            "\3\2\uffff\1\11\3\uffff\12\27\1\17\1\6\5\uffff\1\12\3\26\1\13"+
             "\3\26\1\14\4\26\1\21\1\20\3\26\1\25\1\26\1\24\1\15\4\26\6\uffff"+
-            "\1\1\1\26\1\7\1\26\1\17\1\23\15\26\1\22\1\26\1\10\4\26\1\4\1"+
+            "\1\1\1\26\1\7\1\26\1\16\1\23\15\26\1\22\1\26\1\10\4\26\1\4\1"+
             "\uffff\1\5",
             "\1\33\5\uffff\1\32",
             "",
@@ -1092,8 +1098,8 @@ public class ArchvalRulesetGrammarLexer extends Lexer {
             "\12\26\7\uffff\27\26\1\41\2\26\4\uffff\1\26\1\uffff\32\26",
             "\1\43",
             "\12\26\7\uffff\32\26\4\uffff\1\26\1\uffff\32\26",
-            "",
             "\12\26\7\uffff\32\26\4\uffff\1\26\1\uffff\32\26",
+            "",
             "\1\46",
             "\1\47",
             "\1\50",
@@ -1228,7 +1234,7 @@ public class ArchvalRulesetGrammarLexer extends Lexer {
             this.transition = DFA5_transition;
         }
         public String getDescription() {
-            return "1:1: Tokens : ( T__8 | T__9 | T__10 | T__11 | T__12 | T__13 | T__14 | T__15 | T__16 | T__17 | T__18 | T__19 | T__20 | T__21 | T__22 | T__23 | T__24 | T__25 | T__26 | T__27 | T__28 | T__29 | T__30 | T__31 | T__32 | T__33 | Name | Number | Label | WS );";
+            return "1:1: Tokens : ( T__14 | T__15 | T__16 | T__17 | T__18 | T__19 | T__20 | T__21 | T__22 | T__23 | T__24 | T__25 | T__26 | T__27 | T__28 | T__29 | T__30 | T__31 | T__32 | T__33 | T__34 | T__35 | T__36 | T__37 | T__38 | T__39 | Name | Number | Label | WS );";
         }
     }
  
