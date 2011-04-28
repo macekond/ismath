@@ -1,11 +1,42 @@
+atomic_rule MojePravidlo(GrafG) {
+    ALL v IN V : name_length_bigger_than(v, 3) {
+        empty(
+            g() UNION (
+                test() SETMINUS a(v, "label")
+            ) SETMINUS a() INTERSECT G()
+        )
+	AND
+	NOT (empty(vertex()) OR a()) AND h() OR b()
+    }
+};
+
+atomic_rule AnotherRule(GrafH) {
+    EXISTS v IN V : name_length_bigger_than(v, 3) {
+        empty(
+            g() UNION (
+                test() SETMINUS a(v, "label")
+            ) SETMINUS a() INTERSECT G()
+        )
+	AND
+	NOT empty(vertex(), 123)
+    }
+};
+
 compound_rule P4 {
-  P2 AND cosi OR dlk OR NOT skd
+  P2 AND (cosi OR dlk) OR (NOT skd)
 };
 
 compound_rule P6 {
-  sd OR huhu
+  P3 OR P4
 };
 
-validate(sldk, sldk, sldk, sldkf, sdlk);
+validate(sldk, sldk);
+
+validate(sldk, sldk, ajre, sldkf, sdlk);
+
+validate(sldk, sldk, lke);
 
 analyze(huhu);
+
+analyze(huhu, aks);
+analyze(huhu, hehe);
