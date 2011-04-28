@@ -25,19 +25,19 @@ tokens {
 }
 
 validation_unit
-	:	
+	:
 	atomic_rule*
 	compound_rule*
 	validate_command*
 	analyze_command*
 	EOF
-	->  
+	->
 	^(VALIDATION_UNIT
         ^(ATOMIC_RULES atomic_rule*)
         ^(COMPOUND_RULES compound_rule*)
         ^(VALIDATE_COMMANDS validate_command*)
     	^(ANALYZE_COMMANDS analyze_command*))
-	;	
+	;
 
 atomic_rule :
 	'atomic_rule' rname=Name '(' grname=Name ')' '{' atomic_rule_spec '}' ';'
@@ -85,23 +85,23 @@ set_spec_clause
     	->
     	^(quantifier_clause
     	quantification_variable)
-    	quantification_predicate? 	
+        quantification_predicate?
     	;
- 
+
 quantifier_clause
-	:	
+	:
 	'ALL'^
 	|
 	'EXISTS'^
 	;
-	
+
 quantification_variable
-	:	
+	:
 	'v' 'IN' 'V' -> ^('v' ^('IN' 'V'))
 	|
 	'e' 'IN' 'E' -> ^('e' ^('IN' 'E'))
 	;
-	
+
 quantification_predicate
 	:
 	(':' Name '(' selector_params ')')
@@ -130,7 +130,7 @@ atom
 	|
 	'(' orexpression ')'
 	->
-	^(orexpression)
+	orexpression
 	;
 
 condition
@@ -173,14 +173,14 @@ set_atom
 	|
 	'(' set_expression ')'
 	->
-	^(set_expression)
+	set_expression
 	;
 
 selector_params
-	:	
+	:
 	selector_param (',' selector_param)*
 	->
-	^(selector_param selector_param*)
+	selector_param selector_param*
 	;
 
 selector_param
@@ -204,7 +204,19 @@ candexpression
 	cnotexpression ('AND'^ cnotexpression)*
 	;
 
-cnotexpression : 'NOT'^? Name;
+cnotexpression
+	:
+	'NOT'^? catom
+	;
+
+catom
+	:
+	Name
+	|
+	'(' compound_rule_spec ')'
+	->
+	compound_rule_spec
+	;
 
 Name : ('a'..'z' | 'A'..'Z') ('a'..'z' | 'A'..'Z' | '0'..'9' | '_')*;
 
