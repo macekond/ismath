@@ -40,39 +40,39 @@ validation_unit
 	;
 
 atomic_rule :
-	'atomic_rule' rname=Name '(' grname=Name ')' '{' atomic_rule_spec '}' ';'
+	ATOMIC_RULE_KW rname=Name LPAREN grname=Name RPAREN LBRACE atomic_rule_spec RBRACE SEMICOLON
 	->
 	^($rname $grname atomic_rule_spec)
 	;
 
 compound_rule :
-	'compound_rule' Name '{' compound_rule_spec '}' ';'
+	COMPOUND_RULE_KW Name LBRACE compound_rule_spec RBRACE SEMICOLON
 	->
 	^(Name compound_rule_spec)
 	;
 
 validate_command :
-	'validate' '(' validate_command_params ')' ';'
+	VALIDATE_KW LPAREN validate_command_params RPAREN SEMICOLON
 	->
 	validate_command_params
 	;
 
 analyze_command :
-	'analyze' '(' analyze_command_params ')' ';'
+	ANALYZE_KW LPAREN analyze_command_params RPAREN SEMICOLON
 	->
 	analyze_command_params
 	;
 
 validate_command_params :
-	Name (','! Name)*
+	Name (COMMA! Name)*
 	;
 
 analyze_command_params :
-	Name (','! Name)*
+	Name (COMMA! Name)*
 	;
 
 atomic_rule_spec :
-	set_spec_clause '{' orexpression '}'
+	set_spec_clause LBRACE orexpression RBRACE
 	->
 	set_spec_clause ^(RULE_EXPRESSION orexpression)
 	;
@@ -90,63 +90,63 @@ set_spec_clause
 
 quantifier_clause
 	:
-	'ALL'^
+	ALL^
 	|
-	'EXISTS'^
+	EXISTS^
 	;
 
 quantification_variable
 	:
-	'v' 'IN' 'V' -> ^('v' ^('IN' 'V'))
+	Vertex IN VertexSet -> ^(Vertex ^(IN VertexSet))
 	|
-	'e' 'IN' 'E' -> ^('e' ^('IN' 'E'))
+	Edge IN EdgeSet -> ^(Edge ^(IN EdgeSet))
 	;
 
 quantification_predicate
 	:
-	(':' Name '(' selector_params ')')
+	(COLON Name LPAREN selector_params RPAREN)
 	->
 	^(Name selector_params)
 	;
 
 orexpression
 	:
-	andexpression ('OR'^ andexpression)*
+	andexpression (OR^ andexpression)*
 	;
 
 andexpression
 	:
-	notexpression ('AND'^ notexpression)*
+	notexpression (AND^ notexpression)*
 	;
 
 notexpression
 	:
-    	'NOT'^? atom
+    	NOT^? atom
      	;
 
 atom
 	:
 	condition
 	|
-	'(' orexpression ')'
+	LPAREN orexpression RPAREN
 	->
 	orexpression
 	;
 
 condition
 	:
-	'true'
+	True
 	|
-	'false'
+	False
 	|
-	Name '(' predicate_params? ')'
+	Name LPAREN predicate_params? RPAREN
 	->
 	^(Name predicate_params?)
 	;
 
 predicate_params
 	:
-	predicate_param (',' predicate_param)*
+	predicate_param (COMMA predicate_param)*
 	->
 	predicate_param predicate_param*
 	;
@@ -162,32 +162,32 @@ predicate_param
 
 set_expression
 	:
-	set_atom (('INTERSECT'^ | 'UNION'^ | 'SETMINUS'^) set_atom)*
+	set_atom ((INTERSECT^ | UNION^ | SETMINUS^) set_atom)*
 	;
 
 set_atom
 	:
-      	Name '(' selector_params? ')'
+      	Name LPAREN selector_params? RPAREN
       	->
       	^(Name selector_params?)
 	|
-	'(' set_expression ')'
+	LPAREN set_expression RPAREN
 	->
 	set_expression
 	;
 
 selector_params
 	:
-	selector_param (',' selector_param)*
+	selector_param (COMMA selector_param)*
 	->
 	selector_param selector_param*
 	;
 
 selector_param
 	:
-	'v'
+	Vertex
 	|
-	'e'
+	Edge
 	|
 	Number
 	|
@@ -196,32 +196,71 @@ selector_param
 
 compound_rule_spec
 	:
-	candexpression ('OR'^ candexpression)*
+	candexpression (OR^ candexpression)*
 	;
 
 candexpression
 	:
-	cnotexpression ('AND'^ cnotexpression)*
+	cnotexpression (AND^ cnotexpression)*
 	;
 
 cnotexpression
 	:
-	'NOT'^? catom
+	NOT^? catom
 	;
 
 catom
 	:
 	Name
 	|
-	'(' compound_rule_spec ')'
+	LPAREN compound_rule_spec RPAREN
 	->
 	compound_rule_spec
 	;
+	
+// operators
+EXISTS	:	'EXISTS';
+INTERSECT
+	:	'INTERSECT';
+UNION	:	'UNION';
+SETMINUS:	'SETMINUS';
+NOT 	:	'NOT';
+AND	:	'AND';
+OR	:	'OR';
+IN	:	'IN';
+ALL	:	'ALL';
 
-Name : ('a'..'z' | 'A'..'Z') ('a'..'z' | 'A'..'Z' | '0'..'9' | '_')*;
+// keywords
+ATOMIC_RULE_KW
+	:	'atomic_rule';
+COMPOUND_RULE_KW
+	:	'compound_rule';
+VALIDATE_KW
+	:	'validate';
+ANALYZE_KW
+	:	'analyze';
 
-Number : ('0'..'9')+;
+// grouping operators
+LBRACE 	:	'{';
+RBRACE	:	'}';
+LPAREN	:	'(';
+RPAREN	:	')';
+COMMA	:	',';
+SEMICOLON
+	:	';';
+COLON	:	':';
 
-Label : '"' ('a'..'z' | 'A'..'Z' | '0'..'9')* '"';
+// literals
+True	:	'true';
+False	:	'false';
+Vertex	:	'v';
+Edge	:	'e';
+VertexSet
+	:	'V';
+EdgeSet	:	'E';
+Name	:	('a'..'z' | 'A'..'Z') ('a'..'z' | 'A'..'Z' | '0'..'9' | '_')*;
+Number	:	('0'..'9')+;
+Label 	:	'"' ('a'..'z' | 'A'..'Z' | '0'..'9')* '"';
 
+// whitespace tokens (ignored)
 WS : (' ' | '\t' | '\n' | '\r')+ { $channel=HIDDEN; };

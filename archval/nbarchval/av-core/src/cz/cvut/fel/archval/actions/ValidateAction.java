@@ -7,12 +7,12 @@ package cz.cvut.fel.archval.actions;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.Enumeration;
-import java.util.Iterator;
+import org.netbeans.api.java.source.JavaSource;
 import org.netbeans.api.project.Project;
 import org.netbeans.api.project.ProjectInformation;
 import org.netbeans.api.project.ProjectUtils;
-import org.netbeans.api.project.Sources;
 import org.netbeans.api.project.ui.OpenProjects;
+import org.openide.awt.StatusDisplayer;
 import org.openide.filesystems.FileObject;
 import org.openide.windows.IOProvider;
 import org.openide.windows.InputOutput;
@@ -21,6 +21,7 @@ public final class ValidateAction implements ActionListener {
 
     public void actionPerformed(ActionEvent e) {
 
+        StatusDisplayer.getDefault().setStatusText("Starting validation action.");
 
         final InputOutput io = IOProvider.getDefault().getIO("File search", true);
         io.select();
@@ -52,8 +53,17 @@ public final class ValidateAction implements ActionListener {
             }
             io.getOut().print("mime: " + fo.getMIMEType());
             io.getOut().println(", extension: " + fo.getExt());
+
+            io.getOut().println("getting JavaSource object for " + fo.getName() + " file");
+
+            JavaSource js = JavaSource.forFileObject(fo);
+            if (js == null) {
+                io.getOut().println("no java source associated");
+                io.getOut().println();
+            }
+            io.getOut().println("found java source");
         }
 
-        io.getOut().print("Done.");
+        StatusDisplayer.getDefault().setStatusText("Done.");
     }
 }

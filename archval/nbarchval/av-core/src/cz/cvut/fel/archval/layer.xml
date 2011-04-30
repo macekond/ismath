@@ -6,7 +6,7 @@
             <file name="cz-cvut-fel-archval-actions-ValidateAction.instance">
                 <attr name="delegate" newvalue="cz.cvut.fel.archval.actions.ValidateAction"/>
                 <attr name="displayName" bundlevalue="cz.cvut.fel.archval.actions.Bundle#CTL_ValidateAction"/>
-                <attr name="iconBase" stringvalue="cz/cvut/fel/archval/actions/arrow-right.png"/>
+                <attr name="iconBase" stringvalue="cz/cvut/fel/archval/actions/validate-action.png"/>
                 <attr name="instanceCreate" methodvalue="org.openide.awt.Actions.alwaysEnabled"/>
                 <attr name="noIconInMenu" boolvalue="false"/>
             </file>
