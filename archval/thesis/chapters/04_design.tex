@@ -120,9 +120,6 @@ TODO: definovat základní elementy jazyka pravidel
 \item ukázka dokumentu odpovídajícího specifikované gramatice.
 \end{itemize}
 
-%% TODO: zde gramatika nebude - již je vložena v příloze -- do práce ji zahrneme, protože je to důležitá část dokumentaci (udává přesný formát, který může použít uživatel při specifikaci pravidel)
-%% TODO: na tomto místě popsat formát pravidel matematicky
-
 %% TODO: přepsat jako přesné definice, které se budou v dalším textu dodržovat
 \subsubsection{Typy operátorů}
 \begin{itemize}
@@ -131,84 +128,9 @@ TODO: definovat základní elementy jazyka pravidel
 \item Hranový selector (Edge selector) -- vrací množinu hran na základě vstupních parametrů a poskytované výběrové funkce
 \end{itemize}
 
-\lstset{
-    basicstyle=\ttfamily,
-    numbers=left,
-    numberstyle=\footnotesize,
-    commentstyle=\color{gray}\textit,
-}
-\begin{lstlisting}[
-    mathescape,
-    caption={Gramatika DSL pro zadávání validačních pravidel.}
-    label=design-grammar
-  ]
-validation_unit :=
-    atomic_rule*
-    compound_rules*
-    validate_commands*
-    analyze_commands*
+%% TODO: na tomto místě popsat formát pravidel matematicky
 
-atomic_rule :=
-    'atomic_rule' name '(' name ')' '{' atomic_rule_spec '}' ';'
-
-compound_rule :=
-    'compound_rule' name '{' compound_rule_spec '}' ';'
-
-validate_command :=
-    'validate' '(' validate_command_params ')' ';'
-
-analyze_command :=
-    'analyze' '(' analyze_command_params ')' ';'
-
-validate_command_params := name (',' | name)*
-
-analyze_command_params := name (',' | name)*
-
-atomic_rule_spec := set_spec_clause '{' orexpression '}'
-
-set_spec_clause :=
-    '$\forall v \in V$' (':' name '(v)')?
-    |
-    '$\forall e \in E$' (':' name '(e)')?
-
-orexpression := andexpression ('$\vee$' andexpression)*
-
-andexpression := notexpression ('$\wedge$' notexpression)*
-
-notexpression : ('$\neg$')? atom
-
-atom := condition | '(' orexpression ')'
-
-condition := 'true' | 'false' | name '(' predicate_params? ')'
-
-predicate_params := predicate_param (',' predicate_param)*
-
-predicate_param := number | label | set_expression
-
-set_expression := set_atom (('$\cap$' | '$\cup$' | '$\setminus$') set_atom)*
-
-set_atom :=
-    name '(' selector_params? ')'
-    |
-    '(' set_expression ')'
-
-selector_params := selector_param (',' selector_param)*
-
-predicate_param := 'v' | 'e' | number | label
-
-compound_rule_spec := candexpression ('$\vee$' candexpression)*
-
-candexpression := cnotexpression ('$\wedge$' cnotexpression)*
-
-cnotexpression : ('$\neg$')? name
-
-name := ('a..z'|'A..Z')+ ('a..z'|'A..Z'|'0..9')*
-
-number := '0..9'+
-
-label := '``' ('a..z'|'A..Z'|'0..9')*  '``'
-
-\end{lstlisting}
+Serializace pravidel ve formátu vhodném pro zadávání do počítače je přesně popsána pomocí gramatiky specifikované v příloze \ref{avd_grammar}.
 
 \subsection{Typy pravidel}
 \begin{itemize}
@@ -222,31 +144,32 @@ Ne všechna pravidla lze popsat exaktně ve smyslu splněno/nesplněno. Mnohdy m
 
 \section{Návrh architektury systému}
 \label{design-architecture}
+
 %TODO: highlevel design $\rightarrow$ jaké budou moduly a co budou dělat (zatím bez konkrétní použité technologie)
+
 TODO: odstavec o modulech systému, pro každou část/modul napsat samostatnou podsekci, která popíše, jaké třídy modul obsahuje a jaké jsou jejich zodpovědnosti (responsibilities)
 % NOTE: při zpracování většího projektu bude nejspíš nutné zavést nad jmény objektů vhodnou formu indexace pro zrychlení algoritmů (kanonická jména tříd jsou v javě poměrně dost dlouhá)
 
-
-\begin{itemize}
-\item compiler
-\item generátor vnitřní struktury (modelu) -- modelem je v našem případě graf
-  \begin{itemize}
-  \item \emph{vstup:} množina cest k \verb+*.java+ souborům (kompilačním jednotkám), z nichž se skládá softwarový projekt
-  \item \emph{výstup:} graf, reprezentující konkrétní analyzovanou doménu vhodný pro další zpracování (graf podle \ref{design-graph_formalization} \nameref{design-graph_formalization})
-  \end{itemize}
-\item možnosti generování grafu závislostí mezi třídami (vnitřní reprezentace):
-  \begin{itemize}
-  \item on demand -- když bude potřeba, vybuduje se kompletně celý graf a poté se zahodí
-  \item on the fly -- při práci uživatele na kódu se bude vždy generovat znovu celý graf
-  \item kombinovaný přístup -- graf se ve vhodných okamžicích celý vybuduje a poté budou probíhat jeho následné aktualizace na základě uživatelovy práce nad kódem
-  \end{itemize}
-\item analyzátor
-\item rozhraní - integrace do platformy NetBeans
-  \begin{itemize}
-  \item rozhraní pro zadávání pravidel
-  \item rozhraní pro ověřování platnosti pravidel (validaci)
-  \end{itemize}
-\end{itemize}
+%% \begin{itemize}
+%% \item compiler
+%% \item generátor vnitřní struktury (modelu) -- modelem je v našem případě graf
+%%   \begin{itemize}
+%%   \item \emph{vstup:} množina cest k \verb+*.java+ souborům (kompilačním jednotkám), z nichž se skládá softwarový projekt
+%%   \item \emph{výstup:} graf, reprezentující konkrétní analyzovanou doménu vhodný pro další zpracování (graf podle \ref{design-graph_formalization} \nameref{design-graph_formalization})
+%%   \end{itemize}
+%% \item možnosti generování grafu závislostí mezi třídami (vnitřní reprezentace):
+%%   \begin{itemize}
+%%   \item on demand -- když bude potřeba, vybuduje se kompletně celý graf a poté se zahodí
+%%   \item on the fly -- při práci uživatele na kódu se bude vždy generovat znovu celý graf
+%%   \item kombinovaný přístup -- graf se ve vhodných okamžicích celý vybuduje a poté budou probíhat jeho následné aktualizace na základě uživatelovy práce nad kódem
+%%   \end{itemize}
+%% \item analyzátor
+%% \item rozhraní - integrace do platformy NetBeans
+%%   \begin{itemize}
+%%   \item rozhraní pro zadávání pravidel
+%%   \item rozhraní pro ověřování platnosti pravidel (validaci)
+%%   \end{itemize}
+%% \end{itemize}
 
 Návrh highlevel struktury je na obrázku \ref{design-modules}.
 
