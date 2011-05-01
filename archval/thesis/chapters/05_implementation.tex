@@ -105,3 +105,39 @@ TODO: nejprve navrhnout reprezentaci doménových objektů
 
 \subsection{Modul av-reportgen-plaintext}
 \subsubsection{PlaintextReportGeneratorProvider}
+
+
+\subsection{Implementace operátorů}
+TODO: zapracovat tuto podsekci na správné místo
+
+Vyhodnocení univerzálního kvantifikátoru $\forall v \in V$ lze přepsat jako jednoduchý cyklus přes vrcholy vrácené zpřesňující operátorem, která vybírá nějakou podmnožinu z množiny vrcholů analyzovaného grafu. Získáme tak kód podobný listingu \ref{listing-forall}. V tomto kódu, který je fragmentem metody používáme symoblický název \verb+condition+ pro podmínku, kterou musí splňovat každý prvek \emph{v} iterované kolekce vrcholů \emph{vertices}.
+
+\begin{lstlisting}[
+    language=java,
+    caption={Implementace univerzálního kvantifikátoru $\forall$.},
+    label=listing-forall
+  ]
+for (Vertex v : vertices) {
+    if (!condition(v, ...)) {
+        return false;
+    }
+}
+return true;
+\end{lstlisting}
+
+Analogicky budeme postupovat u existenčního kvantifikátoru $\exists$. Zde nám stačí nalézt alespoň jeden element, pro který vyhodnocovaná vlastnost platí. Listing \ref{listing-exists} představuje fragment metody. Pokud se podaří nalézt alespoň jeden prvek, který splňuje požadovanou podmínku, metoda vrátí hodnotu \emph{true}. Vzhledem k použití příkazu \emph{return} je zřejmé, že dochází k \uv{línemu} vyhodnocování -- vyhodnocení je ukončeno nalezením prvního vyhovujícího elementu (další se neprohledávají). Stejně jako u operátoru $\forall$ i zde název \verb+condition+ symbolizuje konkrétní podmínku, která má platit nad alespoň jedním prvkem množiny uzlů.
+
+\begin{lstlisting}[
+    language=java,
+    caption={Implementace existenčního kvantifikátoru $\exists$.},
+    label=listing-exists
+  ]
+for (Vertex v : vertices) {
+    if (condition(v, ..)) {
+        return true;
+    }
+}
+return false;
+\end{lstlisting}
+
+Můžeme si všimnout, že se obě implementace liší pouze přehozením podmínek -- zatímco v prvním případě ($\forall$) musíme projít všechny prvky, abychom zjistili, zda všechny prvky splňují požadovanou vlastnost, ve druhém případě ($\exists$) budeme všechny prvky procházet pouze v krajním případě, kdy vlastnost neplatí pro žádný z prvků.

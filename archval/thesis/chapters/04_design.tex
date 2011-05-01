@@ -125,10 +125,12 @@ TODO: definovat základní elementy jazyka pravidel
     numbers=left,
     numberstyle=\footnotesize,
     commentstyle=\color{gray}\textit,
-    caption={Gramatika DSL pro zadávání validačních pravidel.},
-    label=design-grammar
 }
-\begin{lstlisting}[mathescape]
+\begin{lstlisting}[
+    mathescape,
+    caption={Gramatika DSL pro zadávání validačních pravidel.}
+    label=design-grammar
+  ]
 validation_unit :=
     atomic_rule*
     compound_rules*
