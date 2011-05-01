@@ -1,1 +1,21 @@
-sample content
+atomic_rule law_of_demeter(demeter_graph) {
+    ALL v IN V : kind(v, "class") {
+        empty(
+            (
+                (
+                    F(v, "class", "has_field")
+                    UNION
+                    F(v, "class", "has_param")
+                    UNION
+                    F(v, "class", "instantiates")
+                )
+                INTERSECT
+                F(v, "class", "uses")
+                SETMINUS
+                construct_set(v)
+            )
+        )
+    }
+};
+
+validate(law_of_demeter);
