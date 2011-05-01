@@ -40,25 +40,29 @@ validation_unit
 	;
 
 atomic_rule :
-	ATOMIC_RULE_KW rname=Name LPAREN grname=Name RPAREN LBRACE atomic_rule_spec RBRACE SEMICOLON
+	ATOMIC_RULE_KW rname=Name LPAREN grname=Name RPAREN
+	LBRACE atomic_rule_spec RBRACE SEMICOLON
 	->
 	^($rname $grname atomic_rule_spec)
 	;
 
 compound_rule :
-	COMPOUND_RULE_KW Name LBRACE compound_rule_spec RBRACE SEMICOLON
+	COMPOUND_RULE_KW Name
+	LBRACE compound_rule_spec RBRACE SEMICOLON
 	->
 	^(Name compound_rule_spec)
 	;
 
 validate_command :
-	VALIDATE_KW LPAREN validate_command_params RPAREN SEMICOLON
+	VALIDATE_KW LPAREN validate_command_params
+	RPAREN SEMICOLON
 	->
 	validate_command_params
 	;
 
 analyze_command :
-	ANALYZE_KW LPAREN analyze_command_params RPAREN SEMICOLON
+	ANALYZE_KW LPAREN analyze_command_params
+	RPAREN SEMICOLON
 	->
 	analyze_command_params
 	;
@@ -258,9 +262,11 @@ Edge	:	'e';
 VertexSet
 	:	'V';
 EdgeSet	:	'E';
-Name	:	('a'..'z' | 'A'..'Z') ('a'..'z' | 'A'..'Z' | '0'..'9' | '_')*;
+Name	:	('a'..'z' | 'A'..'Z')
+		('a'..'z' | 'A'..'Z' | '0'..'9' | '_')*;
 Number	:	('0'..'9')+;
-Label 	:	'"' ('a'..'z' | 'A'..'Z' | '0'..'9' | '_' | '-')* '"';
+Label 	:	'"' ('a'..'z' | 'A'..'Z' | '0'..'9'
+		| '_' | '-')* '"';
 
 // whitespace tokens (ignored)
 WS : (' ' | '\t' | '\n' | '\r')+ { $channel=HIDDEN; };

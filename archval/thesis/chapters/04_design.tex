@@ -120,6 +120,17 @@ TODO: definovat základní elementy jazyka pravidel
 \item ukázka dokumentu odpovídajícího specifikované gramatice.
 \end{itemize}
 
+%% TODO: zde gramatika nebude - již je vložena v příloze -- do práce ji zahrneme, protože je to důležitá část dokumentaci (udává přesný formát, který může použít uživatel při specifikaci pravidel)
+%% TODO: na tomto místě popsat formát pravidel matematicky
+
+%% TODO: přepsat jako přesné definice, které se budou v dalším textu dodržovat
+\subsubsection{Typy operátorů}
+\begin{itemize}
+\item Predikát (Predicate) -- operátor, který na základě vstupních parametrů a poskytované rozhodovací funkce vrací booleovskou hodnotu (true/false)
+\item Vrcholový selektor (Vertex selector) -- vrací množinu vrcholů na základě vstupních parametrů a poskytované výběrové funkce
+\item Hranový selector (Edge selector) -- vrací množinu hran na základě vstupních parametrů a poskytované výběrové funkce
+\end{itemize}
+
 \lstset{
     basicstyle=\ttfamily,
     numbers=left,
@@ -247,11 +258,22 @@ Návrh highlevel struktury je na obrázku \ref{design-modules}.
 
 Je potřeba definovat je dostatečně obecně -- interfaces (možnost oddědění vlastního rozšiřujícího rozhraní).
 
+\subsection{Doménové objekty}
+
+% TODO: popsat jednotlivé
+
 \begin{itemize}
 \item \emph{Graph} (class)
 \item \emph{Vertex} (class)
 \item \emph{Edge} (class)
+\item \emph{GraphModel} -- množina grafů různých typů
+\item \emph{ValidationModel} -- AST strom souboru pravidel s navázanými operátory; bude se přegenerovávat při úpravě souboru/textu v GUI, atd\ldots
+\item \emph{ValidationReport}
+\item \emph{AnalysisReport}
 \end{itemize}
+
+% TODO: move to appropriate position:
+Třídy \emph{ValidationModel} a \emph{GraphModel} zde zavádíme zejména proto, aby bylo možné tyto objekty uložit do vhodné cache a znovu je použít. Příkladem může být případ, kdy chceme tentýž projekt (pro nějž jsme již jednou generovali graf) validovat pomocí jiné/upravené množiny pravidel nebo naopak pokud chceme použít jednu množinu pravidel pro validaci více projektů. Bylo by zbytečné opakovaně provádět náročné operace generování grafu nebo parsování souboru pravidel a navazování operátorů.
 
 \subsection{Modul av-core}
 TODO: popis validačního procesu: rozepsat
@@ -297,6 +319,17 @@ Jádro systému bude poskytovat třídy a rozhraní popsané v tabulce \ref{desi
   \end{center}
 
 \end{table}
+
+%% TODO: add to table of important components
+%% TODO: move to part about spi
+\begin{itemize}
+\item \emph{PredicateInterface}
+\item \emph{VertexSelectorInterface}
+\item \emph{EdgeSelectorInterface}
+
+\item \emph{GraphModelGenerator} -- updateGraphModel() -- přegeneruje graph model -- pouze doplní požadované chybějící grafy, regenerate() -- kompletně zruší všechny grafy a vyganeruje nové (všechny požadované)
+\end{itemize}
+
 Na obrázku \ref{design-archval_core} jsou zobrazeny komponenty modulu \emph{archval-core}.
 
 TODO: připsat k rozhraní graph generator: Reprezentuje komponentu, která provede převod zdrojových kódů na graf (zobrazení, které vybraným elementům AST přiřadí množinu vrcholů $V$ grafu $G$).
@@ -307,10 +340,21 @@ TODO: připsat k rozhraní graph generator: Reprezentuje komponentu, která prov
   \caption{Komponenty jádra systému ArchVal.\label{design-archval_core}}
 \end{figure}
 
+TODO: přesunout do sekce popisující rozhraní \emph{GraphGeneratorInterface}:
+
+Komponenta typu \emph{GraphGenerator} je znázorněna na obrázku \ref{design-graph_generator_io}.
+
+\begin{figure}[h!]
+  \centering
+  \includegraphics[width=0.45\textwidth]{./graphs/graph_generator_io_graph.png}
+  \caption{Znázornění vstupů a výstupů komponenty typu \emph{GraphGenerator}.\label{design-graph_generator_io}}
+\end{figure}
+
 \subsubsection{Action}
 Integrace do běhové platformy. Reprezentuje uživatelskou akci. Bude implementováno na základě zvolené implementační platformy (akce v GUI).
 
-\subsubsection{Controller}
+% TODO: rozhodnout, jestli se bude jmenovat tato komponenta Controller nebo ValidationTask
+\subsubsection{Controller / ValidationTask}
 Samostatné vlákno s řízením celého validačního procesu. Synchronized sekce. Vstupem bude vhodná specifikace umístění analyzovaného projektu.
 
 TODO: vyladit následující interface
@@ -324,6 +368,14 @@ TODO: vyladit následující interface
 \subsubsection{Validator}
 Vstupem bude soubor pravidel
 
+Komponenta \emph{Validator} je znázorněna na obrázku \ref{design-validator_io}.
+
+\begin{figure}[h!]
+  \centering
+  \includegraphics[width=0.45\textwidth]{./graphs/validator_io_graph.png}
+  \caption{Znázornění vstupů a výstupů komponenty \emph{Validator}.\label{design-validator_io}}
+\end{figure}
+
 \begin{itemize}
 \item registerOperatorPackage()
 \item performValidation() : ValidationReport
@@ -334,7 +386,25 @@ Výstupem bude ValidationReport (vnitřní struktura, která se bude posléze p�
 \subsubsection{Analyzer}
 TODO: analyzer providers ??? - analyzer nejspíš dostane k dispozici graf (opět musí specifikovat nad jakým grafem pracuje) a výstupem bude AnalysisReport (TBD!)
 
+SPI -- poskytovatel služby, lookup, avd
 % TODO: navrhnout aplikaci tak, aby mela vice rozhrani (nejen GUI, ale i moznost integrace, moznost textoveho vstupu pravidel)
+
+\subsubsection{ValidationModelGenerator}
+TODO: add name of this component to the table of components
+TODO: add to appropriate place in the document
+
+Znázornění vstupů a výstpů komponenty \emph{ValidationModelGenerator} je na obrázku \ref{design-validation_model_generator_io}.
+
+% TODO: zkontrolovat, že 'výše popsaných pravidel' odkazuje na nějaká předchozí pravidla dříve v práci
+Vstupem je množina pravidel zapsaná ve vhodné serializaci výše popsaných matematických pravidel.
+
+\begin{figure}[h!]
+  \centering
+  \includegraphics[width=0.5\textwidth]{./graphs/validation_model_generator_io_graph.png}
+  \caption{Znázornění vstupů a výstupů komponenty \emph{ValidationModelGenerator}.\label{design-validation_model_generator_io}}
+\end{figure}
+
+Různé vstupy: File, Stream, String, \ldots
 
 \section{Návrh rozhraní pro zadávání pravidel}
 TODO: zapracovat: U každého pravidla musí být deklarace typu grafu, nad nímž má platit.

@@ -1,0 +1,15 @@
+digraph ValidationModelGeneratorIOGraph {
+
+    // TODO: change resolution to 600 for printing!
+    // it slows down randering of the document in preview
+    graph[dpi=92];
+    node[fontsize=13,fontname=Georgia,shape="box"];
+    edge[fontsize=13,fontname=Georgia];
+
+    RuleSet[label="specifikace validačních pravidel", shape="plaintext"];
+    ValidationModelGenerator[shape="invhouse"];
+    ValidationModel;
+
+    RuleSet -> ValidationModelGenerator;
+    ValidationModelGenerator -> ValidationModel;
+};

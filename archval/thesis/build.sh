@@ -17,6 +17,9 @@ build_graphs()
     dot -Tpng ./graphs/global_structure.dot -o ./graphs/global_structure.png
     dot -Tpng ./graphs/graph_example.dot -o ./graphs/graph_example.png
     dot -Tpng ./graphs/demeter_graph.dot -o ./graphs/demeter_graph.png
+    dot -Tpng ./graphs/validator_io_graph.dot -o ./graphs/validator_io_graph.png
+    dot -Tpng ./graphs/graph_generator_io_graph.dot -o ./graphs/graph_generator_io_graph.png
+    dot -Tpng ./graphs/validation_model_generator_io_graph.dot -o ./graphs/validation_model_generator_io_graph.png
 }
 
 build_deps()
