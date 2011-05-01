@@ -1,4 +1,4 @@
-// $ANTLR 3.1.3 July 11, 2010 13:49:50 ArchvalRulesetGrammar.g 2011-04-30 15:49:39
+// $ANTLR 3.1.3 July 11, 2010 13:49:50 ArchvalRulesetGrammar.g 2011-05-01 16:43:48
 
     package cz.cvut.fel.archval.ruleset_parser.antlr;
 
@@ -710,17 +710,17 @@ public class ArchvalRulesetGrammarLexer extends Lexer {
         try {
             int _type = Label;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // ArchvalRulesetGrammar.g:263:8: ( '\"' ( 'a' .. 'z' | 'A' .. 'Z' | '0' .. '9' )* '\"' )
-            // ArchvalRulesetGrammar.g:263:10: '\"' ( 'a' .. 'z' | 'A' .. 'Z' | '0' .. '9' )* '\"'
+            // ArchvalRulesetGrammar.g:263:8: ( '\"' ( 'a' .. 'z' | 'A' .. 'Z' | '0' .. '9' | '_' | '-' )* '\"' )
+            // ArchvalRulesetGrammar.g:263:10: '\"' ( 'a' .. 'z' | 'A' .. 'Z' | '0' .. '9' | '_' | '-' )* '\"'
             {
             match('\"'); 
-            // ArchvalRulesetGrammar.g:263:14: ( 'a' .. 'z' | 'A' .. 'Z' | '0' .. '9' )*
+            // ArchvalRulesetGrammar.g:263:14: ( 'a' .. 'z' | 'A' .. 'Z' | '0' .. '9' | '_' | '-' )*
             loop3:
             do {
                 int alt3=2;
                 int LA3_0 = input.LA(1);
 
-                if ( ((LA3_0>='0' && LA3_0<='9')||(LA3_0>='A' && LA3_0<='Z')||(LA3_0>='a' && LA3_0<='z')) ) {
+                if ( (LA3_0=='-'||(LA3_0>='0' && LA3_0<='9')||(LA3_0>='A' && LA3_0<='Z')||LA3_0=='_'||(LA3_0>='a' && LA3_0<='z')) ) {
                     alt3=1;
                 }
 
@@ -729,7 +729,7 @@ public class ArchvalRulesetGrammarLexer extends Lexer {
             	case 1 :
             	    // ArchvalRulesetGrammar.g:
             	    {
-            	    if ( (input.LA(1)>='0' && input.LA(1)<='9')||(input.LA(1)>='A' && input.LA(1)<='Z')||(input.LA(1)>='a' && input.LA(1)<='z') ) {
+            	    if ( input.LA(1)=='-'||(input.LA(1)>='0' && input.LA(1)<='9')||(input.LA(1)>='A' && input.LA(1)<='Z')||input.LA(1)=='_'||(input.LA(1)>='a' && input.LA(1)<='z') ) {
             	        input.consume();
 
             	    }

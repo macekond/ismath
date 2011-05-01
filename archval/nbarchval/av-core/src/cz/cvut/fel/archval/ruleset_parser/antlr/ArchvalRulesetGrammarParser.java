@@ -1,4 +1,4 @@
-// $ANTLR 3.1.3 July 11, 2010 13:49:50 ArchvalRulesetGrammar.g 2011-04-30 15:49:38
+// $ANTLR 3.1.3 July 11, 2010 13:49:50 ArchvalRulesetGrammar.g 2011-05-01 16:43:48
 
     package cz.cvut.fel.archval.ruleset_parser.antlr;
 

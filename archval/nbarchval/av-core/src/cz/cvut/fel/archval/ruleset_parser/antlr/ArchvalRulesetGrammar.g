@@ -260,7 +260,7 @@ VertexSet
 EdgeSet	:	'E';
 Name	:	('a'..'z' | 'A'..'Z') ('a'..'z' | 'A'..'Z' | '0'..'9' | '_')*;
 Number	:	('0'..'9')+;
-Label 	:	'"' ('a'..'z' | 'A'..'Z' | '0'..'9')* '"';
+Label 	:	'"' ('a'..'z' | 'A'..'Z' | '0'..'9' | '_' | '-')* '"';
 
 // whitespace tokens (ignored)
 WS : (' ' | '\t' | '\n' | '\r')+ { $channel=HIDDEN; };
