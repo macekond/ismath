@@ -268,28 +268,21 @@ spoon http://spoon.gforge.inria.fr/TutorialJDT/TutorialJDT
   \begin{itemize}
   \item tyto systémy na základě vstupní gramatiky vygenerují frontend pro překladač
   \item lze specifikovat různé akce, které jsou navázány na události vyvolané v průběhu syntaktické analýzy
-  \item \emph{JavaCC}
+  \item \emph{JavaCC} \cite{parsertools:javacc}
     \begin{itemize}
-    \item \href{http://www.cs.purdue.edu/homes/hosking/352/javaccdocs/docindex.html}{http://www.cs.purdue.edu/homes/hosking/352/javaccdocs/docindex.html}
     \item součástí je nástroj \emph{JJTree}, který je schopen vygenerovat AST pro další práci
     \end{itemize}
-  \item \emph{JastAdd}
-    \begin{itemize}
-    \item \href{http://jastadd.org/}{http://jastadd.org/}
-    \end{itemize}
-  \item \emph{JLex}
+  \item \emph{JastAdd} \cite {parsertools:jastadd}
+  \item \emph{JLex} \cite{parsertools:jlex}
     \begin{itemize}
     \item A Lexical Analyzer Generator for Java(TM)
-    \item \href{http://www.cs.princeton.edu/~appel/modern/java/JLex/}{http://www.cs.princeton.edu/~appel/modern/java/JLex/}
     \end{itemize}
-  \item JFlex
+  \item JFlex \cite{parsertools:jflex}
     \begin{itemize}
     \item The Fast Scanner Generator for Java
-    \item \href{http://jflex.de/}{http://jflex.de/}
     \end{itemize}
-  \item JABA
+  \item JABA \cite{parsertools:jaba}
     \begin{itemize}
-    \item \href{http://pleuma.cc.gatech.edu/aristotle/Tools/jaba.html}{http://pleuma.cc.gatech.edu/aristotle/Tools/jaba.html}
     \item Java Architecture for Bytecode Analysis
     \item nepoužitelné - dostupná pouze binární verze pro Solaris
     \item pravděpodobně se dále nevyvíjí
@@ -297,17 +290,15 @@ spoon http://spoon.gforge.inria.fr/TutorialJDT/TutorialJDT
   \end{itemize}
 \item použití vhodné knihovny
   \begin{itemize}
-  \item JavaParser
+  \item JavaParser \cite{parsertools:javaparser}
     \begin{itemize}
-    \item \href{http://code.google.com/p/javaparser/}{http://code.google.com/p/javaparser/}
     \item projekt na GoogleHosting
     \item v podstatě gramatika pro JJTree vytvářející strom tříd a objektů, který je možné procházet pomocí visitor patternu
     \end{itemize}
   \end{itemize}
-\item použití prostředků platformy NetBeans
+\item použití prostředků platformy NetBeans \cite{parsertools:javasourcejavadoc}
   \begin{itemize}
   \item Java Source API
-  \item \href{http://bits.netbeans.org/6.9.1/javadoc/}{http://bits.netbeans.org/6.9.1/javadoc/}
   \end{itemize}
 \item použití prostředků poskytovaných platformou Java 6 (Sun verze) \cite{source_code_analysis_corejavatechtips}
   \begin{itemize}
@@ -322,10 +313,9 @@ spoon http://spoon.gforge.inria.fr/TutorialJDT/TutorialJDT
     \item balíček \verb+javax.annotation.processing+ -- zpracovávání anotací
     \item balíček \verb+javax.lang.model+ -- třídy poskytující model pro syntaktické elementy jazyka Java
     \end{itemize}
-  \item \emph{Compiler Tree API}
+  \item \emph{Compiler Tree API} \cite{parsertools:compilertreeapi}
     \begin{itemize}
     \item nestandardní rozšíření Java JDK
-    \item \href{http://download.oracle.com/javase/6/docs/jdk/api/javac/tree/index.html}{http://download.oracle.com/javase/6/docs/jdk/api/javac/tree/index.html}
     \item balíček \verb+com.sun.source.tree+ -- poskytuje rozhraní pro reprezentaci zdrojového kódu jako AST
     \item balíček \verb+com.sun.source.util+ -- poskytuje rozhraní pro operace nad AST
     \end{itemize}
