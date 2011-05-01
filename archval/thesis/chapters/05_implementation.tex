@@ -6,7 +6,7 @@ TODO: Popis implementace/realizace se zaměřením na nestandardní části ře�
 Pro specifikaci Demeter law definujeme predikát, který nám umožní vybrat vhodné množiny vrcholů. Vybrané množiny potom ověřeíme pomocí predikátu, který učí, zda jsou tyto množiny v pořádku, či zda porušují LoD princip.
 
 \begin{definition}
-Mějme graf $G = \langle V, E, \rho, K, C, \mathit{Kind}, \mathit{Class}\rangle$ se zobrazeními definovanými dříve. Definujme selektor $F(G, v', k', c')$, $v' \in V$, $k' \in K$, $c' \in C$ jako množinu vrcholů grafu $G$, které jsou dostupné z vrcholu $v'$ pomocí orientované cesty, pro jejíž všechny vrcholy $v''$ s~výjimou posledního platí $Kind(v) \ne k'$ a která obsahuje hranu $e$, pro niž platí $Class(e) = c' $.
+Mějme graf $G = \langle V, E, \rho, K, C, \mathit{Kind}, \mathit{Class}\rangle$ se zobrazeními definovanými dříve. Definujme selektor $F(G, v', k', c')$, $v' \in V$, $k' \in K$, $c' \in C$ jako množinu vrcholů grafu $G$, které jsou dostupné z vrcholu $v'$ pomocí orientované cesty, pro jejíž všechny vrcholy $v''$ s~výjimkou posledního platí $Kind(v) \ne k'$ a která obsahuje hranu $e$, pro niž platí $Class(e) = c' $.
 \end{definition}
 
 \subsection{Law of Demeter}
