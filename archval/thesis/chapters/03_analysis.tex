@@ -6,7 +6,7 @@
 
 %% V části analýzy provést rozbor jednotlivých principů + výsledky rešerší - využívat hojně informace z článků a důsledně citovat zdroje
 
-TODO: úvod analýzy -- rozebrat jaké koncepty lze podpořit pomocí validace a jaká k čemu všemu je potřeba přihlédnout při návrhu software
+% TODO: úvod analýzy -- rozebrat jaké koncepty lze podpořit pomocí validace a jaká k čemu všemu je potřeba přihlédnout při návrhu software
 
 %% \paragraph{Design concepts} Zdroj: wikipedia \emph{software design}:
 %% \begin{itemize}
@@ -38,7 +38,7 @@ TODO: úvod analýzy -- rozebrat jaké koncepty lze podpořit pomocí validace a
 
 %% TODO: zařadit na správné místo:
 
-Budeme provádět statickou analýzu kódu. Pracujeme nad definicemi tríd. Neuvažujeme tedy všechny možné běhové instance programu (všechny možné stavy objektů v paměti virtuálního stroje).
+Budeme provádět statickou analýzu kódu. Pracujeme nad definicemi tříd. Neuvažujeme tedy všechny možné běhové instance programu (všechny možné stavy objektů v paměti virtuálního stroje).
 
 \section{Analýza principů objektového návrhu}
 
@@ -128,7 +128,7 @@ Existuje několik forem Demeterova zákona \cite{35588}, které jsou vhodné pro
 
 Pro statickou analýzu lze použít \uv{class} formu Demeterova zákona.
 
-TODO: rozhodnout, kterou verzi Demeterova zákona použít
+% TODO: rozhodnout, kterou verzi Demeterova zákona použít
 
 \emph{Zjednodušená verze \cite{wiki:lod}}
 
@@ -146,7 +146,7 @@ Method M of an object O may only invoke the methods of the following kinds of ob
 
 \subsubsection{Porušení principu law of Demeter}
 
-TODO: find some better (real world) example of demeter law violation on the web
+% TODO: find some better (real world) example of demeter law violation on the web
 \lstset{
     basicstyle=\ttfamily,
     numbers=left,
@@ -175,28 +175,27 @@ public class DemeterLawViolation {
 \section{Analýza problematiky v jazyce Java}
 
 \subsection{Statický model programu v Javě}
-TODO: pojednání o tom, co všechno může být modelem programu (ast, graf, FSM, programovací jazyky, atd)
-
-TODO: model driven engineering, kód je fyzický model, můžeme jej ale dále převádět na další modely a ty potom analyzovat
-
-TODO: možná přidat poznámku o model driven engineering a jak může být aplikováno právě zde
+% TODO: pojednání o tom, co všechno může být modelem programu (ast, graf, FSM, programovací jazyky, atd)
+% TODO: model driven engineering, kód je fyzický model, můžeme jej ale dále převádět na další modely a ty potom analyzovat
+% TODO: možná přidat poznámku o model driven engineering a jak může být aplikováno právě zde
 
 \subsubsection{Struktura softwarového projektu v Javě}
 
 % TODO: sort and rephrase
 
 \begin{itemize}
-\item\verb+*.java+ soubory - v gramatice programovacího jazyka Java 1.5 představují top-level element CompilationUnit \emph{\{(TODO: binární součásti projektu? class files?)\}},
-\item build scripty a konfigurační soubory sestavovacích nástrojů (build.xml, pom.xml, \ldots),
-\item zdroje (resources),
-\item dokumentace,
-\item soubory gramatik pro parsery (lex, flex, javacc, \ldots),
-\item šablony (typické třeba pro webové projekty),
-\item konfigurační soubory (zpravidla XML, často odkazují konkrétní třídy progamovacího jazyka Java),
+\item \verb+*.java+ soubory -- v gramatice programovacího jazyka Java 1.5 představují top-level element CompilationUnit,
+\item binární součásti projektu (např. knihovny) -- \verb+*.jar+ soubory, \verb+*.class+ soubory,
+\item build scripty a konfigurační soubory sestavovacích nástrojů (\verb+build.xml+, \verb+pom.xml+, \ldots),
+\item zdroje (resources, resource bundles),
+\item dokumentace (\verb+javadoc+, \ldots),
+\item soubory gramatik pro parsery (např. pro \verb+lex+, \verb+flex+, \verb+javacc+, \verb+antlr+, atd.),
+\item šablony (typické třeba pro webové projekty, \verb+*.xhtml+ a jiné přípony),
+\item konfigurační soubory (zpravidla \verb+*.xml+ soubory, často odkazují konkrétní třídy progamovacího jazyka Java),
 \item jiné soubory
 \end{itemize}
 
-Pro naše potřeby jsou důležité v podstatě pouze kompilační jednotky (java soubory) projektu.
+Pro naše potřeby jsou důležité v podstatě pouze kompilační jednotky (\verb+*.java+ soubory) projektu.
 
 %% TODO: odstranit další výskyty této myšlenky v textu (aby tato věta byla jen na jednom místě)
 Statický pohled na program - neuvažujeme běh programu. Pracujeme nad definicemi tříd, nikoliv nad jejich instancemi v paměti JVM.
@@ -252,18 +251,13 @@ Pro analýzu založenou na vyhledávání závislostí mezi třídami pro nás b
 
 \subsection{Existující nástroje pro zpracování zdrojových kódů v jazyku Java}
 
-TODO: write some leading text
+% TODO: write some leading text
 
 Možnosti zpracovávání kódu:
 
-TODO: roztřídit a vyházet nesmysly (e.g. JABA, apod.)
-
-TODO: použít jinou vhodnější strukturu místo itemize
-
-TODO: zapracovat:
-javaparser
-org.eclipse.jdt.core.dom package
-spoon http://spoon.gforge.inria.fr/TutorialJDT/TutorialJDT
+% TODO: roztřídit a vyházet nesmysly (e.g. JABA, apod.)
+% TODO: použít jinou vhodnější strukturu místo itemize
+% TODO: zapracovat:
 
 \begin{itemize}
 \item vlastní hand-written lexikální a syntaktický analyzátor (zbytečně náročné)
@@ -323,9 +317,14 @@ spoon http://spoon.gforge.inria.fr/TutorialJDT/TutorialJDT
     \item balíček \verb+com.sun.source.util+ -- poskytuje rozhraní pro operace nad AST
     \end{itemize}
   \end{itemize}
+\item použití prostředků, které jsou k dispozici pro platformu Eclipse
+  \begin{itemize}
+  \item org.eclipse.jdt.core.dom package
+  \item spoon \cite{parsertools:spoon}
+  \end{itemize}
 \end{itemize}
 
-TODO: zatřídit:
+% TODO: zatřídit:
 
 Důležité části zpracování kódu:
 
@@ -334,16 +333,16 @@ Důležité části zpracování kódu:
 \item static classes, methods
 \item inner classes
 \item polymorphism
-\item vizualizace grafu ?
 \item generické třídy, wildcards
 \item pole objektů
 \item návratové typy metod
 \item vstupní parametry metod
 \item lokální proměnné
 \item globální objekty (statické metody a pole tříd, singletony - opět ale pouze ze statického pohledu!)
+\item vizualizace grafu
 \end{itemize}
 
-TODO: zatřídit
+% TODO: zatřídit
 
 úrovně práce:
 

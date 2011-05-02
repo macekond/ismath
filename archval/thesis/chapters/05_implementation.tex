@@ -68,10 +68,9 @@ Seznam integračních komponent je k dispozici v tabulce \ref{implementation-int
 
 \end{table}
 
-
 \begin{itemize}
-\item Java 6 Compiler API (JSR 199) \emph{\{TODO: add reference\}}
-\item annotation processor (JSR 269) \emph{\{TODO: add reference\}}
+\item Java 6 Compiler API (JSR 199) \cite{apidoc:java6api}
+\item annotation processor (JSR 269)
 \item Compiler Tree API
   \begin{itemize}
   \item \verb+com.sun.source.tree+
@@ -79,11 +78,9 @@ Seznam integračních komponent je k dispozici v tabulce \ref{implementation-int
   \end{itemize}
 \end{itemize}
 
-TODO: zapracovat:
+% TODO: zapracovat:
 
 je nutné použít nestandardní API, které je součástí Sun Javy - balíčky \verb+com.sun.*+ (je potřeba přidat \$\{java\_home\}/../lib/tools.jar do classpath)
-
-lze se inspirovat v programu Sorcerer (\href{https://sorcerer.dev.java.net/}{https://sorcerer.dev.java.net/}), který pomocí Java Tree API provádí zpracovávání Java kódu a generování přesné HTML dokumentace. \emph{TODO: in case of usage of this material, add reference!}
 
 \section{Implementace modulů rozšíření}
 
@@ -117,14 +114,6 @@ Podpora pro různé formáty výstupu. Popsat vnitřní reprezentaci reportu, ta
 
 \subsection{Modul av-graphgen-demeter}
 
-% TODO: zapracovat kam patří: při zpracování většího projektu bude nejspíš nutné zavést nad jmény objektů vhodnou formu indexace pro zrychlení algoritmů (kanonická jména tříd jsou v javě poměrně dost dlouhá)
-
-Vstupem bude Java projekt
-
-Výstupem bude Graf
-
-TODO: nejprve navrhnout reprezentaci doménových objektů
-
 \subsubsection{DemeterGraphGeneratorProvider}
 
 \subsection{Modul av-operators-demeter}
@@ -133,9 +122,8 @@ TODO: nejprve navrhnout reprezentaci doménových objektů
 \subsection{Modul av-reportgen-plaintext}
 \subsubsection{PlaintextReportGeneratorProvider}
 
-
 \subsection{Implementace operátorů}
-TODO: zapracovat tuto podsekci na správné místo
+% TODO: zapracovat tuto podsekci na správné místo
 
 Vyhodnocení univerzálního kvantifikátoru $\forall v \in V$ lze přepsat jako jednoduchý cyklus přes vrcholy vrácené zpřesňující operátorem, která vybírá nějakou podmnožinu z množiny vrcholů analyzovaného grafu. Získáme tak kód podobný listingu \ref{listing-forall}. V tomto kódu, který je fragmentem metody používáme symoblický název \verb+condition+ pro podmínku, kterou musí splňovat každý prvek \emph{v} iterované kolekce vrcholů \emph{vertices}.
 
@@ -174,3 +162,9 @@ Můžeme si všimnout, že se obě implementace liší pouze přehozením podmí
 
 \subsection{Action}
 Integrace do běhové platformy. Reprezentuje uživatelskou akci. Bude implementováno na základě zvolené implementační platformy (akce v GUI).
+
+\subsection{Podpora editace avd souborů}
+\begin{itemize}
+\item experimentální mime typ \verb+text/x-avd+
+\item zvýrazňování syntaxe
+\end{itemize}

@@ -203,7 +203,7 @@ Jeho dekompozice bude provedena v dalších sekcích. Ještě předtím se ale p
 \subsection{Doménové objekty}
 \label{design-domain_objects}
 
-Přehled doménových objektů podává tabulka \ref{design-domain_object_table}. Protože jsou tyto objekty součástí jádra a změna jejich rozhraní by nutně vedla k úpravě ostatních komponent, navrhujeme tyto datové typy jako konkrétní třídy\footnote{Narozdíl od ostatních komponent, u nichž předpokládáme, že budou implementovány třetími stranami a musí tak u nich být přesně definována veřejná rozhraní SPI.}.
+Přehled doménových objektů podává tabulka \ref{design-domain_object_table}. Protože jsou tyto objekty součástí jádra a změna jejich rozhraní by nutně vedla k úpravě ostatních komponent, navrhujeme tyto datové typy jako konkrétní třídy\footnote{U ostatních komponent předpokládáme, že budou implementovány třetími stranami. Je třeba pro ně třeba přesně definovat veřejná rozhraní SPI.}.
 
 \begin{table}[h]
   \caption{Tabulka doménových objektů. \label{design-domain_object_table}}
@@ -217,7 +217,9 @@ Přehled doménových objektů podává tabulka \ref{design-domain_object_table}
       \emph{Vertex} & class &  vrchol grafu \\ \hline
       \emph{Edge} & class & hrana grafu \\ \hline
       \emph{GraphModel} & class & množina grafů různých typů \\ \hline
+      \hline
       \emph{ValidationModel} & class & model validace načtený ze vstupního \emph{souboru definic} \\ \hline
+      \hline
       \emph{ValidationReport} & class &  objekt reprezentující výstup validace\\ \hline
       \emph{AnalysisReport} & class & objekt reprezentující výstup analýzy \\ \hline
     \end{tabular}
@@ -294,7 +296,8 @@ Jádro systému bude poskytovat třídy a rozhraní popsané v tabulce \ref{desi
 
 Na obrázku \ref{design-archval_core} jsou zobrazeny komponenty modulu \emph{archval-core}.
 
-TODO: připsat k rozhraní graph generator: Reprezentuje komponentu, která provede převod zdrojových kódů na graf (zobrazení, které vybraným elementům AST přiřadí množinu vrcholů $V$ grafu $G$).
+% TODO: připsat k rozhraní graph generator:
+Reprezentuje komponentu, která provede převod zdrojových kódů na graf (zobrazení, které vybraným elementům AST přiřadí množinu vrcholů $V$ grafu $G$).
 
 \begin{figure}[h!]
   \centering
@@ -307,6 +310,11 @@ TODO: připsat k rozhraní graph generator: Reprezentuje komponentu, která prov
 GraphModelGeneratorIface
 
 Komponenta typu \emph{GraphModelGenerator} je znázorněna na obrázku \ref{design-graph_generator_io}.
+
+\begin{itemize}
+\item \emph{Vstup:} seznam java souborů, z nichž sestává projekt, identifikátory požadovaných typů grafů
+\item \emph{Výstup:} GraphModel objekt
+\end{itemize}
 
 \begin{figure}[h!]
   \centering

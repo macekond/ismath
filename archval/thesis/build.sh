@@ -8,6 +8,13 @@
 # Author: Martin Vejmelka <martin.vejmelka@fel.cvut.cz>
 #
 
+generate_cd_listing()
+{
+    cd ../cd/
+    tree --charset=iso-8859-2 > ../thesis/listings/cd.tex
+    cd -
+}
+
 build_graphs()
 {
     dot -Tpng ./graphs/oop_design_principles.dot -o ./graphs/oop_design_principles.png
@@ -26,9 +33,12 @@ build_graphs()
 build_deps()
 {
     build_graphs
-    # build_svg_images
-    # ...
 }
+
+if [ "$1" == "cd" ]; then # (!) run only by hand (not to overwrite custom changes)
+    generate_cd_listing
+    exit 0
+fi
 
 build_deps
 [ "$1" == "depsonly" ] && exit 0
