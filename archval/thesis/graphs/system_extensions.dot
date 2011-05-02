@@ -21,4 +21,6 @@ graph_generators -> avdspec[dir="both",arrowhead="open",arrowtail="open"];
 operators -> avdspec[dir="both",arrowhead="open",arrowtail="open"];
 analyzers -> avdspec[dir="both",arrowhead="open",arrowtail="open"];
 
+avcore -> avdspec;
+
 };

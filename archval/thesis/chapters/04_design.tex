@@ -108,7 +108,7 @@ a přiřazení klasifikátorů hranám:
 %% $G = (V, E)$
 
 \subsection{Formalizace pravidel}
-
+\label{design-rules_formalization}
 Nyní, když máme definován model, můžeme popsat jazyk pravidel, která mají pro daný model platit. Vytvoříme jednoduchý jazyk (DSL) pro specifikaci validačních parametrů. Jazyk popíšeme jednoduchou gramatikou (listing \ref{design-grammar}). U této gramatiky předpokládáme, že bílé znaky jsou ignorovány (pokud nejsou uvnitř řetězce).
 
 TODO: definovat základní elementy jazyka pravidel
@@ -151,59 +151,54 @@ Pro výsledný systém budeme používat kódové jméno ArchVal (Architecture v
 
 Globální pohled na systém byl zaveden již v~části \ref{requirements-rules_evaluation} na obrázku \ref{requirements-system_structure}. Toto znázornění je velmi obecné. Vidíme však, že systém má dva hlavní vstupy\footnote{Jako vstupy/výstupy neuvažujeme další běžné součásti systému jako např. načítání konfiguračních souborů nebo logování.} a jeden výstup. Vstupy a výstupy představují podstatnou část doménových dat nad nimiž budeme dále pracovat. V~části \ref{design-domain_objects} popíšeme jednotlivé datové objekty, které postupně \uv{protékají} celým systémem. Ty budou popsány a dekomponovány jako první, protože jejich popis je nezbytný pro definici ostatních komponent systému.
 
-Ve druhé fázi budeme dekomponovat jádro systému. Zodpovědnost jádra představuje zodpovědnost celého systému (zodpovědností celého systému je \uv{provést validaci projektu na základě množiny pravidel}. Tuto zodpovědnost dále rozdrobíme jednak na základní systémové komponenty a dále na množinu rozšíření, která bude možné postupně přidávat. Definujeme proto veřejná rozhraní (SPI) \cite{spi}, která budou implementována poskytovateli služeb.
+Ve druhé fázi budeme dekomponovat jádro systému. Zodpovědnost jádra představuje zodpovědnost celého systému (zodpovědností celého systému je \uv{provést validaci projektu na základě množiny pravidel}). Tuto zodpovědnost dále rozdrobíme na základní systémové komponenty a množinu rozšíření, která bude možné postupně přidávat.
 
-%% \begin{itemize}
-%% \item compiler
-%% \item generátor vnitřní struktury (modelu) -- modelem je v našem případě graf
-%%   \begin{itemize}
-%%   \item \emph{vstup:} množina cest k \verb+*.java+ souborům (kompilačním jednotkám), z nichž se skládá softwarový projekt
-%%   \item \emph{výstup:} graf, reprezentující konkrétní analyzovanou doménu vhodný pro další zpracování (graf podle \ref{design-graph_formalization} \nameref{design-graph_formalization})
-%%   \end{itemize}
-%% \item možnosti generování grafu závislostí mezi třídami (vnitřní reprezentace):
-%%   \begin{itemize}
-%%   \item on demand -- když bude potřeba, vybuduje se kompletně celý graf a poté se zahodí
-%%   \item on the fly -- při práci uživatele na kódu se bude vždy generovat znovu celý graf
-%%   \item kombinovaný přístup -- graf se ve vhodných okamžicích celý vybuduje a poté budou probíhat jeho následné aktualizace na základě uživatelovy práce nad kódem
-%%   \end{itemize}
-%% \item analyzátor
-%% \item rozhraní - integrace do platformy NetBeans
-%%   \begin{itemize}
-%%   \item rozhraní pro zadávání pravidel
-%%   \item rozhraní pro ověřování platnosti pravidel (validaci)
-%%   \end{itemize}
-%% \end{itemize}
+Definujeme proto veřejná rozhraní (SPI) \cite{spi}, která budou implementována poskytovateli služeb. Každému z těchto rozhraní bude věnována jedna podsekce.
 
-% TODO: highlevel design $\rightarrow$ jaké budou moduly a co budou dělat (zatím bez konkrétní použité technologie)
-% TODO: odstavec o modulech systému, pro každou část/modul napsat samostatnou podsekci, která popíše, jaké třídy modul obsahuje a jaké jsou jejich zodpovědnosti (responsibilities)
+\subsection{Globální struktura systému}
 
-Návrh vysokoúrovňové struktury je na obrázku \ref{design-modules}.
+Prvním stupněm dekompozice systému je jeho rozdělení na části, které budou neměnné a~na rozšíření, která bude možné přidávat a odebírat, a která tak umožní běh systému v různých konfiguracích.
 
-\begin{figure}[h!]
-  \centering
-  \includegraphics[width=0.5\textwidth]{./uml/archval_module_cmp.png}
-  \caption{Rozhraní pro rozšíření systému.\label{design-modules}}
-\end{figure}
+Základním kamenem celého systému bude jádro, které bude integrovat dohromady všechna rozšíření a které bude obsahovat pouze základní logiku, která bude vyhodnocovat pravidla a provádět analýzy pomocí zmíněných rozšíření.
 
-Je potřeba definovat je dostatečně obecně -- interfaces (možnost oddědění vlastního rozšiřujícího rozhraní).
+Znázornění základních bodů rozšíření jádra je na obrázku \ref{design-system_extensions}. Element \emph{specifikace pravidel} představuje \emph{soubor definic} obsahující pravidla ve formátu definovaném v sekci \ref{design-rules_formalization} a další definice určující výsledný průběh validace.
 
-% TODO: move to right position
-Systém bude realizován pomocí rozšíření. Jednotlivé typy rozšíření jsou znázorněny na obrázku \ref{design-system_extensions}
 \begin{figure}[h!]
   \centering
   \includegraphics[width=0.8\textwidth]{./graphs/system_extensions.png}
   \caption{Body rozšíření systému.\label{design-system_extensions}}
 \end{figure}
 
-Na základě výše uvedeného seznamu definujeme pro každý typ rozšíření interface:
+Vzhledem k formalismu navrženému v sekci \ref{design-graph_formalization} je nutné nejprve vhodným způsobem zpracovat vstup. K tomu budou sloužit \emph{generátory grafů}. Jejich zodpovědností bude vygenerování určitého typu grafu z AST analyzovaného programovacího jazyka.
+
+Rozšíření typu \emph{operátor} představuje jeden konkrétní operátor (selektor nebo predikát), který je možné použít v rámci \emph{souboru definic}. Každý operátor bude deklarovat své jméno, vstupy a výstupy.
+
+Protože ne všechny kontroly zdrojového kódu lze zapsat jako pravidla s výsledkem \verb+true/false+, bude možné do systému vložit vlastní \emph{analýzu}, jejímž vstupem bude graf konkrétního typu. Nad tímto grafem bude analýza vyhodnocena a výstup ve vhodném vnitřním formátu bude předán výstupnímu modulu.
+
+Výstupní moduly budou také implementovány jako rozšíření. Jejich úkolem bude vygenerování reportů v různých výstupních formátech.
+
+Nyní můžeme již specifikovat rozhraní, která budou muset být implementována poskytovateli služeb (service providers):
 
 \begin{itemize}
-\item GraphGeneratorIface
-\item OperatorIface
-\item AnalysisIface
-\item OutputGeneratorIface
-%% TODO: rozhodnout, jak se budou lišit interface output generátoru pro ValidationReport a AnalysisReport, definovat výstupní formáty
+\item GraphGeneratorIface -- rozhraní generátoru grafu,
+\item OperatorIface -- rozhraní operátorů (selektorů a predikátů),
+\item AnalysisIface -- rozhraní analytických modulů,
+\item OutputGeneratorIface -- rozhraní výstupního modulu.
 \end{itemize}
+
+Celá dekompozice provedená v tomto stupni je zachycena v diagramu komponent na obrázku \ref{design-modules}. Modul jádra nazveme \verb+av-core+.
+\begin{figure}[h!]
+  \centering
+  \includegraphics[width=0.5\textwidth]{./uml/archval_module_cmp.png}
+  \caption{Dekompozice systému na jádro a rozšíření.\label{design-modules}}
+\end{figure}
+Jeho dekompozice bude provedena v dalších sekcích.
+
+% TODO: highlevel design $\rightarrow$ jaké budou moduly a co budou dělat (zatím bez konkrétní použité technologie)
+% TODO: odstavec o modulech systému, pro každou část/modul napsat samostatnou podsekci, která popíše, jaké třídy modul obsahuje a jaké jsou jejich zodpovědnosti (responsibilities)
+
+Je potřeba definovat je dostatečně obecně -- interfaces (možnost oddědění vlastního rozšiřujícího rozhraní).
+
 
 \subsection{Doménové objekty}
 \label{design-domain_objects}
@@ -222,21 +217,16 @@ Na základě výše uvedeného seznamu definujeme pro každý typ rozšíření 
 % TODO: move to appropriate position:
 Třídy \emph{ValidationModel} a \emph{GraphModel} zde zavádíme zejména proto, aby bylo možné tyto objekty uložit do vhodné cache a znovu je použít. Příkladem může být případ, kdy chceme tentýž projekt (pro nějž jsme již jednou generovali graf) validovat pomocí jiné/upravené množiny pravidel nebo naopak pokud chceme použít jednu množinu pravidel pro validaci více projektů. Bylo by zbytečné opakovaně provádět náročné operace generování grafu nebo parsování souboru pravidel a navazování operátorů.
 
-\subsection{Modul av-core}
-TODO: popis validačního procesu: rozepsat
-\begin{itemize}
-\item systém načte moduly
-\item systém zkontroluje základní předpoklady - existuje alespoň jeden modul pro generování grafu, alespoň jeden modul operátorů (nebo poskytovatel analyzerů ???) a alespoň jeden modul s poskytovatelem generátou výstupu
-\item systém zparsuje soubor pravidel a vygeneruje AST
-\item systém zkontroluje, zda pro AST pravidel existují potřebné providery grafů
-\item systém zkontroluje, zda pro AST pravidel existují všechny operátory
-\item systém provede nabindování operátoru na uzly AST pravidel
-\item systém vygeneruje pro projekt všechny požadované grafy
-\item systém vyhodnotí AST nad grafy pomocí operátorů, zjištěná porušení pravidel bude zapisovat do validačního reportu
-\item systém projde všechny analyzátory a nechá je vygenerovat analyzační report
-\item systém pomocí výstupních modulů vygeneruje reporty (na základě konfigurace ???)
-\end{itemize}
+%% \item možnosti generování grafu závislostí mezi třídami (vnitřní reprezentace):
+%%   \begin{itemize}
+%%   \item on demand -- když bude potřeba, vybuduje se kompletně celý graf a poté se zahodí
+%%   \item on the fly -- při práci uživatele na kódu se bude vždy generovat znovu celý graf
+%%   \item kombinovaný přístup -- graf se ve vhodných okamžicích celý vybuduje a poté budou probíhat jeho následné aktualizace na základě uživatelovy práce nad kódem
+%%   \end{itemize}
 
+% ENDTODO
+
+\subsection{Jádro systému}
 Jádro systému bude poskytovat třídy a rozhraní popsané v tabulce \ref{design-archval_core_components}.
 
 \begin{table}
@@ -352,6 +342,34 @@ Vstupem je množina pravidel zapsaná ve vhodné serializaci výše popsaných m
 \end{figure}
 
 Různé vstupy: File, Stream, String, \ldots
+
+\subsection{Rozhraní GraphGeneratorIface}
+%% \item compiler
+%% \item generátor vnitřní struktury (modelu) -- modelem je v našem případě graf
+%%   \begin{itemize}
+%%   \item \emph{vstup:} množina cest k \verb+*.java+ souborům (kompilačním jednotkám), z nichž se skládá softwarový projekt
+%%   \item \emph{výstup:} graf, reprezentující konkrétní analyzovanou doménu vhodný pro další zpracování (graf podle \ref{design-graph_formalization} \nameref{design-graph_formalization})
+%%   \end{itemize}
+
+\subsection{Rozhraní OperatorIface}
+\subsection{Rozhraní AnalysisIface}
+\subsection{Rozhraní OutputGeneratorIface}
+%% TODO: rozhodnout, jak se budou lišit interface output generátoru pro ValidationReport a AnalysisReport, definovat výstupní formáty
+
+\subsection{Základní průběh validačního procesu}
+TODO: popis validačního procesu: rozepsat
+\begin{itemize}
+\item systém načte moduly
+\item systém zkontroluje základní předpoklady - existuje alespoň jeden modul pro generování grafu, alespoň jeden modul operátorů (nebo poskytovatel analyzerů ???) a alespoň jeden modul s poskytovatelem generátou výstupu
+\item systém zparsuje soubor pravidel a vygeneruje AST
+\item systém zkontroluje, zda pro AST pravidel existují potřebné providery grafů
+\item systém zkontroluje, zda pro AST pravidel existují všechny operátory
+\item systém provede nabindování operátoru na uzly AST pravidel
+\item systém vygeneruje pro projekt všechny požadované grafy
+\item systém vyhodnotí AST nad grafy pomocí operátorů, zjištěná porušení pravidel bude zapisovat do validačního reportu
+\item systém projde všechny analyzátory a nechá je vygenerovat analyzační report
+\item systém pomocí výstupních modulů vygeneruje reporty (na základě konfigurace ???)
+\end{itemize}
 
 \section{Návrh rozhraní pro zadávání pravidel}
 TODO: zapracovat: U každého pravidla musí být deklarace typu grafu, nad nímž má platit.
