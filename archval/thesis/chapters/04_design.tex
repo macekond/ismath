@@ -104,14 +104,21 @@ a přiřazení klasifikátorů hranám:
   \}
 \end{align*}
 
+%% TODO: sort
 %% Graf elementů použitých v kódu. Vrcholy $v \in V$ představují různé syntaktické elementy v analyzovaném kódu. Záleží na úrovni prováděné analýzy, jaké zvolíme vrcholy. V případě, že budeme analyzovat \uv{nízkoúrovňové} chování funkce, mohou být vrcholy jednotlivé příkazy a jejich části. Pokud budeme analyzovat míru provázanosti tříd nebo metod, stačí když použijeme jako vrcholy třídy a metody (případně parametry metod.)
 %% $G = (V, E)$
+%% typy grafů: class hierarchy graph, call graph
+%% call graph: wikipedia (<<invokes>> vazby)
+%%
+%% http://en.wikipedia.org/wiki/Call_graph
+%%
 
 \subsection{Formalizace pravidel}
 \label{design-rules_formalization}
-Nyní, když máme definován model, můžeme popsat jazyk pravidel, která mají pro daný model platit. Vytvoříme jednoduchý jazyk (DSL) pro specifikaci validačních parametrů. Jazyk popíšeme jednoduchou gramatikou (listing \ref{design-grammar}). U této gramatiky předpokládáme, že bílé znaky jsou ignorovány (pokud nejsou uvnitř řetězce).
+% TODO: aktualizovat (gramatika byla přesunuta)
+Nyní, když máme definován model, můžeme popsat jazyk pravidel, která mají pro daný model platit. Vytvoříme jednoduchý jazyk (DSL) pro specifikaci validačních parametrů. Jazyk popíšeme jednoduchou gramatikou. U této gramatiky předpokládáme, že bílé znaky jsou ignorovány (pokud nejsou uvnitř řetězce).
 
-TODO: definovat základní elementy jazyka pravidel
+% TODO: definovat základní elementy jazyka pravidel
 
 \begin{itemize}
 \item co jsou to selektory (napsat definici platnou pro tento dokument),
@@ -138,8 +145,7 @@ Serializace pravidel ve formátu vhodném pro zadávání do počítače je pře
 \item uživatelsky programovaná pravidla (custom code java code, asserts)
 \end{itemize}
 
-TODO: zapracovat:
-
+%% TODO: zapracovat:
 Ne všechna pravidla lze popsat exaktně ve smyslu splněno/nesplněno. Mnohdy můžeme kvalitu návrhu posuzovat pouze kvantitativně (dobrý návrh, lepší, moc vazeb, málo vazeb, atd.). Pro některé vlastnosti návrhu (např. low coupling, high cohesion) může být vhodnější poskytnou statistický přístup pro vyhodnocování (např. použití vhodného klasifikátoru).
 
 \section{Návrh architektury systému}
@@ -180,10 +186,10 @@ Výstupní moduly budou také implementovány jako rozšíření. Jejich úkolem
 Nyní můžeme již specifikovat rozhraní, která budou muset být implementována poskytovateli služeb (service providers):
 
 \begin{itemize}
-\item GraphGeneratorIface -- rozhraní generátoru grafu,
-\item OperatorIface -- rozhraní operátorů (selektorů a predikátů),
-\item AnalysisIface -- rozhraní analytických modulů,
-\item OutputGeneratorIface -- rozhraní výstupního modulu.
+\item \emph{GraphGeneratorIface} -- rozhraní generátoru grafu,
+\item \emph{OperatorIface} -- rozhraní operátorů (selektorů a predikátů),
+\item \emph{AnalysisIface} -- rozhraní analytických modulů,
+\item \emph{OutputGeneratorIface} -- rozhraní výstupního modulu.
 \end{itemize}
 
 Celá dekompozice provedená v tomto stupni je zachycena v diagramu komponent na obrázku \ref{design-modules}. Modul jádra nazveme \verb+av-core+.
@@ -192,30 +198,55 @@ Celá dekompozice provedená v tomto stupni je zachycena v diagramu komponent na
   \includegraphics[width=0.5\textwidth]{./uml/archval_module_cmp.png}
   \caption{Dekompozice systému na jádro a rozšíření.\label{design-modules}}
 \end{figure}
-Jeho dekompozice bude provedena v dalších sekcích.
-
-% TODO: highlevel design $\rightarrow$ jaké budou moduly a co budou dělat (zatím bez konkrétní použité technologie)
-% TODO: odstavec o modulech systému, pro každou část/modul napsat samostatnou podsekci, která popíše, jaké třídy modul obsahuje a jaké jsou jejich zodpovědnosti (responsibilities)
-
-Je potřeba definovat je dostatečně obecně -- interfaces (možnost oddědění vlastního rozšiřujícího rozhraní).
-
+Jeho dekompozice bude provedena v dalších sekcích. Ještě předtím se ale podíváme na důležité doménové objekty, které budou reprezentovat data předávaná mezi jednotlivými komponentami v rámci systému.
 
 \subsection{Doménové objekty}
 \label{design-domain_objects}
-% TODO: popsat jednotlivé
 
+Přehled doménových objektů podává tabulka \ref{design-domain_object_table}. Protože jsou tyto objekty součástí jádra a změna jejich rozhraní by nutně vedla k úpravě ostatních komponent, navrhujeme tyto datové typy jako konkrétní třídy\footnote{Narozdíl od ostatních komponent, u nichž předpokládáme, že budou implementovány třetími stranami a musí tak u nich být přesně definována veřejná rozhraní SPI.}.
+
+\begin{table}[h]
+  \caption{Tabulka doménových objektů. \label{design-domain_object_table}}
+  \begin{center}
+    \begin{tabular}{| l | c | p{8cm} |}
+      \hline
+      \textbf{Název} & \textbf{Typ} & \textbf{Zodpovědnost} \\
+      \hline
+      Graph & class & graf reprezentující analyzované elementy \\ \hline
+      Vertex & class &  vrchol grafu \\ \hline
+      Edge & class & hrana grafu \\ \hline
+      GraphModel & class & množina grafů různých typů \\ \hline
+      ValidationModel & class & model validace načtený ze vstupního \emph{souboru definic} \\ \hline
+      ValidationReport & class &  objekt reprezentující výsledky validace\\ \hline
+      AnalysisReport & class & objekt reprezentující výstup analýzy \\ \hline
+    \end{tabular}
+  \end{center}
+
+\end{table}
+
+Třídy \emph{ValidationModel} a \emph{GraphModel} je možné vygenerovat a používat opakovaně (cache). To se může hodit v případech, kdy chceme tentýž projekt (pro nějž jsme již jednou generovali graf) validovat pomocí jiné/upravené množiny pravidel nebo naopak pokud chceme použít jednu množinu pravidel pro validaci více projektů. Bylo by zbytečné opakovaně provádět náročné operace generování grafu nebo parsování souboru pravidel a navazování operátorů (popisováno dále).
+
+\subsubsection{Reprezentace grafů}
 \begin{itemize}
 \item \emph{Graph} (class)
 \item \emph{Vertex} (class)
 \item \emph{Edge} (class)
 \item \emph{GraphModel} (class) -- množina grafů různých typů
+\end{itemize}
+
+\subsubsection{Model validace}
+\begin{itemize}
 \item \emph{ValidationModel} (class) -- AST strom souboru pravidel s navázanými operátory; bude se přegenerovávat při úpravě souboru/textu v GUI, atd\ldots
-\item \emph{ValidationReport} (class)
-\item \emph{AnalysisReport} (class)
+\end{itemize}
+
+\subsubsection{Výstupní objekty}
+% TODO: rozepsat, zpřesnit
+\begin{itemize}
+\item \emph{ValidationReport} (class) -- výstupem jsou \verb+true/false+ hodnoty pro jednotlivá pravidla, případně strom, který bude odpovídat stromu, který bude ve ValidationModel, aby bylo možné zpětně určit množiny a predikáty, které způsobily nesplnění pravidla
+\item \emph{AnalysisReport} (class) -- výstupem budou tvrzení o projektu, která budou doplněna množinami, pro která tato tvrzení platí (např. detekce anomálií -- projekt má příliš mnoho vazeb z nějaké třídy do jiné)
 \end{itemize}
 
 % TODO: move to appropriate position:
-Třídy \emph{ValidationModel} a \emph{GraphModel} zde zavádíme zejména proto, aby bylo možné tyto objekty uložit do vhodné cache a znovu je použít. Příkladem může být případ, kdy chceme tentýž projekt (pro nějž jsme již jednou generovali graf) validovat pomocí jiné/upravené množiny pravidel nebo naopak pokud chceme použít jednu množinu pravidel pro validaci více projektů. Bylo by zbytečné opakovaně provádět náročné operace generování grafu nebo parsování souboru pravidel a navazování operátorů.
 
 %% \item možnosti generování grafu závislostí mezi třídami (vnitřní reprezentace):
 %%   \begin{itemize}
@@ -232,7 +263,7 @@ Jádro systému bude poskytovat třídy a rozhraní popsané v tabulce \ref{desi
 \begin{table}
   \caption{Tabulka komponent jádra systému. \label{design-archval_core_components}}
   \begin{center}
-    \begin{tabular}{| l | l | p{8cm} | }
+    \begin{tabular*}{1.0\textwidth}{@{\extracolsep{\fill}} | l | l | p{8cm} | }
       \hline
       \textbf{Název} & \textbf{Typ} & \textbf{Zodpovědnost} \\
       \hline
@@ -252,18 +283,13 @@ Jádro systému bude poskytovat třídy a rozhraní popsané v tabulce \ref{desi
       OperatorRegister & class & třída poskytující přístup k informacím o existujících poskytovatelích operátorů \\ \hline
       AnalysesRegister & class & třída poskytující přístup k informacím o existujících poskytovatelích komponent analýzy \\ \hline
       ReportGeneratorRegister & class & třída poskytující přístup k informacím o existujících poskytovatelích generátorů výstupních reportů \\ \hline
-    \end{tabular}
+    \end{tabular*}
   \end{center}
 
 \end{table}
 
-%% TODO: add to table of important components
-%% TODO: move to part about spi
-\begin{itemize}
-\item \emph{PredicateInterface}
-\item \emph{VertexSelectorInterface}
-\item \emph{EdgeSelectorInterface}
 
+\begin{itemize}
 \item \emph{GraphModelGenerator} -- updateGraphModel() -- přegeneruje graph model -- pouze doplní požadované chybějící grafy, regenerate() -- kompletně zruší všechny grafy a vyganeruje nové (všechny požadované)
 \end{itemize}
 
@@ -291,7 +317,7 @@ Komponenta typu \emph{GraphGenerator} je znázorněna na obrázku \ref{design-gr
 Integrace do běhové platformy. Reprezentuje uživatelskou akci. Bude implementováno na základě zvolené implementační platformy (akce v GUI).
 
 % TODO: rozhodnout, jestli se bude jmenovat tato komponenta Controller nebo ValidationTask
-\subsubsection{Controller / ValidationTask}
+\subsubsection{Controller/ValidationTask}
 Samostatné vlákno s řízením celého validačního procesu. Synchronized sekce. Vstupem bude vhodná specifikace umístění analyzovaného projektu.
 
 TODO: vyladit následující interface
@@ -352,12 +378,28 @@ Různé vstupy: File, Stream, String, \ldots
 %%   \end{itemize}
 
 \subsection{Rozhraní OperatorIface}
+Hierarchie rozhraní operátorů je znázorněna na obrázku \ref{design-operator_interfaces_hierarchy}.
+
+\begin{itemize}
+\item \emph{PredicateIface}
+\item \emph{VertexSelectorIface}
+\item \emph{EdgeSelectorIface}
+\end{itemize}
+
+\begin{figure}[h!]
+  \centering
+  \includegraphics[width=0.8\textwidth]{./uml/operator_interfaces.png}
+  \caption{Hierarchie rozhraní operátorů.\label{design-operator_interfaces_hierarchy}}
+\end{figure}
+
+
 \subsection{Rozhraní AnalysisIface}
 \subsection{Rozhraní OutputGeneratorIface}
 %% TODO: rozhodnout, jak se budou lišit interface output generátoru pro ValidationReport a AnalysisReport, definovat výstupní formáty
 
 \subsection{Základní průběh validačního procesu}
-TODO: popis validačního procesu: rozepsat
+%TODO: add activity diagram
+%TODO: popis validačního procesu: rozepsat následující itemize
 \begin{itemize}
 \item systém načte moduly
 \item systém zkontroluje základní předpoklady - existuje alespoň jeden modul pro generování grafu, alespoň jeden modul operátorů (nebo poskytovatel analyzerů ???) a alespoň jeden modul s poskytovatelem generátou výstupu
@@ -380,20 +422,17 @@ TODO: zapracovat: U každého pravidla musí být deklarace typu grafu, nad ním
 \end{itemize}
 
 \section{Návrh rozhraní pro ověřování platnosti pravidel (validaci)}
+%% TODO: navrhnout způsob a formát výstupu
+%% - diskutovat různé možnosti
+%%     - textový výstup v okně
+%%     - reprezentace swing komponentou
+%%     - html výstup
+%%     - výstup do souboru
 \begin{itemize}
 \item výstupní rozhraní
 \item validační události
 \end{itemize}
-% TODO: navrhnout formát výstupu
 
-%% TODO:
-% typy grafů: class hierarchy graph, call graph
-% call graph: wikipedia (<<invokes>> vazby)
-%
-% http://en.wikipedia.org/wiki/Call_graph
-%
-
-%% TODO: dat na spravne misto
 \section{Návrh technologií pro implementaci}
 \begin{itemize}
 \item NetBeans platform
