@@ -1,6 +1,6 @@
 \chapter{Implementace}
 
-TODO: Popis implementace/realizace se zaměřením na nestandardní části řešení.
+% TODO: Popis implementace/realizace se zaměřením na nestandardní části řešení.
 
 \section{Specifikace pravidel požadovaných zadáním práce}
 Pro specifikaci Demeter law definujeme predikát, který nám umožní vybrat vhodné množiny vrcholů. Vybrané množiny potom ověřeíme pomocí predikátu, který učí, zda jsou tyto množiny v pořádku, či zda porušují LoD princip.
@@ -31,21 +31,41 @@ Pravidlo LoD potom specifikujeme nad grafem $G = \langle V, E, \rho, K, C, \math
 Specifikované pravidlo vyjadřuje požadavek, aby množina vrcholů do níž se dostaneme pomocí hran, které představují povolené vstupy tříd do analyzované třídy (třídní proměnné, parametry, vytvářené objekty), byla totožná s množinou všech vrcholů, které představují všechny třídy používané (klasifikátor $\langle\langle{}uses\rangle\rangle$) v rámci některé z metod. Odečtení vrcholu $v$ z výsledné množiny je zde kvůli tomu, abychom nemuseli navíc zavádět zbytečnou hranu identifikující, že třída je známá sama sobě.
 
 \subsection{Low coupling}
-TODO:
+% TODO:
 
 \subsection{High cohesion}
-TODO:
+% TODO:
 
 \section{Implementace jádra systému}
 
-%% TODO: move to appropriate position
-%% \item rozhraní - integrace do platformy NetBeans
+Při implementaci bylo hojně využíváno informací z \cite{netbeans_platform}.
 
-TODO: describe technologies used to implement parser and analysis part
+% TODO: describe technologies used to implement parser and analysis part
+% TODO: moduly popsané v části \ref{design-architecture} implementujeme jako jednotlivé moduly platformy NetBeans.
+% TODO: move to appropriate position
+% \item rozhraní - integrace do platformy NetBeans
+Integrace s platformou NetBeans - třída Action.
 
-TODO: moduly popsané v části \ref{design-architecture} implementujeme jako jednotlivé moduly platformy NetBeans.
+\begin{table}
+  \caption{Tabulka komponent jádra systému. \label{design-archval_core_components}}
+  \begin{center}
+    \begin{tabular}{ | l | l | p{8cm} | }
+      \hline
+      \textbf{Název} & \textbf{Typ} & \textbf{Zodpovědnost} \\
+      \hline
+      \hline
+      Action & class & integrace s běhovou platformou, vstupní/aktivační bod \\
+%% TODO: 'třída implementující rozhraní...'
+      GraphGeneratorRegister & class & třída poskytující přístup k informacím o existujících poskytovatelích generátorů grafu \\ \hline
+      OperatorRegister & class & třída poskytující přístup k informacím o existujících poskytovatelích operátorů \\ \hline
+      AnalysesRegister & class & třída poskytující přístup k informacím o existujících poskytovatelích komponent analýzy \\ \hline
+      OutputGeneratorRegister & class & třída poskytující přístup k informacím o existujících poskytovatelích generátorů výstupních reportů \\ \hline
+      \hline
+    \end{tabular}
+  \end{center}
 
-Integrace s platformout NetBeans - třída Action.
+\end{table}
+
 
 \begin{itemize}
 \item Java 6 Compiler API (JSR 199) \emph{\{TODO: add reference\}}
@@ -68,7 +88,7 @@ lze se inspirovat v programu Sorcerer (\href{https://sorcerer.dev.java.net/}{htt
 \begin{itemize}
 \item \emph{av-graphgen-demeter} -- ukázkový poskytovatel generátoru grafu
 \item \emph{av-operators-demeter} -- ukázkový balíček operátorů pro ověřování principu LoD
-\item \emph{av-reportgen-plaintext} -- ukázkový poskytovatel pro generování validačních reportů v~prostém textu
+\item \emph{av-outputgen-plaintext} -- ukázkový poskytovatel pro generování validačních reportů v~prostém textu
 \end{itemize}
 
 \subsubsection{GraphGeneratorManager}
@@ -79,7 +99,7 @@ Bude řídit přístup k jednotlivým graph generatorům. Umožní externím pro
 \item generateGraph(projectSpec, graphTypeId) : Graph
 \end{itemize}
 
-\subsubsection{ReportGeneratorManager}
+\subsubsection{OutputGeneratorManager}
 Umožní registraci poskytovatelů modulů pro výstup.
 
 \subsubsection{GraphGeneratorIface}

@@ -151,6 +151,9 @@ Ne všechna pravidla lze popsat exaktně ve smyslu splněno/nesplněno. Mnohdy m
 \section{Návrh architektury systému}
 \label{design-architecture}
 
+%% TODO: přidat poznámku
+%% návrh je řešen tak, aby bylo možné poskytnout další rozhraní k systému (např. CLI, TUI, atd.) - ValidationTask lze zabudovat do jiných programů a lze jej řídit, při poskytnutí rozhraní *Register je možné dodávat poskytovatele služeb i z jiných zdrojů (na platformě NetBeans je řešeno pomocí lookupů <- tohle patří ale spíš do implementace)
+
 Při návrhu architektury systému postupujeme metodou shora dolů. Nejprve budeme systém uvažovat jako jeden velký celek s globální zodpovědností (funkcionalitou). Tento velký blok následně dekomponujeme na jednotlivé komponenty, kterým přidělíme jasně definované zodpovědnosti.
 
 Pro výsledný systém budeme používat kódové jméno ArchVal (Architecture validator), zkracované často v~názvech modulů jako \verb+av+.
@@ -227,14 +230,16 @@ Přehled doménových objektů podává tabulka \ref{design-domain_object_table}
 Třídy \emph{ValidationModel} a \emph{GraphModel} je možné vygenerovat a používat opakovaně (cache). To se může hodit v případech, kdy chceme tentýž projekt (pro nějž jsme již jednou generovali graf) validovat pomocí jiné/upravené množiny pravidel nebo naopak pokud chceme použít jednu množinu pravidel pro validaci více projektů. Bylo by zbytečné opakovaně provádět náročné operace generování grafu nebo parsování souboru pravidel a navazování operátorů (popisováno dále).
 
 \subsubsection{Reprezentace grafů}
+% TODO: rozepsat
 \begin{itemize}
-\item \emph{Graph} (class)
+\item \emph{Graph} (class) -- graph type id
 \item \emph{Vertex} (class)
 \item \emph{Edge} (class)
 \item \emph{GraphModel} (class) -- množina grafů různých typů
 \end{itemize}
 
 \subsubsection{Model validace}
+% TODO: rozepsat
 \begin{itemize}
 \item \emph{ValidationModel} (class) -- AST strom souboru pravidel s navázanými operátory; bude se přegenerovávat při úpravě souboru/textu v GUI, atd\ldots
 \end{itemize}
@@ -247,7 +252,7 @@ Třídy \emph{ValidationModel} a \emph{GraphModel} je možné vygenerovat a pou�
 \end{itemize}
 
 % TODO: move to appropriate position:
-
+%% případy užití při generování grafu
 %% \item možnosti generování grafu závislostí mezi třídami (vnitřní reprezentace):
 %%   \begin{itemize}
 %%   \item on demand -- když bude potřeba, vybuduje se kompletně celý graf a poté se zahodí
@@ -267,22 +272,17 @@ Jádro systému bude poskytovat třídy a rozhraní popsané v tabulce \ref{desi
       \hline
       \textbf{Název} & \textbf{Typ} & \textbf{Zodpovědnost} \\
       \hline
-      \hline
-      Action & class & integrace s běhovou platformou, vstupní/aktivační bod systému \\ \hline
       ValidationTask & class & řízení procesu validace \\ \hline
       Validator & class & bude provádět validaci pravidel v grafu na základě vstupních pravidel \\ \hline
       Analyzer & class & bude provádět statistické analýzy (pro návrhové principy, které nelze popsat přesnými pravidly) \\ \hline
       ConfigurationManager & class & komponenta zprostředkující konfigurační uživatelské volby jádru programu \\ \hline
       GraphGeneratorManager & class & zinicializuje jednotlivé moduly pro generování grafů a použije je pro vygenerování grafů (pokud budou tyto grafy potřeba) \\ \hline
-      ReportGeneratorManager & class & použije některé z dostupných poskytovatelů pro generování výstupu pro vygenerování reportu \\ \hline
-      GraphGeneratorIface & interface & rozhraní, které musí implementovat poskytoval generátoru grafu \\ \hline
-      OperatorIface & interface & rozhraní, které musí implementovat poskytovatel balíčku operátorů \\ \hline
-      ReportGeneratorIface & interface & rozhraní, které musí implementovat poskystovatel modulu pro generování výstupních reportů \\ \hline
-      AnalysisIface & interface & rozhraní, které musí implementovat poskytovatel analýzy nad některým z grafů \\ \hline
-      GraphGeneratorRegister & class & třída poskytující přístup k informacím o existujících poskytovatelích generátorů grafu \\ \hline
-      OperatorRegister & class & třída poskytující přístup k informacím o existujících poskytovatelích operátorů \\ \hline
-      AnalysesRegister & class & třída poskytující přístup k informacím o existujících poskytovatelích komponent analýzy \\ \hline
-      ReportGeneratorRegister & class & třída poskytující přístup k informacím o existujících poskytovatelích generátorů výstupních reportů \\ \hline
+      OutputGeneratorManager & class & použije některé z dostupných poskytovatelů pro generování výstupu pro vygenerování reportu \\ \hline
+      \hline
+      GraphGeneratorRegisterIface & interface & rozhraní registru existujících poskytovatelů generátorů grafu \\ \hline
+      OperatorRegisterIface & interface & rozhraní registru existujících poskytovatelů operátorů \\ \hline
+      AnalysesRegisterIface & interface & rozhraní registru poskytovatelů komponent analýzy \\ \hline
+      OutputGeneratorRegisterIface & interface & rozhraní registru poskytovatelů generátorů výstupních reportů \\ \hline
     \end{tabular*}
   \end{center}
 
@@ -376,6 +376,10 @@ Různé vstupy: File, Stream, String, \ldots
 %%   \item \emph{vstup:} množina cest k \verb+*.java+ souborům (kompilačním jednotkám), z nichž se skládá softwarový projekt
 %%   \item \emph{výstup:} graf, reprezentující konkrétní analyzovanou doménu vhodný pro další zpracování (graf podle \ref{design-graph_formalization} \nameref{design-graph_formalization})
 %%   \end{itemize}
+\begin{itemize}
+\item \emph{vstup:} vhodná reprezentace zdrojových kódů projektu (např. seznam všech souborů)
+\item \emph{výstup:} graf konkrétního typu (např. demeter graph)
+\end{itemize}
 
 \subsection{Rozhraní OperatorIface}
 Hierarchie rozhraní operátorů je znázorněna na obrázku \ref{design-operator_interfaces_hierarchy}.
