@@ -1,4 +1,4 @@
-digraph GraphGeneratorManagerIOGraph {
+digraph GraphModelGeneratorManagerIOGraph {
 
     // TODO: change resolution to 600 for printing!
     // it slows down randering of the document in preview
@@ -6,12 +6,22 @@ digraph GraphGeneratorManagerIOGraph {
     node[fontsize=13,fontname=Georgia,shape=box];
     edge[fontsize=13,fontname=Georgia];
 
-    GraphType[shape="plaintext"];
-    GraphGenerator[shape="invhouse"];
-    Graph1[label="Graph"];
-    InputProject[shape="plaintext",label="Vstupní projekt"];
+    GraphTypes[
+        shape="plaintext",
+        label="seznam požadovaných\ntypů grafů"
+    ];
+    GraphGenerator[
+        shape="invhouse"
+    ];
+    GraphModel[
+        label="GraphModel"
+    ];
+    InputProject[
+        shape="plaintext",
+        label="seznam souborů\nvstupního projektu"
+    ];
 
-    GraphType -> GraphGenerator;
+    GraphTypes -> GraphGenerator;
     InputProject -> GraphGenerator;
-    GraphGenerator -> Graph1;
+    GraphGenerator -> GraphModel;
 };

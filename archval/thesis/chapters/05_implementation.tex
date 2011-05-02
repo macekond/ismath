@@ -46,8 +46,10 @@ Při implementaci bylo hojně využíváno informací z \cite{netbeans_platform}
 % \item rozhraní - integrace do platformy NetBeans
 Integrace s platformou NetBeans - třída Action.
 
+Seznam integračních komponent je k dispozici v tabulce \ref{implementation-integration_components}.
+
 \begin{table}
-  \caption{Tabulka komponent jádra systému. \label{design-archval_core_components}}
+  \caption{Tabulka integračních komponent systému. \label{implementation-integration_components}}
   \begin{center}
     \begin{tabular}{ | l | l | p{8cm} | }
       \hline
@@ -55,7 +57,7 @@ Integrace s platformou NetBeans - třída Action.
       \hline
       \hline
       Action & class & integrace s běhovou platformou, vstupní/aktivační bod \\
-%% TODO: 'třída implementující rozhraní...'
+      %% TODO: 'třída implementující rozhraní...'
       GraphGeneratorRegister & class & třída poskytující přístup k informacím o existujících poskytovatelích generátorů grafu \\ \hline
       OperatorRegister & class & třída poskytující přístup k informacím o existujících poskytovatelích operátorů \\ \hline
       AnalysesRegister & class & třída poskytující přístup k informacím o existujících poskytovatelích komponent analýzy \\ \hline
@@ -83,7 +85,7 @@ je nutné použít nestandardní API, které je součástí Sun Javy - balíčky
 
 lze se inspirovat v programu Sorcerer (\href{https://sorcerer.dev.java.net/}{https://sorcerer.dev.java.net/}), který pomocí Java Tree API provádí zpracovávání Java kódu a generování přesné HTML dokumentace. \emph{TODO: in case of usage of this material, add reference!}
 
-\section{Implementace modulů}
+\section{Implementace modulů rozšíření}
 
 \begin{itemize}
 \item \emph{av-graphgen-demeter} -- ukázkový poskytovatel generátoru grafu
@@ -166,3 +168,9 @@ return false;
 \end{lstlisting}
 
 Můžeme si všimnout, že se obě implementace liší pouze přehozením podmínek -- zatímco v prvním případě ($\forall$) musíme projít všechny prvky, abychom zjistili, zda všechny prvky splňují požadovanou vlastnost, ve druhém případě ($\exists$) budeme všechny prvky procházet pouze v krajním případě, kdy vlastnost neplatí pro žádný z prvků.
+
+\section{Integrace do platformy NetBeans}
+% TODO: write about actions, about instrumentation of the ArchVal API
+
+\subsection{Action}
+Integrace do běhové platformy. Reprezentuje uživatelskou akci. Bude implementováno na základě zvolené implementační platformy (akce v GUI).
