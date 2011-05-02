@@ -1,0 +1,24 @@
+digraph SystemExtension {
+
+graph[rankdir=LR];
+node[shape=rectangle,fontsize=13,fontname=Georgia];
+
+avcore[label="av-core"];
+
+graph_generators[label="generátory grafů"];
+operators[label="operátory"];
+analyzers[label="analyzátory"];
+report_generators[label="generátory výstupu"];
+
+avdspec[label="specifikace pravidel",shape="oval"];
+
+avcore -> graph_generators;
+avcore -> operators;
+avcore -> analyzers;
+avcore -> report_generators;
+
+graph_generators -> avdspec[dir="both",arrowhead="open",arrowtail="open"];
+operators -> avdspec[dir="both",arrowhead="open",arrowtail="open"];
+analyzers -> avdspec[dir="both",arrowhead="open",arrowtail="open"];
+
+};

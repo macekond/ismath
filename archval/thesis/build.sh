@@ -20,6 +20,7 @@ build_graphs()
     dot -Tpng ./graphs/validator_io_graph.dot -o ./graphs/validator_io_graph.png
     dot -Tpng ./graphs/graph_generator_io_graph.dot -o ./graphs/graph_generator_io_graph.png
     dot -Tpng ./graphs/validation_model_generator_io_graph.dot -o ./graphs/validation_model_generator_io_graph.png
+    dot -Tpng ./graphs/system_extensions.dot -o ./graphs/system_extensions.png
 }
 
 build_deps()

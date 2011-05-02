@@ -145,10 +145,13 @@ Ne všechna pravidla lze popsat exaktně ve smyslu splněno/nesplněno. Mnohdy m
 \section{Návrh architektury systému}
 \label{design-architecture}
 
-%TODO: highlevel design $\rightarrow$ jaké budou moduly a co budou dělat (zatím bez konkrétní použité technologie)
+Při návrhu architektury systému postupujeme metodou shora dolů. Nejprve budeme systém uvažovat jako jeden velký celek s globální zodpovědností (funkcionalitou). Tento velký blok následně dekomponujeme na jednotlivé komponenty, kterým přidělíme jasně definované zodpovědnosti.
 
-TODO: odstavec o modulech systému, pro každou část/modul napsat samostatnou podsekci, která popíše, jaké třídy modul obsahuje a jaké jsou jejich zodpovědnosti (responsibilities)
-% NOTE: při zpracování většího projektu bude nejspíš nutné zavést nad jmény objektů vhodnou formu indexace pro zrychlení algoritmů (kanonická jména tříd jsou v javě poměrně dost dlouhá)
+Pro výsledný systém budeme používat kódové jméno ArchVal (Architecture validator), zkracované často v~názvech modulů jako \verb+av+.
+
+Globální pohled na systém byl zaveden již v~části \ref{requirements-rules_evaluation} na obrázku \ref{requirements-system_structure}. Toto znázornění je velmi obecné. Vidíme však, že systém má dva hlavní vstupy\footnote{Jako vstupy/výstupy neuvažujeme další běžné součásti systému jako např. načítání konfiguračních souborů nebo logování.} a jeden výstup. Vstupy a výstupy představují podstatnou část doménových dat nad nimiž budeme dále pracovat. V~části \ref{design-domain_objects} popíšeme jednotlivé datové objekty, které postupně \uv{protékají} celým systémem. Ty budou popsány a dekomponovány jako první, protože jejich popis je nezbytný pro definici ostatních komponent systému.
+
+Ve druhé fázi budeme dekomponovat jádro systému. Zodpovědnost jádra představuje zodpovědnost celého systému (zodpovědností celého systému je \uv{provést validaci projektu na základě množiny pravidel}. Tuto zodpovědnost dále rozdrobíme jednak na základní systémové komponenty a dále na množinu rozšíření, která bude možné postupně přidávat. Definujeme proto veřejná rozhraní (SPI) \cite{spi}, která budou implementována poskytovateli služeb.
 
 %% \begin{itemize}
 %% \item compiler
@@ -171,28 +174,49 @@ TODO: odstavec o modulech systému, pro každou část/modul napsat samostatnou 
 %%   \end{itemize}
 %% \end{itemize}
 
-Návrh highlevel struktury je na obrázku \ref{design-modules}.
+% TODO: highlevel design $\rightarrow$ jaké budou moduly a co budou dělat (zatím bez konkrétní použité technologie)
+% TODO: odstavec o modulech systému, pro každou část/modul napsat samostatnou podsekci, která popíše, jaké třídy modul obsahuje a jaké jsou jejich zodpovědnosti (responsibilities)
+
+Návrh vysokoúrovňové struktury je na obrázku \ref{design-modules}.
 
 \begin{figure}[h!]
   \centering
-  \includegraphics[width=1.0\textwidth]{./uml/archval_module_cmp.png}
-  \caption{Rozdělení systému na samostatné komponenty.\label{design-modules}}
+  \includegraphics[width=0.5\textwidth]{./uml/archval_module_cmp.png}
+  \caption{Rozhraní pro rozšíření systému.\label{design-modules}}
 \end{figure}
 
 Je potřeba definovat je dostatečně obecně -- interfaces (možnost oddědění vlastního rozšiřujícího rozhraní).
 
-\subsection{Doménové objekty}
+% TODO: move to right position
+Systém bude realizován pomocí rozšíření. Jednotlivé typy rozšíření jsou znázorněny na obrázku \ref{design-system_extensions}
+\begin{figure}[h!]
+  \centering
+  \includegraphics[width=0.8\textwidth]{./graphs/system_extensions.png}
+  \caption{Body rozšíření systému.\label{design-system_extensions}}
+\end{figure}
 
+Na základě výše uvedeného seznamu definujeme pro každý typ rozšíření interface:
+
+\begin{itemize}
+\item GraphGeneratorIface
+\item OperatorIface
+\item AnalysisIface
+\item OutputGeneratorIface
+%% TODO: rozhodnout, jak se budou lišit interface output generátoru pro ValidationReport a AnalysisReport, definovat výstupní formáty
+\end{itemize}
+
+\subsection{Doménové objekty}
+\label{design-domain_objects}
 % TODO: popsat jednotlivé
 
 \begin{itemize}
 \item \emph{Graph} (class)
 \item \emph{Vertex} (class)
 \item \emph{Edge} (class)
-\item \emph{GraphModel} -- množina grafů různých typů
-\item \emph{ValidationModel} -- AST strom souboru pravidel s navázanými operátory; bude se přegenerovávat při úpravě souboru/textu v GUI, atd\ldots
-\item \emph{ValidationReport}
-\item \emph{AnalysisReport}
+\item \emph{GraphModel} (class) -- množina grafů různých typů
+\item \emph{ValidationModel} (class) -- AST strom souboru pravidel s navázanými operátory; bude se přegenerovávat při úpravě souboru/textu v GUI, atd\ldots
+\item \emph{ValidationReport} (class)
+\item \emph{AnalysisReport} (class)
 \end{itemize}
 
 % TODO: move to appropriate position:

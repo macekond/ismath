@@ -23,7 +23,7 @@ Definice modelu bude zahrnovat určení vhodné reprezentace problémové domén
 Po vytvoření vhodného modelu je nutné tento model následně převést do počítačové reprezentace a poskytnout vhodnou serializaci navrženého jazyka\footnote{Jazyk může obsahovat různé matematické symboly ($\forall$, $\exists$, \ldots), které je obtížné zadávat do počítače přímo. Proto je vhodné poskytnout alternativní reprezentaci jazyka zahrnující pouze omezené množství znaků.}, abychom mohli pravidla vyhodnotit pomocí systému pro vyhodnocování pravidel.
 
 \section{Požadavky na systém pro vyhodnocování pravidel}
-
+\label{requirements-rules_evaluation}
 Třetí část požadovaná zadáním zahrnuje vytvoření nástroje pro ověřování pravidel. Vstupem pro tento nástroj bude \emph{množina pravidel} a vhodně předzpracované zdrojové kódy analyzovaného projektu (\emph{vstupní projekt}). Nástroj může být navržen obecněji, budeme-li na vstupu předpokládat vhodnou vnitřní reprezentaci zdrojových kódů. Doprogramováním vstupních modulů\footnote{Vstupní moduly musí provést zparsování zdrojových kódu, vygenerování AST a rozlišení jmen a typů (name/type resolution).} bude možné poskytnout podporu i pro další jazyky.
 
 Celková struktura výsledného projektu je znázorněna na obrázku \ref{requirements-system_structure}.
