@@ -62,8 +62,9 @@ Zatímco některé aspekty jsou pro tuto práci zcela nepodstatné (dobrým př�
 
 \paragraph{Udržovatelnost} Klíčovou charakteristikou \emph{udržovatelnosti} je možnost obnovit stav systému v rozumném čase. Příkladem mohou být aktualizace virové báze antivirových programů. Jiným příkladem může být instalace bezpečnostních aktualizací. Tuto vlastnost nelze podpořit zcela přímo, je však důsledkem ostatních vlastností (zejména \emph{rozšiřitelnost} a \emph{modularita}).
 
-\paragraph{Modularita} % the resulting software comprises well defined, independent components. That leads to better maintainability. The components could be then implemented and tested in isolation before being integrated to form a desired software system. This allows division of work in a software development project.
-\paragraph{Znovupoužitelnost} % the software is able to add further features and modification with slight or no modification.
+\paragraph{Modularita} \emph{Modularita} znamená, že výsledný systém sestává z dobře definovaných a nezávislých komponent. To vede k lepší \emph{udržovatelnosti}. Komponenty mohou být v takovém případě vyvíjeny a testovány izolovaně předtím než jsou integrovány do výsledného požadovaného softwarového systému. Navíc získáme dobrou možnost dělby práce v rámci vývojového týmu pracujícího na softwarovém projektu.
+
+\paragraph{Znovupoužitelnost} Je důležité, aby bylo možné přidávat nové vlastnosti (features) systému a provádět modifikace s pouze omezenou nebo žádnou modifikací existujících komponent (možnost použít komponenty znovu pro jiné případy užití).
 
 \section{Analýza principů objektového návrhu}
 
@@ -78,14 +79,11 @@ Zatímco některé aspekty jsou pro tuto práci zcela nepodstatné (dobrým př�
 %% **Low coupling and high cohesion:**
 
 %% * základní informace o coupling a cohesion na wikipedii:
-%%     * [[Coupling|http://en.wikipedia.org/wiki/Coupling_(computer_programming)]]
 %%     * [[Cohesion|http://en.wikipedia.org/wiki/Cohesion_(computer_science)]]
 %% * [[Measuring coupling and cohesion in object-oriented systems|http://www.isys.uni-klu.ac.at/PDF/1995-0043-MHBM.pdf]]
 %% * [[Defining and validating high-level design metrics|http://citeseerx.ist.psu.edu/viewdoc/download?doi=10.1.1.31.4744&rep=rep1&type=pdf]]
 %% * [[Byung-Kyoo Kang; Bieman, J.M.; , "Design-level cohesion measures: derivation, comparison, and applications," Computer Software and Applications Conference, 1996. COMPSAC '96., Proceedings of 20th International , vol., no., pp.92-97, 21-23 Aug 1996|http://ieeexplore.ieee.org/stamp/stamp.jsp?tp=&arnumber=542431&isnumber=11365]]
 %% * [[Bieman, J.M.; Byung-Kyoo Kang; , "Measuring design-level cohesion," Software Engineering, IEEE Transactions on , vol.24, no.2, pp.111-124, Feb 1998|http://ieeexplore.ieee.org/stamp/stamp.jsp?tp=&arnumber=666825&isnumber=14664]]
-
-%% **TBD:** napsat nějaká pojednání o klasifikaci coupling and cohesion (čerpat z článků a citovat)
 
 %% **Demeter law:**
 
@@ -96,9 +94,6 @@ Zatímco některé aspekty jsou pro tuto práci zcela nepodstatné (dobrým př�
 %% * [[Formulations and benefits of the law of demeter|http://portal.acm.org/citation.cfm?id=643603.643608]]
 %% * [[Demeter: Aspect-Oriented Software Development|http://www.ccs.neu.edu/research/demeter/]]
 %% * [[A case for statically executable advice: checking the law of demeter with AspectJ|http://portal.acm.org/citation.cfm?id=643603.643608]]
-
-
-
 
 %% V části analýzy provést rozbor jednotlivých principů + výsledky rešerší - využívat hojně informace z článků a důsledně citovat zdroje
 
