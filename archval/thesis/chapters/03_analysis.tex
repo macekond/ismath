@@ -1,41 +1,32 @@
 \chapter{Analýza}
 %% TODO: zde napsat prehledovy text o tom, co vsechno tato kapitola obsahuje
 
-\section{Objektově orientovaný návrh software}
-% -- rozebrat jaké návrhové koncepty lze podpořit
-% -- rozebrat existující aspekty návrhu (design considerations)
+\section{Problematika návrhu software}
+Při návrhu software se uplatňují nejrůznější přístupy, vzory, pravidla. Cílem této sekce je podat rychlý přehled o používaných návrhových konceptech, aspektech návrhu software a objektově orientovaném návrhu. U některých aspektů uvažujeme možnost jejich podpory pomocí vhodného nástroje. Mnoho z uvedených pojmů a postupů je dále použito při návrhu nástroje, jehož vytvoření je jedním z cílů této práce.
 
-\subsection{Koncepce návrhu software}
-Existující koncepce (pojetí) návrhu software poskytují vývojářům základ, z~něhož lze odvodit a aplikovat další sofistikované metody \cite{wiki:software_design}. Postupem času se vyvinula celá množina koncepcí návrhu software. Uveďme alespoň některé:
+\subsection{Koncepty používané při návrhu software}
+Existující koncepty návrhu software poskytují vývojářům základ, z~něhož lze odvodit a aplikovat další sofistikované metody \cite{wiki:software_design}. Většinou se jedná o různé pohledy na způsob dekompozice systému na části realizovatelné v konkrétním programovacím jazyce. Postupem času se vyvinula celá množina konceptů návrhu software \cite{swengineeringconcepts}. Uveďme alespoň některé:
 
-\paragraph{Abstrakce (Abstraction)} Princip abstrakce
-%% \item \emph{Abstraction} - Abstraction is the process or result of generalization by reducing the information content of a concept or an observable phenomenon, typically in order to retain only information which is relevant for a particular purpose.
+\paragraph{Abstrakce (Abstraction)} Abstrakce je proces nebo výsledek zobecnění a redukce informačního obsahu konceptu nebo pozorovatelného jevu. Typicky ponecháváme pouze informaci, která je relevantní pro konkrétní účel nebo záměr.
 
-\paragraph{Postupné zjemňování (Refinement)}
-%% \item \emph{Refinement} - It is the process of elaboration. A hierarchy is developed by decomposing a macroscopic statement of function in a stepwise fashion until programming language statements are reached. In each step, one or several instructions of a given program are decomposed into more detailed instructions. Abstraction and Refinement are complementary concepts.
+\paragraph{Postupné zjemňování (Refinement)} Postupné zjemňování/zpřesňování představuje proces tvorby\footnote{Tento koncept byl použit i pro tvorbu této práce. Nejprve byla provedena dekompozice tématu na základní bloky (specifikace, analýza, návrh, \ldots) a poté byly \uv{rekurzivním sestupem} realizované další sekce, podsekce a nakonec i elementární součásti práce (odstavce a věty).}. Je vytvářena hierarchie dekompozicí makroskopických příkazů funkce po krocích, dokud nejsou dosaženy elementární příkazy programovacího jazyka. V každém kroku je dekomponována jedna nebo více instrukcí daného programu do detailnějších instrukcí. Abstrakce a zjemňování jsou vzájemně komplementární oblasti.
 
-\paragraph{Modularita (Modularity)}
-%% \item \emph{Modularity} - Software architecture is divided into components called modules.
+\paragraph{Modularita (Modularity)} Systém je rozdělen do samostatných komponent nazvaných moduly (popsáno dále v podsekci \ref{analysis-sw_design_aspects}).
 
-\paragraph{Architektura (Software Architecture)}
-%% \item \emph{Software Architecture} - It refers to the overall structure of the software and the ways in which that structure provides conceptual integrity for a system. A good software architecture will yield a good return on investment with respect to the desired outcome of the project, e.g. in terms of performance, quality, schedule and cost.
+\paragraph{Architektura (Software Architecture)} Tento pojem odkazuje na celkovou strukturu softwarového systému a způsoby, kterými tato struktura zajišťuje konceptuální ucelenost systému.
 
-\paragraph{Hierarchie řízení (Control Hierarchy)}
-%% \item \emph{Control Hierarchy} - A program structure that represent the organization of a program components and implies a hierarchy of control.
+\paragraph{Hierarchie řízení (Control Hierarchy)} Struktura programu, která reprezentuje organizaci programových komponent a určuje hierarchii řízení. Tato struktura však nedefinuje přesné pořadí operací.
 
-\paragraph{Strukturální dělení (Structural Partitioning)}
-%% \item \emph{Structural Partitioning} - The program structure can be divided both horizontally and vertically. Horizontal partitions define separate branches of modular hierarchy for each major program function. Vertical partitioning suggests that control and work should be distributed top down in the program structure.
+\paragraph{Strukturální dělení (Structural Partitioning)} Struktura programu může být definována jak v horizontálním, tak vertikálním smyslu. Horizontální dělení představuje samostatné větve hiearchie modulů pro hlavní funkčnosti programu. Vertikální dělení slouží k distribuci řízení a průběhu zpracování do jednotlivých úrovní (vysokoúrovňové rutiny a nízkoúrovňové operace).
 
-\paragraph{Struktura dat (Data Structure)}
-%% \item \emph{Data Structure} - It is a representation of the logical relationship among individual elements of data.
+\paragraph{Struktura dat (Data Structure)} Logická reprezentace vztahů mezi jednotlivými datovými elementy.
 
-\paragraph{Softwarová procedura (Software Procedure)}
-%% \item \emph{Software Procedure} - It focuses on the processing of each modules individually
+\paragraph{Softwarová procedura (Software Procedure)} Koncept \emph{softwarové procedury} se zaměřuje na průběh zpracovávání každého jednotlivého modulu. Narozdíl od konceptu \emph{hierarchie řízení}, který se zabývá pouze vztahy (která komponenta je řízena kterou komponentou), se zaměřuje na návrh přesné posloupnosti kroků, které modul provádí.
 
-\paragraph{Zapouzdření (Information Hiding)}
-%% \item \emph{Information Hiding} - Modules should be specified and designed so that information contained within a module is inaccessible to other modules that have no need for such information.
+\paragraph{Zapouzdření (Information Hiding)} Moduly by měly být navrhovány tak, aby informace v nich obsažená byla nedostupná modulům, které tuto informaci nepotřebují.
 
 \subsection{Aspekty návrhu software}
+\label{analysis-sw_design_aspects}
 Při návrhu software musíme vzít v~potaz velké množství aspektů \cite{wiki:software_design}. Důležitost přikladaná jednotlivým aspektům je odvozena od účelu, za nímž je software realizován. Pro některé systémy může být klíčové rozšiřitelnost, pro jiné stabilita. Mezi základní aspekty patří:
 
 \begin{itemize}
@@ -61,6 +52,9 @@ Zatímco některé aspekty jsou pro tuto práci zcela nepodstatné (dobrým př�
 \paragraph{Modularita} \emph{Modularita} znamená, že výsledný systém sestává z~dobře definovaných a nezávislých komponent. To vede k~lepší \emph{udržovatelnosti}. Komponenty mohou být v~takovém případě vyvíjeny a testovány izolovaně předtím než jsou integrovány do výsledného požadovaného softwarového systému. Navíc získáme dobrou možnost dělby práce v~rámci vývojového týmu pracujícího na softwarovém projektu.
 
 \paragraph{Znovupoužitelnost} Je důležité, aby bylo možné přidávat nové vlastnosti (features) systému a provádět modifikace s~pouze omezenou nebo žádnou modifikací existujících komponent (možnost použít komponenty znovu pro jiné případy užití).
+
+\subsection{Objektově orientovaný návrh software}
+%% TODO: přehled základních technik objektového návrhu (inheritance, composition, interfaces, atd.)
 
 \section{Analýza principů objektového návrhu}
 
