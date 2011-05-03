@@ -77,7 +77,7 @@ Principy objektového nárhu reprezentují množinu pokynů, které nám pomáha
 \item \emph{Immobility} -- je obtížné znovupoužití části systému v jiné aplikaci, protože tato část nemůže být \uv{vymotána} z aktuální aplikace.
 \end{itemize}
 
-Autor výše zmíněného článku (\cite{oop_design_principles_and_patterns}) cituje zajímavé návrhové principy. Například \emph{Open Closed Principle}, který vyžaduje, aby se existující třídy a řešení nemodifikovaly, ale rozšiřovaly. Dalším principem je \emph{Liskov's substitution principle}, který vymezuje pravidla pro dědění tak, aby instance podtřídy mohla bezpečně vystupovat na místě své nadtřídy\footnote{Ve článku je rozebráno, jaké operace bychom neměli provádět v oddědné třídě -- je totiž možné změnit chování odděděné třídy tak, že již nemůže bezpečně vystupovat na místě svého předka.}.
+Autor výše zmíněného článku (\cite{oop_design_principles_and_patterns}) cituje zajímavé návrhové principy. Například \emph{Open Closed Principle}, který vyžaduje, aby se existující třídy a řešení nemodifikovaly, ale rozšiřovaly. Dalším principem je \emph{Liskov's substitution principle}, který vymezuje pravidla pro dědění tak, aby instance podtřídy mohla bezpečně vystupovat na místě své nadtřídy\footnote{Ve článku je rozebráno, jaké operace bychom neměli provádět v oddědědné třídě -- je totiž možné změnit chování odděděné třídy tak, že již nemůže bezpečně vystupovat na místě svého předka.}.
 
 Důležité je srovnání \emph{návrhových principů} s \emph{návrhovými vzory}. Toto srovnání podává článek \cite{612257}. Zatímco aplikace návrhového vzoru představuje znovupoužití \uv{úspěšného} návrhu, princip představuje spíše obecně platné pravidlo, jehož dodržováním během návrhu bychom měli získat návrh přijatelné kvality. V případě přesného stanovení potřebných principů by bylo možné provádět automatizovný systematický návrh (což není, vzhledem k mnoha aspektům popisovaným v článku, dobře možné).
 
@@ -272,7 +272,7 @@ Projekt závisí na dalších třídách, které analyzovat nebudeme (v~určité
 \item podprojekty a části projektu, které analyzovat nechceme, nepotřebujeme nebo z~nějakého důvodu nemůžeme
 \end{itemize}
 
-% TODO: aktualizovat -> v konecnem dusledku budeme pracovat i nad projekty v jazyku 1.6 (protoze nam to rozhrani umoznuje)
+% TODO: aktualizovat -> v konecnem dusledku budeme pracovat i nad projekty v jazyce 1.6 (protoze nam to rozhrani umoznuje)
 Budeme pracovat nad gramatikou jazyka Java 1.5. Java verze 6 se liší pouze úpravou standardních API poskytovaných platformou Java. Jazyk jako takový zůstává stejný.
 
 \subsubsection{Syntaktické elementy programovacího jazyka Java}
@@ -292,7 +292,7 @@ Pro analýzu založenou na vyhledávání závislostí mezi třídami pro nás b
   \caption{Rozklad elementu TypeDeclaration.\label{type_declaration_options}}
 \end{figure}
 
-\subsection{Existující nástroje pro zpracování zdrojových kódů v~jazyku Java}
+\subsection{Existující nástroje pro zpracování zdrojových kódů v~jazyce Java}
 
 % TODO: write some leading text
 
