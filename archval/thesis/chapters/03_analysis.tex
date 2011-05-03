@@ -108,8 +108,9 @@ Zatímco některé aspekty jsou pro tuto práci zcela nepodstatné (dobrým př�
 \end{itemize}
 
 \subsection{Analyzované principy}
-V této práci se budeme zabývat zejména principy, které si kladou za cíl strukturální kvalitu kódu, která umož
-Ukázkové návrhové principy analyzované v rámci této práce jsou znázorněny na obrázku \ref{analyzed_principles}. Poznamenejme, že tzv. Demeterův zákon je speciálním případem pravidla pro \uv{low coupling}.
+Na základě požadavků specifikovaných sekci \ref{requirements-principle_analysis} se budeme postupně zabývat principy \emph{low coupling}, \emph{high cohesion} a \emph{Law of Demeter}. Jedná se o principy, které se týkají strukturální kvality kódu.
+
+Ukázkové návrhové principy a vztahy mezi nimi jsou znázorněny na obrázku \ref{analyzed_principles}. Poznamenejme, že \emph{Law of Demeter} (dále budeme používat zkratku \emph{LoD}) je konkretizací požadavků na \emph{nízkou závislost} (\emph{low coupling}) mezi moduly.
 
 \begin{figure}[h!]
   \centering
@@ -125,32 +126,40 @@ Závislost/vazba (coupling/dependency) mezi moduly softwarového projektu určuj
 
 Proto je důležitou návrhovou zásadou snaha snížit provázanost modulů na minimum. Je zřejmé, že provázanost modulů vždy existuje (jinak by neměl modulární návrh smysl). Proto nelze striktně říci, do jaké míry smí/nesmí být moduly provázané.
 
-V \cite{wiki:coupling} a \cite{STVR:STVR162} je podáván přehled míry závislosti jednoho modulu na druhém. Jedná se o následující typy závislostí:
+V \cite{wiki:coupling} a \cite{STVR:STVR162} (podrobnější a formálnější definice) je podáván přehled úrovní závislosti jednoho modulu na druhém. Následující zjednodušený seznam úrovní závislostí je seřazen od nejvyšší fromy závislosti po nejnižší:
 
-\begin{itemize}
-\item\emph{Content coupling (nejvyšší forma závislosti)} -- závislost na obsahu modulu -- jeden modul modifikuje nebo se spoléhá na vnitřní fungování jiného modulu (např. přístup k lokálním datům jiného modulu). V důsledku platí, že změní-li se způsob, kterým tento druhý modul produkuje data (umístění, typ, časování), povede to zcela jiste ke změnám v závislém modulu.
-\item\emph{Common coupling} -- dva moduly sdílí stejná globální data (např. globální proměnnou), změna sdíleného globálního zdroje implikuje změny všech modulů, které je používají.
-\item\emph{External coupling} -- dva moduly sdílí externě definovaný (standardizovaný) datový formát, komunikační protokol nebo rozraní zařízení.
-\item\emph{Control coupling} -- jeden modul kontroluje tok druhého tím, že mu posílá informaci o tom, co má konat (např. předání \uv{to-do} příznaku).
-  % TODO: CLARIFY
-\item\emph{Stamp coupling (Data-structured coupling)} -- mdouly sdílí složenou datovou strukturu a používají pouze její (často odlišnou) část (např. předávání kompletního záznamu funkci, která z něj potřebuje pouze jedno pole). Tato vazba může vést ke změně způsobu, kterým modul čte záznam, protože pole, které tento modul nepotřebuje bylo modifikováno.
-  % Stamp coupling is when modules share a composite data structure and use only a part of it, possibly a different part (e.g., passing a whole record to a function that only needs one field of it). This may lead to changing the way a module reads a record because a field that the module doesn't need has been modified.
-\item\emph{Data coupling} -- moduly sdílí data pomocí parametrů. Každý parametr je elementární datový typ a jedná se o jediná data, která jsou sdílená (např. předávání celočíselné hodnoty funkci, která spočítá jeho druhou mocninu).
-\item\emph{Message coupling (nejnižší forma závislosti)} -- provázanost modulů pouze pomocí zpráv, jedná se o nejnižší úroveň závislosti. Lze jí dosáhnout pomocí decentralizace stavu (u objektů), kde je komunikace dosahováno pomocí parametrů nebo předávání zpráv (\uv{message passing}).
-\item\emph{No coupling} -- žádná závislost -- moduly spolu vůbec nekomunikují.
-\end{itemize}
+\paragraph{Content coupling (nejvyšší forma závislosti)} Jeden modul modifikuje jiný modul nebo se spoléhá na vnitřní fungování jiného modulu (např. přístup k~lokálním datům jiného modulu). V~důsledku platí, že změní-li se způsob, kterým tento druhý modul produkuje data (umístění, typ, časování), povede to zcela jiste ke změnám v závislém modulu.
+
+\paragraph{Common coupling} Dva moduly sdílí stejná globální data (např. globální proměnnou), změna sdíleného globálního zdroje implikuje změny všech modulů, které je používají.
+
+\paragraph{External coupling} Dva moduly sdílí externě definovaný (standardizovaný) datový formát, komunikační protokol nebo rozhraní zařízení.
+
+\paragraph{Control coupling} Jeden modul kontroluje tok druhého tím, že mu posílá informaci o tom, co má konat (např. předání \uv{to-do} příznaku).
+
+\paragraph{Stamp data coupling} Jeden modul předává druhému modulu složenou datovou strukturu jako parametr. Ten ji používá pouze pro výpočty (nikoliv pro rozhodování řízení toku programu).
+
+\paragraph{Scalar data coupling} Moduly sdílí data pomocí parametrů. Každý parametr je elementární datový typ a jedná se o jediná data, která jsou sdílená (např. předávání celočíselné hodnoty funkci, která spočítá jeho druhou mocninu). Modul, kterému jsou předávány parametry, jich používá pouze k výpočtu hodnoty a nikoliv pro rozhodování řízení toku programu.
+
+\paragraph{Message coupling (nejnižší forma závislosti)} Moduly jsou provázané pouze pomocí posílání zpráv (message passing). Jedná se o nejnižší úroveň závislosti. Moduly o sobě navzájem nemusí mít žádnou znalost. Moduly nepoužívají vzájemně žádné předávání parametrů, nemají žádné sdílené reference na objekty nebo globální data.
+
+\paragraph{Independent coupling/No coupling} Mezi moduly není žádná závislost. Moduly spolu vůbec nekomunikují a nejsou zde žádné sdílené reference na proměnné nebo reference na externí data sdílená mezi moduly.
+
+\vspace{1cm}
 
 Cílem návrhu je snižovat co nejvíce míru závislosti modulů. Protože se ale jedná o kvantitativní záležitost, nejsme schopni určit zcela přesná pravidla, která musí platit nebo která lze vynutit. U některých typů programů může být akceptovatelý i \emph{content coupling} z výkonnostních důvodů\footnote{Nízká provázanost implikuje téměř vždy snížení výkonu z důvodu nutnosti dalších mechanismů, které zprostředkovávájí komunikaci mezi moduly (např. \emph{message passing} mechanismus).}, naopak u jiných systémů může být nízká provázanost (\emph{message coupling}) dána již návrhem (např. CORBA, web services, atd.).
 
 %% TODO: přidat coupling v pojetí objektově orientovaného programování
 
 \subsubsection{High cohesion (vysoká koheze/soudržnost)}
+
+% TODO: úrovně koheze -- koheze na úrovni metody, třídy, balíčku, modulu, projektu
+% TODO: rozdělení metody pro lepší testovatelnost
 Wikipedia \cite{wiki:cohesion}:
 \begin{itemize}
 \item míra, jak silně související je funkčnost vyjádřená zdrojovým kódem konkrétního modulu
 \end{itemize}
 
-\noindent{}Článek \cite{Kang:1996:DCM:872750.873361}:
+Článek \cite{Kang:1996:DCM:872750.873361}:
 \begin{itemize}
 \item association-based approach (coincidental, logical, \ldots),
 \item slice-based approach,
@@ -158,7 +167,7 @@ Wikipedia \cite{wiki:cohesion}:
 \item velmi exaktní přístup.
 \end{itemize}
 
-\noindent{}Článek \cite{ISI:000079726000029} uvádí dělení koheze podle tzv SMC\footnote{Podle původních autorů Stevens, Myers a Constantine.} Cohesion:
+Článek \cite{ISI:000079726000029} uvádí dělení koheze podle tzv SMC\footnote{Podle původních autorů Stevens, Myers a Constantine.} Cohesion:
 \begin{enumerate}
 \item \emph{Coincidental association} -- neexistuje souvislost mezi elementy provádějícími zpracování,
   %\item \emph{Coincidental association} -- there is no relationship between the processing elements.
