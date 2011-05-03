@@ -17,7 +17,7 @@ Existující koncepty návrhu software poskytují vývojářům základ, z~něho
 
 \paragraph{Hierarchie řízení (Control Hierarchy)} Struktura programu, která reprezentuje organizaci programových komponent a určuje hierarchii řízení. Tato struktura však nedefinuje přesné pořadí operací.
 
-\paragraph{Strukturální dělení (Structural Partitioning)} Struktura programu může být definována jak v horizontálním, tak vertikálním smyslu. Horizontální dělení představuje samostatné větve hiearchie modulů pro hlavní funkčnosti programu. Vertikální dělení slouží k distribuci řízení a průběhu zpracování do jednotlivých úrovní (vysokoúrovňové rutiny a nízkoúrovňové operace).
+\paragraph{Strukturální dělení (Structural Partitioning)} Struktura programu může být definována jak v horizontálním, tak vertikálním smyslu. Horizontální dělení představuje samostatné větve hierarchie modulů pro hlavní funkčnosti programu. Vertikální dělení slouží k distribuci řízení a průběhu zpracování do jednotlivých úrovní (vysokoúrovňové rutiny a nízkoúrovňové operace).
 
 \paragraph{Struktura dat (Data Structure)} Logická reprezentace vztahů mezi jednotlivými datovými elementy.
 
@@ -54,14 +54,25 @@ Zatímco některé aspekty jsou pro tuto práci zcela nepodstatné (dobrým př�
 \paragraph{Znovupoužitelnost} Je důležité, aby bylo možné přidávat nové vlastnosti (features) systému a provádět modifikace s~pouze omezenou nebo žádnou modifikací existujících komponent (možnost použít komponenty znovu pro jiné případy užití).
 
 \subsection{Objektově orientovaný návrh software}
-%% TODO: přehled základních technik objektového návrhu (inheritance, composition, interfaces, atd.)
+Základním vstupem pro objektově orientovaný návrh bývá (mimo jiné) \emph{konceptuální model}, případně seznam \emph{případů užití} systému. To jsou výsledky předešlé fáze analýzy. Na základě těchto informací je poté zpravidla sestavován návrh systému, který pracuje nad dříve definovanými doménovými objekty.
+
+Klíčovými pojmy při objektově orientovném návrhu jsou \cite{wiki:oop_design}:
+
+\paragraph{Objekt/třída}  Objekt/třída představují těsné propojení mezi datovými strukturami a metodami/funkcemi, které nad těmito daty pracují. Každý objekt by měl sloužit samostatné funkci. Je definován svými atributy/vlastnostmi, tím co je a tím co může dělat.
+\paragraph{Zapouzdření} Zapouzdření je schopnost chránit některé součásti objektu před externími entitami. To je zpravidla realizováno klíčovými slovy implementujícího programovacího jazyka, která umožňují deklarovat proměnnou jako privátní nebo chráněnou uvnitř vlastnické třídy.
+\paragraph{Dědičnost} Dědičnost umožňuje nové třídě rozšířit nebo i přepsat funkcionalitu jiné třídy. Výsledná podtřída má kompletní část, která je derivována z nadtřídy a navíc své vlastní funkce a data.
+\paragraph{Rozhraní} Rozhraní představuje možnost odložení implementace metod. Je možné definovat signatury funkcí nebo metod, aniž by bylo nutné tyto metody implementovat.
+\paragraph{Polymorfismus} Polymorfismus nám umožňuje nahradit objekt jeho podobjektem (instancí podtřídy). Proměnná tedy může obsahovat buď objekt nebo kterýkoliv jeho podobjekt.
+
+Při vlastním návrhu systému se používají principy objektového návrhu (popsáno dále v sekci \ref{analysis-oop_design_principles}) a návrhové vzory. Pro realizaci objektových systému se potom používají nejrůznější frameworky a knihovny.
 
 \section{Analýza principů objektového návrhu}
-
+\label{analysis-oop_design_principles}
 \begin{itemize}
 \item co jsou to návrhové principy?
 \item návrhové principy versus návrhové vzory \cite{612257}
 %% TODO: zjistit, jaké další objektově orientované návrhové principy (kromě těch ze zadání) existují a přidat alespoň zmínku
+%% liskov's substitution principle
 \end{itemize}
 
 \subsection{Analyzované principy}
