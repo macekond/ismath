@@ -1,51 +1,47 @@
 \chapter{Analýza}
-
 %% TODO: zde napsat prehledovy text o tom, co vsechno tato kapitola obsahuje
-
-%% TODO: zapracovat do této sekce nebo smazat
-%% # Model driven engineering
-%% * [[A Taxonomy of Model Transformations|http://drops.dagstuhl.de/opus/volltexte/2005/11/pdf/04101.SWM2.Paper.pdf]] - článek přehledně shrnuje základní pojmy týkající se transformace modelů
-%% # Architecture specific model
-%% V následujícím článku je demonstrován převod architektonicky závislého modelu (konkrétně MVC) na dva různé platformně specifické modely (EJB a Spring beans). Pro definici PIM je vytvořen vlastní jednoduchý UML profil.
-%% * [[Kazato H., Model-View-Controller Architecture Specific Model Transformation|http://www.dsmforum.org/events/DSM09/Papers/Kazato.pdf]]
 
 \section{Objektově orientovaný návrh software}
 % -- rozebrat jaké návrhové koncepty lze podpořit
 % -- rozebrat existující aspekty návrhu (design considerations)
 
 \subsection{Koncepce návrhu software}
-
-Existující koncepce (pojetí) návrhu software poskytují vývojářům základ, z něhož lze odvodit a aplikovat další sofistikované metody \cite{wiki:software_design}. Postupem času se vyvinula celá množina koncepcí návrhu software. Uveďme alespoň některé:
+Existující koncepce (pojetí) návrhu software poskytují vývojářům základ, z~něhož lze odvodit a aplikovat další sofistikované metody \cite{wiki:software_design}. Postupem času se vyvinula celá množina koncepcí návrhu software. Uveďme alespoň některé:
 
 \paragraph{Abstrakce (Abstraction)} Princip abstrakce
-\paragraph{Postupné zjemňování (Refinement)}
-\paragraph{Modularita (Modularity)}
-\paragraph{Architektura (Software Architecture)}
-\paragraph{Hierarchie řízení (Control Hierarchy)}
-\paragraph{Strukturální dělení (Structural Partitioning)}
-\paragraph{Struktura dat (Data Structure)}
-\paragraph{Softwarová procedura (Software Procedure)}
-\paragraph{Zapouzdření (Information Hiding)}
-
-%% \begin{itemize}
 %% \item \emph{Abstraction} - Abstraction is the process or result of generalization by reducing the information content of a concept or an observable phenomenon, typically in order to retain only information which is relevant for a particular purpose.
+
+\paragraph{Postupné zjemňování (Refinement)}
 %% \item \emph{Refinement} - It is the process of elaboration. A hierarchy is developed by decomposing a macroscopic statement of function in a stepwise fashion until programming language statements are reached. In each step, one or several instructions of a given program are decomposed into more detailed instructions. Abstraction and Refinement are complementary concepts.
+
+\paragraph{Modularita (Modularity)}
 %% \item \emph{Modularity} - Software architecture is divided into components called modules.
+
+\paragraph{Architektura (Software Architecture)}
 %% \item \emph{Software Architecture} - It refers to the overall structure of the software and the ways in which that structure provides conceptual integrity for a system. A good software architecture will yield a good return on investment with respect to the desired outcome of the project, e.g. in terms of performance, quality, schedule and cost.
+
+\paragraph{Hierarchie řízení (Control Hierarchy)}
 %% \item \emph{Control Hierarchy} - A program structure that represent the organization of a program components and implies a hierarchy of control.
+
+\paragraph{Strukturální dělení (Structural Partitioning)}
 %% \item \emph{Structural Partitioning} - The program structure can be divided both horizontally and vertically. Horizontal partitions define separate branches of modular hierarchy for each major program function. Vertical partitioning suggests that control and work should be distributed top down in the program structure.
+
+\paragraph{Struktura dat (Data Structure)}
 %% \item \emph{Data Structure} - It is a representation of the logical relationship among individual elements of data.
+
+\paragraph{Softwarová procedura (Software Procedure)}
 %% \item \emph{Software Procedure} - It focuses on the processing of each modules individually
+
+\paragraph{Zapouzdření (Information Hiding)}
 %% \item \emph{Information Hiding} - Modules should be specified and designed so that information contained within a module is inaccessible to other modules that have no need for such information.
-%% \end{itemize}
 
 \subsection{Aspekty návrhu software}
-Při návrhu software musíme vzít v potaz velké množství aspektů \cite{wiki:software_design}. Důležitost přikladaná jednotlivým aspektům je odvozena od účelu, za nímž je software realizován. Pro některé systémy může být klíčové rozšiřitelnost, pro jiné stabilita. Mezi základní aspekty patří:
+Při návrhu software musíme vzít v~potaz velké množství aspektů \cite{wiki:software_design}. Důležitost přikladaná jednotlivým aspektům je odvozena od účelu, za nímž je software realizován. Pro některé systémy může být klíčové rozšiřitelnost, pro jiné stabilita. Mezi základní aspekty patří:
 
 \begin{itemize}
 \item \emph{kompatibilita (compatibility)},
 \item \emph{rozšiřitelnost (extensibility)},
-\item \emph{zotavení se z chyb (fault-tolerance/graceful degradation)} \cite{wiki:fault-tolerance},
+\item \emph{zotavení se z~chyb (fault-tolerance/graceful degradation)} \cite{wiki:fault-tolerance},
 \item \emph{udržovatelnost (maintainability)},
 \item \emph{modularita (modularity)},
 \item \emph{balení (packaging)},
@@ -58,52 +54,24 @@ Při návrhu software musíme vzít v potaz velké množství aspektů \cite{wik
 
 Zatímco některé aspekty jsou pro tuto práci zcela nepodstatné (dobrým příkladem budiž \emph{balení}, které se zabývá způsobem dodávky software a podporných materiálů), jiné je možné podpořit pomocí vhodného nástroje. Pojďme se nyní podívat na aspekty, jejichž podpora možná je:
 
-\paragraph{Rozšiřitelnost} Tato vlastnost znamená praktický důsledek, kdy nové funkčnosti mohou být do existujícího systému přidány bez majoritních změn ve \emph{výchozí architektuře}. Pokud by bylo možné určit pravidla, která určují základní architekturu a která je možné vynutit, bylo by možné při rozšiřování systému tato pravidla opět aplikovat, což by vedlo k dodržení výchozí architektury.
+\paragraph{Rozšiřitelnost} Tato vlastnost znamená praktický důsledek, kdy nové funkčnosti mohou být do existujícího systému přidány bez majoritních změn ve \emph{výchozí architektuře}. Pokud by bylo možné určit pravidla, která určují základní architekturu a která je možné vynutit, bylo by možné při rozšiřování systému tato pravidla opět aplikovat, což by vedlo k~dodržení výchozí architektury.
 
-\paragraph{Udržovatelnost} Klíčovou charakteristikou \emph{udržovatelnosti} je možnost obnovit stav systému v rozumném čase. Příkladem mohou být aktualizace virové báze antivirových programů. Jiným příkladem může být instalace bezpečnostních aktualizací. Tuto vlastnost nelze podpořit zcela přímo, je však důsledkem ostatních vlastností (zejména \emph{rozšiřitelnost} a \emph{modularita}).
+\paragraph{Udržovatelnost} Klíčovou charakteristikou \emph{udržovatelnosti} je možnost obnovit stav systému v~rozumném čase. Příkladem mohou být aktualizace virové báze antivirových programů. Jiným příkladem může být instalace bezpečnostních aktualizací. Tuto vlastnost nelze podpořit zcela přímo, je však důsledkem ostatních vlastností (zejména \emph{rozšiřitelnost} a \emph{modularita}).
 
-\paragraph{Modularita} \emph{Modularita} znamená, že výsledný systém sestává z dobře definovaných a nezávislých komponent. To vede k lepší \emph{udržovatelnosti}. Komponenty mohou být v takovém případě vyvíjeny a testovány izolovaně předtím než jsou integrovány do výsledného požadovaného softwarového systému. Navíc získáme dobrou možnost dělby práce v rámci vývojového týmu pracujícího na softwarovém projektu.
+\paragraph{Modularita} \emph{Modularita} znamená, že výsledný systém sestává z~dobře definovaných a nezávislých komponent. To vede k~lepší \emph{udržovatelnosti}. Komponenty mohou být v~takovém případě vyvíjeny a testovány izolovaně předtím než jsou integrovány do výsledného požadovaného softwarového systému. Navíc získáme dobrou možnost dělby práce v~rámci vývojového týmu pracujícího na softwarovém projektu.
 
-\paragraph{Znovupoužitelnost} Je důležité, aby bylo možné přidávat nové vlastnosti (features) systému a provádět modifikace s pouze omezenou nebo žádnou modifikací existujících komponent (možnost použít komponenty znovu pro jiné případy užití).
+\paragraph{Znovupoužitelnost} Je důležité, aby bylo možné přidávat nové vlastnosti (features) systému a provádět modifikace s~pouze omezenou nebo žádnou modifikací existujících komponent (možnost použít komponenty znovu pro jiné případy užití).
 
 \section{Analýza principů objektového návrhu}
-
-%% TODO: zapracovat
-%% * definice typů závislostí a ověřovaných principů objektového návrhu (analysis)
-%% * návrh způsobu ověřování definovaných závislostí - návrh postupů
-
-%% TODO: ZAPRACOVAT
-%% * [[Pescio, C.; , "Principles versus patterns," Computer , vol.30, no.9, pp.130-131, Sep 1997
-%% doi: 10.1109/2.612257|http://ieeexplore.ieee.org/stamp/stamp.jsp?tp=&arnumber=612257&isnumber=13382]]
-
-%% **Low coupling and high cohesion:**
-
-%% * základní informace o coupling a cohesion na wikipedii:
-%%     * [[Cohesion|http://en.wikipedia.org/wiki/Cohesion_(computer_science)]]
-%% * [[Measuring coupling and cohesion in object-oriented systems|http://www.isys.uni-klu.ac.at/PDF/1995-0043-MHBM.pdf]]
-%% * [[Defining and validating high-level design metrics|http://citeseerx.ist.psu.edu/viewdoc/download?doi=10.1.1.31.4744&rep=rep1&type=pdf]]
-%% * [[Byung-Kyoo Kang; Bieman, J.M.; , "Design-level cohesion measures: derivation, comparison, and applications," Computer Software and Applications Conference, 1996. COMPSAC '96., Proceedings of 20th International , vol., no., pp.92-97, 21-23 Aug 1996|http://ieeexplore.ieee.org/stamp/stamp.jsp?tp=&arnumber=542431&isnumber=11365]]
-%% * [[Bieman, J.M.; Byung-Kyoo Kang; , "Measuring design-level cohesion," Software Engineering, IEEE Transactions on , vol.24, no.2, pp.111-124, Feb 1998|http://ieeexplore.ieee.org/stamp/stamp.jsp?tp=&arnumber=666825&isnumber=14664]]
-
-%% **Demeter law:**
-
-%% * [[Assuring Good Style for Object-Oriented Programs|http://portal.acm.org/citation.cfm?id=624870]]
-%% * [[Adaptive Object-Oriented Software The Demeter Method|http://www.google.cz/url?sa=t&source=web&cd=3&sqi=2&ved=0CCoQFjAC&url=http%3A%2F%2Fciteseerx.ist.psu.edu%2Fviewdoc%2Fdownload%3Fdoi%3D10.1.1.94.8349%26rep%3Drep1%26type%3Dpdf&rct=j&q=demeter%20software%20object%20oriented&ei=MeTOTPihHI7AswbpufiWCA&usg=AFQjCNHnRixmCYTZrJVPF2OCEcbooajq4A&cad=rja]]
-%% * [[The Law of Demeter Is Not A Dot Counting Exercise|http://bit.ly/9tCObJ]] - pěkný popularizační článek na úvod
-%% * [[Object-oriented programming: an objective sense of style|http://portal.acm.org/ft_gateway.cfm?id=62113&type=pdf&coll=GUIDE&dl=GUIDE&CFID=111192652&CFTOKEN=98650016]]
-%% * [[Formulations and benefits of the law of demeter|http://portal.acm.org/citation.cfm?id=643603.643608]]
-%% * [[Demeter: Aspect-Oriented Software Development|http://www.ccs.neu.edu/research/demeter/]]
-%% * [[A case for statically executable advice: checking the law of demeter with AspectJ|http://portal.acm.org/citation.cfm?id=643603.643608]]
-
-%% V části analýzy provést rozbor jednotlivých principů + výsledky rešerší - využívat hojně informace z článků a důsledně citovat zdroje
 
 \begin{itemize}
 \item co jsou to návrhové principy?
 \item návrhové principy versus návrhové vzory \cite{612257}
+%% TODO: zjistit, jaké další objektově orientované návrhové principy (kromě těch ze zadání) existují a přidat alespoň zmínku
 \end{itemize}
 
 \subsection{Analyzované principy}
-Na základě požadavků specifikovaných sekci \ref{requirements-principle_analysis} se budeme postupně zabývat principy \emph{low coupling}, \emph{high cohesion} a \emph{Law of Demeter}. Jedná se o principy, které se týkají strukturální kvality kódu.
+Na základě požadavků specifikovaných sekci \ref{requirements-principle_analysis} se budeme postupně zabývat principy \emph{low coupling}, \emph{high cohesion} a \emph{Law of Demeter}. Jedná se o~principy, které se týkají strukturální kvality kódu.
 
 Ukázkové návrhové principy a vztahy mezi nimi jsou znázorněny na obrázku \ref{analyzed_principles}. Poznamenejme, že \emph{Law of Demeter} (dále budeme používat zkratku \emph{LoD}) je konkretizací požadavků na \emph{nízkou závislost} (\emph{low coupling}) mezi moduly.
 
@@ -113,37 +81,43 @@ Ukázkové návrhové principy a vztahy mezi nimi jsou znázorněny na obrázku 
   \caption{Znázornění analyzovaných návrhových principů.\label{analyzed_principles}}
 \end{figure}
 
-% TODO: v rámci každého návrhového principu uvést příklad porušení
-% tohoto principu (případně i příklad, který tento princip dodržuje)
-
 \subsubsection{Low coupling/dependency (nízká závislost/vazba)}
-Závislost/vazba (coupling/dependency) mezi moduly softwarového projektu určuje, do jaké míry se jeden modul spoléhá na každý z ostatních modulů \cite{wiki:coupling}. Zatímco některé moduly spolu vůbec nekomunikují (nemají žádnou závislost), jiné se spoléhají nejen na rozhraní ostatních modulů, ale mnohdy i na jejich vnitřní fungování, způsob reprezentace dat, časování atd. Důsledkem vyšší závislosti je potom nutnost rozsáhlých úprav v mnoha modulech i při úpravě naprostých drobností v jednom konkrétním modulu.
+
+%% * [[Measuring coupling and cohesion in object-oriented systems|http://www.isys.uni-klu.ac.at/PDF/1995-0043-MHBM.pdf]]
+%% * [[Defining and validating high-level design metrics|http://citeseerx.ist.psu.edu/viewdoc/download?doi=10.1.1.31.4744&rep=rep1&type=pdf]]
+%% * [[Bieman, J.M.; Byung-Kyoo Kang; , "Measuring design-level cohesion," Software Engineering, IEEE Transactions on , vol.24, no.2, pp.111-124, Feb 1998|http://ieeexplore.ieee.org/stamp/stamp.jsp?tp=&arnumber=666825&isnumber=14664]]
+
+Závislost/vazba (coupling/dependency) mezi moduly softwarového projektu určuje, do jaké míry se jeden modul spoléhá na každý z~ostatních modulů \cite{wiki:coupling}. Zatímco některé moduly spolu vůbec nekomunikují (nemají žádnou závislost), jiné se spoléhají nejen na rozhraní ostatních modulů, ale mnohdy i na jejich vnitřní fungování, způsob reprezentace dat, časování atd. Důsledkem vyšší závislosti je potom nutnost rozsáhlých úprav v~mnoha modulech i při úpravě naprostých drobností v~jednom konkrétním modulu.
 
 Proto je důležitou návrhovou zásadou snaha snížit provázanost modulů na minimum. Je zřejmé, že provázanost modulů vždy existuje (jinak by neměl modulární návrh smysl). Proto nelze striktně říci, do jaké míry smí/nesmí být moduly provázané.
 
-V \cite{wiki:coupling} a \cite{STVR:STVR162} (podrobnější a formálnější definice) je podáván přehled úrovní závislosti jednoho modulu na druhém. Následující zjednodušený seznam úrovní závislostí je seřazen od nejvyšší fromy závislosti po nejnižší:
+V~\cite{wiki:coupling} a \cite{STVR:STVR162} (podrobnější a formálnější definice) je podáván přehled úrovní závislosti jednoho modulu na druhém. Následující zjednodušený seznam úrovní závislostí je seřazen od nejvyšší fromy závislosti po nejnižší:
 
-\paragraph{Content coupling (nejvyšší forma závislosti)} Jeden modul modifikuje jiný modul nebo se spoléhá na vnitřní fungování jiného modulu (např. přístup k~lokálním datům jiného modulu). V~důsledku platí, že změní-li se způsob, kterým tento druhý modul produkuje data (umístění, typ, časování), povede to zcela jiste ke změnám v závislém modulu.
+\paragraph{Content coupling (nejvyšší forma závislosti)} Jeden modul modifikuje jiný modul nebo se spoléhá na vnitřní fungování jiného modulu (např. přístup k~lokálním datům jiného modulu). V~důsledku platí, že změní-li se způsob, kterým tento druhý modul produkuje data (umístění, typ, časování), povede to zcela jiste ke změnám v~závislém modulu.
 
 \paragraph{Common coupling} Dva moduly sdílí stejná globální data (např. globální proměnnou), změna sdíleného globálního zdroje implikuje změny všech modulů, které je používají.
 
 \paragraph{External coupling} Dva moduly sdílí externě definovaný (standardizovaný) datový formát, komunikační protokol nebo rozhraní zařízení.
 
-\paragraph{Control coupling} Jeden modul kontroluje tok druhého tím, že mu posílá informaci o tom, co má konat (např. předání \uv{to-do} příznaku).
+\paragraph{Control coupling} Jeden modul kontroluje tok druhého tím, že mu posílá informaci o~tom, co má konat (např. předání \uv{to-do} příznaku).
 
 \paragraph{Stamp data coupling} Jeden modul předává druhému modulu složenou datovou strukturu jako parametr. Ten ji používá pouze pro výpočty (nikoliv pro rozhodování řízení toku programu).
 
-\paragraph{Scalar data coupling} Moduly sdílí data pomocí parametrů. Každý parametr je elementární datový typ a jedná se o jediná data, která jsou sdílená (např. předávání celočíselné hodnoty funkci, která spočítá jeho druhou mocninu). Modul, kterému jsou předávány parametry, jich používá pouze k výpočtu hodnoty a nikoliv pro rozhodování řízení toku programu.
+\paragraph{Scalar data coupling} Moduly sdílí data pomocí parametrů. Každý parametr je elementární datový typ a jedná se o~jediná data, která jsou sdílená (např. předávání celočíselné hodnoty funkci, která spočítá jeho druhou mocninu). Modul, kterému jsou předávány parametry, jich používá pouze k~výpočtu hodnoty a nikoliv pro rozhodování řízení toku programu.
 
-\paragraph{Message coupling (nejnižší forma závislosti)} Moduly jsou provázané pouze pomocí posílání zpráv (message passing). Jedná se o nejnižší úroveň závislosti. Moduly o sobě navzájem nemusí mít žádnou znalost. Moduly nepoužívají vzájemně žádné předávání parametrů, nemají žádné sdílené reference na objekty nebo globální data.
+\paragraph{Message coupling (nejnižší forma závislosti)} Moduly jsou provázané pouze pomocí posílání zpráv (message passing). Jedná se o~nejnižší úroveň závislosti. Moduly o~sobě navzájem nemusí mít žádnou znalost. Moduly nepoužívají vzájemně žádné předávání parametrů, nemají žádné sdílené reference na objekty nebo globální data.
 
 \paragraph{Independent coupling/No coupling} Mezi moduly není žádná závislost. Moduly spolu vůbec nekomunikují a nejsou zde žádné sdílené reference na proměnné nebo reference na externí data sdílená mezi moduly.
 
 \vspace{1cm}
 
-Cílem návrhu je snižovat co nejvíce míru závislosti modulů. Protože se ale jedná o kvantitativní záležitost, nejsme schopni určit zcela přesná pravidla, která musí platit nebo která lze vynutit. U některých typů programů může být akceptovatelý i \emph{content coupling} z výkonnostních důvodů\footnote{Nízká provázanost implikuje téměř vždy snížení výkonu z důvodu nutnosti dalších mechanismů, které zprostředkovávájí komunikaci mezi moduly (např. \emph{message passing} mechanismus).}, naopak u jiných systémů může být nízká provázanost (\emph{message coupling}) dána již návrhem (např. CORBA, web services, atd.).
+Cílem návrhu je snižovat co nejvíce míru závislosti modulů. Protože se ale jedná o~kvantitativní záležitost, nejsme schopni určit zcela přesná pravidla, která musí platit nebo která lze vynutit. U~některých typů programů může být akceptovatelý i \emph{content coupling} z~výkonnostních důvodů\footnote{Nízká provázanost implikuje téměř vždy snížení výkonu z~důvodu nutnosti dalších mechanismů, které zprostředkovávájí komunikaci mezi moduly (např. \emph{message passing} mechanismus).}, naopak u~jiných systémů může být nízká provázanost (\emph{message coupling}) dána již návrhem (např. CORBA, web services, atd.).
 
 %% TODO: přidat coupling v pojetí objektově orientovaného programování
+%% TODO: zapracovat
+% dedicnost (inheritance)
+% vyvolání metody
+% instanciace třídy
 
 \subsubsection{High cohesion (vysoká koheze/soudržnost)}
 
@@ -163,26 +137,33 @@ Wikipedia \cite{wiki:cohesion}:
 \end{itemize}
 
 Článek \cite{ISI:000079726000029} uvádí dělení koheze podle tzv SMC\footnote{Podle původních autorů Stevens, Myers a Constantine.} Cohesion:
-\begin{enumerate}
-\item \emph{Coincidental association} -- neexistuje souvislost mezi elementy provádějícími zpracování,
-  %\item \emph{Coincidental association} -- there is no relationship between the processing elements.
-\item \emph{Logical association} -- oba elementy provádějící zpracování patří do stejné logické třídy příbuzných funkcí,
-  %\item \emph{Logical association} -- both processing elements belong to the same logical class of related functions.
-\item \emph{Temporal association} -- každý výskyt obou elementů provadějících zpracování je v tom samém omezeném časovém období při provádění programu,
-  %\item \emph{Temporal association} -- each occurrence of both processing elements occurs within the same limited period of time during execution.
-\item \emph{Procedural association} -- oba elementy provádějící zpracování jsou elementy stejné procedurální jednotky, která je iterativním nebo rozhodovacím procesem,
-  %\item \emph{Procedural association} -- both processing elements are elements of a common procedural unit which is an iteration or decision process.
-\item \emph{Communicational association} -- oba elementy provádějící zpracování pracují nad stejnou množinou vstupních dat a/nebo produkují stejná výstupní data,
-  %\item \emph{Communicational association} -- both processing elements operate upon the same input data set and/or produce the same output data.
-\item \emph{Sequential association} -- výstupní data jednoho elementu jsou vstupními daty pro druhý element,
-  %\item \emph{Sequential association} -- the output data from one processing element is input to the other processing element.
-\item \emph{Functional association} -- oba elementy jsou nezbytné pro provedení jedné funkce/operace.
-  %\item \emph{Functional association} -- both processing elements are essential to the performance of a single function.
-\end{enumerate}
+
+\paragraph{Coincidental association} Neexistuje souvislost mezi elementy provádějícími zpracování.
+
+\paragraph{Logical association} Oba elementy provádějící zpracování patří do stejné logické třídy příbuzných funkcí.
+
+\paragraph{Temporal association} Každý výskyt obou elementů provadějících zpracování je v~tom samém omezeném časovém období při provádění programu.
+
+\paragraph{Procedural association} Oba elementy provádějící zpracování jsou elementy stejné procedurální jednotky, která je iterativním nebo rozhodovacím procesem.
+
+\paragraph{Communicational association} Oba elementy provádějící zpracování pracují nad stejnou množinou vstupních dat a/nebo produkují stejná výstupní data.
+
+\paragraph{Sequential association} Výstupní data jednoho elementu jsou vstupními daty pro druhý element.
+
+\paragraph{Functional association} Oba elementy jsou nezbytné pro provedení jedné funkce/operace.
 
 \subsubsection{Law of Demeter}
 
-Existuje několik forem Demeterova zákona \cite{35588}, které jsou vhodné pro různé oblasti aplikace. Tyto typy jsou znázorněny na obrázku \ref{demeter_law_types}. V \cite{35588} se též pojednává o demeterově zákoně z jiného úhlu -- uvažují se všechny možné třídy, které lze volat bez porušení tohto principu (tzv. preferred suppliers).
+%% **Demeter law:**
+%% * [[Assuring Good Style for Object-Oriented Programs|http://portal.acm.org/citation.cfm?id=624870]]
+%% * [[Adaptive Object-Oriented Software The Demeter Method|http://www.google.cz/url?sa=t&source=web&cd=3&sqi=2&ved=0CCoQFjAC&url=http%3A%2F%2Fciteseerx.ist.psu.edu%2Fviewdoc%2Fdownload%3Fdoi%3D10.1.1.94.8349%26rep%3Drep1%26type%3Dpdf&rct=j&q=demeter%20software%20object%20oriented&ei=MeTOTPihHI7AswbpufiWCA&usg=AFQjCNHnRixmCYTZrJVPF2OCEcbooajq4A&cad=rja]]
+%% * [[The Law of Demeter Is Not A Dot Counting Exercise|http://bit.ly/9tCObJ]] - pěkný popularizační článek na úvod
+%% * [[Object-oriented programming: an objective sense of style|http://portal.acm.org/ft_gateway.cfm?id=62113&type=pdf&coll=GUIDE&dl=GUIDE&CFID=111192652&CFTOKEN=98650016]]
+%% * [[Formulations and benefits of the law of demeter|http://portal.acm.org/citation.cfm?id=643603.643608]]
+%% * [[Demeter: Aspect-Oriented Software Development|http://www.ccs.neu.edu/research/demeter/]]
+%% * [[A case for statically executable advice: checking the law of demeter with AspectJ|http://portal.acm.org/citation.cfm?id=643603.643608]]
+
+Existuje několik forem Demeterova zákona \cite{35588}, které jsou vhodné pro různé oblasti aplikace. Tyto typy jsou znázorněny na obrázku \ref{demeter_law_types}. V~\cite{35588} se též pojednává o~demeterově zákoně z~jiného úhlu -- uvažují se všechny možné třídy, které lze volat bez porušení tohto principu (tzv. preferred suppliers).
 
 \begin{figure}[h!]
   \centering
@@ -196,17 +177,18 @@ Pro statickou analýzu lze použít \uv{class} formu Demeterova zákona.
 
 \emph{Zjednodušená verze \cite{wiki:lod}}
 
-Method M of an object O may only invoke the methods of the following kinds of objects:
+Method M of an object O~may only invoke the methods of the following kinds of objects:
 
 \begin{itemize}
-\item O itself,
+\item O~itself,
 \item M's parameters,
 \item any objects created instantiated within M,
 \item O's direct component objects,
-\item a global variable, accessible by O in the scope of M.
+\item a global variable, accessible by O~in the scope of M.
 \end{itemize}
 
-\subsection{Ukázky kódu porušujícího některá z pravidel}
+\subsection{Ukázky kódu porušujícího některá z~pravidel}
+% TODO: v rámci každého návrhového principu uvést příklad porušení tohoto principu (případně i příklad, který tento princip dodržuje)
 
 \subsubsection{Porušení principu law of Demeter}
 
@@ -236,19 +218,26 @@ Method M of an object O may only invoke the methods of the following kinds of ob
   }
 \end{lstlisting}
 
-\section{Analýza problematiky v jazyce Java}
+\section{Analýza problematiky v~jazyce Java}
 
-\subsection{Statický model programu v Javě}
+\subsection{Statický model programu v~Javě}
 % TODO: pojednání o tom, co všechno může být modelem programu (ast, graf, FSM, programovací jazyky, atd)
 % TODO: model driven engineering, kód je fyzický model, můžeme jej ale dále převádět na další modely a ty potom analyzovat
 % TODO: možná přidat poznámku o model driven engineering a jak může být aplikováno právě zde
 
-\subsubsection{Struktura softwarového projektu v Javě}
+%% TODO: zapracovat do této sekce nebo smazat
+%% # Model driven engineering
+%% * [[A Taxonomy of Model Transformations|http://drops.dagstuhl.de/opus/volltexte/2005/11/pdf/04101.SWM2.Paper.pdf]] - článek přehledně shrnuje základní pojmy týkající se transformace modelů
+%% # Architecture specific model
+%% V následujícím článku je demonstrován převod architektonicky závislého modelu (konkrétně MVC) na dva různé platformně specifické modely (EJB a Spring beans). Pro definici PIM je vytvořen vlastní jednoduchý UML profil.
+%% * [[Kazato H., Model-View-Controller Architecture Specific Model Transformation|http://www.dsmforum.org/events/DSM09/Papers/Kazato.pdf]]
+
+\subsubsection{Struktura softwarového projektu v~Javě}
 
 % TODO: sort and rephrase
 
 \begin{itemize}
-\item \verb+*.java+ soubory -- v gramatice programovacího jazyka Java 1.5 představují top-level element CompilationUnit,
+\item \verb+*.java+ soubory -- v~gramatice programovacího jazyka Java 1.5 představují top-level element CompilationUnit,
 \item binární součásti projektu (např. knihovny) -- \verb+*.jar+ soubory, \verb+*.class+ soubory,
 \item build scripty a konfigurační soubory sestavovacích nástrojů (\verb+build.xml+, \verb+pom.xml+, \ldots),
 \item zdroje (resources, resource bundles),
@@ -259,27 +248,24 @@ Method M of an object O may only invoke the methods of the following kinds of ob
 \item jiné soubory
 \end{itemize}
 
-Pro naše potřeby jsou důležité v podstatě pouze kompilační jednotky (\verb+*.java+ soubory) projektu.
+Pro naše potřeby jsou důležité v~podstatě pouze kompilační jednotky (\verb+*.java+ soubory) projektu.
 
-%% TODO: odstranit další výskyty této myšlenky v textu (aby tato věta byla jen na jednom místě)
-Statický pohled na program - neuvažujeme běh programu. Pracujeme nad definicemi tříd, nikoliv nad jejich instancemi v paměti JVM.
+%% TODO: přesunout na správné místo (možná patří až do návrhu)
+Při analýze nebudeme uvažovat běh programu. Bude se jednat o statickou analýzu kódu. Práce bude probíhat nad definicemi tříd, nikoliv nad jejich instancemi v~paměti JVM. Nejsou tedy uvažovány všechny možné běhové instance programu (všechny možné stavy objektů v~paměti virtuálního stroje).
 
-%% TODO: provést merge s předchozí větou
-Budeme provádět statickou analýzu kódu. Pracujeme nad definicemi tříd. Neuvažujeme tedy všechny možné běhové instance programu (všechny možné stavy objektů v paměti virtuálního stroje).
-
-Projekt závisí na dalších třídách, které analyzovat nebudeme (v určitém okamžiku analýzy je potřeba se \uv{odříznout}, jinak bychom mohli analyzovat všechny knihovny, s nimiž projekt pracuje). Takové závislosti mohou být např.:
+Projekt závisí na dalších třídách, které analyzovat nebudeme (v~určitém okamžiku analýzy je potřeba se \uv{odříznout}, jinak bychom mohli analyzovat všechny knihovny, s~nimiž projekt pracuje). Takové závislosti mohou být např.:
 
 \begin{itemize}
 \item knihovny třetích stran
-\item standardní knihovna jazyka Java (např. Java 2 Platform SE 5.0 API pro Javu verze 5) -- zde například budou povoleny závislosti ze všech modulů (ale pro jiné druhy analýzy to může být nežádoucí - např. u logování budeme chtít, aby v projektu šlo striktně přes nějakou naši konkrétní \emph{fasádu})
-\item podprojekty a části projektu, které analyzovat nechceme, nepotřebujeme nebo z nějakého důvodu nemůžeme
+\item standardní knihovna jazyka Java (např. Java 2 Platform SE 5.0 API pro Javu verze 5) -- zde například budou povoleny závislosti ze všech modulů (ale pro jiné druhy analýzy to může být nežádoucí - např. u~logování budeme chtít, aby v~projektu šlo striktně přes nějakou naši konkrétní \emph{fasádu})
+\item podprojekty a části projektu, které analyzovat nechceme, nepotřebujeme nebo z~nějakého důvodu nemůžeme
 \end{itemize}
 
 % TODO: aktualizovat -> v konecnem dusledku budeme pracovat i nad projekty v jazyku 1.6 (protoze nam to rozhrani umoznuje)
 Budeme pracovat nad gramatikou jazyka Java 1.5. Java verze 6 se liší pouze úpravou standardních API poskytovaných platformou Java. Jazyk jako takový zůstává stejný.
 
 \subsubsection{Syntaktické elementy programovacího jazyka Java}
-Grafické znázornění základních syntaktických elementů, jejichž struktura a názvy jsou převzaty z \cite{Gosling:2005:JLS:1036643}, je na obrázku \ref{toplevel_elements}.
+Grafické znázornění základních syntaktických elementů, jejichž struktura a názvy jsou převzaty z~\cite{Gosling:2005:JLS:1036643}, je na obrázku \ref{toplevel_elements}.
 % TODO: write some better accompanying text
 \begin{figure}[h!]
   \centering
@@ -295,30 +281,7 @@ Pro analýzu založenou na vyhledávání závislostí mezi třídami pro nás b
   \caption{Rozklad elementu TypeDeclaration.\label{type_declaration_options}}
 \end{figure}
 
-%% TODO: zatridit tyto syntakticke elementy, ke kazdemu napsat, jak se bude zpracovavat
-%% interfaces
-%% enums
-%% annotations
-
-%% Modifikátory přístupu (private, public, protected, package private) nám umožní "ořezat" graf závislosti tříd.
-% Je ale možné, že pro některé druhy analýzy bude toto nežádoucí.
-
-%% ## Speciální případy:
-
-%% * statické třídy
-%% * statické metody
-%% * vnitřní třídy
-
-%% hlavní analyzované vazby:
-% instanciace třídy
-% dedicnost (inheritance)
-% vyvolání metody
-
-%% zpracovávání kódu -> zejména je potřeba resolvovat plná jména a použití elementů v kódu
-
-%% TODO: zjistit, jaké další objektově orientované návrhové principy existují
-
-\subsection{Existující nástroje pro zpracování zdrojových kódů v jazyku Java}
+\subsection{Existující nástroje pro zpracování zdrojových kódů v~jazyku Java}
 
 % TODO: write some leading text
 
@@ -326,13 +289,12 @@ Možnosti zpracovávání kódu:
 
 % TODO: roztřídit a vyházet nesmysly
 % TODO: použít jinou vhodnější strukturu místo itemize (např. strukturovaný text)
-
 \begin{itemize}
 \item vlastní hand-written lexikální a syntaktický analyzátor (zbytečně náročné)
-\item parser vygenerovaný pomocí některého z dostupných compiler-compiler systémů
+\item parser vygenerovaný pomocí některého z~dostupných compiler-compiler systémů
   \begin{itemize}
   \item tyto systémy na základě vstupní gramatiky vygenerují frontend pro překladač
-  \item lze specifikovat různé akce, které jsou navázány na události vyvolané v průběhu syntaktické analýzy
+  \item lze specifikovat různé akce, které jsou navázány na události vyvolané v~průběhu syntaktické analýzy
   \item \emph{JavaCC} \cite{parsertools:javacc}
     \begin{itemize}
     \item součástí je nástroj \emph{JJTree}, který je schopen vygenerovat AST pro další práci
@@ -340,7 +302,7 @@ Možnosti zpracovávání kódu:
   \item \emph{JastAdd} \cite {parsertools:jastadd}
   \item \emph{JLex} \cite{parsertools:jlex}
     \begin{itemize}
-    \item A Lexical Analyzer Generator for Java(TM)
+    \item A~Lexical Analyzer Generator for Java(TM)
     \end{itemize}
   \item JFlex \cite{parsertools:jflex}
     \begin{itemize}
@@ -352,7 +314,7 @@ Možnosti zpracovávání kódu:
   \item JavaParser \cite{parsertools:javaparser}
     \begin{itemize}
     \item projekt na GoogleHosting
-    \item v podstatě gramatika pro JJTree vytvářející strom tříd a objektů, který je možné procházet pomocí visitor patternu
+    \item v~podstatě gramatika pro JJTree vytvářející strom tříd a objektů, který je možné procházet pomocí visitor patternu
     \end{itemize}
   \end{itemize}
 \item použití prostředků platformy NetBeans \cite{parsertools:javasourcejavadoc}
@@ -379,7 +341,7 @@ Možnosti zpracovávání kódu:
     \item balíček \verb+com.sun.source.util+ -- poskytuje rozhraní pro operace nad AST
     \end{itemize}
   \end{itemize}
-\item použití prostředků, které jsou k dispozici pro platformu Eclipse
+\item použití prostředků, které jsou k~dispozici pro platformu Eclipse
   \begin{itemize}
   \item org.eclipse.jdt.core.dom package
   \item spoon \cite{parsertools:spoon}
@@ -387,13 +349,11 @@ Možnosti zpracovávání kódu:
 \end{itemize}
 
 % TODO: zatřídit:
-
 Důležité části zpracování kódu:
-
 \begin{itemize}
 \item name resolution, jmenné prostory (namespaces), class loaders, class tables
-\item static classes, methods
-\item inner classes
+\item static methods
+\item inner classes, static classes
 \item polymorphism
 \item generické třídy, wildcards
 \item pole objektů
@@ -402,83 +362,55 @@ Důležité části zpracování kódu:
 \item lokální proměnné
 \item globální objekty (statické metody a pole tříd, singletony - opět ale pouze ze statického pohledu!)
 \item vizualizace grafu
+\item modifikátory přístupu (private, public, protected, package private) -- možnost \uv{ořezat} graf závislosti tříd -- je možné, že pro některé druhy analýzy bude toto nežádoucí.
 \end{itemize}
 
-% TODO: zatřídit
-
-úrovně práce:
-
+% TODO: zatřídit || smazat
+Úrovně na nichž je možné provádět validaci správného návrhu:
 \begin{itemize}
 \item design level -- analýza správného návrhu softwarového díla (pracuje se na konceptuální úrovni, ještě není hotový kód)
-\item code level -- analýza existujícího kódu z pohledu návrhu (již máme kód, ale chceme zpětně ověřit, že představuje dobrý/špatný návrh)
+\item code level -- analýza existujícího kódu z~pohledu návrhu (již máme kód, ale chceme zpětně ověřit, že představuje dobrý/špatný návrh)
 \end{itemize}
 
-
-%% TODO: zapracovat nebo smazat
+%% TODO: zapracovat || smazat
 %% # Existující formalizace v softwarovém inženýrství
 
-%% ## Featherweight Java
-
-%% * [[Featherweight Java]]
-
 %% ## Z notation
-
 %% * [[The Z notation - wikipedia|http://en.wikipedia.org/wiki/Z_notation]]
 %% * [[ISO/IEC 13568:2002(E) - Information technology - Z formal specification notation — Syntax, type system and semantics|http://standards.iso.org/ittf/PubliclyAvailableStandards/c021573_ISO_IEC_13568_2002(E).zip]]
 %% * [[Z notation reference manual|http://www.rose-hulman.edu/class/csse/cs415/zrm.pdf]]
 
-
 %% # Featherweight Java
-
 %% ## Výrazy jazyka FJ
 %% FJ má pouze následující výrazy (expressions):
-
 %% * vytvoření objektu (object creation)
 %% * vyvolání metody (method invocation)
 %% * přístup k poli objektu (field access)
 %% * přetypování (casting)
 %% * proměnné (variables)
-
 %% FJ vynechává operátor přiřazení (s výjimkou konstruktorů).
-
 %% Přes to všechno je FJ výpočetně kompletní (computationally complete) - je snadné do FJ zakódovat *lambda kalkul*.
-
 %% Existuje přímá souvislost mezi FJ a programovacím jazykem Java. Každý FJ program je spustitelný Java program.
-
 %% ## FJ program
 %% FJ program sestává ze souboru *několika tříd* a *výrazu*, který je vyhodnocen. Tento výraz odpovídá *main* metodě v plné verzi programovacího jazyka Java.
-
 %% Třídy sestávají z konstruktoru (který se vypisuje vždy) a z jednotlivých metod.
-
 %% Každá metoda vždy obsahuje pouze klíčové slovo *return* následované výrazem, který je vyhodnocen. Ve FJ totiž nejsou možné operace s vedlejším efektem (side-effect) vzhledem k absenci operátoru přiřazení. Vlastně se jedná o "funkcionální" část jazyka Java.
-
 %% ## Možná uváznutí programu
-
 %% * pokus o příštup k poli, které není pro třídu nadefinované
 %% * pokus o vyvolání metody, která není pro třídu nadefinovaná
 %% * pokus o přetypování na něco jiného než je nadtřídou běhové třídy objektu
-
 %% V dobře typovaných programovacích jazycích by k něčemu takovému němělo dojít (to je cílem důkazu poskytovaného FJ).
-
 %% ## Nástroje
-
 %% * [[FJ-Eclipse|http://fj-eclipse.sourceforge.net/]] - nepodporuje všechny prvky jazyka (např. vyhodnotí volání konstruktoru nadtřídy super() jako chybu)
-
 %% ## Literatura
-
 %% * [[Atsushi Igarashi, Benjamin C. Pierce, and Philip Wadler. 2001. Featherweight Java: a minimal core calculus for Java and GJ. ACM Trans. Program. Lang. Syst. 23, 3 (May 2001), 396-450. DOI=10.1145/503502.503505 http://doi.acm.org/10.1145/503502.503505|http://portal.acm.org/citation.cfm?id=503505]]
 %% * [[http://klee.cs.depaul.edu/csc547/lecture-fj.html]]
 
 %% # Klíčová slova, související pojmy
-
 %% Zde jsou soustředěny pojmy které ať už přímo nebo nepřímo souvisí s naší cílovou oblastí výzkumu. Většinou se jedná o pojmy, které je vhodné použít pro rešerše v internetových vyhledávačích.
-
 %% * design patterns discovery
 %% * model transformation
-
 %% * [[formal methods|http://en.wikipedia.org/wiki/Formal_methods]]
 %% * [[formal specification|http://en.wikipedia.org/wiki/Formal_specification]]
 %% * [[formal verification|http://en.wikipedia.org/wiki/Formal_verification]]
-
 %% * model verification
-
