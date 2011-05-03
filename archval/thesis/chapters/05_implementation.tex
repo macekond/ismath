@@ -1,6 +1,5 @@
 \chapter{Implementace}
-
-% TODO: Popis implementace/realizace se zaměřením na nestandardní části řešení.
+% TODO: napsat přehled, co bude v této kapitole
 
 \section{Specifikace pravidel požadovaných zadáním práce}
 Pro specifikaci Demeter law definujeme predikát, který nám umožní vybrat vhodné množiny vrcholů. Vybrané množiny potom ověřeíme pomocí predikátu, který učí, zda jsou tyto množiny v pořádku, či zda porušují LoD princip.
@@ -37,94 +36,16 @@ Specifikované pravidlo vyjadřuje požadavek, aby množina vrcholů do níž se
 % TODO:
 
 \section{Implementace jádra systému}
-
-Při implementaci bylo hojně využíváno informací z \cite{netbeans_platform}.
-
 % TODO: describe technologies used to implement parser and analysis part
 % TODO: moduly popsané v části \ref{design-architecture} implementujeme jako jednotlivé moduly platformy NetBeans.
-% TODO: move to appropriate position
-% \item rozhraní - integrace do platformy NetBeans
-Integrace s platformou NetBeans - třída Action.
 
-Seznam integračních komponent je k dispozici v tabulce \ref{implementation-integration_components}.
-
-\begin{table}
-  \caption{Tabulka integračních komponent systému. \label{implementation-integration_components}}
-  \begin{center}
-    \begin{tabular}{ | l | l | p{8cm} | }
-      \hline
-      \textbf{Název} & \textbf{Typ} & \textbf{Zodpovědnost} \\
-      \hline
-      \hline
-      Action & class & integrace s běhovou platformou, vstupní/aktivační bod \\
-      %% TODO: 'třída implementující rozhraní...'
-      GraphGeneratorRegister & class & třída poskytující přístup k informacím o existujících poskytovatelích generátorů grafu \\ \hline
-      OperatorRegister & class & třída poskytující přístup k informacím o existujících poskytovatelích operátorů \\ \hline
-      AnalysesRegister & class & třída poskytující přístup k informacím o existujících poskytovatelích komponent analýzy \\ \hline
-      OutputGeneratorRegister & class & třída poskytující přístup k informacím o existujících poskytovatelích generátorů výstupních reportů \\ \hline
-      \hline
-    \end{tabular}
-  \end{center}
-
-\end{table}
-
+\subsection{Implementace registrů poskytovatelů služeb}
 \begin{itemize}
-\item Java 6 Compiler API (JSR 199) \cite{apidoc:java6api}
-\item annotation processor (JSR 269)
-\item Compiler Tree API
-  \begin{itemize}
-  \item \verb+com.sun.source.tree+
-  \item \verb+com.sun.source.util+
-  \end{itemize}
+\item SPI
+\item NetBeans lookup -- /META-INF/services
 \end{itemize}
 
-% TODO: zapracovat:
-
-je nutné použít nestandardní API, které je součástí Sun Javy - balíčky \verb+com.sun.*+ (je potřeba přidat \$\{java\_home\}/../lib/tools.jar do classpath)
-
-\section{Implementace modulů rozšíření}
-
-\begin{itemize}
-\item \emph{av-graphgen-demeter} -- ukázkový poskytovatel generátoru grafu
-\item \emph{av-operators-demeter} -- ukázkový balíček operátorů pro ověřování principu LoD
-\item \emph{av-outputgen-plaintext} -- ukázkový poskytovatel pro generování validačních reportů v~prostém textu
-\end{itemize}
-
-\subsubsection{GraphGeneratorManager}
-Bude řídit přístup k jednotlivým graph generatorům. Umožní externím providerům registraci nových graph generátorů. Každý graph generátor (resp. graf) musí mít specifikované jedinečné id grafu. (To bude dále použito např. při specifikaci pravidel, kde je potřeba sdělit validátoru, nad kterým grafem má pravidlo platit).
-\begin{itemize}
-\item registerGraphGenerator()
-\item getGraphGeneratorIds()
-\item generateGraph(projectSpec, graphTypeId) : Graph
-\end{itemize}
-
-\subsubsection{OutputGeneratorManager}
-Umožní registraci poskytovatelů modulů pro výstup.
-
-\subsubsection{GraphGeneratorIface}
-\subsubsection{OperatorPackageIface}
-\subsubsection{ReportGeneratorIface}
-Podpora pro různé formáty výstupu. Popsat vnitřní reprezentaci reportu, tak aby jej bylo možné převést na vhodnou vnější reprezentaci. Podpora pro dopsání různých výstupních formátu jako např.:
-\begin{itemize}
-\item HTML
-\item prostý text
-\item zobrazení pomocí swing komponent (vygenerování modelu pro JTree)
-\item \ldots
-\end{itemize}
-
-\subsection{Modul av-graphgen-demeter}
-
-\subsubsection{DemeterGraphGeneratorProvider}
-
-\subsection{Modul av-operators-demeter}
-\subsubsection{DemeterOperatorProvider}
-
-\subsection{Modul av-reportgen-plaintext}
-\subsubsection{PlaintextReportGeneratorProvider}
-
-\subsection{Implementace operátorů}
-% TODO: zapracovat tuto podsekci na správné místo
-
+\subsection{Implementace základních operátorů}
 Vyhodnocení univerzálního kvantifikátoru $\forall v \in V$ lze přepsat jako jednoduchý cyklus přes vrcholy vrácené zpřesňující operátorem, která vybírá nějakou podmnožinu z množiny vrcholů analyzovaného grafu. Získáme tak kód podobný listingu \ref{listing-forall}. V tomto kódu, který je fragmentem metody používáme symoblický název \verb+condition+ pro podmínku, kterou musí splňovat každý prvek \emph{v} iterované kolekce vrcholů \emph{vertices}.
 
 \begin{lstlisting}[
@@ -157,14 +78,83 @@ return false;
 
 Můžeme si všimnout, že se obě implementace liší pouze přehozením podmínek -- zatímco v prvním případě ($\forall$) musíme projít všechny prvky, abychom zjistili, zda všechny prvky splňují požadovanou vlastnost, ve druhém případě ($\exists$) budeme všechny prvky procházet pouze v krajním případě, kdy vlastnost neplatí pro žádný z prvků.
 
-\section{Integrace do platformy NetBeans}
-% TODO: write about actions, about instrumentation of the ArchVal API
+% TODO: přesunout do sekce týkající se generátorů grafu (možná dokonce do návrhu nebo analýzy)
+% TODO: roztřídit
+\begin{itemize}
+\item Java 6 Compiler API (JSR 199) \cite{apidoc:java6api}
+\item annotation processor (JSR 269)
+\item Compiler Tree API
+  \begin{itemize}
+  \item \verb+com.sun.source.tree+
+  \item \verb+com.sun.source.util+
+  \end{itemize}
+\item je nutné použít nestandardní API, které je součástí Sun Javy - balíčky \verb+com.sun.*+ (je potřeba přidat \$\{java\_home\}/../lib/tools.jar do classpath)
+\end{itemize}
+
+\section{Implementace modulů rozšíření}
+
+\subsection{av-graphgen-demeter}
+ukázkový poskytovatel generátoru grafu
+
+\emph{DemeterGraphGeneratorProvider} implementuje \emph{GraphGeneratorIface}.
+
+\subsection{av-operators-demeter}
+ukázkový balíček operátorů pro ověřování principu LoD
+
+Obsahuje sadu tříd implementující operátory potřebné pro definování pravidla pro validaci LoD. Tyto třídy implementují rozhraní \subsubsection{OperatorIface} (resp. jeho podtypy).
+
+\subsection{av-analysis-lowcoup}
+ukázková analýza low coupling
+
+\subsection{av-analysis-highcoh}
+ukázková analýza high cohesion
+
+\section{Integrace do NetBeans IDE}
+
+Při implementaci bylo hojně využíváno informací z \cite{netbeans_platform}.
+
+% TODO: write about actions, about usage of the ArchVal API
+Seznam integračních komponent je k dispozici v tabulce \ref{implementation-integration_components}.
+
+\begin{table}
+  \caption{Tabulka integračních komponent systému. \label{implementation-integration_components}}
+  \begin{center}
+    \begin{tabular}{ | l | l | p{8cm} | }
+      \hline
+      \textbf{Název} & \textbf{Typ} & \textbf{Zodpovědnost} \\
+      \hline
+      \hline
+      Action & class & integrace s běhovou platformou, vstupní/aktivační bod \\ \hline
+      %% TODO: 'třída implementující rozhraní...'
+      GraphGeneratorRegister & class & třída poskytující přístup k informacím o existujících poskytovatelích generátorů grafu \\ \hline
+      OperatorRegister & class & třída poskytující přístup k informacím o existujících poskytovatelích operátorů \\ \hline
+      AnalysesRegister & class & třída poskytující přístup k informacím o existujících poskytovatelích komponent analýzy \\ \hline
+      OutputGeneratorRegister & class & třída poskytující přístup k informacím o existujících poskytovatelích generátorů výstupních reportů \\ \hline
+    \end{tabular}
+  \end{center}
+\end{table}
 
 \subsection{Action}
 Integrace do běhové platformy. Reprezentuje uživatelskou akci. Bude implementováno na základě zvolené implementační platformy (akce v GUI).
 
-\subsection{Podpora editace avd souborů}
+\subsection{Podpora editace AVD souborů}
 \begin{itemize}
 \item experimentální mime typ \verb+text/x-avd+
 \item zvýrazňování syntaxe
+\end{itemize}
+
+\subsection{Výstupní rozhraní}
+Podpora pro různé formáty výstupu. Popsat vnitřní reprezentaci reportu, tak aby jej bylo možné převést na vhodnou vnější reprezentaci. Podpora pro dopsání různých výstupních formátu jako např.:
+\begin{itemize}
+\item HTML
+\item prostý text
+\item zobrazení pomocí swing komponent (vygenerování modelu pro JTree)
+\item \ldots
+\end{itemize}
+
+\subsection{Konfigurace}
+\begin{itemize}
+\item konfigurovatelné položky
+\item konfigurační dialog
+\item způsob ukládání konfigurace (podporováno platformou NB)
 \end{itemize}

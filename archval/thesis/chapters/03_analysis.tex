@@ -2,13 +2,24 @@
 
 %% TODO: zde napsat prehledovy text o tom, co vsechno tato kapitola obsahuje
 
-%% Analýza a návrh implementace (včetně diskuse různých alternativ a volby implementačního prostředí).
+\section{Objektově orientovaný návrh software}
+% -- rozebrat jaké návrhové koncepty lze podpořit
+% -- rozebrat existující aspekty návrhu (design considerations)
 
-%% V části analýzy provést rozbor jednotlivých principů + výsledky rešerší - využívat hojně informace z článků a důsledně citovat zdroje
+\subsection{Koncepce návrhu software}
 
-% TODO: úvod analýzy -- rozebrat jaké koncepty lze podpořit pomocí validace a jaká k čemu všemu je potřeba přihlédnout při návrhu software
+Existující koncepce (pojetí) návrhu software poskytují vývojářům základ, z něhož lze odvodit a aplikovat další sofistikované metody \cite{wiki:software_design}. Postupem času se vyvinula celá množina koncepcí návrhu software. Uveďme alespoň některé:
 
-%% \paragraph{Design concepts} Zdroj: wikipedia \emph{software design}:
+\paragraph{Abstrakce (Abstraction)} Princip abstrakce
+\paragraph{Postupné zjemňování (Refinement)}
+\paragraph{Modularita (Modularity)}
+\paragraph{Architektura (Software Architecture)}
+\paragraph{Hierarchie řízení (Control Hierarchy)}
+\paragraph{Strukturální dělení (Structural Partitioning)}
+\paragraph{Struktura dat (Data Structure)}
+\paragraph{Softwarová procedura (Software Procedure)}
+\paragraph{Zapouzdření (Information Hiding)}
+
 %% \begin{itemize}
 %% \item \emph{Abstraction} - Abstraction is the process or result of generalization by reducing the information content of a concept or an observable phenomenon, typically in order to retain only information which is relevant for a particular purpose.
 %% \item \emph{Refinement} - It is the process of elaboration. A hierarchy is developed by decomposing a macroscopic statement of function in a stepwise fashion until programming language statements are reached. In each step, one or several instructions of a given program are decomposed into more detailed instructions. Abstraction and Refinement are complementary concepts.
@@ -21,26 +32,40 @@
 %% \item \emph{Information Hiding} - Modules should be specified and designed so that information contained within a module is inaccessible to other modules that have no need for such information.
 %% \end{itemize}
 
-%% \paragraph{Design considerations} Zdroj: wikipedia \emph{software design}:
+\subsection{Aspekty návrhu software}
+Při návrhu software musíme vzít v potaz velké množství aspektů \cite{wiki:software_design}. Důležitost přikladaná jednotlivým aspektům je odvozena od účelu, za nímž je software realizován. Pro některé systémy může být klíčové rozšiřitelnost, pro jiné stabilita. Mezi základní aspekty patří:
+
+\begin{itemize}
+\item \emph{kompatibilita (compatibility)},
+\item \emph{rozšiřitelnost (extensibility)},
+\item \emph{zotavení se z chyb (fault-tolerance/graceful degradation)} \cite{wiki:fault-tolerance},
+\item \emph{udržovatelnost (maintainability)},
+\item \emph{modularita (modularity)},
+\item \emph{balení (packaging)},
+\item \emph{spolehlivost (reliability)},
+\item \emph{znovupoužitelnost (reusability)},
+\item \emph{stabilita (robustness)},
+\item \emph{bezpečnost (security)},
+\item \emph{použitelnost (usability)}.
+\end{itemize}
+
+Zatímco některé aspekty jsou pro tuto práci zcela nepodstatné (dobrým příkladem budiž \emph{balení}, které se zabývá způsobem dodávky software a podporných materiálů), jiné je možné podpořit pomocí vhodného nástroje. Pojďme se nyní podívat na aspekty, jejichž podpora možná je:
+
+\paragraph{Rozšiřitelnost}
+\paragraph{Udržovatelnost}
+\paragraph{Modularita}
+\paragraph{Znovupoužitelnost}
+
 %% \begin{itemize}
-%% \item \emph{Compatibility} - The software is able to operate with other products that are designed for interoperability with another product. For example, a piece of software may be backward-compatible with an older version of itself.
 %% \item \emph{Extensibility} - New capabilities can be added to the software without major changes to the underlying architecture.
-%% \item \emph{Fault-tolerance} - The software is resistant to and able to recover from component failure.
 %% \item \emph{Maintainability} - The software can be restored to a specified condition within a specified period of time. For example, antivirus software may include the ability to periodically receive virus definition updates in order to maintain the software's effectiveness.
 %% \item \emph{Modularity} - the resulting software comprises well defined, independent components. That leads to better maintainability. The components could be then implemented and tested in isolation before being integrated to form a desired software system. This allows division of work in a software development project.
-%% \item \emph{Packaging} - Printed material such as the box and manuals should match the style designated for the target market and should enhance usability. All compatibility information should be visible on the outside of the package. All components required for use should be included in the package or specified as a requirement on the outside of the package.
-%% \item \emph{Reliability} - The software is able to perform a required function under stated conditions for a specified period of time.
 %% \item \emph{Reusability} - the software is able to add further features and modification with slight or no modification.
-%% \item \emph{Robustness} - The software is able to operate under stress or tolerate unpredictable or invalid input. For example, it can be designed with a resilience to low memory conditions.
-%% \item \emph{Security} - The software is able to withstand hostile acts and influences.
-%% \item \emph{Usability} - The software user interface must be usable for its target user/audience. Default values for the parameters must be chosen so that they are a good choice for the majority of the users.
 %% \end{itemize}
 
-%% TODO: zařadit na správné místo:
-
-Budeme provádět statickou analýzu kódu. Pracujeme nad definicemi tříd. Neuvažujeme tedy všechny možné běhové instance programu (všechny možné stavy objektů v paměti virtuálního stroje).
-
 \section{Analýza principů objektového návrhu}
+
+%% V části analýzy provést rozbor jednotlivých principů + výsledky rešerší - využívat hojně informace z článků a důsledně citovat zdroje
 
 \begin{itemize}
 \item co jsou to návrhové principy?
@@ -101,19 +126,19 @@ Wikipedia \cite{wiki:cohesion}:
 \noindent{}Článek \cite{ISI:000079726000029} uvádí dělení koheze podle tzv SMC\footnote{Podle původních autorů Stevens, Myers a Constantine.} Cohesion:
 \begin{enumerate}
 \item \emph{Coincidental association} -- neexistuje souvislost mezi elementy provádějícími zpracování,
-%\item \emph{Coincidental association} -- there is no relationship between the processing elements.
+  %\item \emph{Coincidental association} -- there is no relationship between the processing elements.
 \item \emph{Logical association} -- oba elementy provádějící zpracování patří do stejné logické třídy příbuzných funkcí,
-%\item \emph{Logical association} -- both processing elements belong to the same logical class of related functions.
+  %\item \emph{Logical association} -- both processing elements belong to the same logical class of related functions.
 \item \emph{Temporal association} -- každý výskyt obou elementů provadějících zpracování je v tom samém omezeném časovém období při provádění programu,
-%\item \emph{Temporal association} -- each occurrence of both processing elements occurs within the same limited period of time during execution.
+  %\item \emph{Temporal association} -- each occurrence of both processing elements occurs within the same limited period of time during execution.
 \item \emph{Procedural association} -- oba elementy provádějící zpracování jsou elementy stejné procedurální jednotky, která je iterativním nebo rozhodovacím procesem,
-%\item \emph{Procedural association} -- both processing elements are elements of a common procedural unit which is an iteration or decision process.
+  %\item \emph{Procedural association} -- both processing elements are elements of a common procedural unit which is an iteration or decision process.
 \item \emph{Communicational association} -- oba elementy provádějící zpracování pracují nad stejnou množinou vstupních dat a/nebo produkují stejná výstupní data,
-%\item \emph{Communicational association} -- both processing elements operate upon the same input data set and/or produce the same output data.
+  %\item \emph{Communicational association} -- both processing elements operate upon the same input data set and/or produce the same output data.
 \item \emph{Sequential association} -- výstupní data jednoho elementu jsou vstupními daty pro druhý element,
-%\item \emph{Sequential association} -- the output data from one processing element is input to the other processing element.
+  %\item \emph{Sequential association} -- the output data from one processing element is input to the other processing element.
 \item \emph{Functional association} -- oba elementy jsou nezbytné pro provedení jedné funkce/operace.
-%\item \emph{Functional association} -- both processing elements are essential to the performance of a single function.
+  %\item \emph{Functional association} -- both processing elements are essential to the performance of a single function.
 \end{enumerate}
 
 \subsubsection{Law of Demeter}
@@ -148,28 +173,28 @@ Method M of an object O may only invoke the methods of the following kinds of ob
 
 % TODO: find some better (real world) example of demeter law violation on the web
 \lstset{
-    basicstyle=\ttfamily,
-    numbers=left,
-    numberstyle=\tiny,
-    commentstyle=\color{gray}\textit
+  basicstyle=\ttfamily,
+  numbers=left,
+  numberstyle=\tiny,
+  commentstyle=\color{gray}\textit
 }
 \begin{lstlisting}[language=java]
-package violations;
+  package violations;
 
-public class DemeterLawViolation {
+  public class DemeterLawViolation {
 
     void method(MyClass obj, int val) {
 
-        obj.getSomeInternalField().setValue(val);
+      obj.getSomeInternalField().setValue(val);
 
-        // hidden violation:
-        InternalFieldDef internalField =
-            obj.getSomeInternalField();
-        internalField.setValue(val);
+      // hidden violation:
+      InternalFieldDef internalField =
+      obj.getSomeInternalField();
+      internalField.setValue(val);
 
     }
 
-}
+  }
 \end{lstlisting}
 
 \section{Analýza problematiky v jazyce Java}
@@ -199,6 +224,9 @@ Pro naše potřeby jsou důležité v podstatě pouze kompilační jednotky (\ve
 
 %% TODO: odstranit další výskyty této myšlenky v textu (aby tato věta byla jen na jednom místě)
 Statický pohled na program - neuvažujeme běh programu. Pracujeme nad definicemi tříd, nikoliv nad jejich instancemi v paměti JVM.
+
+%% TODO: provést merge s předchozí větou
+Budeme provádět statickou analýzu kódu. Pracujeme nad definicemi tříd. Neuvažujeme tedy všechny možné běhové instance programu (všechny možné stavy objektů v paměti virtuálního stroje).
 
 Projekt závisí na dalších třídách, které analyzovat nebudeme (v určitém okamžiku analýzy je potřeba se \uv{odříznout}, jinak bychom mohli analyzovat všechny knihovny, s nimiž projekt pracuje). Takové závislosti mohou být např.:
 
@@ -255,9 +283,8 @@ Pro analýzu založenou na vyhledávání závislostí mezi třídami pro nás b
 
 Možnosti zpracovávání kódu:
 
-% TODO: roztřídit a vyházet nesmysly (e.g. JABA, apod.)
-% TODO: použít jinou vhodnější strukturu místo itemize
-% TODO: zapracovat:
+% TODO: roztřídit a vyházet nesmysly
+% TODO: použít jinou vhodnější strukturu místo itemize (např. strukturovaný text)
 
 \begin{itemize}
 \item vlastní hand-written lexikální a syntaktický analyzátor (zbytečně náročné)
@@ -277,12 +304,6 @@ Možnosti zpracovávání kódu:
   \item JFlex \cite{parsertools:jflex}
     \begin{itemize}
     \item The Fast Scanner Generator for Java
-    \end{itemize}
-  \item JABA \cite{parsertools:jaba}
-    \begin{itemize}
-    \item Java Architecture for Bytecode Analysis
-    \item nepoužitelné - dostupná pouze binární verze pro Solaris
-    \item pravděpodobně se dále nevyvíjí
     \end{itemize}
   \end{itemize}
 \item použití vhodné knihovny

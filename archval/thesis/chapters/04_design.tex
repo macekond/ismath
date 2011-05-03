@@ -127,6 +127,9 @@ Nyní, když máme definován model, můžeme popsat jazyk pravidel, která maj�
 \item ukázka dokumentu odpovídajícího specifikované gramatice.
 \end{itemize}
 
+% TODO: zapracovat
+Pro jednotlivá pravidla potřebujeme \emph{úplný systém logických spojek}, to ale množina spojek $\{\wedge, \vee, \neg\}$ splňuje\footnote{Jeden z operátorů $\wedge$ a $\vee$ je v úplném systému logických spojek nadbytečný, ale pro pohodlnost použití jej ponecháme.}.
+
 %% TODO: přepsat jako přesné definice, které se budou v dalším textu dodržovat
 \subsubsection{Typy operátorů}
 \begin{itemize}
@@ -352,6 +355,7 @@ Samostatné vlákno s řízením celého validačního procesu. Synchronized sek
 \item \verb+getReport()+
 \item \verb+runSynchronous()+
 \item \verb+runAsynchronous()+
+\item \verb+addProgressListener(ValidationTaskProgressListener)+ -- umožní zaregistrovat listener, který bude notifikován o průběhu validace
 \end{itemize}
 
 \subsubsection{Komponenta Validator}
@@ -401,6 +405,7 @@ Výstupem bude \emph{ValidationReport} (vnitřní struktura, která se bude posl
 \end{itemize}
 
 \subsection{Rozhraní GraphGeneratorIface}
+% TODO: roztřídit
 %% \item compiler
 %% \item generátor vnitřní struktury (modelu) -- modelem je v našem případě graf
 %%   \begin{itemize}
@@ -410,6 +415,13 @@ Výstupem bude \emph{ValidationReport} (vnitřní struktura, která se bude posl
 \begin{itemize}
 \item \emph{vstup:} vhodná reprezentace zdrojových kódů projektu (např. seznam všech souborů)
 \item \emph{výstup:} graf konkrétního typu (např. demeter graph)
+\end{itemize}
+
+Každý graph generátor (resp. graf) musí mít specifikované jedinečné id grafu. (To bude dále použito např. při specifikaci pravidel, kde je potřeba sdělit validátoru, nad kterým grafem má pravidlo platit).
+
+\begin{itemize}
+\item \verb+getGraphTypeId() : String+
+\item \verb+generateGraph(projectFilesSpecification) : Graph+
 \end{itemize}
 
 \subsection{Rozhraní OperatorIface}
@@ -430,7 +442,7 @@ Hierarchie rozhraní operátorů je znázorněna na obrázku \ref{design-operato
 \subsection{Rozhraní AnalysisIface}
 
 \subsection{Základní průběh validačního procesu}
-%TODO: add activity diagram
+%TODO: add activity and/or sequence diagram
 %TODO: popis validačního procesu: rozepsat následující itemize
 \begin{itemize}
 \item systém načte moduly
