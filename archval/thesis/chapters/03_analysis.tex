@@ -2,6 +2,13 @@
 
 %% TODO: zde napsat prehledovy text o tom, co vsechno tato kapitola obsahuje
 
+%% TODO: zapracovat do této sekce nebo smazat
+%% # Model driven engineering
+%% * [[A Taxonomy of Model Transformations|http://drops.dagstuhl.de/opus/volltexte/2005/11/pdf/04101.SWM2.Paper.pdf]] - článek přehledně shrnuje základní pojmy týkající se transformace modelů
+%% # Architecture specific model
+%% V následujícím článku je demonstrován převod architektonicky závislého modelu (konkrétně MVC) na dva různé platformně specifické modely (EJB a Spring beans). Pro definici PIM je vytvořen vlastní jednoduchý UML profil.
+%% * [[Kazato H., Model-View-Controller Architecture Specific Model Transformation|http://www.dsmforum.org/events/DSM09/Papers/Kazato.pdf]]
+
 \section{Objektově orientovaný návrh software}
 % -- rozebrat jaké návrhové koncepty lze podpořit
 % -- rozebrat existující aspekty návrhu (design considerations)
@@ -51,19 +58,47 @@ Při návrhu software musíme vzít v potaz velké množství aspektů \cite{wik
 
 Zatímco některé aspekty jsou pro tuto práci zcela nepodstatné (dobrým příkladem budiž \emph{balení}, které se zabývá způsobem dodávky software a podporných materiálů), jiné je možné podpořit pomocí vhodného nástroje. Pojďme se nyní podívat na aspekty, jejichž podpora možná je:
 
-\paragraph{Rozšiřitelnost}
-\paragraph{Udržovatelnost}
-\paragraph{Modularita}
-\paragraph{Znovupoužitelnost}
+\paragraph{Rozšiřitelnost} Tato vlastnost znamená praktický důsledek, kdy nové funkčnosti mohou být do existujícího systému přidány bez majoritních změn ve \emph{výchozí architektuře}. Pokud by bylo možné určit pravidla, která určují základní architekturu a která je možné vynutit, bylo by možné při rozšiřování systému tato pravidla opět aplikovat, což by vedlo k dodržení výchozí architektury.
 
-%% \begin{itemize}
-%% \item \emph{Extensibility} - New capabilities can be added to the software without major changes to the underlying architecture.
-%% \item \emph{Maintainability} - The software can be restored to a specified condition within a specified period of time. For example, antivirus software may include the ability to periodically receive virus definition updates in order to maintain the software's effectiveness.
-%% \item \emph{Modularity} - the resulting software comprises well defined, independent components. That leads to better maintainability. The components could be then implemented and tested in isolation before being integrated to form a desired software system. This allows division of work in a software development project.
-%% \item \emph{Reusability} - the software is able to add further features and modification with slight or no modification.
-%% \end{itemize}
+\paragraph{Udržovatelnost} Klíčovou charakteristikou \emph{udržovatelnosti} je možnost obnovit stav systému v rozumném čase. Příkladem mohou být aktualizace virové báze antivirových programů. Jiným příkladem může být instalace bezpečnostních aktualizací. Tuto vlastnost nelze podpořit zcela přímo, je však důsledkem ostatních vlastností (zejména \emph{rozšiřitelnost} a \emph{modularita}).
+
+\paragraph{Modularita} % the resulting software comprises well defined, independent components. That leads to better maintainability. The components could be then implemented and tested in isolation before being integrated to form a desired software system. This allows division of work in a software development project.
+\paragraph{Znovupoužitelnost} % the software is able to add further features and modification with slight or no modification.
 
 \section{Analýza principů objektového návrhu}
+
+%% TODO: zapracovat
+%% * definice typů závislostí a ověřovaných principů objektového návrhu (analysis)
+%% * návrh způsobu ověřování definovaných závislostí - návrh postupů
+
+%% TODO: ZAPRACOVAT
+%% * [[Pescio, C.; , "Principles versus patterns," Computer , vol.30, no.9, pp.130-131, Sep 1997
+%% doi: 10.1109/2.612257|http://ieeexplore.ieee.org/stamp/stamp.jsp?tp=&arnumber=612257&isnumber=13382]]
+
+%% **Low coupling and high cohesion:**
+
+%% * základní informace o coupling a cohesion na wikipedii:
+%%     * [[Coupling|http://en.wikipedia.org/wiki/Coupling_(computer_programming)]]
+%%     * [[Cohesion|http://en.wikipedia.org/wiki/Cohesion_(computer_science)]]
+%% * [[Measuring coupling and cohesion in object-oriented systems|http://www.isys.uni-klu.ac.at/PDF/1995-0043-MHBM.pdf]]
+%% * [[Defining and validating high-level design metrics|http://citeseerx.ist.psu.edu/viewdoc/download?doi=10.1.1.31.4744&rep=rep1&type=pdf]]
+%% * [[Byung-Kyoo Kang; Bieman, J.M.; , "Design-level cohesion measures: derivation, comparison, and applications," Computer Software and Applications Conference, 1996. COMPSAC '96., Proceedings of 20th International , vol., no., pp.92-97, 21-23 Aug 1996|http://ieeexplore.ieee.org/stamp/stamp.jsp?tp=&arnumber=542431&isnumber=11365]]
+%% * [[Bieman, J.M.; Byung-Kyoo Kang; , "Measuring design-level cohesion," Software Engineering, IEEE Transactions on , vol.24, no.2, pp.111-124, Feb 1998|http://ieeexplore.ieee.org/stamp/stamp.jsp?tp=&arnumber=666825&isnumber=14664]]
+
+%% **TBD:** napsat nějaká pojednání o klasifikaci coupling and cohesion (čerpat z článků a citovat)
+
+%% **Demeter law:**
+
+%% * [[Assuring Good Style for Object-Oriented Programs|http://portal.acm.org/citation.cfm?id=624870]]
+%% * [[Adaptive Object-Oriented Software The Demeter Method|http://www.google.cz/url?sa=t&source=web&cd=3&sqi=2&ved=0CCoQFjAC&url=http%3A%2F%2Fciteseerx.ist.psu.edu%2Fviewdoc%2Fdownload%3Fdoi%3D10.1.1.94.8349%26rep%3Drep1%26type%3Dpdf&rct=j&q=demeter%20software%20object%20oriented&ei=MeTOTPihHI7AswbpufiWCA&usg=AFQjCNHnRixmCYTZrJVPF2OCEcbooajq4A&cad=rja]]
+%% * [[The Law of Demeter Is Not A Dot Counting Exercise|http://bit.ly/9tCObJ]] - pěkný popularizační článek na úvod
+%% * [[Object-oriented programming: an objective sense of style|http://portal.acm.org/ft_gateway.cfm?id=62113&type=pdf&coll=GUIDE&dl=GUIDE&CFID=111192652&CFTOKEN=98650016]]
+%% * [[Formulations and benefits of the law of demeter|http://portal.acm.org/citation.cfm?id=643603.643608]]
+%% * [[Demeter: Aspect-Oriented Software Development|http://www.ccs.neu.edu/research/demeter/]]
+%% * [[A case for statically executable advice: checking the law of demeter with AspectJ|http://portal.acm.org/citation.cfm?id=643603.643608]]
+
+
+
 
 %% V části analýzy provést rozbor jednotlivých principů + výsledky rešerší - využívat hojně informace z článků a důsledně citovat zdroje
 
@@ -73,6 +108,7 @@ Zatímco některé aspekty jsou pro tuto práci zcela nepodstatné (dobrým př�
 \end{itemize}
 
 \subsection{Analyzované principy}
+V této práci se budeme zabývat zejména principy, které si kladou za cíl strukturální kvalitu kódu, která umož
 Ukázkové návrhové principy analyzované v rámci této práce jsou znázorněny na obrázku \ref{analyzed_principles}. Poznamenejme, že tzv. Demeterův zákon je speciálním případem pravidla pro \uv{low coupling}.
 
 \begin{figure}[h!]
@@ -85,7 +121,11 @@ Ukázkové návrhové principy analyzované v rámci této práce jsou znázorn�
 % tohoto principu (případně i příklad, který tento princip dodržuje)
 
 \subsubsection{Low coupling/dependency (nízká závislost/vazba)}
-Důležitou návrhovou zásadou je snaha snížit provázanost modulů na minimum. Je možné kategorizovat způsob provázanosti modulů do různých skupin. Následující přehled je převzat z \cite{wiki:coupling} (ještě jemnější dělení je uváděno v \cite{STVR:STVR162}).
+Závislost/vazba (coupling/dependency) mezi moduly softwarového projektu určuje, do jaké míry se jeden modul spoléhá na každý z ostatních modulů \cite{wiki:coupling}. Zatímco některé moduly spolu vůbec nekomunikují (nemají žádnou závislost), jiné se spoléhají nejen na rozhraní ostatních modulů, ale mnohdy i na jejich vnitřní fungování, způsob reprezentace dat, časování atd. Důsledkem vyšší závislosti je potom nutnost rozsáhlých úprav v mnoha modulech i při úpravě naprostých drobností v jednom konkrétním modulu.
+
+Proto je důležitou návrhovou zásadou snaha snížit provázanost modulů na minimum. Je zřejmé, že provázanost modulů vždy existuje (jinak by neměl modulární návrh smysl). Proto nelze striktně říci, do jaké míry smí/nesmí být moduly provázané.
+
+V \cite{wiki:coupling} a \cite{STVR:STVR162} je podáván přehled míry závislosti jednoho modulu na druhém. Jedná se o následující typy závislostí:
 
 \begin{itemize}
 \item\emph{Content coupling (nejvyšší forma závislosti)} -- závislost na obsahu modulu -- jeden modul modifikuje nebo se spoléhá na vnitřní fungování jiného modulu (např. přístup k lokálním datům jiného modulu). V důsledku platí, že změní-li se způsob, kterým tento druhý modul produkuje data (umístění, typ, časování), povede to zcela jiste ke změnám v závislém modulu.
@@ -100,14 +140,9 @@ Důležitou návrhovou zásadou je snaha snížit provázanost modulů na minimu
 \item\emph{No coupling} -- žádná závislost -- moduly spolu vůbec nekomunikují.
 \end{itemize}
 
-%% TODO: sort
-%% ## Typy závislostí mezi třídami
+Cílem návrhu je snižovat co nejvíce míru závislosti modulů. Protože se ale jedná o kvantitativní záležitost, nejsme schopni určit zcela přesná pravidla, která musí platit nebo která lze vynutit. U některých typů programů může být akceptovatelý i \emph{content coupling} z výkonnostních důvodů\footnote{Nízká provázanost implikuje téměř vždy snížení výkonu z důvodu nutnosti dalších mechanismů, které zprostředkovávájí komunikaci mezi moduly (např. \emph{message passing} mechanismus).}, naopak u jiných systémů může být nízká provázanost (\emph{message coupling}) dána již návrhem (např. CORBA, web services, atd.).
 
-%% * třída A dědí ze třídy B
-%% * třída A provádí instanciaci třídy B
-%% * třída A používá existující intanci třídy B (pracuje s referencí na tuto třídu)
-
-%% Na základě těchto závislostí lze sestavit orientovaný graf. Hrany budeme dále klasifikovat podle toho, o jakou závislost se jedná (dědičnost vs. vyvolání metody).
+%% TODO: přidat coupling v pojetí objektově orientovaného programování
 
 \subsubsection{High cohesion (vysoká koheze/soudržnost)}
 Wikipedia \cite{wiki:cohesion}:
@@ -270,12 +305,14 @@ Pro analýzu založenou na vyhledávání závislostí mezi třídami pro nás b
 %% * statické metody
 %% * vnitřní třídy
 
-%% hlavní analyzované vazby
+%% hlavní analyzované vazby:
 % instanciace třídy
 % dedicnost (inheritance)
 % vyvolání metody
 
 %% zpracovávání kódu -> zejména je potřeba resolvovat plná jména a použití elementů v kódu
+
+%% TODO: zjistit, jaké další objektově orientované návrhové principy existují
 
 \subsection{Existující nástroje pro zpracování zdrojových kódů v jazyku Java}
 
@@ -371,3 +408,73 @@ Důležité části zpracování kódu:
 \item design level -- analýza správného návrhu softwarového díla (pracuje se na konceptuální úrovni, ještě není hotový kód)
 \item code level -- analýza existujícího kódu z pohledu návrhu (již máme kód, ale chceme zpětně ověřit, že představuje dobrý/špatný návrh)
 \end{itemize}
+
+
+%% TODO: zapracovat nebo smazat
+%% # Existující formalizace v softwarovém inženýrství
+
+%% ## Featherweight Java
+
+%% * [[Featherweight Java]]
+
+%% ## Z notation
+
+%% * [[The Z notation - wikipedia|http://en.wikipedia.org/wiki/Z_notation]]
+%% * [[ISO/IEC 13568:2002(E) - Information technology - Z formal specification notation — Syntax, type system and semantics|http://standards.iso.org/ittf/PubliclyAvailableStandards/c021573_ISO_IEC_13568_2002(E).zip]]
+%% * [[Z notation reference manual|http://www.rose-hulman.edu/class/csse/cs415/zrm.pdf]]
+
+
+%% # Featherweight Java
+
+%% ## Výrazy jazyka FJ
+%% FJ má pouze následující výrazy (expressions):
+
+%% * vytvoření objektu (object creation)
+%% * vyvolání metody (method invocation)
+%% * přístup k poli objektu (field access)
+%% * přetypování (casting)
+%% * proměnné (variables)
+
+%% FJ vynechává operátor přiřazení (s výjimkou konstruktorů).
+
+%% Přes to všechno je FJ výpočetně kompletní (computationally complete) - je snadné do FJ zakódovat *lambda kalkul*.
+
+%% Existuje přímá souvislost mezi FJ a programovacím jazykem Java. Každý FJ program je spustitelný Java program.
+
+%% ## FJ program
+%% FJ program sestává ze souboru *několika tříd* a *výrazu*, který je vyhodnocen. Tento výraz odpovídá *main* metodě v plné verzi programovacího jazyka Java.
+
+%% Třídy sestávají z konstruktoru (který se vypisuje vždy) a z jednotlivých metod.
+
+%% Každá metoda vždy obsahuje pouze klíčové slovo *return* následované výrazem, který je vyhodnocen. Ve FJ totiž nejsou možné operace s vedlejším efektem (side-effect) vzhledem k absenci operátoru přiřazení. Vlastně se jedná o "funkcionální" část jazyka Java.
+
+%% ## Možná uváznutí programu
+
+%% * pokus o příštup k poli, které není pro třídu nadefinované
+%% * pokus o vyvolání metody, která není pro třídu nadefinovaná
+%% * pokus o přetypování na něco jiného než je nadtřídou běhové třídy objektu
+
+%% V dobře typovaných programovacích jazycích by k něčemu takovému němělo dojít (to je cílem důkazu poskytovaného FJ).
+
+%% ## Nástroje
+
+%% * [[FJ-Eclipse|http://fj-eclipse.sourceforge.net/]] - nepodporuje všechny prvky jazyka (např. vyhodnotí volání konstruktoru nadtřídy super() jako chybu)
+
+%% ## Literatura
+
+%% * [[Atsushi Igarashi, Benjamin C. Pierce, and Philip Wadler. 2001. Featherweight Java: a minimal core calculus for Java and GJ. ACM Trans. Program. Lang. Syst. 23, 3 (May 2001), 396-450. DOI=10.1145/503502.503505 http://doi.acm.org/10.1145/503502.503505|http://portal.acm.org/citation.cfm?id=503505]]
+%% * [[http://klee.cs.depaul.edu/csc547/lecture-fj.html]]
+
+%% # Klíčová slova, související pojmy
+
+%% Zde jsou soustředěny pojmy které ať už přímo nebo nepřímo souvisí s naší cílovou oblastí výzkumu. Většinou se jedná o pojmy, které je vhodné použít pro rešerše v internetových vyhledávačích.
+
+%% * design patterns discovery
+%% * model transformation
+
+%% * [[formal methods|http://en.wikipedia.org/wiki/Formal_methods]]
+%% * [[formal specification|http://en.wikipedia.org/wiki/Formal_specification]]
+%% * [[formal verification|http://en.wikipedia.org/wiki/Formal_verification]]
+
+%% * model verification
+

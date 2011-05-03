@@ -142,11 +142,19 @@ Pro jednotlivá pravidla potřebujeme \emph{úplný systém logických spojek}, 
 
 Serializace pravidel ve formátu vhodném pro zadávání do počítače je přesně popsána pomocí gramatiky specifikované v příloze \ref{avd_grammar}.
 
-\subsection{Typy pravidel}
+% TODO: přidat do některé části popis, jak definovat nové pravidlo (možná až do instalační nebo programátorské příručky)
+
+\subsection{Typy analýzy}
+
+\paragraph{Přístupy}
 \begin{itemize}
-\item pravidla definovaná ve vytvořeném formalismu (DSL rules)
-\item uživatelsky programovaná pravidla (custom code java code, asserts)
+\item aplikace poznatků z teorie grafů
+\item vyhodnocování statistických pravidel (např. různé meze počtů elementů v grafech)
+\item použití data miningu (klasifikace modelů)
 \end{itemize}
+
+%% TODO: zapracovat:
+V rámci analýzy je možné využít vyhledávání konkrétních vzorů. Dále je možné použít některou z klasifikačních metod. Například můžeme vytvořit klasifikátor na základě existujících vzorků "dobrých" a "špatných" architektonických návrhů. Každý model totiž má velké množství statistických vlastností (features), které bychom mohli využít pro sestrojení nějakého klasifikátoru.
 
 %% TODO: zapracovat:
 Ne všechna pravidla lze popsat exaktně ve smyslu splněno/nesplněno. Mnohdy můžeme kvalitu návrhu posuzovat pouze kvantitativně (dobrý návrh, lepší, moc vazeb, málo vazeb, atd.). Pro některé vlastnosti návrhu (např. low coupling, high cohesion) může být vhodnější poskytnou statistický přístup pro vyhodnocování (např. použití vhodného klasifikátoru).
@@ -442,6 +450,15 @@ Hierarchie rozhraní operátorů je znázorněna na obrázku \ref{design-operato
 \subsection{Rozhraní AnalysisIface}
 
 \subsection{Základní průběh validačního procesu}
+
+%% TODO: zapracovat || přesunout || smazat
+%% * source code references resolution/resolving
+%% * dependency graph construction
+%% * dependency graph visualization
+%% * GUI design and implementation
+%% * graph analysis
+%% * graph data mining
+
 %TODO: add activity and/or sequence diagram
 %TODO: popis validačního procesu: rozepsat následující itemize
 \begin{itemize}
