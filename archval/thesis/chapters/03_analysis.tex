@@ -130,6 +130,7 @@ Cílem návrhu je snižovat co nejvíce míru závislosti modulů. Protože se a
 
 \subsubsection{High cohesion (vysoká koheze/soudržnost)}
 
+
 % TODO: úrovně koheze -- koheze na úrovni metody, třídy, balíčku, modulu, projektu
 % TODO: rozdělení metody pro lepší testovatelnost
 Wikipedia \cite{wiki:cohesion}:
@@ -163,14 +164,12 @@ Wikipedia \cite{wiki:cohesion}:
 
 \subsubsection{Law of Demeter}
 
-%% **Demeter law:**
-%% * [[Assuring Good Style for Object-Oriented Programs|http://portal.acm.org/citation.cfm?id=624870]]
-%% * [[Adaptive Object-Oriented Software The Demeter Method|http://www.google.cz/url?sa=t&source=web&cd=3&sqi=2&ved=0CCoQFjAC&url=http%3A%2F%2Fciteseerx.ist.psu.edu%2Fviewdoc%2Fdownload%3Fdoi%3D10.1.1.94.8349%26rep%3Drep1%26type%3Dpdf&rct=j&q=demeter%20software%20object%20oriented&ei=MeTOTPihHI7AswbpufiWCA&usg=AFQjCNHnRixmCYTZrJVPF2OCEcbooajq4A&cad=rja]]
-%% * [[The Law of Demeter Is Not A Dot Counting Exercise|http://bit.ly/9tCObJ]] - pěkný popularizační článek na úvod
-%% * [[Object-oriented programming: an objective sense of style|http://portal.acm.org/ft_gateway.cfm?id=62113&type=pdf&coll=GUIDE&dl=GUIDE&CFID=111192652&CFTOKEN=98650016]]
-%% * [[Formulations and benefits of the law of demeter|http://portal.acm.org/citation.cfm?id=643603.643608]]
-%% * [[Demeter: Aspect-Oriented Software Development|http://www.ccs.neu.edu/research/demeter/]]
-%% * [[A case for statically executable advice: checking the law of demeter with AspectJ|http://portal.acm.org/citation.cfm?id=643603.643608]]
+%% Adaptive Object-Oriented Software The Demeter Method -- http://www.google.cz/url?sa=t&source=web&cd=3&sqi=2&ved=0CCoQFjAC&url=http%3A%2F%2Fciteseerx.ist.psu.edu%2Fviewdoc%2Fdownload%3Fdoi%3D10.1.1.94.8349%26rep%3Drep1%26type%3Dpdf&rct=j&q=demeter%20software%20object%20oriented&ei=MeTOTPihHI7AswbpufiWCA&usg=AFQjCNHnRixmCYTZrJVPF2OCEcbooajq4A&cad=rja
+%% The Law of Demeter Is Not A Dot Counting Exercise -- http://bit.ly/9tCObJ]] - pěkný popularizační článek na úvod
+%% Object-oriented programming: an objective sense of style -- http://portal.acm.org/ft_gateway.cfm?id=62113&type=pdf&coll=GUIDE&dl=GUIDE&CFID=111192652&CFTOKEN=98650016
+%% Formulations and benefits of the law of demeter -- http://portal.acm.org/citation.cfm?id=643603.643608
+%% Demeter: Aspect-Oriented Software Development -- http://www.ccs.neu.edu/research/demeter/
+%% A case for statically executable advice: checking the law of demeter with AspectJ -- http://portal.acm.org/citation.cfm?id=643603.643608
 
 Existuje několik forem Demeterova zákona \cite{35588}, které jsou vhodné pro různé oblasti aplikace. Tyto typy jsou znázorněny na obrázku \ref{demeter_law_types}. V~\cite{35588} se též pojednává o~demeterově zákoně z~jiného úhlu -- uvažují se všechny možné třídy, které lze volat bez porušení tohto principu (tzv. preferred suppliers).
 
@@ -264,16 +263,14 @@ Projekt může záviset na velkém množství dalších tříd, které nejsou so
 Některé z těchto tříd budou povolenými závislostmi pro všechny třídy projektu (např. všechny třídy projektu mohou záviset na standardních knihovnách jazyka Java), jiné budou naopak povolené jen pro určité oblasti projektu (budeme chtít, aby rozhraní pro přístup k databázi využívaly pouze objekty DAO vrstvy).
 
 \subsubsection{Syntaktické elementy programovacího jazyka Java}
-
-% TODO: aktualizovat -> v konecnem dusledku budeme pracovat i nad projekty v jazyce 1.6 (protoze nam to rozhrani umoznuje)
-%% Budeme pracovat nad gramatikou jazyka Java 1.5. Java verze 6 se liší pouze úpravou standardních API poskytovaných platformou Java. Jazyk jako takový zůstává stejný.
-
 \label{analysis-java_grammar_elements}
+
+% TODO: Budeme pracovat nad gramatikou jazyka Java 1.5. Java verze 6 se liší pouze úpravou standardních API poskytovaných platformou Java. Jazyk jako takový zůstává stejný.
 Grafické znázornění základních syntaktických elementů, jejichž struktura a názvy jsou převzaty z~\cite{Gosling:2005:JLS:1036643}, je na obrázku \ref{toplevel_elements}.
-% TODO: write some better accompanying text
+
 \begin{figure}[h!]
   \centering
-  \includegraphics[width=\textwidth]{./graphs/java_top_elements.png}
+  \includegraphics[width=0.85\textwidth]{./graphs/java_top_elements.png}
   \caption{Struktura základních syntaktických elementů programovacího jazyka Java.\label{toplevel_elements}}
 \end{figure}
 
@@ -291,8 +288,7 @@ Pro analýzu založenou na vyhledávání závislostí mezi třídami pro nás b
 
 Možnosti zpracovávání kódu:
 
-% TODO: roztřídit a vyházet nesmysly
-% TODO: použít jinou vhodnější strukturu místo itemize (např. strukturovaný text)
+% TODO: roztřídit a vyházet nesmysly, použít jinou vhodnější strukturu místo itemize (např. strukturovaný text)
 \begin{itemize}
 \item vlastní hand-written lexikální a syntaktický analyzátor (zbytečně náročné)
 \item parser vygenerovaný pomocí některého z~dostupných compiler-compiler systémů
@@ -353,28 +349,28 @@ Možnosti zpracovávání kódu:
 \end{itemize}
 
 % TODO: zatřídit:
-Důležité části zpracování kódu:
-\begin{itemize}
-\item name resolution, jmenné prostory (namespaces), class loaders, class tables
-\item static methods
-\item inner classes, static classes
-\item polymorphism
-\item generické třídy, wildcards
-\item pole objektů
-\item návratové typy metod
-\item vstupní parametry metod
-\item lokální proměnné
-\item globální objekty (statické metody a pole tříd, singletony - opět ale pouze ze statického pohledu!)
-\item vizualizace grafu
-\item modifikátory přístupu (private, public, protected, package private) -- možnost \uv{ořezat} graf závislosti tříd -- je možné, že pro některé druhy analýzy bude toto nežádoucí.
-\end{itemize}
+%% Důležité části zpracování kódu:
+%% \begin{itemize}
+%% \item name resolution, jmenné prostory (namespaces), class loaders, class tables
+%% \item static methods
+%% \item inner classes, static classes
+%% \item polymorphism
+%% \item generické třídy, wildcards
+%% \item pole objektů
+%% \item návratové typy metod
+%% \item vstupní parametry metod
+%% \item lokální proměnné
+%% \item globální objekty (statické metody a pole tříd, singletony - opět ale pouze ze statického pohledu!)
+%% \item vizualizace grafu
+%% \item modifikátory přístupu (private, public, protected, package private) -- možnost \uv{ořezat} graf závislosti tříd -- je možné, že pro některé druhy analýzy bude toto nežádoucí.
+%% \end{itemize}
 
 % TODO: zatřídit || smazat
-Úrovně na nichž je možné provádět validaci správného návrhu:
-\begin{itemize}
-\item design level -- analýza správného návrhu softwarového díla (pracuje se na konceptuální úrovni, ještě není hotový kód)
-\item code level -- analýza existujícího kódu z~pohledu návrhu (již máme kód, ale chceme zpětně ověřit, že představuje dobrý/špatný návrh)
-\end{itemize}
+%% Úrovně na nichž je možné provádět validaci správného návrhu:
+%% \begin{itemize}
+%% \item design level -- analýza správného návrhu softwarového díla (pracuje se na konceptuální úrovni, ještě není hotový kód)
+%% \item code level -- analýza existujícího kódu z~pohledu návrhu (již máme kód, ale chceme zpětně ověřit, že představuje dobrý/špatný návrh)
+%% \end{itemize}
 
 %% TODO: zapracovat || smazat
 %% # Existující formalizace v softwarovém inženýrství
@@ -400,7 +396,7 @@ Důležité části zpracování kódu:
 %% Třídy sestávají z konstruktoru (který se vypisuje vždy) a z jednotlivých metod.
 %% Každá metoda vždy obsahuje pouze klíčové slovo *return* následované výrazem, který je vyhodnocen. Ve FJ totiž nejsou možné operace s vedlejším efektem (side-effect) vzhledem k absenci operátoru přiřazení. Vlastně se jedná o "funkcionální" část jazyka Java.
 %% ## Možná uváznutí programu
-%% * pokus o příštup k poli, které není pro třídu nadefinované
+%% * pokus o přístup k poli, které není pro třídu nadefinované
 %% * pokus o vyvolání metody, která není pro třídu nadefinovaná
 %% * pokus o přetypování na něco jiného než je nadtřídou běhové třídy objektu
 %% V dobře typovaných programovacích jazycích by k něčemu takovému němělo dojít (to je cílem důkazu poskytovaného FJ).
