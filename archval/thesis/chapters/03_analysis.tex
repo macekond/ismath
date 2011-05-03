@@ -68,12 +68,18 @@ Při vlastním návrhu systému se používají principy objektového návrhu (p
 
 \section{Analýza principů objektového návrhu}
 \label{analysis-oop_design_principles}
+
+Principy objektového nárhu reprezentují množinu pokynů, které nám pomáhají vyhnout se špatnému návrhu \cite{oop_design_principles}. Špatný návrh vykazuje zejména následující vlastnosti \cite{oop_design_principles_and_patterns}:
+
 \begin{itemize}
-\item co jsou to návrhové principy?
-\item návrhové principy versus návrhové vzory \cite{612257}
-%% TODO: zjistit, jaké další objektově orientované návrhové principy (kromě těch ze zadání) existují a přidat alespoň zmínku
-%% liskov's substitution principle
+\item \emph{Rigidity} -- je obtížné provést změnu v systému protože každá změna ovlivňuje příliš mnoho dalších částí systému,
+\item \emph{Fragility} -- pokud provedete změnu, mohou přestat fungovat části systému u nichž se to nečeká,
+\item \emph{Immobility} -- je obtížné znovupoužití části systému v jiné aplikaci, protože tato část nemůže být \uv{vymotána} z aktuální aplikace.
 \end{itemize}
+
+Autor výše zmíněného článku (\cite{oop_design_principles_and_patterns}) cituje zajímavé návrhové principy. Například \emph{Open Closed Principle}, který vyžaduje, aby se existující třídy a řešení nemodifikovaly, ale rozšiřovaly. Dalším principem je \emph{Liskov's substitution principle}, který vymezuje pravidla pro dědění tak, aby instance podtřídy mohla bezpečně vystupovat na místě své nadtřídy\footnote{Ve článku je rozebráno, jaké operace bychom neměli provádět v oddědné třídě -- je totiž možné změnit chování odděděné třídy tak, že již nemůže bezpečně vystupovat na místě svého předka.}.
+
+Důležité je srovnání \emph{návrhových principů} s \emph{návrhovými vzory}. Toto srovnání podává článek \cite{612257}. Zatímco aplikace návrhového vzoru představuje znovupoužití \uv{úspěšného} návrhu, princip představuje spíše obecně platné pravidlo, jehož dodržováním během návrhu bychom měli získat návrh přijatelné kvality. V případě přesného stanovení potřebných principů by bylo možné provádět automatizovný systematický návrh (což není, vzhledem k mnoha aspektům popisovaným v článku, dobře možné).
 
 \subsection{Analyzované principy}
 Na základě požadavků specifikovaných sekci \ref{requirements-principle_analysis} se budeme postupně zabývat principy \emph{low coupling}, \emph{high cohesion} a \emph{Law of Demeter}. Jedná se o~principy, které se týkají strukturální kvality kódu.
