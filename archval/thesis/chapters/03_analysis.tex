@@ -120,15 +120,13 @@ V~\cite{wiki:coupling} a \cite{STVR:STVR162} (podrobnější a formálnější d
 
 \paragraph{Independent coupling/No coupling} Mezi moduly není žádná závislost. Moduly spolu vůbec nekomunikují a nejsou zde žádné sdílené reference na proměnné nebo reference na externí data sdílená mezi moduly.
 
-\vspace{1cm}
+\vspace{0.5cm}
+
+\paragraph{Subclass coupling} Pro objektově orientovaný návrh můžeme navíc uvažovat závislost typu \emph{Subclass coupling}, která popisuje vztah mezi třídou a její rodičovskou třídou. Dětská třída má závislost na rodičovské, rodičovská však žádnou závislost vzhledem k dětské třídě nemá.
+
+\vspace{1.0cm}
 
 Cílem návrhu je snižovat co nejvíce míru závislosti modulů. Protože se ale jedná o~kvantitativní záležitost, nejsme schopni určit zcela přesná pravidla, která musí platit nebo která lze vynutit. U~některých typů programů může být akceptovatelý i \emph{content coupling} z~výkonnostních důvodů\footnote{Nízká provázanost implikuje téměř vždy snížení výkonu z~důvodu nutnosti dalších mechanismů, které zprostředkovávájí komunikaci mezi moduly (např. \emph{message passing} mechanismus).}, naopak u~jiných systémů může být nízká provázanost (\emph{message coupling}) dána již návrhem (např. CORBA, web services, atd.).
-
-%% TODO: přidat coupling v pojetí objektově orientovaného programování
-%% TODO: zapracovat
-% dedicnost (inheritance)
-% vyvolání metody
-% instanciace třídy
 
 \subsubsection{High cohesion (vysoká koheze/soudržnost)}
 
@@ -231,51 +229,46 @@ Method M of an object O~may only invoke the methods of the following kinds of ob
 
 \section{Analýza problematiky v~jazyce Java}
 
-\subsection{Statický model programu v~Javě}
-% TODO: pojednání o tom, co všechno může být modelem programu (ast, graf, FSM, programovací jazyky, atd)
-% TODO: model driven engineering, kód je fyzický model, můžeme jej ale dále převádět na další modely a ty potom analyzovat
-% TODO: možná přidat poznámku o model driven engineering a jak může být aplikováno právě zde
+V rámci této sekce se podíváme nejprve na to, z čeho se skládá softwarový systém realizovaný v programovacím jazyce Java. Ve druhé části je provedena rešerše existujících nástrojů pro zpracování zdrojových kódů programovacího jazyka Java do podoby vhodné pro vygenerování potřebné vnitřní struktury, která bude předmětem validace.
 
-%% TODO: zapracovat do této sekce nebo smazat
-%% # Model driven engineering
-%% * [[A Taxonomy of Model Transformations|http://drops.dagstuhl.de/opus/volltexte/2005/11/pdf/04101.SWM2.Paper.pdf]] - článek přehledně shrnuje základní pojmy týkající se transformace modelů
-%% # Architecture specific model
-%% V následujícím článku je demonstrován převod architektonicky závislého modelu (konkrétně MVC) na dva různé platformně specifické modely (EJB a Spring beans). Pro definici PIM je vytvořen vlastní jednoduchý UML profil.
-%% * [[Kazato H., Model-View-Controller Architecture Specific Model Transformation|http://www.dsmforum.org/events/DSM09/Papers/Kazato.pdf]]
+\subsection{Statický model programu v~Javě}
+Vstupem pro validační systém budou zdrojové kódy existujícího Java projektu ve vhodné podobě. Jedná se vlastně o fyzický model programu. V případě Java projektu sestává tento model z nějaké množiny souborů, které obsahují data různých typů. První podsekce této sekce se zabývá typy souborů, které se mohou vyskytnout v projektu, ve druhé podsekci je potom rozebírán obsah a formát souborů programovacího jazyka Java.
+
+Zastavme se ještě nad pojmem \emph{fyzický model} programu. Tento model je zpravidla výsledkem vhodné transformace (ať už automatizované nebo ruční) nějakého předešlého modelu (většinou UML model, textová specifikace atd.). S tímto modelem můžeme dále pracovat a provádět nad ním transformace. To je ostatně cílem různých nástrojů pro refaktoring a automatizované zvyšování kvality kódu. Konkrétně refactoring je příkladem endogenní horizontální transformace (zdrojový i cílový metamodel je shodný a úroveň abstrakce zůstává nezměněna) \cite{Mens05ataxonomy}.
 
 \subsubsection{Struktura softwarového projektu v~Javě}
-
-% TODO: sort and rephrase
+Existuje velké množství způsobů, kterými jsou organizovány softwarové projekty. Téměř každé Java IDE má navíc svůj vlastní formát, ve kterém ukládá metadata o projektu. Přesto všechny tyto projekty zahrnují stejnou podmnožinu konkrétních zdrojových souborů, z nichž se skládá vlastní softwarový projekt. Podívejme se, jaké soubory můžeme nalézt v běžném java projektu:
 
 \begin{itemize}
-\item \verb+*.java+ soubory -- v~gramatice programovacího jazyka Java 1.5 představují top-level element CompilationUnit,
-\item binární součásti projektu (např. knihovny) -- \verb+*.jar+ soubory, \verb+*.class+ soubory,
+\item soubory \verb+*.java+ -- soubory se zdrojovými kódy v jazyce Java, tyto soubory představují z hlediska gramatiky jazyka Java kořenový element \emph{CompilationUnit} (o něm bude dále pojednáno v podsekci \ref{analysis-java_grammar_elements}),
+\item binární součásti projektu -- soubory \verb+*.jar+ a \verb+*.class+, často se jedná o různé knihovny, zkompilované \verb+*.java+ soubory atd.
 \item build scripty a konfigurační soubory sestavovacích nástrojů (\verb+build.xml+, \verb+pom.xml+, \ldots),
-\item zdroje (resources, resource bundles),
-\item dokumentace (\verb+javadoc+, \ldots),
-\item soubory gramatik pro parsery (např. pro \verb+lex+, \verb+flex+, \verb+javacc+, \verb+antlr+, atd.),
+\item soubory zdrojů (resources, resource bundles) -- read-only data využívaná programem (ikony, lokalizační řetězce, atd.)
+\item dokumentace (\verb+javadoc+, uživatelská příručka),
+\item soubory gramatik pro parsery a \emph{compiler-compiler} systémy (např. pro \verb+lex+, \verb+flex+, \verb+javacc+, \verb+antlr+),
 \item šablony (typické třeba pro webové projekty, \verb+*.xhtml+ a jiné přípony),
 \item konfigurační soubory (zpravidla \verb+*.xml+ soubory, často odkazují konkrétní třídy progamovacího jazyka Java),
 \item jiné soubory
 \end{itemize}
 
-Pro naše potřeby jsou důležité v~podstatě pouze kompilační jednotky (\verb+*.java+ soubory) projektu.
+Pro potřeby této práce jsou podstané v zásadě pouze soubory obsahující zdrojový kód -- soubory \verb+*.java+. Při analýze nebudeme program spouštět nebo uvažovat jeho dynamické chování (běh). Bude se jednat o analýzu statického stavu programu (analýza struktury). Práce bude probíhat nad definicemi tříd, nikoliv nad jejich instancemi v~paměti JVM. Nejsou tedy uvažovány všechny možné běhové instance programu (všechny možné stavy objektů v~paměti virtuálního stroje).
 
-%% TODO: přesunout na správné místo (možná patří až do návrhu)
-Při analýze nebudeme uvažovat běh programu. Bude se jednat o statickou analýzu kódu. Práce bude probíhat nad definicemi tříd, nikoliv nad jejich instancemi v~paměti JVM. Nejsou tedy uvažovány všechny možné běhové instance programu (všechny možné stavy objektů v~paměti virtuálního stroje).
-
-Projekt závisí na dalších třídách, které analyzovat nebudeme (v~určitém okamžiku analýzy je potřeba se \uv{odříznout}, jinak bychom mohli analyzovat všechny knihovny, s~nimiž projekt pracuje). Takové závislosti mohou být např.:
+Projekt může záviset na velkém množství dalších tříd, které nejsou součástí zdrojových kódů projektu. Tyto třídy zpracovávat nebudeme. Jedná se například o:
 
 \begin{itemize}
-\item knihovny třetích stran
-\item standardní knihovna jazyka Java (např. Java 2 Platform SE 5.0 API pro Javu verze 5) -- zde například budou povoleny závislosti ze všech modulů (ale pro jiné druhy analýzy to může být nežádoucí - např. u~logování budeme chtít, aby v~projektu šlo striktně přes nějakou naši konkrétní \emph{fasádu})
-\item podprojekty a části projektu, které analyzovat nechceme, nepotřebujeme nebo z~nějakého důvodu nemůžeme
+\item knihovny třetích stran,
+\item standardní knihovnu jazyka Java (i.e. Java 2 Platform SE 5.0 API pro Javu verze 5),
+\item podprojekty a části projektu, které analyzovat nechceme, nepotřebujeme nebo z~nějakého důvodu nemůžeme.
 \end{itemize}
 
-% TODO: aktualizovat -> v konecnem dusledku budeme pracovat i nad projekty v jazyce 1.6 (protoze nam to rozhrani umoznuje)
-Budeme pracovat nad gramatikou jazyka Java 1.5. Java verze 6 se liší pouze úpravou standardních API poskytovaných platformou Java. Jazyk jako takový zůstává stejný.
+Některé z těchto tříd budou povolenými závislostmi pro všechny třídy projektu (např. všechny třídy projektu mohou záviset na standardních knihovnách jazyka Java), jiné budou naopak povolené jen pro určité oblasti projektu (budeme chtít, aby rozhraní pro přístup k databázi využívaly pouze objekty DAO vrstvy).
 
 \subsubsection{Syntaktické elementy programovacího jazyka Java}
+
+% TODO: aktualizovat -> v konecnem dusledku budeme pracovat i nad projekty v jazyce 1.6 (protoze nam to rozhrani umoznuje)
+%% Budeme pracovat nad gramatikou jazyka Java 1.5. Java verze 6 se liší pouze úpravou standardních API poskytovaných platformou Java. Jazyk jako takový zůstává stejný.
+
+\label{analysis-java_grammar_elements}
 Grafické znázornění základních syntaktických elementů, jejichž struktura a názvy jsou převzaty z~\cite{Gosling:2005:JLS:1036643}, je na obrázku \ref{toplevel_elements}.
 % TODO: write some better accompanying text
 \begin{figure}[h!]
