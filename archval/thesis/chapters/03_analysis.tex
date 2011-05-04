@@ -298,28 +298,24 @@ Pro provedení analýzy nám postačí zdrojové kódy zpracované do fáze \emp
 Podívejme se nyní, jakými prostředky je možné tuto reprezentaci získat:
 
 \subsubsection{Vlastní kód pro zpracovávání zdrojových kódů}
-\begin{itemize}
-\item vlastní hand-written lexikální a syntaktický analyzátor (zbytečně náročné)
-\end{itemize}
+Samozřejmě je možné napsat pro zpracování zdrojových kódů vlastní nástroj. Zahrnovalo by to vytvoření lexikálního analyzátoru (tokenizer), syntaktického parseru (zásobníkový automat) a dalších mechanismů pro vybudování AST, rozlišení jmen, navázání promenných a realizaci velkého množství dalších operací.
+
+Jedná se však o velmi náročný a rozsáhlý systém, jehož rozsah by překračoval nejen rámec této práce, ale i rámec schopnosti jednotlivce realizovat takovou práci v rozumném čase.
 
 \subsubsection{Použití compiler-compiler systému}
-\begin{itemize}
-\item parser vygenerovaný pomocí některého z~dostupných compiler-compiler systémů
-\item existující gramatiky pro jazyk Java
-\item generátory lexikálních analyzátorů a syntaktických parserů
-\item generátory stromů
-\end{itemize}
+Pro zpracování zdrojových kódů a různě formátovaného textu se často používá tzv \emph{compiler-compiler} systémů. Tyto systémy vygenerují jak lexikální analyzátor, tak syntaktický parser na základě vhodného popisu. Zpravidla se jedná o popis ve formě BNF nebo EBNF gramatiky. Často je možné na základě specifikovaných pravidel vygenerovat i AST vhodný pro další zpracovávání.
 
-\begin{itemize}
-\item tyto systémy na základě vstupní gramatiky vygenerují frontend pro překladač
-\item lze specifikovat různé akce, které jsou navázány na události vyvolané v~průběhu syntaktické analýzy
-\item \emph{JavaCC} \cite{parsertools:javacc}
-  \begin{itemize}
-  \item součástí je nástroj \emph{JJTree}, který je schopen vygenerovat AST pro další práci
-  \end{itemize}
-\item \emph{JastAdd} \cite {parsertools:jastadd}
-\item \emph{ANTLR}
-\end{itemize}
+Nejčastěji používanými nástroji jsou:
+
+\paragraph{JavaCC} \emph{JavaCC} \cite{parsertools:javacc} je systém, pro který existuje velké množství gramatik. Mimo jiné také pro jazyk Java 1.5. Součástí distribuce tohoto nástroje je i program \emph{JJTree}, který je schopen na základě rozšířeného textového popisu gramatiky vygenerovat AST.
+
+\paragraph{ANTLR} \emph{ANTLR} \cite{parsertools:antlr} je velmi pokročilý \emph{compiler-compiler} systém. Disponuje kompletním vývojovým prostředím, kterému nechybí vlastnosti jako zvýrazňování syntaxe, doplňování výrazů a podpora debugování (umožňuje krokovat generování syntaktického stromu).
+
+\vspace{0.5cm}
+
+Pro většinu \emph{compiler-compiler} nástrojů existuje velké množství vstupních gramatik pro různé jazyky. Většinou nalezneme i podporu pro jazyk Java verze 1.5\footnote{Což by pro naše účely postačovalo, protože Java 6 se od verze 5 neliší v gramatice jazyka, ale v poskytovaných rozhraních standardní knihovny.}.
+
+Při použití některého z výše uvedených nástrojů bychom se dostali na úroveň vygenerovaného AST stromu. Pro potřeby analýzy je však nutné provést ještě rozlišení jmen. To by bylo nutné provést ručně. Jedná se stále o dost náročnou operaci.
 
 \subsubsection{Použití vhodné knihovny nebo existujícího programu}
 \begin{itemize}
@@ -330,6 +326,8 @@ Podívejme se nyní, jakými prostředky je možné tuto reprezentaci získat:
   \end{itemize}
 \item spoon \cite{parsertools:spoon}
 \end{itemize}
+
+Ani zmíněné knihovny neprovádějí rezoluci jmen. Proto se v dalších sekcích zaměříme na možnost využití některého z nástrojů, které tuto funkčnost mají již v sobě.
 
 \subsubsection{Použití prostředků poskytovaných platformou Java}
 použití prostředků poskytovaných platformou Java 6 (Sun verze) \cite{source_code_analysis_corejavatechtips}
