@@ -1,6 +1,11 @@
 \chapter{Analýza}
-%% TODO: zde napsat prehledovy text o tom, co vsechno tato kapitola obsahuje
+Kapitola \emph{analýza} se zaměřuje zejména na rešerše v oblasti problémové domény a ke zjištění informací potřebných k realizaci práce. Je rozdělena celkem na tři základní části.
 
+V části první se zabýváme obecnou problematikou návrhu software, často používanými koncepty, aspekty, které je třeba při návrhu zohlednit a objektově orientovaným návrhem.
+
+Druhá část se zabývá konkrétními principy objektového návrhu, konkrétně principy \emph{low coupling}, \emph{high cohesion} a \emph{Law of Demeter}. Kromě rešerše týkající se těchto principů jsou zde demonstrovány jednoduché ukázky jejich porušení.
+
+Poslední část se zabývá analýzou java projektů, které budou vstupem pro validaci a anlýzu. Je zde rozebráno, z jakých souborů se projekt realizovaný v jazyce Java skládá a jaká je základní struktura zdrojových \verb+*.java+ souborů. Dále pak tato část obsahuje rešerši existujících nástrojů pro předzpracování zdrojových kódů do podoby vhodné pro další práci.
 \section{Problematika návrhu software}
 Při návrhu software se uplatňují nejrůznější přístupy, vzory, pravidla. Cílem této sekce je podat rychlý přehled o používaných návrhových konceptech, aspektech návrhu software a objektově orientovaném návrhu. U některých aspektů uvažujeme možnost jejich podpory pomocí vhodného nástroje. Mnoho z uvedených pojmů a postupů je dále použito při návrhu nástroje, jehož vytvoření je jedním z cílů této práce.
 
@@ -341,7 +346,7 @@ class ErrorPublisher {
 
 Funkčnosti jsou seskupeny do jedné třídy jen z toho důvodu, že všechny někam vypisují chybu. Každá implementace však bude zcela odlišná (metody nesdílejí žádný stav).
 
-\section{Analýza problematiky v~jazyce Java}
+\section{Analýza vstupních projektů realizovaných v~jazyce Java}
 
 V rámci této sekce se podíváme nejprve na to, z čeho se skládá softwarový systém realizovaný v programovacím jazyce Java. Ve druhé části je provedena rešerše existujících nástrojů pro zpracování zdrojových kódů programovacího jazyka Java do podoby vhodné pro vygenerování potřebné vnitřní struktury, která bude předmětem validace.
 
@@ -379,8 +384,9 @@ Některé z těchto tříd budou povolenými závislostmi pro všechny třídy p
 
 \subsubsection{Syntaktické elementy programovacího jazyka Java}
 \label{analysis-java_grammar_elements}
-% TODO: complete -- přidat i základní toplevel elementy (metody a pole), protože těmi se budeme hlavně u LoD zabývat
-Grafické znázornění základních syntaktických elementů, jejichž struktura a názvy jsou převzaty z~\cite{Gosling:2005:JLS:1036643}, je na obrázku \ref{toplevel_elements}.
+Jak již bylo zmíněno v předchozí sekci, základním kořenovým elementem gramatiky programovacího jazyka java je \emph{CompilationUnit}. Kompletní popis všech elementů jazyka poskytuje specifikace jazyka java \cite{Gosling:2005:JLS:1036643}.
+
+Element \emph{CompilationUnit} dále obsahuje volitelně \emph{deklaraci balíčku}, \emph{příkazy importu} prvků z jiných jmenných prostorů a \emph{deklarace datových typů} (obrázek \ref{toplevel_elements}). Ty jsou pro prováděnou validaci a anlýzu nejdůležitější.
 
 \begin{figure}[h!]
   \centering
@@ -388,13 +394,15 @@ Grafické znázornění základních syntaktických elementů, jejichž struktur
   \caption{Struktura základních syntaktických elementů programovacího jazyka Java.\label{toplevel_elements}}
 \end{figure}
 
-Pro analýzu založenou na vyhledávání závislostí mezi třídami pro nás bude nejdůležitější syntaktický element \emph{TypeDeclaration}. Tento neterminální symbol se dále přepisuje na symboly uvedené na obrázku \ref{type_declaration_options}.
+Každá deklarace datového typuje představována neterminálním symbolem \emph{TypeDeclaration} gramatiky jazyka Java. Tento neterminální symbol se dále přepisuje na symboly uvedené na obrázku \ref{type_declaration_options}. Výsledný deklarovaný datový typ může být jeden z následujících elementů: \emph{deklarace třídy}, \emph{deklarace výčtového typu}, \emph{deklarace rozhraní} a \emph{deklarace anotace}.
 
 \begin{figure}[h!]
   \centering
   \includegraphics[width=\textwidth]{./graphs/toplevel_types.png}
   \caption{Rozklad elementu TypeDeclaration.\label{type_declaration_options}}
 \end{figure}
+
+Datové typy budou výchozími body při sestavování vnitřní reprezentace pro provádění validace a anylýzy. Jejich další podelementy jsou tvořeny členskými proměnnými, konstruktory, metodami, abstraktními metodami (signatury metod v rozhraních) a vnořenými datovými typy. Dále se elementy dělí až na úroveň jednotlivých příkazů, konstrukcí objektů, výrazů atd.
 
 \subsection{Zpracovávání zdrojových kódů v~jazyce Java}
 Protože navrhované ověřované principy přesahují rámec jedné kompilační jednotky, je nutné provést vhodné předzpracování zdrojových kódů tak, aby bylo možné analyzovat vztahy částí kódu i mezi jednotlivými kompilačními jednotkami.
@@ -457,7 +465,7 @@ Jazyk Java od verze 6 poskytuje zajímavé možnosti integrace volání kompilá
   \end{itemize}
 \end{itemize}
 
-Pomocí těchto nástrojů je možné získat poměrně snadno přístup do průběhu zpracování zdrojového kódu pomocí \verb+javac+ compileru. Přístup však je na úrovni zpracovávání anotací (viz výše) a probíhá po částech (rounds). Nemáme tak k dispozici plný AST strom, nad kterým by byla již provedena fáze \emph{attribute} \cite{hackers_guide_to_javac}.
+Pomocí těchto nástrojů je možné získat poměrně snadno přístup do průběhu zpracování zdrojového kódu pomocí \verb+javac+ kompilátoru. Přístup však je na úrovni zpracovávání anotací (viz výše) a probíhá po částech (rounds). Nemáme tak k dispozici plný AST strom, nad kterým by byla již provedena fáze \emph{attribute} \cite{hackers_guide_to_javac}.
 
 \subsubsection{Použití prostředků některého z Java IDE}
 Většina majoritních integrovaných prostředí pro vývoj v jazyce Java (IntelliJ Idea, Eclipse, NetBeans) provádí rozsáhlou kontrolu zdrojových kódů přímo během psaní. Programátor je upozorňován na to, že některá metoda nebo třída není definována nebo je definována s jinými parametry. A to v případě, že daná třída se nachází ve zcela jiné kompilační jednotce.
