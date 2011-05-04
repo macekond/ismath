@@ -40,8 +40,10 @@ if [ "$1" == "cd" ]; then # (!) run only by hand (not to overwrite custom change
     exit 0
 fi
 
-build_deps
-[ "$1" == "depsonly" ] && exit 0
+if [ "$1" == "depsonly" ]; then # only by hand now
+    build_deps
+    exit 0
+fi
 
 if [ "$1" == "interactive" ]; then
     latexmk -pvc
