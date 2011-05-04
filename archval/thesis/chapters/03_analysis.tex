@@ -21,13 +21,13 @@ Existující koncepty návrhu software poskytují vývojářům základ, z~něho
 
 \paragraph{Struktura dat (Data Structure)} Logická reprezentace vztahů mezi jednotlivými datovými elementy.
 
-\paragraph{Softwarová procedura (Software Procedure)} Koncept \emph{softwarové procedury} se zaměřuje na průběh zpracovávání každého jednotlivého modulu. Narozdíl od konceptu \emph{hierarchie řízení}, který se zabývá pouze vztahy (která komponenta je řízena kterou komponentou), se zaměřuje na návrh přesné posloupnosti kroků, které modul provádí.
+\paragraph{Softwarová procedura (Software Procedure)} Koncept \emph{softwarové procedury} se zaměřuje na průběh zpracovávání každého jednotlivého modulu. Na rozdíl od konceptu \emph{hierarchie řízení}, který se zabývá pouze vztahy (která komponenta je řízena kterou komponentou), se zaměřuje na návrh přesné posloupnosti kroků, které modul provádí.
 
 \paragraph{Zapouzdření (Information Hiding)} Moduly by měly být navrhovány tak, aby informace v nich obsažená byla nedostupná modulům, které tuto informaci nepotřebují.
 
 \subsection{Aspekty návrhu software}
 \label{analysis-sw_design_aspects}
-Při návrhu software musíme vzít v~potaz velké množství aspektů \cite{wiki:software_design}. Důležitost přikladaná jednotlivým aspektům je odvozena od účelu, za nímž je software realizován. Pro některé systémy může být klíčové rozšiřitelnost, pro jiné stabilita. Mezi základní aspekty patří:
+Při návrhu software musíme vzít v~potaz velké množství aspektů \cite{wiki:software_design}. Důležitost přikládaná jednotlivým aspektům je odvozena od účelu, za nímž je software realizován. Pro některé systémy může být klíčové rozšiřitelnost, pro jiné stabilita. Mezi základní aspekty patří:
 
 \begin{itemize}
 \item \emph{kompatibilita (compatibility)},
@@ -43,7 +43,7 @@ Při návrhu software musíme vzít v~potaz velké množství aspektů \cite{wik
 \item \emph{použitelnost (usability)}.
 \end{itemize}
 
-Zatímco některé aspekty jsou pro tuto práci zcela nepodstatné (dobrým příkladem budiž \emph{balení}, které se zabývá způsobem dodávky software a podporných materiálů), jiné je možné podpořit pomocí vhodného nástroje. Pojďme se nyní podívat na aspekty, jejichž podpora možná je:
+Zatímco některé aspekty jsou pro tuto práci zcela nepodstatné (dobrým příkladem budiž \emph{balení}, které se zabývá způsobem dodávky software a podpůrných materiálů), jiné je možné podpořit pomocí vhodného nástroje. Pojďme se nyní podívat na aspekty, jejichž podpora možná je:
 
 \paragraph{Rozšiřitelnost} Tato vlastnost znamená praktický důsledek, kdy nové funkčnosti mohou být do existujícího systému přidány bez majoritních změn ve \emph{výchozí architektuře}. Pokud by bylo možné určit pravidla, která určují základní architekturu a která je možné vynutit, bylo by možné při rozšiřování systému tato pravidla opět aplikovat, což by vedlo k~dodržení výchozí architektury.
 
@@ -56,7 +56,7 @@ Zatímco některé aspekty jsou pro tuto práci zcela nepodstatné (dobrým př�
 \subsection{Objektově orientovaný návrh software}
 Základním vstupem pro objektově orientovaný návrh bývá (mimo jiné) \emph{konceptuální model}, případně seznam \emph{případů užití} systému. To jsou výsledky předešlé fáze analýzy. Na základě těchto informací je poté zpravidla sestavován návrh systému, který pracuje nad dříve definovanými doménovými objekty.
 
-Klíčovými pojmy při objektově orientovném návrhu jsou \cite{wiki:oop_design}:
+Klíčovými pojmy při objektově orientovaném návrhu jsou \cite{wiki:oop_design}:
 
 \paragraph{Objekt/třída}  Objekt/třída představují těsné propojení mezi datovými strukturami a metodami/funkcemi, které nad těmito daty pracují. Každý objekt by měl sloužit samostatné funkci. Je definován svými atributy/vlastnostmi, tím co je a tím co může dělat.
 \paragraph{Zapouzdření} Zapouzdření je schopnost chránit některé součásti objektu před externími entitami. To je zpravidla realizováno klíčovými slovy implementujícího programovacího jazyka, která umožňují deklarovat proměnnou jako privátní nebo chráněnou uvnitř vlastnické třídy.
@@ -69,7 +69,7 @@ Při vlastním návrhu systému se používají principy objektového návrhu (p
 \section{Analýza principů objektového návrhu}
 \label{analysis-oop_design_principles}
 
-Principy objektového nárhu reprezentují množinu pokynů, které nám pomáhají vyhnout se špatnému návrhu \cite{oop_design_principles}. Špatný návrh vykazuje zejména následující vlastnosti \cite{oop_design_principles_and_patterns}:
+Principy objektového návrhu reprezentují množinu pokynů, které nám pomáhají vyhnout se špatnému návrhu \cite{oop_design_principles}. Špatný návrh vykazuje zejména následující vlastnosti \cite{oop_design_principles_and_patterns}:
 
 \begin{itemize}
 \item \emph{Rigidity} -- je obtížné provést změnu v systému protože každá změna ovlivňuje příliš mnoho dalších částí systému,
@@ -77,9 +77,9 @@ Principy objektového nárhu reprezentují množinu pokynů, které nám pomáha
 \item \emph{Immobility} -- je obtížné znovupoužití části systému v jiné aplikaci, protože tato část nemůže být \uv{vymotána} z aktuální aplikace.
 \end{itemize}
 
-Autor výše zmíněného článku (\cite{oop_design_principles_and_patterns}) cituje zajímavé návrhové principy. Například \emph{Open Closed Principle}, který vyžaduje, aby se existující třídy a řešení nemodifikovaly, ale rozšiřovaly. Dalším principem je \emph{Liskov's substitution principle}, který vymezuje pravidla pro dědění tak, aby instance podtřídy mohla bezpečně vystupovat na místě své nadtřídy\footnote{Ve článku je rozebráno, jaké operace bychom neměli provádět v oddědědné třídě -- je totiž možné změnit chování odděděné třídy tak, že již nemůže bezpečně vystupovat na místě svého předka.}.
+Autor výše zmíněného článku (\cite{oop_design_principles_and_patterns}) cituje zajímavé návrhové principy. Například \emph{Open Closed Principle}, který vyžaduje, aby se existující třídy a řešení nemodifikovaly, ale rozšiřovaly. Dalším principem je \emph{Liskov's substitution principle}, který vymezuje pravidla pro dědění tak, aby instance podtřídy mohla bezpečně vystupovat na místě své nadtřídy\footnote{Ve článku je rozebráno, jaké operace bychom neměli provádět v děděné třídě -- je totiž možné změnit chování oddělené třídy tak, že již nemůže bezpečně vystupovat na místě svého předka.}.
 
-Důležité je srovnání \emph{návrhových principů} s \emph{návrhovými vzory}. Toto srovnání podává článek \cite{612257}. Zatímco aplikace návrhového vzoru představuje znovupoužití \uv{úspěšného} návrhu, princip představuje spíše obecně platné pravidlo, jehož dodržováním během návrhu bychom měli získat návrh přijatelné kvality. V případě přesného stanovení potřebných principů by bylo možné provádět automatizovný systematický návrh (což není, vzhledem k mnoha aspektům popisovaným v článku, dobře možné).
+Důležité je srovnání \emph{návrhových principů} s \emph{návrhovými vzory}. Toto srovnání podává článek \cite{612257}. Zatímco aplikace návrhového vzoru představuje znovupoužití \uv{úspěšného} návrhu, princip představuje spíše obecně platné pravidlo, jehož dodržováním během návrhu bychom měli získat návrh přijatelné kvality. V případě přesného stanovení potřebných principů by bylo možné provádět automatizovaný systematický návrh (což není, vzhledem k mnoha aspektům popisovaným v článku, dobře možné).
 
 \subsection{Analyzované principy}
 Na základě požadavků specifikovaných sekci \ref{requirements-principle_analysis} se budeme postupně zabývat principy \emph{low coupling}, \emph{high cohesion} a \emph{Law of Demeter}. Jedná se o~principy, které se týkají strukturální kvality kódu.
@@ -102,9 +102,9 @@ Závislost/vazba (coupling/dependency) mezi moduly softwarového projektu určuj
 
 Proto je důležitou návrhovou zásadou snaha snížit závislost modulů na minimum. Je zřejmé, že závislost mezi moduly vždy existuje (jinak by neměl modulární návrh smysl). Proto nelze striktně říci, do jaké míry smí/nesmí být moduly na sobě závislé.
 
-V~\cite{wiki:coupling} a \cite{STVR:STVR162} (podrobnější a formálnější definice) je podáván přehled úrovní závislosti jednoho modulu na druhém. Následující zjednodušený seznam úrovní závislostí je seřazen od nejvyšší fromy závislosti po nejnižší:
+V~\cite{wiki:coupling} a \cite{STVR:STVR162} (podrobnější a formálnější definice) je podáván přehled úrovní závislosti jednoho modulu na druhém. Následující zjednodušený seznam úrovní závislostí je seřazen od nejvyšší formy závislosti po nejnižší:
 
-\paragraph{Content coupling (nejvyšší forma závislosti)} Jeden modul modifikuje jiný modul nebo se spoléhá na vnitřní fungování jiného modulu (např. přístup k~lokálním datům jiného modulu). V~důsledku platí, že změní-li se způsob, kterým tento druhý modul produkuje data (umístění, typ, časování), povede to zcela jiste ke změnám v~závislém modulu.
+\paragraph{Content coupling (nejvyšší forma závislosti)} Jeden modul modifikuje jiný modul nebo se spoléhá na vnitřní fungování jiného modulu (např. přístup k~lokálním datům jiného modulu). V~důsledku platí, že změní-li se způsob, kterým tento druhý modul produkuje data (umístění, typ, časování), povede to zcela jistě ke změnám v~závislém modulu.
 
 \paragraph{Common coupling} Dva moduly sdílí stejná globální data (např. globální proměnnou), změna sdíleného globálního zdroje implikuje změny všech modulů, které je používají.
 
@@ -126,7 +126,7 @@ V~\cite{wiki:coupling} a \cite{STVR:STVR162} (podrobnější a formálnější d
 
 \vspace{1.0cm}
 
-Cílem návrhu je snižovat co nejvíce míru závislosti modulů. Protože se ale jedná o~kvantitativní záležitost, nejsme schopni určit zcela přesná pravidla, která musí platit nebo která lze vynutit. U~některých typů programů může být akceptovatelý i \emph{content coupling} z~výkonnostních důvodů\footnote{Nízká vazba implikuje téměř vždy snížení výkonu z~důvodu nutnosti dalších mechanismů, které zprostředkovávájí komunikaci mezi moduly (např. \emph{message passing} mechanismus).}, naopak u~jiných systémů může být nízká vazba (\emph{message coupling}) dána již návrhem (např. CORBA, web services, atd.).
+Cílem návrhu je snižovat co nejvíce míru závislosti modulů. Protože se ale jedná o~kvantitativní záležitost, nejsme schopni určit zcela přesná pravidla, která musí platit nebo která lze vynutit. U~některých typů programů může být akceptovatelný i \emph{content coupling} z~výkonnostních důvodů\footnote{Nízká vazba implikuje téměř vždy snížení výkonu z~důvodu nutnosti dalších mechanismů, které zprostředkovávají komunikaci mezi moduly (např. \emph{message passing} mechanismus).}, naopak u~jiných systémů může být nízká vazba (\emph{message coupling}) dána již návrhem (např. CORBA, web services, atd.).
 
 \subsubsection{High cohesion (vysoká koheze/soudržnost)}
 Pojmem \emph{koheze} je označována míra, jak silně související/příbuzná je funkcionalita vyjádřená modulem programu \cite{wiki:cohesion}. Existují různé přístupy k měření této metriky, od kvalitativních, vyjadřujících se pomocí slovních ohodnocení, po kvantitativní, vyjadřující míru soudržnosti kódu pomocí čísel.
@@ -143,7 +143,7 @@ Nevýhodou nízké koheze je:
 \begin{itemize}
 \item obtížnější porozumění modulům,
 \item obtížnější údržbu systému -- logické změny v řešené doméně ovlivňují více modulů a také proto, že změny v jednom modulu vyžadují změny v modulu jiném,
-\item otížnější znovupoužití modulu -- většina aplikací nepotřebuje náhodnou množinu operací, kterou modul poskytuje.
+\item obtížnější znovupoužití modulu -- většina aplikací nepotřebuje náhodnou množinu operací, kterou modul poskytuje.
 \end{itemize}
 
 Kohezi můžeme uvažovat na různých úrovních. Jako úroveň můžeme zvolit např. metodu, třídu, balíček, modul nebo projekt. Program může mít vysokou kohezi na úrovni tříd (metody jsou dobře seskupené ve třídách podle funkcionality a pracují nad shodnými daty), zatímco na úrovni balíčků může vykazovat nižší kohezi (třídy v rámci balíčku spolu logicky nesouvisí).
@@ -156,7 +156,7 @@ Problematikou soudržnosti programových modulů se zabývá článek \cite{Kang
 
 \paragraph{Logical association} Oba elementy provádějící zpracování patří do stejné logické třídy příbuzných funkcí.
 
-\paragraph{Temporal association} Každý výskyt obou elementů provadějících zpracování je v~tom samém omezeném časovém období při provádění programu.
+\paragraph{Temporal association} Každý výskyt obou elementů provádějících zpracování je v~tom samém omezeném časovém období při provádění programu.
 
 \paragraph{Procedural association} Oba elementy provádějící zpracování jsou elementy stejné procedurální jednotky, která je iterativním nebo rozhodovacím procesem.
 
@@ -177,7 +177,7 @@ Problematikou soudržnosti programových modulů se zabývá článek \cite{Kang
 %% Demeter: Aspect-Oriented Software Development -- http://www.ccs.neu.edu/research/demeter/
 %% A case for statically executable advice: checking the law of demeter with AspectJ -- http://portal.acm.org/citation.cfm?id=643603.643608
 
-Existuje několik forem Demeterova zákona \cite{35588}, které jsou vhodné pro různé oblasti aplikace. Tyto typy jsou znázorněny na obrázku \ref{demeter_law_types}. V~\cite{35588} se též pojednává o~demeterově zákoně z~jiného úhlu -- uvažují se všechny možné třídy, které lze volat bez porušení tohto principu (tzv. preferred suppliers).
+Existuje několik forem Demeterova zákona \cite{35588}, které jsou vhodné pro různé oblasti aplikace. Tyto typy jsou znázorněny na obrázku \ref{demeter_law_types}. V~\cite{35588} se též pojednává o~Demeterově zákoně z~jiného úhlu -- uvažují se všechny možné třídy, které lze volat bez porušení tohoto principu (tzv. preferred suppliers).
 
 \begin{figure}[h!]
   \centering
@@ -239,7 +239,7 @@ V rámci této sekce se podíváme nejprve na to, z čeho se skládá softwarov�
 \subsection{Statický model programu v~Javě}
 Vstupem pro validační systém budou zdrojové kódy existujícího Java projektu ve vhodné podobě. Jedná se vlastně o fyzický model programu. V případě Java projektu sestává tento model z nějaké množiny souborů, které obsahují data různých typů. První podsekce této sekce se zabývá typy souborů, které se mohou vyskytnout v projektu, ve druhé podsekci je potom rozebírán obsah a formát souborů programovacího jazyka Java.
 
-Zastavme se ještě nad pojmem \emph{fyzický model} programu. Tento model je zpravidla výsledkem vhodné transformace (ať už automatizované nebo ruční) nějakého předešlého modelu (většinou UML model, textová specifikace atd.). S tímto modelem můžeme dále pracovat a provádět nad ním transformace. To je ostatně cílem různých nástrojů pro refaktoring a automatizované zvyšování kvality kódu. Konkrétně refactoring je příkladem endogenní horizontální transformace (zdrojový i cílový metamodel je shodný a úroveň abstrakce zůstává nezměněna) \cite{Mens05ataxonomy}.
+Zastavme se ještě nad pojmem \emph{fyzický model} programu. Tento model je zpravidla výsledkem vhodné transformace (ať už automatizované nebo ruční) nějakého předešlého modelu (většinou UML model, textová specifikace atd.). S tímto modelem můžeme dále pracovat a provádět nad ním transformace. To je ostatně cílem různých nástrojů pro refaktoring a automatizované zvyšování kvality kódu. Konkrétně refactoring je příkladem endogenní horizontální transformace (zdrojový i cílový meta-model je shodný a úroveň abstrakce zůstává nezměněna) \cite{Mens05ataxonomy}.
 
 \subsubsection{Struktura softwarového projektu v~Javě}
 Existuje velké množství způsobů, kterými jsou organizovány softwarové projekty. Téměř každé Java IDE má navíc svůj vlastní formát, ve kterém ukládá metadata o projektu. Přesto všechny tyto projekty zahrnují stejnou podmnožinu konkrétních zdrojových souborů, z nichž se skládá vlastní softwarový projekt. Podívejme se, jaké soubory můžeme nalézt v běžném java projektu:
@@ -252,11 +252,11 @@ Existuje velké množství způsobů, kterými jsou organizovány softwarové pr
 \item dokumentace (\verb+javadoc+, uživatelská příručka),
 \item soubory gramatik pro parsery a \emph{compiler-compiler} systémy (např. pro \verb+lex+, \verb+flex+, \verb+javacc+, \verb+antlr+),
 \item šablony (typické třeba pro webové projekty, \verb+*.xhtml+ a jiné přípony),
-\item konfigurační soubory (zpravidla \verb+*.xml+ soubory, často odkazují konkrétní třídy progamovacího jazyka Java),
+\item konfigurační soubory (zpravidla \verb+*.xml+ soubory, často odkazují konkrétní třídy programovacího jazyka Java),
 \item jiné soubory
 \end{itemize}
 
-Pro potřeby této práce jsou podstané v zásadě pouze soubory obsahující zdrojový kód -- soubory \verb+*.java+. Při analýze nebudeme program spouštět nebo uvažovat jeho dynamické chování (běh). Bude se jednat o analýzu statického stavu programu (analýza struktury). Práce bude probíhat nad definicemi tříd, nikoliv nad jejich instancemi v~paměti JVM. Nejsou tedy uvažovány všechny možné běhové instance programu (všechny možné stavy objektů v~paměti virtuálního stroje).
+Pro potřeby této práce jsou podstaní v zásadě pouze soubory obsahující zdrojový kód -- soubory \verb+*.java+. Při analýze nebudeme program spouštět nebo uvažovat jeho dynamické chování (běh). Bude se jednat o analýzu statického stavu programu (analýza struktury). Práce bude probíhat nad definicemi tříd, nikoliv nad jejich instancemi v~paměti JVM. Nejsou tedy uvažovány všechny možné běhové instance programu (všechny možné stavy objektů v~paměti virtuálního stroje).
 
 Projekt může záviset na velkém množství dalších tříd, které nejsou součástí zdrojových kódů projektu. Tyto třídy zpracovávat nebudeme. Jedná se například o:
 
@@ -289,16 +289,16 @@ Pro analýzu založenou na vyhledávání závislostí mezi třídami pro nás b
 \end{figure}
 
 \subsection{Zpracovávání zdrojových kódů v~jazyce Java}
-Protože navrhované ověřované principy přesahují rámec jedné kompilační jednotky, je nutné provést vhodné předzpracování zrojových kódů tak, aby bylo možné analyzovat vztahy částí kódu i mezi jednotlivými kompilačními jednotkami.
+Protože navrhované ověřované principy přesahují rámec jedné kompilační jednotky, je nutné provést vhodné předzpracování zdrojových kódů tak, aby bylo možné analyzovat vztahy částí kódu i mezi jednotlivými kompilačními jednotkami.
 
-V principu to znamená provést podobnou množinu operací, jakou provádí první kompilátor jazyka Java při kompilaci \cite{hackers_guide_to_javac}. Ten nejprve načte všechny \verb+*.java+ soubory a namapuje sekvence tokenů na uzly AST stromu. Následně vloží všechny nalezené symboly do tabulky symbolů (např. jména datových typů, proměnných atd.). Provede zpracování anotací nalezených v kompilačních jednotkách. Ve fázi \emph{attribute} jsou provedeny operace jako rozlišení jmen, kontrola datových typů a zjednodušení konstatních výrazů. Následuje kontrola datových toků v programu (pracuje na stromu získaném v předchozích krocích), která má za cíl určit např. nedostupné části zdrojového kódu (po příkazu return apod.). Předposlední fáze \emph{desugar} přepíše AST a zjednoduší některé výrazy používané jako \uv{syntaktický cukr} na jednodušší výrazy. Na závěr provede kompilátor vlastní vygenerování zdrojových kódů nebo class souborů.
+V principu to znamená provést podobnou množinu operací, jakou provádí první kompilátor jazyka Java při kompilaci \cite{hackers_guide_to_javac}. Ten nejprve načte všechny \verb+*.java+ soubory a namapuje sekvence tokenů na uzly AST stromu. Následně vloží všechny nalezené symboly do tabulky symbolů (např. jména datových typů, proměnných atd.). Provede zpracování anotací nalezených v kompilačních jednotkách. Ve fázi \emph{attribute} jsou provedeny operace jako rozlišení jmen, kontrola datových typů a zjednodušení konstantních výrazů. Následuje kontrola datových toků v programu (pracuje na stromu získaném v předchozích krocích), která má za cíl určit např. nedostupné části zdrojového kódu (po příkazu return apod.). Předposlední fáze \emph{desugar} přepíše AST a zjednoduší některé výrazy používané jako \uv{syntaktický cukr} na jednodušší výrazy. Na závěr provede kompilátor vlastní vygenerování zdrojových kódů nebo class souborů.
 
 Pro provedení analýzy nám postačí zdrojové kódy zpracované do fáze \emph{attribute}. Jedná se o AST s rozlišenými jmény datových typů a proměnných. Nad těmito stromy můžeme dále pracovat.
 
 Podívejme se nyní, jakými prostředky je možné tuto reprezentaci získat:
 
 \subsubsection{Vlastní kód pro zpracovávání zdrojových kódů}
-Samozřejmě je možné napsat pro zpracování zdrojových kódů vlastní nástroj. Zahrnovalo by to vytvoření lexikálního analyzátoru (tokenizer), syntaktického parseru (zásobníkový automat) a dalších mechanismů pro vybudování AST, rozlišení jmen, navázání promenných a realizaci velkého množství dalších operací.
+Samozřejmě je možné napsat pro zpracování zdrojových kódů vlastní nástroj. Zahrnovalo by to vytvoření lexikálního analyzátoru (tokenizer), syntaktického parseru (zásobníkový automat) a dalších mechanismů pro vybudování AST, rozlišení jmen, navázání proměnných a realizaci velkého množství dalších operací.
 
 Jedná se však o velmi náročný a rozsáhlý systém, jehož rozsah by překračoval nejen rámec této práce, ale i rámec schopnosti jednotlivce realizovat takovou práci v rozumném čase.
 
@@ -318,11 +318,11 @@ Pro většinu \emph{compiler-compiler} nástrojů existuje velké množství vst
 Při použití některého z výše uvedených nástrojů bychom se dostali na úroveň vygenerovaného AST stromu. Pro potřeby analýzy je však nutné provést ještě rozlišení jmen. To by bylo nutné provést ručně. Jedná se stále o dost náročnou operaci.
 
 \subsubsection{Použití vhodné knihovny nebo existujícího programu}
-Další možností jsou existující knihovny a nástroje pro zpracování kodů v jazyce Java.
+Další možností jsou existující knihovny a nástroje pro zpracování kódů v jazyce Java.
 
 Jako příklad můžeme uvést knihovnu \emph{JavaParser} \cite{parsertools:javaparser}. Jedná se o samostatný java projekt, který je možné zaintegrovat prostřednictvím nástroje Maven do vlastního projektu. Při bližším prozkoumání zjistíme, že se jedná vlastně o aplikaci nástroje JavaCC (resp. JJTree) distribuovaného spolu s gramatikou jazyka Java 1.5.
 
-Jiným nástrojem je \emph{spoon} \cite{parsertools:spoon}. Je to volně dostupný nástroj, preprocesor kódu v jazyce Java. Poskytuje úplný a detailní metamodel jazyka Java, kde každý element může být jak čten tak i modifikován. Dalším významným faktem je integrace nástroje do platformy Eclipse formou pluginu.
+Jiným nástrojem je \emph{spoon} \cite{parsertools:spoon}. Je to volně dostupný nástroj, preprocesor kódu v jazyce Java. Poskytuje úplný a detailní meta-model jazyka Java, kde každý element může být jak čten tak i modifikován. Dalším významným faktem je integrace nástroje do platformy Eclipse formou pluginu.
 
 Zatímco nástroj \emph{JavaParser} neprovádí rezoluci jmen, nástroj \emph{spoon} vnitřně deleguje parsování a attribution na \verb+javac+ kompiler. Proto se v dalších sekcích zaměříme na možnost využití některého z nástrojů, které podobným způsobem poskytují zpracování až do požadované fáze.
 
@@ -352,12 +352,12 @@ Jazyk Java od verze 6 poskytuje zajímavé možnosti integrace volání kompilá
 Pomocí těchto nástrojů je možné získat poměrně snadno přístup do průběhu zpracování zdrojového kódu pomocí \verb+javac+ compileru. Přístup však je na úrovni zpracovávání anotací (viz výše) a probíhá po částech (rounds). Nemáme tak k dispozici plný AST strom, nad kterým by byla již provedena fáze \emph{attribute} \cite{hackers_guide_to_javac}.
 
 \subsubsection{Použití prostředků některého z Java IDE}
-Většina majoritních integrovaných prostředí pro vývoj v jazyce Java (IntelliJ Idea, Eclipse, NetBeans) provádí rozsáhlou kontrolu zdrojových kódů přímo během psaní. Programátor je upozořňován na to, že některá metoda nebo třída není definována nebo je definována s jinými parametry. A to v případě, že daná třída se nachází ve zcela jiné kompilační jednotce.
+Většina majoritních integrovaných prostředí pro vývoj v jazyce Java (IntelliJ Idea, Eclipse, NetBeans) provádí rozsáhlou kontrolu zdrojových kódů přímo během psaní. Programátor je upozorňován na to, že některá metoda nebo třída není definována nebo je definována s jinými parametry. A to v případě, že daná třída se nachází ve zcela jiné kompilační jednotce.
 
 To je ale přesně to, co potřebujeme pro naši práci. Proto byla provedena rešerše v této oblasti. Byly nalezeny dva základní nástroje, které je možné použít. Jedná se o  platformu Eclipse a platformu NetBeans.
 
-Platforma Eclipse poskytuje rozhraní, které reprezentuje java projekt jako DOM prostřednitvím balíčku \verb+org.eclipse.jdt.core.dom+ \cite{parsertools:eclipsejdt}. Poskytovaný AST je možné procházet i modifikovat.
+Platforma Eclipse poskytuje rozhraní, které reprezentuje java projekt jako DOM prostřednictvím balíčku \verb+org.eclipse.jdt.core.dom+ \cite{parsertools:eclipsejdt}. Poskytovaný AST je možné procházet i modifikovat.
 
 Podobnou podporou poskytuje i platforma NetBeans. Ta vnitřně používá instanci \verb+javac+ kompilátoru. Přístup k AST v libovolné fázi (před resolvováním jmen i po této fázi) poskytuje prostřednictvím svého \emph{Java Source API} \cite{parsertools:javasourcejavadoc}.
 
-Výhodou použití některé z existujích platforem je navíc možnost přímé integrace do vývojového prostředí. Nevýhodou je ovšem svázanost s tímto prostředím. To se však dá zčásti řešit vhodným návrhem jádra systému, keré může být realizováno tak, aby bylo na platformě zcela nezávislé a závislost na platformě byla přidávána až integrací do konkrétního prostředí.
+Výhodou použití některé z existujících platforem je navíc možnost přímé integrace do vývojového prostředí. Nevýhodou je ovšem svázanost s tímto prostředím. To se však dá zčásti řešit vhodným návrhem jádra systému, které může být realizováno tak, aby bylo na platformě zcela nezávislé a závislost na platformě byla přidávána až integrací do konkrétního prostředí.
