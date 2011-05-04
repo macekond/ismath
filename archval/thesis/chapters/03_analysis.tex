@@ -193,12 +193,13 @@ Uveďme nyní \emph{striktní třídní formu} pravidla \emph{Law of Demeter}:
 Tento princip budeme implementovat jako ukázkové pravidlo vyvíjeného systému. Díky tomu, že je definováno na třídách a nikoliv na objektech je možné jej použít přímo nad vhodně předzpracovanými zdrojovými kódy v programovacím jazyce Java.
 
 \subsection{Ukázky kódu porušujícího některá z~pravidel}
-% TODO: napsat úvodní text této sekce
+Abychom demonstrovali, jak vypadá kód, který není vyhovující z hlediska návrhu, pojďme se podívat na ukázky porušení návrhových principů. U principu \emph{LoD} můžeme uvažovat konkrétní porušení. Pro \emph{low coupling} a \emph{high cohesion} se můžeme podívat na rozdíly mezi \emph{úrovněmi vazby} a \emph{koheze}.
 
 \subsubsection{Porušení principu law of Demeter}
+Podívejme se na nejtypičtější ukázku porušení LoD, která je uváděna v \cite{lod:paperboy}. Zde autor demonstruje porušení principu LoD a současně modeluje reálnou situaci. Je patrné, že dodržení LoD vede k přirozenějšímu mapování reálných objektů na objekty v programovacím jazyce.
 
-% TODO: find some better (real world) example of demeter law violation on the web
-% TODO: vložit ukázku s Paperboyem a ocitovat
+První částí ukázky je jednoduchá datová třída modelující zákazníka:
+
 \lstset{
   basicstyle=\ttfamily,
   numbers=left,
@@ -206,23 +207,67 @@ Tento princip budeme implementovat jako ukázkové pravidlo vyvíjeného systém
   commentstyle=\color{gray}\textit
 }
 \begin{lstlisting}[language=java]
-  package violations;
+public class Customer {
 
-  public class DemeterLawViolation {
+    private String firstName;
+    private String lastName;
+    private Wallet myWallet;
 
-    void method(MyClass obj, int val) {
-
-      obj.getSomeInternalField().setValue(val);
-
-      // hidden violation:
-      InternalFieldDef internalField =
-      obj.getSomeInternalField();
-      internalField.setValue(val);
-
+    public String getFirstName(){
+        return firstName;
     }
 
-  }
+    public String getLastName(){
+        return lastName;
+    }
+
+    public Wallet getWallet(){
+        return myWallet;
+    }
+}
 \end{lstlisting}
+
+Třída \verb+Wallet+ má následující definici:
+
+\begin{lstlisting}[language=java]
+public class Wallet {
+
+    private float value;
+
+    public float getTotalMoney() {
+        return value;
+    }
+
+    public void setTotalMoney(float newValue) {
+        value = newValue;
+    }
+
+    public void addMoney(float deposit) {
+        value += deposit;
+    }
+
+    public void subtractMoney(float debit) {
+        value -= debit;
+    }
+}
+\end{lstlisting}
+
+Kód pro zaplacení prodavači novin potom vypadá takto:
+\begin{lstlisting}
+// code from some method inside the Paperboy class
+payment = 2.0; // I want my two dollars!
+
+Wallet theWallet = myCustomer.getWallet();
+if (theWallet.getTotalMoney() > payment) {
+    theWallet.subtractMoney(payment);
+} else {
+    // come back later and get my money
+}
+\end{lstlisting}
+
+Autor výše uvedene ukázky dále rozebírá, že je chybné předpokládat, že si od nás vezme pouliční prodavač novin naši peněženku, vezme si z ní patřičný obnos a pěněženku nám opět vrátí. Celá situace je vyřešena přidáním nové třídy reprezentující platbu a speciální metodou \verb+getPayment+ třídy \verb+Customer+. Zákazník se tak o svou peněženku stará sám a prodavači pouze předá požadovaný obnos.
+
+Ukázka nevyhoví definované class verzi principu LoD. Kód který se stará o získání platby podle všeho dostává referenci na zákazníka. Na základě této reference získá referenci na objekt třídy \verb+Wallet+. A právě objekt třídy \verb+Wallet+ nespadá ani do jedné z kategorií povolených dodavatelů funkcionality (není třídou třídní proměnné, ani třídou předávanou v parametrech, není ve třídě konstruován a není ani globální proměnnou).
 
 \subsubsection{Ukázka kódu s příliš vysokou úrovní závislosti}
 % TODO: find some good example
@@ -297,7 +342,7 @@ Podívejme se nyní, jakými prostředky je možné tuto reprezentaci získat:
 \subsubsection{Vlastní kód pro zpracovávání zdrojových kódů}
 Samozřejmě je možné napsat pro zpracování zdrojových kódů vlastní nástroj. Zahrnovalo by to vytvoření lexikálního analyzátoru (tokenizer), syntaktického parseru (zásobníkový automat) a dalších mechanismů pro vybudování AST, rozlišení jmen, navázání proměnných a realizaci velkého množství dalších operací.
 
-Jedná se však o velmi náročný a rozsáhlý systém, jehož rozsah by překračoval nejen rámec této práce, ale i rámec schopnosti jednotlivce realizovat takovou práci v rozumném čase.
+Jedná se však o velmi náročný a rozsáhlý systém, jehož rozsah by překračoval nejen rámec této práce, ale i možnosti jednotlivce realizovat takovou práci v rozumném čase.
 
 \subsubsection{Použití compiler-compiler systému}
 Pro zpracování zdrojových kódů a různě formátovaného textu se často používá tzv \emph{compiler-compiler} systémů. Tyto systémy vygenerují jak lexikální analyzátor, tak syntaktický parser na základě vhodného popisu. Zpravidla se jedná o popis ve formě BNF nebo EBNF gramatiky. Často je možné na základě specifikovaných pravidel vygenerovat i AST vhodný pro další zpracovávání.
