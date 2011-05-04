@@ -1,3 +1,0 @@
-Manifest-Version: 1.0
-OpenIDE-Module-Localizing-Bundle: fel/cvut/cz/archval/input_processor/Bundle.properties
-OpenIDE-Module-Layer: fel/cvut/cz/archval/input_processor/layer.xml

@@ -1,3 +1,0 @@
-Manifest-Version: 1.0
-OpenIDE-Module-Localizing-Bundle: cz/cvut/fel/archval/Bundle.properties
-OpenIDE-Module-Layer: cz/cvut/fel/archval/layer.xml
