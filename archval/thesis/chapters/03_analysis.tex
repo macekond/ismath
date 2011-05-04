@@ -100,7 +100,7 @@ Ukázkové návrhové principy a vztahy mezi nimi jsou znázorněny na obrázku 
 
 Závislost/vazba (coupling/dependency) mezi moduly softwarového projektu určuje, do jaké míry se jeden modul spoléhá na každý z~ostatních modulů \cite{wiki:coupling}. Zatímco některé moduly spolu vůbec nekomunikují (nemají žádnou závislost), jiné se spoléhají nejen na rozhraní ostatních modulů, ale mnohdy i na jejich vnitřní fungování, způsob reprezentace dat, časování atd. Důsledkem vyšší závislosti je potom nutnost rozsáhlých úprav v~mnoha modulech i při úpravě naprostých drobností v~jednom konkrétním modulu.
 
-Proto je důležitou návrhovou zásadou snaha snížit provázanost modulů na minimum. Je zřejmé, že provázanost modulů vždy existuje (jinak by neměl modulární návrh smysl). Proto nelze striktně říci, do jaké míry smí/nesmí být moduly provázané.
+Proto je důležitou návrhovou zásadou snaha snížit závislost modulů na minimum. Je zřejmé, že závislost mezi moduly vždy existuje (jinak by neměl modulární návrh smysl). Proto nelze striktně říci, do jaké míry smí/nesmí být moduly na sobě závislé.
 
 V~\cite{wiki:coupling} a \cite{STVR:STVR162} (podrobnější a formálnější definice) je podáván přehled úrovní závislosti jednoho modulu na druhém. Následující zjednodušený seznam úrovní závislostí je seřazen od nejvyšší fromy závislosti po nejnižší:
 
@@ -116,7 +116,7 @@ V~\cite{wiki:coupling} a \cite{STVR:STVR162} (podrobnější a formálnější d
 
 \paragraph{Scalar data coupling} Moduly sdílí data pomocí parametrů. Každý parametr je elementární datový typ a jedná se o~jediná data, která jsou sdílená (např. předávání celočíselné hodnoty funkci, která spočítá jeho druhou mocninu). Modul, kterému jsou předávány parametry, jich používá pouze k~výpočtu hodnoty a nikoliv pro rozhodování řízení toku programu.
 
-\paragraph{Message coupling (nejnižší forma závislosti)} Moduly jsou provázané pouze pomocí posílání zpráv (message passing). Jedná se o~nejnižší úroveň závislosti. Moduly o~sobě navzájem nemusí mít žádnou znalost. Moduly nepoužívají vzájemně žádné předávání parametrů, nemají žádné sdílené reference na objekty nebo globální data.
+\paragraph{Message coupling (nejnižší forma závislosti)} Moduly jsou komunikují pouze pomocí posílání zpráv (message passing). Jedná se o~nejnižší úroveň závislosti. Moduly o~sobě navzájem nemusí mít žádnou znalost. Moduly nepoužívají vzájemně žádné předávání parametrů, nemají žádné sdílené reference na objekty nebo globální data.
 
 \paragraph{Independent coupling/No coupling} Mezi moduly není žádná závislost. Moduly spolu vůbec nekomunikují a nejsou zde žádné sdílené reference na proměnné nebo reference na externí data sdílená mezi moduly.
 
@@ -126,27 +126,31 @@ V~\cite{wiki:coupling} a \cite{STVR:STVR162} (podrobnější a formálnější d
 
 \vspace{1.0cm}
 
-Cílem návrhu je snižovat co nejvíce míru závislosti modulů. Protože se ale jedná o~kvantitativní záležitost, nejsme schopni určit zcela přesná pravidla, která musí platit nebo která lze vynutit. U~některých typů programů může být akceptovatelý i \emph{content coupling} z~výkonnostních důvodů\footnote{Nízká provázanost implikuje téměř vždy snížení výkonu z~důvodu nutnosti dalších mechanismů, které zprostředkovávájí komunikaci mezi moduly (např. \emph{message passing} mechanismus).}, naopak u~jiných systémů může být nízká provázanost (\emph{message coupling}) dána již návrhem (např. CORBA, web services, atd.).
+Cílem návrhu je snižovat co nejvíce míru závislosti modulů. Protože se ale jedná o~kvantitativní záležitost, nejsme schopni určit zcela přesná pravidla, která musí platit nebo která lze vynutit. U~některých typů programů může být akceptovatelý i \emph{content coupling} z~výkonnostních důvodů\footnote{Nízká vazba implikuje téměř vždy snížení výkonu z~důvodu nutnosti dalších mechanismů, které zprostředkovávájí komunikaci mezi moduly (např. \emph{message passing} mechanismus).}, naopak u~jiných systémů může být nízká vazba (\emph{message coupling}) dána již návrhem (např. CORBA, web services, atd.).
 
 \subsubsection{High cohesion (vysoká koheze/soudržnost)}
+Pojmem \emph{koheze} je označována míra, jak silně související/příbuzná je funkcionalita vyjádřená modulem programu \cite{wiki:cohesion}. Existují různé přístupy k měření této metriky, od kvalitativních, vyjadřujících se pomocí slovních ohodnocení, po kvantitativní, vyjadřující míru soudržnosti kódu pomocí čísel.
 
+Moduly s vysokou kohezí jsou zpravidla preferovány, protože jejich vlastnosti implikují \uv{dobré} vlastnosti návrhu včetně stability, spolehlivosti, znovupoužitelnosti a srozumitelnosti, zatímco moduly s nízkou kohezí je obtížné udržovat a testovat.
 
-% TODO: úrovně koheze -- koheze na úrovni metody, třídy, balíčku, modulu, projektu
-% TODO: rozdělení metody pro lepší testovatelnost
-Wikipedia \cite{wiki:cohesion}:
+Ke snížení koheze dochází když:
 \begin{itemize}
-\item míra, jak silně související je funkčnost vyjádřená zdrojovým kódem konkrétního modulu
+\item funkcionalita vyjádřená třídou, ke které přistupujeme pomocí metod, nemá mnoho společného
+\item metody provádějí velké množství rozdílných aktivit často nad rozsáhlými nebo nesouvisejícími daty
 \end{itemize}
 
-Článek \cite{Kang:1996:DCM:872750.873361}:
+Nevýhodou nízké koheze je:
 \begin{itemize}
-\item association-based approach (coincidental, logical, \ldots),
-\item slice-based approach,
-\item def-use paths,
-\item velmi exaktní přístup.
+\item obtížnější porozumění modulům,
+\item obtížnější údržbu systému -- logické změny v řešené doméně ovlivňují více modulů a také proto, že změny v jednom modulu vyžadují změny v modulu jiném,
+\item otížnější znovupoužití modulu -- většina aplikací nepotřebuje náhodnou množinu operací, kterou modul poskytuje.
 \end{itemize}
 
-Článek \cite{ISI:000079726000029} uvádí dělení koheze podle tzv SMC\footnote{Podle původních autorů Stevens, Myers a Constantine.} Cohesion:
+Kohezi můžeme uvažovat na různých úrovních. Jako úroveň můžeme zvolit např. metodu, třídu, balíček, modul nebo projekt. Program může mít vysokou kohezi na úrovni tříd (metody jsou dobře seskupené ve třídách podle funkcionality a pracují nad shodnými daty), zatímco na úrovni balíčků může vykazovat nižší kohezi (třídy v rámci balíčku spolu logicky nesouvisí).
+
+Problematikou soudržnosti programových modulů se zabývá článek \cite{Kang:1996:DCM:872750.873361}, který představuje dvě různé metriky používané k jejímu měření.
+
+Článek \cite{ISI:000079726000029} uvádí dělení koheze podle tzv. SMC\footnote{Podle původních autorů Stevens, Myers a Constantine.} Cohesion. Míra koheze je vyjádřena na základě typu asociace mezi procesními elementy (seřazeno od nejnižší úrovně koheze po nejvyšší):
 
 \paragraph{Coincidental association} Neexistuje souvislost mezi elementy provádějícími zpracování.
 
@@ -163,6 +167,8 @@ Wikipedia \cite{wiki:cohesion}:
 \paragraph{Functional association} Oba elementy jsou nezbytné pro provedení jedné funkce/operace.
 
 \subsubsection{Law of Demeter}
+
+% TODO: complete this section
 
 %% Adaptive Object-Oriented Software The Demeter Method -- http://www.google.cz/url?sa=t&source=web&cd=3&sqi=2&ved=0CCoQFjAC&url=http%3A%2F%2Fciteseerx.ist.psu.edu%2Fviewdoc%2Fdownload%3Fdoi%3D10.1.1.94.8349%26rep%3Drep1%26type%3Dpdf&rct=j&q=demeter%20software%20object%20oriented&ei=MeTOTPihHI7AswbpufiWCA&usg=AFQjCNHnRixmCYTZrJVPF2OCEcbooajq4A&cad=rja
 %% The Law of Demeter Is Not A Dot Counting Exercise -- http://bit.ly/9tCObJ]] - pěkný popularizační článek na úvod
@@ -282,72 +288,9 @@ Pro analýzu založenou na vyhledávání závislostí mezi třídami pro nás b
   \caption{Rozklad elementu TypeDeclaration.\label{type_declaration_options}}
 \end{figure}
 
-\subsection{Existující nástroje pro zpracování zdrojových kódů v~jazyce Java}
+\subsection{Problematika zpracovávání zdrojových kódů v~jazyce Java}
 
-% TODO: write some leading text
-
-Možnosti zpracovávání kódu:
-
-% TODO: roztřídit a vyházet nesmysly, použít jinou vhodnější strukturu místo itemize (např. strukturovaný text)
-\begin{itemize}
-\item vlastní hand-written lexikální a syntaktický analyzátor (zbytečně náročné)
-\item parser vygenerovaný pomocí některého z~dostupných compiler-compiler systémů
-  \begin{itemize}
-  \item tyto systémy na základě vstupní gramatiky vygenerují frontend pro překladač
-  \item lze specifikovat různé akce, které jsou navázány na události vyvolané v~průběhu syntaktické analýzy
-  \item \emph{JavaCC} \cite{parsertools:javacc}
-    \begin{itemize}
-    \item součástí je nástroj \emph{JJTree}, který je schopen vygenerovat AST pro další práci
-    \end{itemize}
-  \item \emph{JastAdd} \cite {parsertools:jastadd}
-  \item \emph{JLex} \cite{parsertools:jlex}
-    \begin{itemize}
-    \item A~Lexical Analyzer Generator for Java(TM)
-    \end{itemize}
-  \item JFlex \cite{parsertools:jflex}
-    \begin{itemize}
-    \item The Fast Scanner Generator for Java
-    \end{itemize}
-  \end{itemize}
-\item použití vhodné knihovny
-  \begin{itemize}
-  \item JavaParser \cite{parsertools:javaparser}
-    \begin{itemize}
-    \item projekt na GoogleHosting
-    \item v~podstatě gramatika pro JJTree vytvářející strom tříd a objektů, který je možné procházet pomocí visitor patternu
-    \end{itemize}
-  \end{itemize}
-\item použití prostředků platformy NetBeans \cite{parsertools:javasourcejavadoc}
-  \begin{itemize}
-  \item Java Source API
-  \end{itemize}
-\item použití prostředků poskytovaných platformou Java 6 (Sun verze) \cite{source_code_analysis_corejavatechtips}
-  \begin{itemize}
-  \item \emph{JSR 199 -- Java Compiler API}
-    \begin{itemize}
-    \item volání překladače jazyka Java pomocí API ze zdrojového kódu programu
-    \item balíček \verb+javax.tools+
-    \end{itemize}
-  \item \emph{JSR 269 -- Pluggable Annotation Processing API}
-    \begin{itemize}
-    \item možnost přidání vlastního kódu pro zpracovávání anotací/kódu do instance překladače
-    \item balíček \verb+javax.annotation.processing+ -- zpracovávání anotací
-    \item balíček \verb+javax.lang.model+ -- třídy poskytující model pro syntaktické elementy jazyka Java
-    \end{itemize}
-  \item \emph{Compiler Tree API} \cite{parsertools:compilertreeapi}
-    \begin{itemize}
-    \item nestandardní rozšíření Java JDK
-    \item balíček \verb+com.sun.source.tree+ -- poskytuje rozhraní pro reprezentaci zdrojového kódu jako AST
-    \item balíček \verb+com.sun.source.util+ -- poskytuje rozhraní pro operace nad AST
-    \end{itemize}
-  \end{itemize}
-\item použití prostředků, které jsou k~dispozici pro platformu Eclipse
-  \begin{itemize}
-  \item org.eclipse.jdt.core.dom package
-  \item spoon \cite{parsertools:spoon}
-  \end{itemize}
-\end{itemize}
-
+Do jaké podoby je potřeba předzpracovat zdrojový kód jazyka Java, aby nad ním mohly být prováděny operace validace a analýzy?
 % TODO: zatřídit:
 %% Důležité části zpracování kódu:
 %% \begin{itemize}
@@ -365,52 +308,69 @@ Možnosti zpracovávání kódu:
 %% \item modifikátory přístupu (private, public, protected, package private) -- možnost \uv{ořezat} graf závislosti tříd -- je možné, že pro některé druhy analýzy bude toto nežádoucí.
 %% \end{itemize}
 
-% TODO: zatřídit || smazat
-%% Úrovně na nichž je možné provádět validaci správného návrhu:
-%% \begin{itemize}
-%% \item design level -- analýza správného návrhu softwarového díla (pracuje se na konceptuální úrovni, ještě není hotový kód)
-%% \item code level -- analýza existujícího kódu z~pohledu návrhu (již máme kód, ale chceme zpětně ověřit, že představuje dobrý/špatný návrh)
-%% \end{itemize}
+\subsection{Existující nástroje pro zpracování zdrojových kódů v~jazyce Java}
 
-%% TODO: zapracovat || smazat
-%% # Existující formalizace v softwarovém inženýrství
+% TODO: write some leading text
+Možnosti zpracovávání kódu...
 
-%% ## Z notation
-%% * [[The Z notation - wikipedia|http://en.wikipedia.org/wiki/Z_notation]]
-%% * [[ISO/IEC 13568:2002(E) - Information technology - Z formal specification notation — Syntax, type system and semantics|http://standards.iso.org/ittf/PubliclyAvailableStandards/c021573_ISO_IEC_13568_2002(E).zip]]
-%% * [[Z notation reference manual|http://www.rose-hulman.edu/class/csse/cs415/zrm.pdf]]
+\subsubsection{Vlastní kód pro zpracovávání zdrojových kódů}
+\begin{itemize}
+\item vlastní hand-written lexikální a syntaktický analyzátor (zbytečně náročné)
+\end{itemize}
 
-%% # Featherweight Java
-%% ## Výrazy jazyka FJ
-%% FJ má pouze následující výrazy (expressions):
-%% * vytvoření objektu (object creation)
-%% * vyvolání metody (method invocation)
-%% * přístup k poli objektu (field access)
-%% * přetypování (casting)
-%% * proměnné (variables)
-%% FJ vynechává operátor přiřazení (s výjimkou konstruktorů).
-%% Přes to všechno je FJ výpočetně kompletní (computationally complete) - je snadné do FJ zakódovat *lambda kalkul*.
-%% Existuje přímá souvislost mezi FJ a programovacím jazykem Java. Každý FJ program je spustitelný Java program.
-%% ## FJ program
-%% FJ program sestává ze souboru *několika tříd* a *výrazu*, který je vyhodnocen. Tento výraz odpovídá *main* metodě v plné verzi programovacího jazyka Java.
-%% Třídy sestávají z konstruktoru (který se vypisuje vždy) a z jednotlivých metod.
-%% Každá metoda vždy obsahuje pouze klíčové slovo *return* následované výrazem, který je vyhodnocen. Ve FJ totiž nejsou možné operace s vedlejším efektem (side-effect) vzhledem k absenci operátoru přiřazení. Vlastně se jedná o "funkcionální" část jazyka Java.
-%% ## Možná uváznutí programu
-%% * pokus o přístup k poli, které není pro třídu nadefinované
-%% * pokus o vyvolání metody, která není pro třídu nadefinovaná
-%% * pokus o přetypování na něco jiného než je nadtřídou běhové třídy objektu
-%% V dobře typovaných programovacích jazycích by k něčemu takovému němělo dojít (to je cílem důkazu poskytovaného FJ).
-%% ## Nástroje
-%% * [[FJ-Eclipse|http://fj-eclipse.sourceforge.net/]] - nepodporuje všechny prvky jazyka (např. vyhodnotí volání konstruktoru nadtřídy super() jako chybu)
-%% ## Literatura
-%% * [[Atsushi Igarashi, Benjamin C. Pierce, and Philip Wadler. 2001. Featherweight Java: a minimal core calculus for Java and GJ. ACM Trans. Program. Lang. Syst. 23, 3 (May 2001), 396-450. DOI=10.1145/503502.503505 http://doi.acm.org/10.1145/503502.503505|http://portal.acm.org/citation.cfm?id=503505]]
-%% * [[http://klee.cs.depaul.edu/csc547/lecture-fj.html]]
+\subsubsection{Použití compiler-compiler systému}
+\begin{itemize}
+\item parser vygenerovaný pomocí některého z~dostupných compiler-compiler systémů
+\item existující gramatiky pro jazyk Java
+\item generátory lexikálních analyzátorů a syntaktických parserů
+\item generátory stromů
+\end{itemize}
 
-%% # Klíčová slova, související pojmy
-%% Zde jsou soustředěny pojmy které ať už přímo nebo nepřímo souvisí s naší cílovou oblastí výzkumu. Většinou se jedná o pojmy, které je vhodné použít pro rešerše v internetových vyhledávačích.
-%% * design patterns discovery
-%% * model transformation
-%% * [[formal methods|http://en.wikipedia.org/wiki/Formal_methods]]
-%% * [[formal specification|http://en.wikipedia.org/wiki/Formal_specification]]
-%% * [[formal verification|http://en.wikipedia.org/wiki/Formal_verification]]
-%% * model verification
+\begin{itemize}
+\item tyto systémy na základě vstupní gramatiky vygenerují frontend pro překladač
+\item lze specifikovat různé akce, které jsou navázány na události vyvolané v~průběhu syntaktické analýzy
+\item \emph{JavaCC} \cite{parsertools:javacc}
+  \begin{itemize}
+  \item součástí je nástroj \emph{JJTree}, který je schopen vygenerovat AST pro další práci
+  \end{itemize}
+\item \emph{JastAdd} \cite {parsertools:jastadd}
+\item \emph{ANTLR}
+\end{itemize}
+
+\subsubsection{Použití vhodné knihovny nebo existujícího programu}
+\begin{itemize}
+\item JavaParser \cite{parsertools:javaparser}
+  \begin{itemize}
+  \item projekt na GoogleHosting
+  \item v~podstatě gramatika pro JJTree vytvářející strom tříd a objektů, který je možné procházet pomocí visitor patternu
+  \end{itemize}
+\item spoon \cite{parsertools:spoon}
+\end{itemize}
+
+\subsubsection{Použití prostředků poskytovaných platformou Java}
+použití prostředků poskytovaných platformou Java 6 (Sun verze) \cite{source_code_analysis_corejavatechtips}
+\begin{itemize}
+\item \emph{JSR 199 -- Java Compiler API}
+  \begin{itemize}
+  \item volání překladače jazyka Java pomocí API ze zdrojového kódu programu
+  \item balíček \verb+javax.tools+
+  \end{itemize}
+\item \emph{JSR 269 -- Pluggable Annotation Processing API}
+  \begin{itemize}
+  \item možnost přidání vlastního kódu pro zpracovávání anotací/kódu do instance překladače
+  \item balíček \verb+javax.annotation.processing+ -- zpracovávání anotací
+  \item balíček \verb+javax.lang.model+ -- třídy poskytující model pro syntaktické elementy jazyka Java
+  \end{itemize}
+\item \emph{Compiler Tree API} \cite{parsertools:compilertreeapi}
+  \begin{itemize}
+  \item nestandardní rozšíření Java JDK
+  \item balíček \verb+com.sun.source.tree+ -- poskytuje rozhraní pro reprezentaci zdrojového kódu jako AST
+  \item balíček \verb+com.sun.source.util+ -- poskytuje rozhraní pro operace nad AST
+  \end{itemize}
+\end{itemize}
+
+\subsubsection{Použití prostředků některého z Java IDE}
+\begin{itemize}
+\item platforma NetBeans \cite{parsertools:javasourcejavadoc} -- Java Source API
+\item platforma Eclipse -- \verb+org.eclipse.jdt.core.dom+ package
+\end{itemize}
