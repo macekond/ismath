@@ -352,7 +352,12 @@ Jazyk Java od verze 6 poskytuje zajímavé možnosti integrace volání kompilá
 Pomocí těchto nástrojů je možné získat poměrně snadno přístup do průběhu zpracování zdrojového kódu pomocí \verb+javac+ compileru. Přístup však je na úrovni zpracovávání anotací (viz výše) a probíhá po částech (rounds). Nemáme tak k dispozici plný AST strom, nad kterým by byla již provedena fáze \emph{attribute} \cite{hackers_guide_to_javac}.
 
 \subsubsection{Použití prostředků některého z Java IDE}
-\begin{itemize}
-\item platforma NetBeans \cite{parsertools:javasourcejavadoc} -- Java Source API
-\item platforma Eclipse -- \verb+org.eclipse.jdt.core.dom+ package
-\end{itemize}
+Většina majoritních integrovaných prostředí pro vývoj v jazyce Java (IntelliJ Idea, Eclipse, NetBeans) provádí rozsáhlou kontrolu zdrojových kódů přímo během psaní. Programátor je upozořňován na to, že některá metoda nebo třída není definována nebo je definována s jinými parametry. A to v případě, že daná třída se nachází ve zcela jiné kompilační jednotce.
+
+To je ale přesně to, co potřebujeme pro naši práci. Proto byla provedena rešerše v této oblasti. Byly nalezeny dva základní nástroje, které je možné použít. Jedná se o  platformu Eclipse a platformu NetBeans.
+
+Platforma Eclipse poskytuje rozhraní, které reprezentuje java projekt jako DOM prostřednitvím balíčku \verb+org.eclipse.jdt.core.dom+ \cite{parsertools:eclipsejdt}. Poskytovaný AST je možné procházet i modifikovat.
+
+Podobnou podporou poskytuje i platforma NetBeans. Ta vnitřně používá instanci \verb+javac+ kompilátoru. Přístup k AST v libovolné fázi (před resolvováním jmen i po této fázi) poskytuje prostřednictvím svého \emph{Java Source API} \cite{parsertools:javasourcejavadoc}.
+
+Výhodou použití některé z existujích platforem je navíc možnost přímé integrace do vývojového prostředí. Nevýhodou je ovšem svázanost s tímto prostředím. To se však dá zčásti řešit vhodným návrhem jádra systému, keré může být realizováno tak, aby bylo na platformě zcela nezávislé a závislost na platformě byla přidávána až integrací do konkrétního prostředí.
