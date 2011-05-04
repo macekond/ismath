@@ -82,6 +82,7 @@ Autor výše zmíněného článku (\cite{oop_design_principles_and_patterns}) c
 Důležité je srovnání \emph{návrhových principů} s \emph{návrhovými vzory}. Toto srovnání podává článek \cite{612257}. Zatímco aplikace návrhového vzoru představuje znovupoužití \uv{úspěšného} návrhu, princip představuje spíše obecně platné pravidlo, jehož dodržováním během návrhu bychom měli získat návrh přijatelné kvality. V případě přesného stanovení potřebných principů by bylo možné provádět automatizovaný systematický návrh (což není, vzhledem k mnoha aspektům popisovaným v článku, dobře možné).
 
 \subsection{Analyzované principy}
+\label{analysis-principles_analyzed}
 Na základě požadavků specifikovaných sekci \ref{requirements-principle_analysis} se budeme postupně zabývat principy \emph{low coupling}, \emph{high cohesion} a \emph{Law of Demeter}. Jedná se o~principy, které se týkají strukturální kvality kódu.
 
 Ukázkové návrhové principy a vztahy mezi nimi jsou znázorněny na obrázku \ref{analyzed_principles}. Poznamenejme, že \emph{Law of Demeter} (dále budeme používat zkratku \emph{LoD}) je konkretizací požadavků na \emph{nízkou závislost} (\emph{low coupling}) mezi moduly.
@@ -162,17 +163,9 @@ Problematikou soudržnosti programových modulů se zabývá článek \cite{Kang
 \paragraph{Functional association} Oba elementy jsou nezbytné pro provedení jedné funkce/operace.
 
 \subsubsection{Law of Demeter}
+Jak bylo zmíněno v sekci \ref{analysis-principles_analyzed}, lze na LoD pohlížet jako na část principu pro zachování nízké vazby. LoD je také někdy nazýván jako princip nejmenší znalosti (Principle of Least Knowledge) \cite{wiki:lod}. Určuje, že každá jednotka by měla mít pouze omezenou znalost ostatních jednotek. Měla by komunikovat pouze s omezeným počtem jednotek úzce souvisejících s~logikou této jednotky. Zde se nám částečně prolínají principy \emph{low coupling} a \emph{high cohesion}. Zatímco princip \emph{low coupling} požaduje, aby modul nezávisel na příliš detailních znalostech o implementaci druhého modulu, \emph{high cohesion} vyžaduje, aby úzce souvisela logika modulu s logikou závislých modulů (aby se nevolaly vzdálené logicky nesouvisející části kódu).
 
-% TODO: complete this section
-
-%% Adaptive Object-Oriented Software The Demeter Method -- http://www.google.cz/url?sa=t&source=web&cd=3&sqi=2&ved=0CCoQFjAC&url=http%3A%2F%2Fciteseerx.ist.psu.edu%2Fviewdoc%2Fdownload%3Fdoi%3D10.1.1.94.8349%26rep%3Drep1%26type%3Dpdf&rct=j&q=demeter%20software%20object%20oriented&ei=MeTOTPihHI7AswbpufiWCA&usg=AFQjCNHnRixmCYTZrJVPF2OCEcbooajq4A&cad=rja
-%% The Law of Demeter Is Not A Dot Counting Exercise -- http://bit.ly/9tCObJ]] - pěkný popularizační článek na úvod
-%% Object-oriented programming: an objective sense of style -- http://portal.acm.org/ft_gateway.cfm?id=62113&type=pdf&coll=GUIDE&dl=GUIDE&CFID=111192652&CFTOKEN=98650016
-%% Formulations and benefits of the law of demeter -- http://portal.acm.org/citation.cfm?id=643603.643608
-%% Demeter: Aspect-Oriented Software Development -- http://www.ccs.neu.edu/research/demeter/
-%% A case for statically executable advice: checking the law of demeter with AspectJ -- http://portal.acm.org/citation.cfm?id=643603.643608
-
-Existuje několik forem Demeterova zákona \cite{35588}, které jsou vhodné pro různé oblasti aplikace. Tyto typy jsou znázorněny na obrázku \ref{demeter_law_types}. V~\cite{35588} se též pojednává o~Demeterově zákoně z~jiného úhlu -- uvažují se všechny možné třídy, které lze volat bez porušení tohoto principu (tzv. preferred suppliers).
+Princip \emph{Law of Demeter} je velmi dobře popsán v \cite{35588}. Článek pojednává o třídě jako o \uv{dodavateli funkcionality}. LoD potom specifikuje, kteří dodavatelé funkcionality jsou pro konkrétní třídu preferovaní (tzv. \uv{preferred suppliers}). To nám vymezuje množinu tříd/objektů, na něž se smí vyskytnout reference v rámci definované třídy. V článku je rozebráno více forem principu, které jsou vhodné pro různé způsoby aplikace. Klasifikace těchto forem je znázorněna na obrázku \ref{demeter_law_types}.
 
 \begin{figure}[h!]
   \centering
@@ -180,20 +173,24 @@ Existuje několik forem Demeterova zákona \cite{35588}, které jsou vhodné pro
   \caption{Formy návrhového principu LoD.\label{demeter_law_types}}
 \end{figure}
 
-Pro statickou analýzu využijeme \uv{class} formu Demeterova zákona.
+Kromě striktní formy, která vyžaduje, aby všechny třídy dodržovaly pravidla daná principem LoD, existuje ještě minimializační verze, která se snaží minimalizovat počet porušení pravidla pod přijatelnou mez\footnote{Například umožní porušení principu LoD v privátním API, ale bude vyžadovat dodržení ve veřejně přístupných API.}.
 
-% TODO: vložit českou verzi class formy demeterova zákona
-\emph{Zjednodušená verze \cite{wiki:lod}}
+Pro statickou analýzu je vhodné použití \emph{class formy} pravidla LoD. Class forma a objektová forma se lehce liší v tom, které třídy jsou preferovanými dodavateli funkcionality. Pro praktické použití (udržovatelnost kódu, modularita, atd.) to však nemá až takový význam.
 
-Method M of an object O~may only invoke the methods of the following kinds of objects:
+Uveďme nyní \emph{striktní třídní formu} pravidla \emph{Law of Demeter}:
 
-\begin{itemize}
-\item O~itself,
-\item M's parameters,
-\item any objects created instantiated within M,
-\item O's direct component objects,
-\item a global variable, accessible by O~in the scope of M.
-\end{itemize}
+\begin{designprinciple}
+  Ve všech metodách M třídy C je povoleno používat pouze členy (metody a data) následujících tříd a jejich nadtříd \cite{35588}:
+  \begin{itemize}
+  \item C,
+  \item třídy členských datových polí třídy C,
+  \item třídy argumentů M,
+  \item třídy, jejichž konstruktor je volán v M,
+  \item třídy globálních proměnných použitých v M.
+  \end{itemize}
+\end{designprinciple}
+
+Tento princip budeme implementovat jako ukázkové pravidlo vyvíjeného systému. Díky tomu, že je definováno na třídách a nikoliv na objektech je možné jej použít přímo nad vhodně předzpracovanými zdrojovými kódy v programovacím jazyce Java.
 
 \subsection{Ukázky kódu porušujícího některá z~pravidel}
 % TODO: v rámci každého návrhového principu uvést příklad porušení tohoto principu (případně i příklad, který tento princip dodržuje)
