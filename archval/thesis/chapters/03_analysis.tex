@@ -270,10 +270,76 @@ Autor výše uvedene ukázky dále rozebírá, že je chybné předpokládat, ž
 Ukázka nevyhoví definované class verzi principu LoD. Kód který se stará o získání platby podle všeho dostává referenci na zákazníka. Na základě této reference získá referenci na objekt třídy \verb+Wallet+. A právě objekt třídy \verb+Wallet+ nespadá ani do jedné z kategorií povolených dodavatelů funkcionality (není třídou třídní proměnné, ani třídou předávanou v parametrech, není ve třídě konstruován a není ani globální proměnnou).
 
 \subsubsection{Ukázka kódu s příliš vysokou úrovní závislosti}
-% TODO: find some good example
+Nejhorší variantou závislosti je závislost na konkrétním obsahu jiného modulu. Typickým příkladem může být přímý přístup k proměnným konkrétní třídy.
+
+\begin{lstlisting}
+class A {
+    public long pieceOfData;
+
+    long getNumber() {
+      return pieceOfData;
+    }
+}
+
+class B {
+
+    long computeSquare(A a) {
+        return a.pieceOfData * a.pieceOfData;
+    }
+
+}
+\end{lstlisting}
+
+Tento kus kódu je špatný jednak z hlediska zapouzdření (proměnná \verb+pieceOfData+ má být definována jako protected nebo private) a dále také z důvodu přílišné závislosti třídy B na třídě A. V případě, že by se nám nelíbil název nebo způsob uložení proměnné \verb+pieceOfData+, změnou dojde k nutnosti úpravy ve třídě B. Jedná se o nejvyšší formu závislosti -- \emph{content coupling}.
+
+Podíváme-li se na jinou úroveň závislostí, můžeme se setkat s kódem podobným následujícímu:
+
+\begin{lstlisting}
+class A {
+
+    int do(int what) {
+        if (what == 1) {
+            // do some action
+            return 0;
+        } else {
+            // do another action
+            return 1;
+        }
+}
+
+class B {
+
+    void launchAction(A a) {
+        int b = a.do(1);
+    }
+}
+\end{lstlisting}
+
+To je typická ukázka \emph{control coupling}. Třída B využívá služeb třídy A. Metoda \verb+do+ je řízena vstupní proměnnou předávanou z metody třídy B. To má tu nevýhodu, že v případě změny způsobu, jakým pracuje metoda \verb+do+ (např. přidání dalšího stavu řídící proměnné) může být nutné reimplementovat metodu třídy B, která nepočítá s jinou návratovou hodnotou nebo jiným průběhem zpracování.
 
 \subsubsection{Ukázka kódu s nízkou úrovní koheze}
-% TODO: find some good example
+Nejnižší úrovní koheze je \emph{coincidental cohesion}. Typicky se jedná o různé balíky funkcionality označované jako \verb+Utils+, \verb+Helper+ a podobně. Funkce v takovém balíčku typicky nemají téměř žádnou příbuznost. Často se též jedná o velké bloky funkcionality, které provádějí celou řadu nesouvisejících věcí, ale zůstávají v jednom velkém bloku jednoduše proto, že se jich programátoři \uv{bojí dotknout}.
+
+Příkladem úrovně \emph{logical cohesion} může být následující třída:
+
+\begin{lstlisting}
+class ErrorPublisher {
+
+    void printErrorToTerminal(String message) {
+        // implementation
+    }
+
+    void printErrorToFile(String message, File file) {
+        // implementation
+    }
+
+    void logErrorToSyslog(String message) {
+        // implementation
+    }
+}
+\end{lstlisting}
+
+Funkčnosti jsou seskupeny do jedné třídy jen z toho důvodu, že všechny někam vypisují chybu. Každá implementace však bude zcela odlišná (metody nesdílejí žádný stav).
 
 \section{Analýza problematiky v~jazyce Java}
 
