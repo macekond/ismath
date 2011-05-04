@@ -42,17 +42,11 @@ Specifikované pravidlo vyjadřuje požadavek, aby množina vrcholů do níž se
 %% Na základě těchto závislostí lze sestavit orientovaný graf. Hrany budeme dále klasifikovat podle toho, o jakou závislost se jedná (dědičnost vs. vyvolání metody).
 
 \subsection{High cohesion}
-% TODO:
+% TODO: zaimplementovat vhodnou analýzu koheze
 
-\section{Implementace jádra systému}
+\section{Implementace jádra systému (modul av-core)}
 % TODO: describe technologies used to implement parser and analysis part
 % TODO: moduly popsané v části \ref{design-architecture} implementujeme jako jednotlivé moduly platformy NetBeans.
-
-\subsection{Implementace registrů poskytovatelů služeb}
-\begin{itemize}
-\item SPI
-\item NetBeans lookup -- /META-INF/services
-\end{itemize}
 
 \subsection{Implementace základních operátorů}
 Vyhodnocení univerzálního kvantifikátoru $\forall v \in V$ lze přepsat jako jednoduchý cyklus přes vrcholy vrácené zpřesňující operátorem, která vybírá nějakou podmnožinu z množiny vrcholů analyzovaného grafu. Získáme tak kód podobný listingu \ref{listing-forall}. V tomto kódu, který je fragmentem metody používáme symoblický název \verb+condition+ pro podmínku, kterou musí splňovat každý prvek \emph{v} iterované kolekce vrcholů \emph{vertices}.
@@ -86,19 +80,6 @@ return false;
 \end{lstlisting}
 
 Můžeme si všimnout, že se obě implementace liší pouze přehozením podmínek -- zatímco v prvním případě ($\forall$) musíme projít všechny prvky, abychom zjistili, zda všechny prvky splňují požadovanou vlastnost, ve druhém případě ($\exists$) budeme všechny prvky procházet pouze v krajním případě, kdy vlastnost neplatí pro žádný z prvků.
-
-% TODO: přesunout do sekce týkající se generátorů grafu (možná dokonce do návrhu nebo analýzy)
-% TODO: roztřídit
-\begin{itemize}
-\item Java 6 Compiler API (JSR 199) \cite{apidoc:java6api}
-\item annotation processor (JSR 269)
-\item Compiler Tree API
-  \begin{itemize}
-  \item \verb+com.sun.source.tree+
-  \item \verb+com.sun.source.util+
-  \end{itemize}
-\item je nutné použít nestandardní API, které je součástí Sun Javy - balíčky \verb+com.sun.*+ (je potřeba přidat \$\{java\_home\}/../lib/tools.jar do classpath)
-\end{itemize}
 
 \section{Implementace modulů rozšíření}
 
@@ -135,7 +116,7 @@ ukázková analýza low coupling
 \subsection{Modul av-analysis-highcoh}
 ukázková analýza high cohesion
 
-\section{Integrace do NetBeans IDE}
+\section{Integrace do NetBeans IDE (modul av-platform-integration)}
 
 Při implementaci bylo hojně využíváno informací z \cite{netbeans_platform}.
 
@@ -160,19 +141,16 @@ Seznam integračních komponent je k dispozici v tabulce \ref{implementation-int
   \end{center}
 \end{table}
 
-\subsection{Action}
-Integrace do běhové platformy. Reprezentuje uživatelskou akci. Bude implementováno na základě zvolené implementační platformy (akce v GUI).
-
-\subsection{Podpora editace AVD souborů}
+\subsection{Implementace registrů poskytovatelů služeb}
 \begin{itemize}
-\item experimentální mime typ \verb+text/x-avd+
-\item zvýrazňování syntaxe
+\item SPI
+\item NetBeans lookup -- /META-INF/services
 \end{itemize}
 
-\subsubsection{Modul av-avd-editor}
+\subsection{Přidání uživatelské akce do nabídky prostředí}
+Třída \emph{Action}
 
-\subsubsection{Modul av-avd-highlighter}
-
+Integrace do běhové platformy. Reprezentuje uživatelskou akci. Bude implementováno na základě zvolené implementační platformy (akce v GUI).
 
 \subsection{Výstupní rozhraní}
 Podpora pro různé formáty výstupu. Popsat vnitřní reprezentaci reportu, tak aby jej bylo možné převést na vhodnou vnější reprezentaci. Podpora pro dopsání různých výstupních formátu jako např.:
@@ -189,3 +167,13 @@ Podpora pro různé formáty výstupu. Popsat vnitřní reprezentaci reportu, ta
 \item konfigurační dialog
 \item způsob ukládání konfigurace (podporováno platformou NB)
 \end{itemize}
+
+\section{Podpora editace AVD souborů}
+\begin{itemize}
+\item experimentální mime typ \verb+text/x-avd+
+\item zvýrazňování syntaxe
+\end{itemize}
+
+\subsection{Modul av-avd-editor}
+
+\subsection{Modul av-avd-highlighter}

@@ -18,8 +18,8 @@
 \usepackage[czech, english]{babel}
 
 \usepackage[T1]{fontenc} % pouzije EC fonty
-% pripadne pisete-li cesky, pak lze zkusit take:
-% \usepackage[OT1]{fontenc}
+%% % pripadne pisete-li cesky, pak lze zkusit take:
+%% \usepackage[OT1]{fontenc}
 \usepackage[utf8]{inputenc}
 
 \usepackage{tikz}
@@ -32,7 +32,7 @@
 \newtheorem*{designprinciple}{Návrhový princip}
 %=-=-=-=-=-=-=-=-=-=-=-=--=%
 % In case of problems with PDF fonts, one may try to uncomment this line:
-%\usepackage{lmodern}
+%% \usepackage{lmodern}
 %=-=-=-=-=-=-=-=-=-=-=-=--=%
 %=-=-=-=-=-=-=-=-=-=-=-=--=%
 % Depending on your particular TeX distribution and version of conversion tools
@@ -72,8 +72,6 @@
 \newcommand\FirstandFamilyName{Bc. Martin Vejmelka}
 \newcommand\Supervisor{Ing. Ondřej Macek}
 
-% Pouzijete-li pdflatex, tak je prijemne, kdyz bude mit vase prace
-% funkcni odkazy i v pdf formatu
 \usepackage[
   pdftitle={\WorkTitle},
   pdfauthor={\FirstandFamilyName},
@@ -86,14 +84,7 @@
   unicode=true,
 ]{hyperref}
 
-% Extension posted by Petr Dlouhy in order for better sources reference (\cite{} command) especially in Czech.
-% April 2010
-% See comment over \thebibliography command for details.
-
-\usepackage[square, numbers]{natbib}             % sazba pouzite literatury
-%\usepackage{url}
-%\DeclareUrlCommand\url{\def\UrlLeft{<}\def\UrlRight{>}\urlstyle{tt}}  %rm/sf/tt
-%\renewcommand{\emph}[1]{\textsl{#1}}    % melo by byt kurziva nebo sklonene,
+\usepackage[square, numbers]{natbib}
 \let\oldUrl\url
 \renewcommand\url[1]{<\texttt{\oldUrl{#1}}>}
 
@@ -172,18 +163,14 @@
 
 % TODO: Translation of Czech abstract into English.
 
-% Prace v cestine musi krome abstraktu v anglictine obsahovat i
-% abstrakt v cestine.
 \vglue60mm
 
 \noindent{\Huge \textbf{Abstrakt}}
 \vskip 2.75\baselineskip
 
 \noindent
-% TODO: Abstrakt práce by měl velmi stručně vystihovat její podstatu. Tedy čím se práce zabývá a co je jejím výsledkem/přínosem.
-
-\noindent
-% Očekávají se cca 1 -- 2 odstavce, maximálně půl stránky.
+% TODO: česká verze abstractu
+% Abstrakt práce by měl velmi stručně vystihovat její podstatu. Tedy čím se práce zabývá a co je jejím výsledkem/přínosem. Očekávají se cca 1 -- 2 odstavce, maximálně půl stránky.
 
 %
 % Table of Contents
@@ -205,9 +192,6 @@
 %
 
 \mainbodystarts
-% horizontalní mezera mezi dvema odstavci
-%\parskip=5pt
-%11.12.2008 parskip + tolerance
 \normalfont
 \parskip=0.2\baselineskip plus 0.2\baselineskip minus 0.1\baselineskip
 
@@ -223,30 +207,16 @@
 \include{./chapters/06_testing}
 \include{./chapters/07_conclusion}
 
-% TODO: complete references
-%\bibliographystyle{abbrv}
-
 \bibliographystyle{csplainnat}
-
-%bibliographystyle{plain}
-%\bibliographystyle{psc}
 {
-  %JZ: 11.12.2008 Kdo chce mit v techto ukazkovych odkazech take odkaz na CSTeX:
   \def\CS{$\cal C\kern-0.1667em\lower.5ex\hbox{$\cal S$}\kern-0.075em $}
   \bibliography{reference}
 }
 
-% M. Dušek radi:
-%\bibliographystyle{alpha}
-% kdy citace ma tvar [AutorRok] (napriklad [Cook97]). Sice to asi neni  podle ceske normy (BTW BibTeX stejne neodpovida ceske norme), ale je to nejprehlednejsi.
-% 3.5.2009 JZ polemizuje: BibTeX neobvinujte, napiste a poskytnete nam styl (.bst) splnujici citacni normu CSN/ISO.
-
 \appendix
 
 \include{./chapters/08_abbrev}
-%\include{./chapters/09_diagrams}
 \include{./chapters/10_installation}
-\include{./chapters/10a_avd_grammar}
 \include{./chapters/10b_used_tools}
 \include{./chapters/11_cdcontents}
 

@@ -446,7 +446,7 @@ Zatímco nástroj \emph{JavaParser} neprovádí rezoluci jmen, nástroj \emph{sp
 Jazyk Java od verze 6 poskytuje zajímavé možnosti integrace volání kompilátoru jazyka Java do kódu uživatelských programů \cite{source_code_analysis_corejavatechtips}. Jedná se o následující aplikační rozhraní:
 
 \begin{itemize}
-\item \emph{JSR 199 -- Java Compiler API}
+\item \emph{JSR 199 -- Java Compiler API} \cite{apidoc:javacompilerapi}
   \begin{itemize}
   \item specifikuje způsoby volání překladače jazyka Java pomocí API ze zdrojového kódu programu
   \item balíček \verb+javax.tools+
@@ -467,7 +467,7 @@ Jazyk Java od verze 6 poskytuje zajímavé možnosti integrace volání kompilá
 
 Pomocí těchto nástrojů je možné získat poměrně snadno přístup do průběhu zpracování zdrojového kódu pomocí \verb+javac+ kompilátoru. Přístup však je na úrovni zpracovávání anotací (viz výše) a probíhá po částech (rounds). Nemáme tak k dispozici plný AST strom, nad kterým by byla již provedena fáze \emph{attribute} \cite{hackers_guide_to_javac}.
 
-\subsubsection{Použití prostředků některého z Java IDE}
+\subsubsection{Použití prostředků současných vývojových IDE}
 Většina majoritních integrovaných prostředí pro vývoj v jazyce Java (IntelliJ Idea, Eclipse, NetBeans) provádí rozsáhlou kontrolu zdrojových kódů přímo během psaní. Programátor je upozorňován na to, že některá metoda nebo třída není definována nebo je definována s jinými parametry. A to v případě, že daná třída se nachází ve zcela jiné kompilační jednotce.
 
 To je ale přesně to, co potřebujeme pro naši práci. Proto byla provedena rešerše v této oblasti. Byly nalezeny dva základní nástroje, které je možné použít. Jedná se o  platformu Eclipse a platformu NetBeans.
