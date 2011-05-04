@@ -1,6 +1,6 @@
 // $ANTLR 3.1.3 July 11, 2010 13:49:50 ArchvalRulesetGrammar.g 2011-05-01 20:14:00
 
-    package cz.cvut.fel.archval.ruleset_parser.antlr;
+    package cz.cvut.fel.archval.core.avd.parser;
 
 
 import org.antlr.runtime.*;

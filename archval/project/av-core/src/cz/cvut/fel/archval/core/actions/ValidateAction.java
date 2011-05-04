@@ -1,4 +1,4 @@
-package cz.cvut.fel.archval.actions;
+package cz.cvut.fel.archval.core.actions;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;

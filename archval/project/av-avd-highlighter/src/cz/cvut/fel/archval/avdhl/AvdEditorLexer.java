@@ -1,7 +1,7 @@
 package cz.cvut.fel.archval.avdhl;
 
 import cz.cvut.fel.archval.avdhl.utils.AntlrCharStream;
-import cz.cvut.fel.archval.ruleset_parser.antlr.ArchvalRulesetGrammarLexer;
+import cz.cvut.fel.archval.core.avd.parser.ArchvalRulesetGrammarLexer;
 import org.netbeans.api.lexer.Token;
 import org.netbeans.spi.lexer.Lexer;
 import org.netbeans.spi.lexer.LexerRestartInfo;

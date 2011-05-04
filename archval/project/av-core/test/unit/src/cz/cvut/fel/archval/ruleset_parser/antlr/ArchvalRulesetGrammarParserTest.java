@@ -1,5 +1,7 @@
 package cz.cvut.fel.archval.ruleset_parser.antlr;
 
+import cz.cvut.fel.archval.core.avd.parser.ArchvalRulesetGrammarLexer;
+import cz.cvut.fel.archval.core.avd.parser.ArchvalRulesetGrammarParser;
 import antlr.ANTLRException;
 import java.io.IOException;
 import java.util.logging.Level;

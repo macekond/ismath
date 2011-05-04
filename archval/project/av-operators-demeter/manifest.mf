@@ -1,0 +1,5 @@
+Manifest-Version: 1.0
+OpenIDE-Module: cz.cvut.fel.archval.demeter.operators
+OpenIDE-Module-Localizing-Bundle: cz/cvut/fel/archval/demeter/operators/Bundle.properties
+OpenIDE-Module-Specification-Version: 1.0
+
