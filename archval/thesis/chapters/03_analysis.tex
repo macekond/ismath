@@ -93,11 +93,6 @@ Ukázkové návrhové principy a vztahy mezi nimi jsou znázorněny na obrázku 
 \end{figure}
 
 \subsubsection{Low coupling/dependency (nízká závislost/vazba)}
-
-%% * [[Measuring coupling and cohesion in object-oriented systems|http://www.isys.uni-klu.ac.at/PDF/1995-0043-MHBM.pdf]]
-%% * [[Defining and validating high-level design metrics|http://citeseerx.ist.psu.edu/viewdoc/download?doi=10.1.1.31.4744&rep=rep1&type=pdf]]
-%% * [[Bieman, J.M.; Byung-Kyoo Kang; , "Measuring design-level cohesion," Software Engineering, IEEE Transactions on , vol.24, no.2, pp.111-124, Feb 1998|http://ieeexplore.ieee.org/stamp/stamp.jsp?tp=&arnumber=666825&isnumber=14664]]
-
 Závislost/vazba (coupling/dependency) mezi moduly softwarového projektu určuje, do jaké míry se jeden modul spoléhá na každý z~ostatních modulů \cite{wiki:coupling}. Zatímco některé moduly spolu vůbec nekomunikují (nemají žádnou závislost), jiné se spoléhají nejen na rozhraní ostatních modulů, ale mnohdy i na jejich vnitřní fungování, způsob reprezentace dat, časování atd. Důsledkem vyšší závislosti je potom nutnost rozsáhlých úprav v~mnoha modulech i při úpravě naprostých drobností v~jednom konkrétním modulu.
 
 Proto je důležitou návrhovou zásadou snaha snížit závislost modulů na minimum. Je zřejmé, že závislost mezi moduly vždy existuje (jinak by neměl modulární návrh smysl). Proto nelze striktně říci, do jaké míry smí/nesmí být moduly na sobě závislé.
@@ -185,10 +180,9 @@ Existuje několik forem Demeterova zákona \cite{35588}, které jsou vhodné pro
   \caption{Formy návrhového principu LoD.\label{demeter_law_types}}
 \end{figure}
 
-Pro statickou analýzu lze použít \uv{class} formu Demeterova zákona.
+Pro statickou analýzu využijeme \uv{class} formu Demeterova zákona.
 
-% TODO: rozhodnout, kterou verzi Demeterova zákona použít
-
+% TODO: vložit českou verzi class formy demeterova zákona
 \emph{Zjednodušená verze \cite{wiki:lod}}
 
 Method M of an object O~may only invoke the methods of the following kinds of objects:
@@ -207,6 +201,7 @@ Method M of an object O~may only invoke the methods of the following kinds of ob
 \subsubsection{Porušení principu law of Demeter}
 
 % TODO: find some better (real world) example of demeter law violation on the web
+% TODO: vložit ukázku s Paperboyem a ocitovat
 \lstset{
   basicstyle=\ttfamily,
   numbers=left,
@@ -231,6 +226,12 @@ Method M of an object O~may only invoke the methods of the following kinds of ob
 
   }
 \end{lstlisting}
+
+\subsubsection{Ukázka kódu s příliš vysokou úrovní závislosti}
+% TODO: find some good example
+
+\subsubsection{Ukázka kódu s nízkou úrovní koheze}
+% TODO: find some good example
 
 \section{Analýza problematiky v~jazyce Java}
 
