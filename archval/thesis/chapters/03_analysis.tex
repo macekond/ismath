@@ -288,30 +288,14 @@ Pro analýzu založenou na vyhledávání závislostí mezi třídami pro nás b
   \caption{Rozklad elementu TypeDeclaration.\label{type_declaration_options}}
 \end{figure}
 
-\subsection{Problematika zpracovávání zdrojových kódů v~jazyce Java}
+\subsection{Zpracovávání zdrojových kódů v~jazyce Java}
+Protože navrhované ověřované principy přesahují rámec jedné kompilační jednotky, je nutné provést vhodné předzpracování zrojových kódů tak, aby bylo možné analyzovat vztahy částí kódu i mezi jednotlivými kompilačními jednotkami.
 
-Do jaké podoby je potřeba předzpracovat zdrojový kód jazyka Java, aby nad ním mohly být prováděny operace validace a analýzy?
-% TODO: zatřídit:
-%% Důležité části zpracování kódu:
-%% \begin{itemize}
-%% \item name resolution, jmenné prostory (namespaces), class loaders, class tables
-%% \item static methods
-%% \item inner classes, static classes
-%% \item polymorphism
-%% \item generické třídy, wildcards
-%% \item pole objektů
-%% \item návratové typy metod
-%% \item vstupní parametry metod
-%% \item lokální proměnné
-%% \item globální objekty (statické metody a pole tříd, singletony - opět ale pouze ze statického pohledu!)
-%% \item vizualizace grafu
-%% \item modifikátory přístupu (private, public, protected, package private) -- možnost \uv{ořezat} graf závislosti tříd -- je možné, že pro některé druhy analýzy bude toto nežádoucí.
-%% \end{itemize}
+V principu to znamená provést podobnou množinu operací, jakou provádí první kompilátor jazyka Java při kompilaci \cite{hackers_guide_to_javac}. Ten nejprve načte všechny \verb+*.java+ soubory a namapuje sekvence tokenů na uzly AST stromu. Následně vloží všechny nalezené symboly do tabulky symbolů (např. jména datových typů, proměnných atd.). Provede zpracování anotací nalezených v kompilačních jednotkách. Ve fázi \emph{attribute} jsou provedeny operace jako rozlišení jmen, kontrola datových typů a zjednodušení konstatních výrazů. Následuje kontrola datových toků v programu (pracuje na stromu získaném v předchozích krocích), která má za cíl určit např. nedostupné části zdrojového kódu (po příkazu return apod.). Předposlední fáze \emph{desugar} přepíše AST a zjednoduší některé výrazy používané jako \uv{syntaktický cukr} na jednodušší výrazy. Na závěr provede kompilátor vlastní vygenerování zdrojových kódů nebo class souborů. 
 
-\subsection{Existující nástroje pro zpracování zdrojových kódů v~jazyce Java}
+Pro provedení analýzy nám postačí zdrojové kódy zpracované do fáze \emph{attribute}. Jedná se o AST s rozlišenými jmény datových typů a proměnných. Nad těmito stromy můžeme dále pracovat.
 
-% TODO: write some leading text
-Možnosti zpracovávání kódu...
+Podívejme se nyní, jakými prostředky je možné tuto reprezentaci získat:
 
 \subsubsection{Vlastní kód pro zpracovávání zdrojových kódů}
 \begin{itemize}
