@@ -29,7 +29,7 @@
         <folder name="File">
             <file name="cz-cvut-fel-archval-actions-ValidateAction.shadow">
                 <attr name="originalFile" stringvalue="Actions/Tools/cz-cvut-fel-archval-actions-ValidateAction.instance"/>
-                <attr name="position" intvalue="300"/>
+                <attr name="position" intvalue="0"/>
             </file>
         </folder>
     </folder>

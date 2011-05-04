@@ -1,7 +1,3 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
 package cz.cvut.fel.archval.actions;
 
 import java.awt.event.ActionEvent;
