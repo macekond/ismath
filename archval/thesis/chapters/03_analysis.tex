@@ -291,7 +291,7 @@ Pro analýzu založenou na vyhledávání závislostí mezi třídami pro nás b
 \subsection{Zpracovávání zdrojových kódů v~jazyce Java}
 Protože navrhované ověřované principy přesahují rámec jedné kompilační jednotky, je nutné provést vhodné předzpracování zrojových kódů tak, aby bylo možné analyzovat vztahy částí kódu i mezi jednotlivými kompilačními jednotkami.
 
-V principu to znamená provést podobnou množinu operací, jakou provádí první kompilátor jazyka Java při kompilaci \cite{hackers_guide_to_javac}. Ten nejprve načte všechny \verb+*.java+ soubory a namapuje sekvence tokenů na uzly AST stromu. Následně vloží všechny nalezené symboly do tabulky symbolů (např. jména datových typů, proměnných atd.). Provede zpracování anotací nalezených v kompilačních jednotkách. Ve fázi \emph{attribute} jsou provedeny operace jako rozlišení jmen, kontrola datových typů a zjednodušení konstatních výrazů. Následuje kontrola datových toků v programu (pracuje na stromu získaném v předchozích krocích), která má za cíl určit např. nedostupné části zdrojového kódu (po příkazu return apod.). Předposlední fáze \emph{desugar} přepíše AST a zjednoduší některé výrazy používané jako \uv{syntaktický cukr} na jednodušší výrazy. Na závěr provede kompilátor vlastní vygenerování zdrojových kódů nebo class souborů. 
+V principu to znamená provést podobnou množinu operací, jakou provádí první kompilátor jazyka Java při kompilaci \cite{hackers_guide_to_javac}. Ten nejprve načte všechny \verb+*.java+ soubory a namapuje sekvence tokenů na uzly AST stromu. Následně vloží všechny nalezené symboly do tabulky symbolů (např. jména datových typů, proměnných atd.). Provede zpracování anotací nalezených v kompilačních jednotkách. Ve fázi \emph{attribute} jsou provedeny operace jako rozlišení jmen, kontrola datových typů a zjednodušení konstatních výrazů. Následuje kontrola datových toků v programu (pracuje na stromu získaném v předchozích krocích), která má za cíl určit např. nedostupné části zdrojového kódu (po příkazu return apod.). Předposlední fáze \emph{desugar} přepíše AST a zjednoduší některé výrazy používané jako \uv{syntaktický cukr} na jednodušší výrazy. Na závěr provede kompilátor vlastní vygenerování zdrojových kódů nebo class souborů.
 
 Pro provedení analýzy nám postačí zdrojové kódy zpracované do fáze \emph{attribute}. Jedná se o AST s rozlišenými jmény datových typů a proměnných. Nad těmito stromy můžeme dále pracovat.
 
@@ -318,23 +318,21 @@ Pro většinu \emph{compiler-compiler} nástrojů existuje velké množství vst
 Při použití některého z výše uvedených nástrojů bychom se dostali na úroveň vygenerovaného AST stromu. Pro potřeby analýzy je však nutné provést ještě rozlišení jmen. To by bylo nutné provést ručně. Jedná se stále o dost náročnou operaci.
 
 \subsubsection{Použití vhodné knihovny nebo existujícího programu}
-\begin{itemize}
-\item JavaParser \cite{parsertools:javaparser}
-  \begin{itemize}
-  \item projekt na GoogleHosting
-  \item v~podstatě gramatika pro JJTree vytvářející strom tříd a objektů, který je možné procházet pomocí visitor patternu
-  \end{itemize}
-\item spoon \cite{parsertools:spoon}
-\end{itemize}
+Další možností jsou existující knihovny a nástroje pro zpracování kodů v jazyce Java.
 
-Ani zmíněné knihovny neprovádějí rezoluci jmen. Proto se v dalších sekcích zaměříme na možnost využití některého z nástrojů, které tuto funkčnost mají již v sobě.
+Jako příklad můžeme uvést knihovnu \emph{JavaParser} \cite{parsertools:javaparser}. Jedná se o samostatný java projekt, který je možné zaintegrovat prostřednictvím nástroje Maven do vlastního projektu. Při bližším prozkoumání zjistíme, že se jedná vlastně o aplikaci nástroje JavaCC (resp. JJTree) distribuovaného spolu s gramatikou jazyka Java 1.5.
+
+Jiným nástrojem je \emph{spoon} \cite{parsertools:spoon}. Je to volně dostupný nástroj, preprocesor kódu v jazyce Java. Poskytuje úplný a detailní metamodel jazyka Java, kde každý element může být jak čten tak i modifikován. Dalším významným faktem je integrace nástroje do platformy Eclipse formou pluginu.
+
+Zatímco nástroj \emph{JavaParser} neprovádí rezoluci jmen, nástroj \emph{spoon} vnitřně deleguje parsování a attribution na \verb+javac+ kompiler. Proto se v dalších sekcích zaměříme na možnost využití některého z nástrojů, které podobným způsobem poskytují zpracování až do požadované fáze.
 
 \subsubsection{Použití prostředků poskytovaných platformou Java}
-použití prostředků poskytovaných platformou Java 6 (Sun verze) \cite{source_code_analysis_corejavatechtips}
+Jazyk Java od verze 6 poskytuje zajímavé možnosti integrace volání kompilátoru jazyka Java do kódu uživatelských programů \cite{source_code_analysis_corejavatechtips}. Jedná se o následující aplikační rozhraní:
+
 \begin{itemize}
 \item \emph{JSR 199 -- Java Compiler API}
   \begin{itemize}
-  \item volání překladače jazyka Java pomocí API ze zdrojového kódu programu
+  \item specifikuje způsoby volání překladače jazyka Java pomocí API ze zdrojového kódu programu
   \item balíček \verb+javax.tools+
   \end{itemize}
 \item \emph{JSR 269 -- Pluggable Annotation Processing API}
@@ -345,11 +343,13 @@ použití prostředků poskytovaných platformou Java 6 (Sun verze) \cite{source
   \end{itemize}
 \item \emph{Compiler Tree API} \cite{parsertools:compilertreeapi}
   \begin{itemize}
-  \item nestandardní rozšíření Java JDK
+  \item nestandardní rozšíření Java JDK (Sun verze)
   \item balíček \verb+com.sun.source.tree+ -- poskytuje rozhraní pro reprezentaci zdrojového kódu jako AST
   \item balíček \verb+com.sun.source.util+ -- poskytuje rozhraní pro operace nad AST
   \end{itemize}
 \end{itemize}
+
+Pomocí těchto nástrojů je možné získat poměrně snadno přístup do průběhu zpracování zdrojového kódu pomocí \verb+javac+ compileru. Přístup však je na úrovni zpracovávání anotací (viz výše) a probíhá po částech (rounds). Nemáme tak k dispozici plný AST strom, nad kterým by byla již provedena fáze \emph{attribute} \cite{hackers_guide_to_javac}.
 
 \subsubsection{Použití prostředků některého z Java IDE}
 \begin{itemize}
