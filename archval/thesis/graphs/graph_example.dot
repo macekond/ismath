@@ -6,35 +6,35 @@ digraph GraphExample {
     node[shape=plaintext,fontsize=13,fontname=Georgia];
     edge[dir="back",fontsize=13,fontname=Georgia];
 
-    Bicycle[label="Name: Bicycle\nKind: class"];
-    Car[label="Name: Car\nKind: class"];
-    MotorCycle[label="Name: MotorCycle\nKind: class"];
-    MountainBike[label="Name: MountainBike\nKind: class"];
-    RacingBike[label="Name: RacingBike\nKind: class"];
-    Vehicle[label="Name: Vehicle\nKind: class"];
+    Bicycle[label="Name: \"Bicycle\"\nKind: \"class\""];
+    Car[label="Name: \"Car\"\nKind: \"class\""];
+    MotorCycle[label="Name: \"MotorCycle\"\nKind: \"class\""];
+    MountainBike[label="Name: \"MountainBike\"\nKind: \"class\""];
+    RacingBike[label="Name: \"RacingBike\"\nKind: \"class\""];
+    Vehicle[label="Name: \"Vehicle\"\nKind: \"class\""];
 
-    Vehicle -> Bicycle[label="(1) Class: <<extends>>"];
-    Vehicle -> Car[label="(2) Class: <<extends>>"];
-    Vehicle -> MotorCycle[label="(3) Class: <<extends>>"];
-    Bicycle -> MountainBike[label="(4) Class: <<extends>>"];
-    Bicycle -> RacingBike[label="(5) Class: <<extends>>"];
+    Vehicle -> Bicycle[label="(1) Class: \"extends\""];
+    Vehicle -> Car[label="(2) Class: \"extends\""];
+    Vehicle -> MotorCycle[label="(3) Class: \"extends\""];
+    Bicycle -> MountainBike[label="(4) Class: \"extends\""];
+    Bicycle -> RacingBike[label="(5) Class: \"extends\""];
 
     edge[dir="forward",fontsize=13,fontname=Georgia];
 
-    wheelNumber[label="Name: wheelNumber\nKind: public_field"];
-    Vehicle -> wheelNumber[label="(6) Class: <<has_member>>"];
+    wheelNumber[label="Name: \"wheelNumber\"\nKind: \"public_field\""];
+    Vehicle -> wheelNumber[label="(6) Class: \"has_member\""];
 
-    doorNumber[label="Name: doorNumber\nKind: public_field"];
-    controlGear[label="Name: controlGear\nKind: public_method"];
-    gearUp[label="Name: gearUp\nKind: public_method"];
-    gearDown[label="Name: gearDown\nKind: public_method"];
+    doorNumber[label="Name: \"doorNumber\"\nKind: \"public_field\""];
+    controlGear[label="Name: \"controlGear\"\nKind: \"public_method\""];
+    gearUp[label="Name: \"gearUp\"\nKind: \"public_method\""];
+    gearDown[label="Name: \"gearDown\"\nKind: \"public_method\""];
 
-    Car -> gearUp[label="(7) Class: <<has_member>>"];
-    Car -> controlGear[label="(8) Class: <<has_member>>"];
+    Car -> gearUp[label="(7) Class: \"has_member\""];
+    Car -> controlGear[label="(8) Class: \"has_member\""];
 
-    Car -> doorNumber[label="(9) Class: <<has_memeber>>"];
-    Car -> gearDown[label="(10) Class: <<has_member>>"];
+    Car -> doorNumber[label="(9) Class: \"has_memeber\""];
+    Car -> gearDown[label="(10) Class: \"has_member\""];
 
-    controlGear -> gearUp[label="(11) Class: <<calls>>"];
-    controlGear -> gearDown[label="(12) Class: <<calls>>"];
+    controlGear -> gearUp[label="(11) Class: \"calls\""];
+    controlGear -> gearDown[label="(12) Class: \"calls\""];
 };

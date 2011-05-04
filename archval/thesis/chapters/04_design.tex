@@ -3,7 +3,7 @@
 
 \section{Návrh způsobu specifikace pravidel}
 
-Abychom mohli specifikovat pravidla, musíme nejprve definovat strukturu, nad kterou budou tato pravidla platit. V tomto textu formalizujeme model programu pomocí teorie grafů. Nad grafem je možné dále specifikovat pravidla, která musí vstupní projekt splňovat.
+Abychom mohli specifikovat pravidla, musíme nejprve definovat strukturu, nad kterou budou tato pravidla platit. V tomto textu formalizujeme model programu pomocí teorie grafů. Nad grafem je potom možné specifikovat pravidla, která musí vstupní projekt splňovat.
 
 \subsection{Formalizace modelu programu pomocí grafu}
 \label{design-graph_formalization}
@@ -37,87 +37,82 @@ Ukázka formalizace zdrojového kódu pomocí grafu je na obrázku \ref{design-g
 Množinu vrcholů můžeme ztotožnit s množinou názvů elementů (v našem případě třídy, pole, metody)\footnote{V konečném důsledku bude tato množina představována konkrétními elementy tak, jak se nalézají ve zdrojovém kódu.}.
 \begin{align*}
   V = &\{ \\
-  &Vehicle, Car, MotorCycle, Bicycle, MountainBike, RacingBike, \\
-  &wheelNumber, doorNumber, \\
-  &controlGear, gearUp, gearDown \\
+  &``Vehicle", ``Car", ``MotorCycle", ``Bicycle", ``MountainBike", ``RacingBike", \\
+  &``wheelNumber", ``doorNumber", \\
+  &``controlGear", ``gearUp", ``gearDown" \\
   &\}
 \end{align*}
-Abychom mohli demonstrovat množinu hran, bylo provedeno očíslování. Hranu zde identifikujeme číslem. V počítačové reprezentaci se může jednat o konkrétní objekt uložený v poli. Množinu hran potom můžeme reprezentovat prostým výčtem čísel:
-% TODO: přidat: identifikátor hrany je zde reprezentován číslem, v implementaci může být hrana ztotožněna přímo s objektem v konkrétním programovacím jazyce, identifikátor hrany nemá vliv na prováděnou analýzu
+Abychom mohli demonstrovat množinu hran, bylo provedeno očíslování. Hranu zde identifikujeme číslem. V počítačové reprezentaci se může jednat o konkrétní objekt uložený v poli. Zvolený identifikátor hrany nemá vliv na prováděnou analýzu, musí pouze zajistit jednoznačnou identifikaci hrany. Množinu hran zde v textu reprezentujeme prostým výčtem čísel\footnote{V programu bude potom hrana reprezentována konkrétním objektem případně rozšířeným o vhodný jedinečný identifikátor.}:
+
 \begin{displaymath}
   E = \{1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12\}
 \end{displaymath}
-Zobrazení $\rho$ můžeme formálně zapsat jako následující množinu\footnote{Zobrazení je binární relace. Proto jej můžeme reprezentovat jako množinu uspořádaných dvojic.}:
+Zobrazení $\rho$, které představuje přiřazení jednotlivých hran dvojicím uzlů, můžeme formálně zapsat jako následující množinu\footnote{Zobrazení je binární relace. Proto jej můžeme reprezentovat jako množinu uspořádaných dvojic.}:
 \begin{align*}
   \rho = &\{ \\
-  &(1, (Bicycle, Vehicle)), \\
-  &(2, (Car, Vehicle)), \\
-  &(3, (MotorCycle, Vehicle)), \\
-  &(4, (MountainBike, Bicycle)), \\
-  &(5, (RacingBike, Bicycle)), \\
-  &(6, (Vehicle, wheelNumber)), \\
-  &(7, (Car, gearUp)), \\
-  &(8, Car, controlGear)), \\
-  &(9, (Car, doorNumber)), \\
-  &(10, (Car, gearDown)), \\
-  &(11, (controlGear, gearUp)), \\
-  &(12, (controlGear, gearDown)) \\
+  &(1, (``Bicycle", ``Vehicle")), \\
+  &(2, (``Car", ``Vehicle")), \\
+  &(3, (``MotorCycle", ``Vehicle")), \\
+  &(4, (``MountainBike", ``Bicycle")), \\
+  &(5, (``RacingBike", ``Bicycle")), \\
+  &(6, (``Vehicle", ``wheelNumber")), \\
+  &(7, (``Car", ``gearUp")), \\
+  &(8, (``Car", ``controlGear")), \\
+  &(9, (``Car", ``doorNumber")), \\
+  &(10, (``Car", ``gearDown")), \\
+  &(11, (``controlGear", ``gearUp")), \\
+  &(12, (``controlGear", ``gearDown")) \\
   &\}
 \end{align*}
 Zbývají nám množina typů $K$,
 \begin{align*}
-  K = \{ class, public\_field, public\_method \}
+  K = \{ ``class", ``public\_field", ``public\_method" \}
 \end{align*}
 množina klasifikátorů hran $C$,
 \begin{align*}
-  C = \{ \langle\langle{}extends\rangle\rangle, \langle\langle{}has\_member\rangle\rangle, \langle\langle{}calls\rangle\rangle \}
+  C = \{ ``extends", ``has\_member", ``calls" \}
 \end{align*}
 přiřazení typů uzlům $Kind$,
 \begin{align*}
   Kind = &\{ \\
-  &(Bicycle, class), \\
-  &(Car, class), \\
-  &(MotorCycle, class), \\
-  &(MountainBike, class), \\
-  &(RacingBike, class), \\
-  &(Vehicle, class), \\
-  &(wheelNumber, public\_field), \\
-  &(doorNumber, public\_field), \\
-  &(controlGear, public\_method), \\
-  &(gearUp, public\_method), \\
-  &(gearDown, public\_method) \\
+  &(``Bicycle", ``class"), \\
+  &(``Car", ``class"), \\
+  &(``MotorCycle", ``class"), \\
+  &(``MountainBike", ``class"), \\
+  &(``RacingBike", ``class"), \\
+  &(``Vehicle", ``class"), \\
+  &(``wheelNumber", ``public\_field"), \\
+  &(``doorNumber", ``public\_field"), \\
+  &(``controlGear", ``public\_method"), \\
+  &(``gearUp", ``public\_method"), \\
+  &(``gearDown", ``public\_method") \\
   &\}
 \end{align*}
 a přiřazení klasifikátorů hranám:
 \begin{align*}
   Class = &\{ \\
-  &(1, \langle\langle{}extends\rangle\rangle), \\
-  &(2, \langle\langle{}extends\rangle\rangle), \\
-  &(3, \langle\langle{}extends\rangle\rangle), \\
-  &(4, \langle\langle{}extends\rangle\rangle), \\
-  &(5, \langle\langle{}extends\rangle\rangle), \\
-  &(6, \langle\langle{}has\_member\rangle\rangle), \\
-  &(7, \langle\langle{}has\_member\rangle\rangle), \\
-  &(8, \langle\langle{}has\_member\rangle\rangle), \\
-  &(9, \langle\langle{}has\_memeber\rangle\rangle), \\
-  &(10, \langle\langle{}has\_member\rangle\rangle), \\
-  &(11, \langle\langle{}calls\rangle\rangle), \\
-  &(12, \langle\langle{}calls\rangle\rangle), \\
+  &(1, ``extends"), \\
+  &(2, ``extends"), \\
+  &(3, ``extends"), \\
+  &(4, ``extends"), \\
+  &(5, ``extends"), \\
+  &(6, ``has\_member"), \\
+  &(7, ``has\_member"), \\
+  &(8, ``has\_member"), \\
+  &(9, ``has\_memeber"), \\
+  &(10, ``has\_member"), \\
+  &(11, ``calls"), \\
+  &(12, ``calls"), \\
   \}
 \end{align*}
 
-%% TODO: sort
-%% Graf elementů použitých v kódu. Vrcholy $v \in V$ představují různé syntaktické elementy v analyzovaném kódu. Záleží na úrovni prováděné analýzy, jaké zvolíme vrcholy. V případě, že budeme analyzovat \uv{nízkoúrovňové} chování funkce, mohou být vrcholy jednotlivé příkazy a jejich části. Pokud budeme analyzovat míru provázanosti tříd nebo metod, stačí když použijeme jako vrcholy třídy a metody (případně parametry metod.)
-%% $G = (V, E)$
-%% typy grafů: class hierarchy graph, call graph
-%% call graph: wikipedia (<<invokes>> vazby)
-%%
-%% http://en.wikipedia.org/wiki/Call_graph
-%%
+Uvedené množiny můžeme poměrně snadno reprezentovat v programovacím jazyce Java jako objekty. V dalším návrhu bude zavedena třída \emph{Vertex}, hrana \emph{Edge} a další podobné objekty.
+
+Vrcholy takto vytvořeného grafu nemusí být pouze třídy, můžeme použít libovolné syntaktické elementy z~kódu, který analyzujeme. Vždy záleží na úrovni prováděné analýzy, co zvolíme jako vrcholy grafu, jaké hrany mezi nimi zvolíme a jaká označení a typy budou mít. Nástroj, který budeme navrhovat bude počítat s libovolným takto vybudovaným grafem. Ke grafům konkrétního typu přiřadíme idnentifikátory a při specifikaci pravidel vždy uvedme, nad kterým typem grafu má definované pravidlo platit.
 
 \subsection{Formalizace pravidel}
 \label{design-rules_formalization}
-% TODO: aktualizovat (gramatika byla přesunuta)
+% TODO: CONTINUEHERE: aktualizovat (gramatika byla přesunuta)
 Nyní, když máme definován model, můžeme popsat jazyk pravidel, která mají pro daný model platit. Vytvoříme jednoduchý jazyk (DSL) pro specifikaci validačních parametrů. Jazyk popíšeme jednoduchou gramatikou. U této gramatiky předpokládáme, že bílé znaky jsou ignorovány (pokud nejsou uvnitř řetězce).
 
 % TODO: definovat základní elementy jazyka pravidel
@@ -164,9 +159,6 @@ Ne všechna pravidla lze popsat exaktně ve smyslu splněno/nesplněno. Mnohdy m
 \section{Návrh architektury systému}
 \label{design-architecture}
 
-%% TODO: přidat poznámku
-%% návrh je řešen tak, aby bylo možné poskytnout další rozhraní k systému (např. CLI, TUI, atd.) - ValidationTask lze zabudovat do jiných programů a lze jej řídit, při poskytnutí rozhraní *Register je možné dodávat poskytovatele služeb i z jiných zdrojů (na platformě NetBeans je řešeno pomocí lookupů <- tohle patří ale spíš do implementace)
-
 Při návrhu architektury systému postupujeme metodou shora dolů. Nejprve budeme systém uvažovat jako jeden velký celek s globální zodpovědností (funkcionalitou). Tento velký blok následně dekomponujeme na jednotlivé komponenty, kterým přidělíme jasně definované zodpovědnosti.
 
 Pro výsledný systém budeme používat kódové jméno ArchVal (Architecture validator), zkracované často v~názvech modulů jako \verb+av+.
@@ -202,7 +194,7 @@ Nyní můžeme již specifikovat rozhraní, která budou muset být implementov�
 \begin{itemize}
 \item \emph{GraphGeneratorIface} -- rozhraní generátoru grafu,
 \item \emph{OperatorIface} -- rozhraní operátorů (selektorů a predikátů),
-\item \emph{AnalysisIface} -- rozhraní analytických modulů,
+\item \emph{AnalysisIface} -- rozhraní analytických modulů.
 \end{itemize}
 
 Celá dekompozice provedená v tomto stupni je zachycena v diagramu komponent na obrázku \ref{design-modules}. Modul jádra nazveme \verb+av-core+.
@@ -499,6 +491,9 @@ U každého pravidla musí být deklarace typu grafu, nad nímž má platit.
 \end{itemize}
 
 \section{Návrh způsobu integrace do různých typů prostředí}
+%% TODO: zapracovat
+%% návrh je řešen tak, aby bylo možné poskytnout další rozhraní k systému (např. CLI, TUI, atd.) - ValidationTask lze zabudovat do jiných programů a lze jej řídit, při poskytnutí rozhraní *Register je možné dodávat poskytovatele služeb i z jiných zdrojů (na platformě NetBeans je řešeno pomocí lookupů <- tohle patří ale spíš do implementace)
+
 Rozhraní ArchVal API je záměrně navrženo tak, aby jej bylo možné integrovat do různých typů prostředí, např:
 
 \begin{itemize}

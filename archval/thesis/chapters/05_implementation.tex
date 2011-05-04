@@ -102,7 +102,7 @@ Můžeme si všimnout, že se obě implementace liší pouze přehozením podmí
 
 \section{Implementace modulů rozšíření}
 
-\subsection{av-graphgen-demeter}
+\subsection{Modul av-graphgen-demeter}
 ukázkový poskytovatel generátoru grafu
 
 \emph{DemeterGraphGeneratorProvider} implementuje \emph{GraphGeneratorIface}.
@@ -124,15 +124,15 @@ ukázkový poskytovatel generátoru grafu
 %% \item modifikátory přístupu (private, public, protected, package private) -- možnost \uv{ořezat} graf závislosti tříd -- je možné, že pro některé druhy analýzy bude toto nežádoucí.
 %% \end{itemize}
 
-\subsection{av-operators-demeter}
+\subsection{Modul av-operators-demeter}
 ukázkový balíček operátorů pro ověřování principu LoD
 
 Obsahuje sadu tříd implementující operátory potřebné pro definování pravidla pro validaci LoD. Tyto třídy implementují rozhraní \emph{OperatorIface} (resp. jeho podtypy).
 
-\subsection{av-analysis-lowcoup}
+\subsection{Modul av-analysis-lowcoup}
 ukázková analýza low coupling
 
-\subsection{av-analysis-highcoh}
+\subsection{Modul av-analysis-highcoh}
 ukázková analýza high cohesion
 
 \section{Integrace do NetBeans IDE}
@@ -168,6 +168,11 @@ Integrace do běhové platformy. Reprezentuje uživatelskou akci. Bude implement
 \item experimentální mime typ \verb+text/x-avd+
 \item zvýrazňování syntaxe
 \end{itemize}
+
+\subsubsection{Modul av-avd-editor}
+
+\subsubsection{Modul av-avd-highlighter}
+
 
 \subsection{Výstupní rozhraní}
 Podpora pro různé formáty výstupu. Popsat vnitřní reprezentaci reportu, tak aby jej bylo možné převést na vhodnou vnější reprezentaci. Podpora pro dopsání různých výstupních formátu jako např.:
