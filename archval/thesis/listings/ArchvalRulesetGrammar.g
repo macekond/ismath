@@ -1,1 +1,1 @@
-../../project/av-core/src/cz/cvut/fel/archval/ruleset_parser/antlr/ArchvalRulesetGrammar.g
+../../project/av-core/src/cz/cvut/fel/archval/core/avd/parser/ArchvalRulesetGrammar.g
