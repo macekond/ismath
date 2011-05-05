@@ -1,6 +1,7 @@
 package cz.cvut.fel.archval.core.api.graphgen;
 
 import cz.cvut.fel.archval.core.api.GraphModelGeneratorIface;
+import cz.cvut.fel.archval.core.api.register.GraphGeneratorsRegisterIface;
 
 /**
  *
@@ -8,4 +9,8 @@ import cz.cvut.fel.archval.core.api.GraphModelGeneratorIface;
  */
 public class GraphModelGenerator implements GraphModelGeneratorIface {
 
+    private GraphGeneratorsRegisterIface graphGeneratorsRegister;
+
+    public GraphModelGenerator(GraphGeneratorsRegisterIface generatorsRegister) {
+    }
 }

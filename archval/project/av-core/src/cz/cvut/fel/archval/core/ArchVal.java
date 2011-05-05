@@ -4,6 +4,9 @@ import cz.cvut.fel.archval.core.api.GraphModelGeneratorIface;
 import cz.cvut.fel.archval.core.api.ValidationModelGeneratorIface;
 import cz.cvut.fel.archval.core.api.ValidationTaskIface;
 import cz.cvut.fel.archval.core.api.graphgen.GraphModelGenerator;
+import cz.cvut.fel.archval.core.api.register.AnalysesRegisterIface;
+import cz.cvut.fel.archval.core.api.register.GraphGeneratorsRegisterIface;
+import cz.cvut.fel.archval.core.api.register.OperatorsRegisterIface;
 import cz.cvut.fel.archval.core.api.task.ValidationTask;
 import cz.cvut.fel.archval.core.api.valgen.ValidationModelGenerator;
 import cz.cvut.fel.archval.core.model.graph.GraphModel;
@@ -14,26 +17,29 @@ import cz.cvut.fel.archval.core.model.validation.ValidationModel;
  * 
  * @author Martin Vejmelka (martin.vejmelka@fel.cvut.cz)
  */
-public abstract class ArchVal {
+public class ArchVal {
 
-    private static GraphModelGeneratorIface graphModelGenerator;
-    private static ValidationModelGeneratorIface validationModelGenerator;
+    private final GraphModelGeneratorIface graphModelGenerator;
+    private final ValidationModelGeneratorIface validationModelGenerator;
 
-    public static GraphModelGeneratorIface getGraphModelGenerator() {
-        if (graphModelGenerator == null) {
-            graphModelGenerator = new GraphModelGenerator();
-        }
+    public ArchVal(GraphGeneratorsRegisterIface graphGeneratorsRegister,
+            OperatorsRegisterIface operatorsRegister,
+            AnalysesRegisterIface analysesRegister) {
+
+        graphModelGenerator = new GraphModelGenerator(graphGeneratorsRegister);
+        validationModelGenerator = new ValidationModelGenerator(
+                operatorsRegister, analysesRegister);
+    }
+
+    public GraphModelGeneratorIface getGraphModelGenerator() {
         return graphModelGenerator;
     }
 
-    public static ValidationModelGeneratorIface getValidationModelGenerator() {
-        if (validationModelGenerator == null) {
-            validationModelGenerator = new ValidationModelGenerator();
-        }
+    public ValidationModelGeneratorIface getValidationModelGenerator() {
         return validationModelGenerator;
     }
 
-    public static ValidationTaskIface createValidationTask(
+    public ValidationTaskIface createValidationTask(
             GraphModel graphModel,
             ValidationModel validationModel) {
         return new ValidationTask(graphModel, validationModel);
