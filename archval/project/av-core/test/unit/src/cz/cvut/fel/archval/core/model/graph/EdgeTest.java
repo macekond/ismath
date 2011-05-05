@@ -1,5 +1,7 @@
 package cz.cvut.fel.archval.core.model.graph;
 
+import cz.cvut.fel.archval.core.api.model.graph.Edge;
+import cz.cvut.fel.archval.core.api.model.graph.Vertex;
 import org.junit.Assert;
 import org.junit.Test;
 

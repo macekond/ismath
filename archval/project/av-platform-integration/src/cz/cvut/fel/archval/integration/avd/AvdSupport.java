@@ -1,6 +1,6 @@
 package cz.cvut.fel.archval.integration.avd;
 
-import cz.cvut.fel.archval.core.model.validation.ValidationModel;
+import cz.cvut.fel.archval.core.api.model.validation.ValidationModel;
 import java.io.BufferedReader;
 import java.io.FileNotFoundException;
 import java.io.IOException;

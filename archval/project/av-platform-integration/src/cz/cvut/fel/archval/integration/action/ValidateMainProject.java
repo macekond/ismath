@@ -1,6 +1,6 @@
 package cz.cvut.fel.archval.integration.action;
 
-import cz.cvut.fel.archval.core.model.validation.ValidationModel;
+import cz.cvut.fel.archval.core.api.model.validation.ValidationModel;
 import cz.cvut.fel.archval.integration.avd.AvdCookie;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;

@@ -1,7 +1,7 @@
 package cz.cvut.fel.archval.core.operator.logical;
 
-import cz.cvut.fel.archval.core.operator.OperatorIface;
-import cz.cvut.fel.archval.core.types.DataType;
+import cz.cvut.fel.archval.core.api.operator.OperatorIface;
+import cz.cvut.fel.archval.core.api.types.DataType;
 import java.util.List;
 
 /**

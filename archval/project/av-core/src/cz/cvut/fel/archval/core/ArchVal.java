@@ -3,14 +3,14 @@ package cz.cvut.fel.archval.core;
 import cz.cvut.fel.archval.core.api.GraphModelGeneratorIface;
 import cz.cvut.fel.archval.core.api.ValidationModelGeneratorIface;
 import cz.cvut.fel.archval.core.api.ValidationTaskIface;
-import cz.cvut.fel.archval.core.api.graphgen.GraphModelGenerator;
+import cz.cvut.fel.archval.core.graphgen.GraphModelGenerator;
 import cz.cvut.fel.archval.core.api.register.AnalysesRegisterIface;
 import cz.cvut.fel.archval.core.api.register.GraphGeneratorsRegisterIface;
 import cz.cvut.fel.archval.core.api.register.OperatorsRegisterIface;
-import cz.cvut.fel.archval.core.api.task.ValidationTask;
-import cz.cvut.fel.archval.core.api.valgen.ValidationModelGenerator;
-import cz.cvut.fel.archval.core.model.graph.GraphModel;
-import cz.cvut.fel.archval.core.model.validation.ValidationModel;
+import cz.cvut.fel.archval.core.task.ValidationTask;
+import cz.cvut.fel.archval.core.valgen.ValidationModelGenerator;
+import cz.cvut.fel.archval.core.api.model.graph.GraphModel;
+import cz.cvut.fel.archval.core.api.model.validation.ValidationModel;
 
 /**
  * This class serves as facade to all Archval functionality.
