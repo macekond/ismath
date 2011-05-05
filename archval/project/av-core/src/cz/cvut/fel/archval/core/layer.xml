@@ -1,36 +1,4 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE filesystem PUBLIC "-//NetBeans//DTD Filesystem 1.2//EN" "http://www.netbeans.org/dtds/filesystem-1_2.dtd">
 <filesystem>
-    <folder name="Actions">
-        <folder name="Tools">
-            <file name="cz-cvut-fel-archval-actions-ValidateAction.instance">
-                <attr name="delegate" newvalue="cz.cvut.fel.archval.core.actions.ValidateAction"/>
-                <attr name="displayName" bundlevalue="cz.cvut.fel.archval.core.actions.Bundle#CTL_ValidateAction"/>
-                <attr name="iconBase" stringvalue="cz/cvut/fel/archval/core/actions/validate-action.png"/>
-                <attr name="instanceCreate" methodvalue="org.openide.awt.Actions.alwaysEnabled"/>
-                <attr name="noIconInMenu" boolvalue="false"/>
-            </file>
-        </folder>
-    </folder>
-    <folder name="Menu">
-        <folder name="Tools">
-            <file name="cz-cvut-fel-archval-actions-ValidateAction.shadow">
-                <attr name="originalFile" stringvalue="Actions/Tools/cz-cvut-fel-archval-actions-ValidateAction.instance"/>
-                <attr name="position" intvalue="0"/>
-            </file>
-        </folder>
-    </folder>
-    <folder name="Shortcuts">
-        <file name="D-V.shadow">
-            <attr name="originalFile" stringvalue="Actions/Tools/cz-cvut-fel-archval-actions-ValidateAction.instance"/>
-        </file>
-    </folder>
-    <folder name="Toolbars">
-        <folder name="File">
-            <file name="cz-cvut-fel-archval-actions-ValidateAction.shadow">
-                <attr name="originalFile" stringvalue="Actions/Tools/cz-cvut-fel-archval-actions-ValidateAction.instance"/>
-                <attr name="position" intvalue="0"/>
-            </file>
-        </folder>
-    </folder>
 </filesystem>

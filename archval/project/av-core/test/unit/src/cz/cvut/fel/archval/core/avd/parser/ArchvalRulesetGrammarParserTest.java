@@ -1,7 +1,5 @@
 package cz.cvut.fel.archval.core.avd.parser;
 
-import cz.cvut.fel.archval.core.avd.parser.ArchvalRulesetGrammarLexer;
-import cz.cvut.fel.archval.core.avd.parser.ArchvalRulesetGrammarParser;
 import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
