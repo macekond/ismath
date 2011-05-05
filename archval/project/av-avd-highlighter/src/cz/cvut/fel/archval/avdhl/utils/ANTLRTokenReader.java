@@ -70,7 +70,15 @@ public class ANTLRTokenReader {
      */
     public List<AvdTokenId> readTokenFile() {
         ClassLoader classLoader = Thread.currentThread().getContextClassLoader();
-        InputStream inp = classLoader.getResourceAsStream("cz/cvut/fel/archval/avdhl/utils/ArchvalRulesetGrammar.tokens");
+        InputStream inp = classLoader.getResourceAsStream(
+                "cz/cvut/fel/archval/avdhl/utils/ArchvalRulesetGrammar.tokens");
+        if (inp == null) {
+            throw new IllegalStateException("Important file with antlr tokens"
+                    + "was not found. Please fix the problem by adding "
+                    + "cz/cvut/fel/archval/avdhl/utils/"
+                    + "ArchvalRulesetGrammar.tokens file to the right directory"
+                    + " (or fix broken symbolic link).");
+        }
         BufferedReader input = new BufferedReader(new InputStreamReader(inp));
         readTokenFile(input);
         return tokens;

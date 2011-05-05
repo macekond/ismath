@@ -1,4 +1,4 @@
-package cz.cvut.fel.archval.avdeditor;
+package cz.cvut.fel.archval.integration.avd;
 
 import java.io.IOException;
 import org.openide.filesystems.FileObject;
@@ -12,12 +12,13 @@ import org.openide.nodes.Children;
 import org.openide.util.Lookup;
 import org.openide.text.DataEditorSupport;
 
-public class ValidationUnitDataObject extends MultiDataObject {
+public class AvdDataObject extends MultiDataObject {
 
-    public ValidationUnitDataObject(FileObject pf, MultiFileLoader loader) throws DataObjectExistsException, IOException {
+    public AvdDataObject(FileObject pf, MultiFileLoader loader) throws DataObjectExistsException, IOException {
         super(pf, loader);
         CookieSet cookies = getCookieSet();
         cookies.add((Node.Cookie) DataEditorSupport.create(this, getPrimaryEntry(), cookies));
+        cookies.assign(AvdCookie.class, new AvdSupport(this));
     }
 
     @Override

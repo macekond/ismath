@@ -1,6 +1,0 @@
-Manifest-Version: 1.0
-OpenIDE-Module: cz.cvut.fel.archval.avdeditor
-OpenIDE-Module-Layer: cz/cvut/fel/archval/avdeditor/layer.xml
-OpenIDE-Module-Localizing-Bundle: cz/cvut/fel/archval/avdeditor/Bundle.properties
-OpenIDE-Module-Specification-Version: 1.0
-

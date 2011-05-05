@@ -129,6 +129,7 @@
             </test-dependencies>
             <public-packages>
                 <package>cz.cvut.fel.archval.core.avd.parser</package>
+                <package>cz.cvut.fel.archval.core.model.validation</package>
             </public-packages>
         </data>
     </configuration>
