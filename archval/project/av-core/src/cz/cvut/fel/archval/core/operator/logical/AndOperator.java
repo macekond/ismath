@@ -30,4 +30,9 @@ public class AndOperator implements OperatorIface {
         throw new UnsupportedOperationException("Not supported yet.");
     }
 
+    @Override
+    public DataType getReturnType() {
+        throw new UnsupportedOperationException("Not supported yet.");
+    }
+
 }

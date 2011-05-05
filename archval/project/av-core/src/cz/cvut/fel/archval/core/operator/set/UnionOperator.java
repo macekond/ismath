@@ -25,4 +25,9 @@ public class UnionOperator implements OperatorIface {
     public Object execute(List<?> operands) {
         throw new UnsupportedOperationException("Not supported yet.");
     }
+
+    @Override
+    public DataType getReturnType() {
+        throw new UnsupportedOperationException("Not supported yet.");
+    }
 }
