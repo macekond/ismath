@@ -1,7 +1,9 @@
 package cz.cvut.fel.archval.core.api;
 
 import cz.cvut.fel.archval.core.model.validation.ValidationModel;
+import java.io.IOException;
 import java.io.InputStream;
+import org.antlr.runtime.RecognitionException;
 
 /**
  *
@@ -9,9 +11,7 @@ import java.io.InputStream;
  */
 public interface ValidationModelGeneratorIface {
 
-    ValidationModel constructValidationModel(InputStream is);
+    ValidationModel constructValidationModel(InputStream is) throws IOException, RecognitionException;
 
-    ValidationModel constructModel(String string);
-
-    ValidationModel constructModel();
+    ValidationModel constructValidationModel(String string) throws RecognitionException;
 }
