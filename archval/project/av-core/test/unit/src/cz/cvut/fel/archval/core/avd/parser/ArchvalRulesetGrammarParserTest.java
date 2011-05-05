@@ -1,8 +1,7 @@
-package cz.cvut.fel.archval.ruleset_parser.antlr;
+package cz.cvut.fel.archval.core.avd.parser;
 
 import cz.cvut.fel.archval.core.avd.parser.ArchvalRulesetGrammarLexer;
 import cz.cvut.fel.archval.core.avd.parser.ArchvalRulesetGrammarParser;
-import antlr.ANTLRException;
 import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -15,7 +14,7 @@ import org.antlr.runtime.tree.Tree;
 import org.junit.Test;
 
 /**
- * Unit test for validation ruleset parser
+ * Unit test for validation ruleset parser.
  *
  * @author Martin Vejmelka (martin.vejmelka@fel.cvut.cz)
  */
