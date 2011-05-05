@@ -111,6 +111,8 @@
                 </test-type>
             </test-dependencies>
             <public-packages>
+                <package>cz.cvut.fel.archval.core.api</package>
+                <package>cz.cvut.fel.archval.core.api.register</package>
                 <package>cz.cvut.fel.archval.core.avd.parser</package>
                 <package>cz.cvut.fel.archval.core.model.validation</package>
             </public-packages>
