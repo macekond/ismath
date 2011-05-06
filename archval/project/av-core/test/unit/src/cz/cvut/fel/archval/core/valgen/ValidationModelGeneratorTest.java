@@ -1,40 +1,54 @@
 package cz.cvut.fel.archval.core.valgen;
 
-import cz.cvut.fel.archval.core.api.analysis.AnalysisIface;
-import cz.cvut.fel.archval.core.api.register.AnalysesRegisterIface;
+import cz.cvut.fel.archval.core.api.ex.OperatorNotFoundException;
+import cz.cvut.fel.archval.core.api.ex.ValidationModelGenerationException;
+import cz.cvut.fel.archval.core.api.model.validation.ValidationModel;
+import cz.cvut.fel.archval.core.mock.MockAnalysesRegister;
+import cz.cvut.fel.archval.core.mock.MockOperatorsRegister;
+import java.io.IOException;
 import java.io.InputStream;
-import java.util.LinkedList;
-import java.util.List;
+import org.antlr.runtime.RecognitionException;
 import org.junit.Assert;
 import org.junit.Test;
 
 /**
+ * Test for ValidationModelGenerator.
  *
  * @author Martin Vejmelka (martin.vejmelka@fel.cvut.cz)
  */
 public class ValidationModelGeneratorTest {
 
-    /**
-     * Test of constructValidationModel method, of class ValidationModelGenerator.
-     */
-    @Test
-    public void testConstructValidationModel() throws Exception {
-        InputStream is = ValidationModelGeneratorTest.class.getResourceAsStream("../avd/parser/testing.avd");
-        Assert.assertNotNull(is);
+    @Test(expected = IllegalArgumentException.class)
+    public void testNullParametersInConstructionMethods() throws
+            RecognitionException, ValidationModelGenerationException,
+            IOException, OperatorNotFoundException {
 
-        // TODO: complete
-        ValidationModelGenerator validationModelGenerator = new ValidationModelGenerator(null, new AnalysesRegisterIface() {
+        ValidationModelGenerator validationModelGenerator =
+                new ValidationModelGenerator(
+                new MockOperatorsRegister(),
+                new MockAnalysesRegister());
 
-            @Override
-            public List<AnalysisIface> getAnalysesList() {
-                return new LinkedList<AnalysisIface>();
-            }
+        validationModelGenerator.constructValidationModel((String) null);
+        validationModelGenerator.constructValidationModel((InputStream) null);
+    }
 
-            @Override
-            public AnalysisIface getAnalysisByName(String name) {
-                return new AnalysisIface() {};
-            }
-        });
-        validationModelGenerator.constructValidationModel(is);
+    // TODO: remove UOE after complete class is implemented
+    @Test(expected=UnsupportedOperationException.class)
+    public void testConstructionFromStream() throws IOException,
+            RecognitionException, ValidationModelGenerationException, OperatorNotFoundException {
+
+        ValidationModelGenerator validationModelGenerator =
+                new ValidationModelGenerator(
+                new MockOperatorsRegister(),
+                new MockAnalysesRegister());
+
+        InputStream inputStream =
+                ValidationModelGeneratorTest.class.getResourceAsStream(
+                "testing-valid.avd");
+        
+        Assert.assertNotNull(inputStream);
+
+        ValidationModel validationModel =
+                validationModelGenerator.constructValidationModel(inputStream);
     }
 }

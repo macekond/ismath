@@ -17,7 +17,7 @@ public class TokenListTest {
     @Test
     public void testTokenListProvidesValidValues() throws Exception {
         System.out.println("readTokenList");
-        TokenList instance = new TokenList();
+        TokenList instance = TokenList.getInstance();
 
         // fixed existing set
         HashMap<Integer, String> hashmap = new HashMap<Integer, String>();

@@ -10,12 +10,10 @@ import java.util.List;
  */
 public class AnalysesRegister implements AnalysesRegisterIface {
 
-    @Override
     public List<AnalysisIface> getAnalysesList() {
         throw new UnsupportedOperationException("Not supported yet.");
     }
 
-    @Override
     public AnalysisIface getAnalysisByName(String name) {
         throw new UnsupportedOperationException("Not supported yet.");
     }

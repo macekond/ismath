@@ -42,6 +42,14 @@ public class Vertex implements GraphElement {
         this.id = id;
     }
 
+    /**
+     * Special factory method, which ensures that newly created Vertex object is
+     * properly initialized.
+     * 
+     * @param name name of the vertex to be created
+     * @param type type of the vertex to be created
+     * @return new Vertex object
+     */
     public static Vertex create(String name, String type) {
         if (name == null || type == null) {
             throw new IllegalArgumentException("Vertex object can't be created "

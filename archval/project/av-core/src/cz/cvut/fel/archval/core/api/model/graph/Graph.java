@@ -11,11 +11,24 @@ import java.util.List;
 public class Graph {
 
     // TODO: implement completely and test completely
-
     private List<Edge> edges;
     private List<Vertex> vertices;
-    // add graph type
+    private String graphType;
 
+    public String getGraphType() {
+        return graphType;
+    }
+
+    public void setGraphType(String graphType) {
+        this.graphType = graphType;
+    }
+
+    /**
+     * Visitor pattern implementation. This method accepts visitor, which
+     * iterates allover the graph edges and vertices.
+     * 
+     * @param graphElementVisitor class implementing visitor interface, which receive the data
+     */
     public void accept(GraphElementVisitor graphElementVisitor) {
         for (Edge edge : edges) {
             edge.accept(graphElementVisitor);

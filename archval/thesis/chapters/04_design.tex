@@ -234,6 +234,16 @@ Přehled doménových objektů podává tabulka \ref{design-domain_object_table}
 
 Třídy \emph{ValidationModel} a \emph{GraphModel} je možné vygenerovat a používat opakovaně (cache). To se může hodit v případech, kdy chceme tentýž projekt (pro nějž jsme již jednou generovali graf) validovat pomocí jiné/upravené množiny pravidel nebo naopak pokud chceme použít jednu množinu pravidel pro validaci více projektů. Bylo by zbytečné opakovaně provádět náročné operace generování grafu nebo parsování souboru pravidel a navazování operátorů (popisováno dále).
 
+% TODO: zapracovat
+ValidationModel v sobě bude zapouzdřovat data z AVD souborů. AVD soubory budou mít samostatné jmenné prostory pro následující typy jmen:
+
+\begin{itemize}
+\item názvy analýz
+\item jména typů grafů
+\item jména atomických a složených pravidel (jmenný prostor pro atomická i složená pravidla je sdílený)
+\item jména operátorů
+\end{itemize}
+
 \subsubsection{Reprezentace grafů}
 % TODO: rozepsat
 \begin{itemize}

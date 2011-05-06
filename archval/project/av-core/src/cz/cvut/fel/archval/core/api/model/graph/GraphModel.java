@@ -1,5 +1,8 @@
 package cz.cvut.fel.archval.core.api.model.graph;
 
+import java.util.HashMap;
+import java.util.Set;
+
 /**
  * GraphModel represents set of Graph objects representing project, which is to
  * be validated or analyzed.
@@ -8,8 +11,37 @@ package cz.cvut.fel.archval.core.api.model.graph;
  */
 public class GraphModel {
 
-    // TODO: GraphModel should check uniqueness of graph types, when adding new
-    // graph to the model... it should also check the type during update of some
-    // existing graph
+    private HashMap<String, Graph> graphs;
 
+    /**
+     * Adds existing graph to GraphModel. If this model already exists graph of
+     * the same type no action is taken and the model is left the same.
+     *
+     * @param graph graph to be added to the model
+     */
+    public void addGraph(Graph graph) {
+        if (graphs.containsKey(graph.getGraphType())) {
+            return;
+        }
+        graphs.put(graph.getGraphType(), graph);
+    }
+
+    /**
+     * Returns available graph types.
+     *
+     * @return Set of  strings representing available graph types
+     */
+    public Set<String> getAvailableGraphTypes() {
+        return graphs.keySet();
+    }
+
+    /**
+     * Returns graph by type. If no such graph is found, returns null.
+     *
+     * @param graphType string representing graph type to be found
+     * @return graph or null if no graph of such type is found
+     */
+    public Graph getGraphByType(String graphType) {
+        return graphs.get(graphType);
+    }
 }

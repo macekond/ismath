@@ -19,7 +19,7 @@ public class UnionOperator implements OperatorIface {
     }
 
     public DataType getOperandType(int index) {
-        return DataType.SET;
+        throw new UnsupportedOperationException("Not implemented yet.");
     }
 
     public Object execute(List<?> operands) {

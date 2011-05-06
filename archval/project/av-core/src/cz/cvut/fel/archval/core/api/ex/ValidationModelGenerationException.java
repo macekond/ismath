@@ -1,6 +1,8 @@
-package cz.cvut.fel.archval.core.api.ex.valgen;
+package cz.cvut.fel.archval.core.api.ex;
 
 /**
+ * Generic exception thrown when there was some error during validation model
+ * generation.
  *
  * @author Martin Vejmelka (martin.vejmelka@fel.cvut.cz)
  */

@@ -7,9 +7,13 @@ import java.util.HashMap;
  *
  * @author Martin Vejmelka (martin.vejmelka@fel.cvut.cz)
  */
-public class SymbolTable {
+public class RuleNameSymbolTable {
 
-    private HashMap<String, SymbolInfo> symbols;
+    private HashMap<String, RuleNameSymbolInfo> symbols;
+
+    public RuleNameSymbolTable() {
+        symbols = new HashMap<String, RuleNameSymbolInfo>();
+    }
 
     /**
      * Returns true if symbol is already in the table.
@@ -18,18 +22,21 @@ public class SymbolTable {
      * @return
      */
     public boolean symbolExists(String symbolName) {
-        throw new UnsupportedOperationException("Not implemented yet.");
+        return symbols.containsKey(symbolName);
     }
 
     /**
      * Adds new symbol to the table. If the table already contains symbol with
-     * this name, exception is thrown.
+     * this name, nothing is added.
      *
      * @param symbolName name of the symbol to be added to the table
      * @param symbolInfo symbol information (type, position)
      */
-    public void addSymbol(String symbolName, SymbolInfo symbolInfo) {
-        throw new UnsupportedOperationException("Not implemented yet.");
+    public void addSymbol(String symbolName, RuleNameSymbolInfo symbolInfo) {
+        if (symbolExists(symbolName)) {
+            return;
+        }
+        symbols.put(symbolName, symbolInfo);
     }
 
     /**
@@ -39,8 +46,7 @@ public class SymbolTable {
      * @param symbolName name of the symbol to be found
      * @return symbol information object or null if symbol was not found
      */
-    public SymbolInfo getSymbolInfo(String symbolName) {
-        throw new UnsupportedOperationException("Not implemented yet.");
+    public RuleNameSymbolInfo getSymbolInfo(String symbolName) {
+        return symbols.get(symbolName);
     }
-
 }

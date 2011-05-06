@@ -1,0 +1,23 @@
+atomic_rule AR1(graphType1) {
+    ALL v IN V : selector("teststring", v) {
+        empty(g())
+    }
+};
+
+atomic_rule AR2(graphType2) {
+    EXISTS v IN V {
+        has_more_than(selector(), 3)
+    }
+};
+
+compound_rule CR1 {
+  AR1 AND (AR2 OR AR1)
+};
+
+compound_rule CR2 {
+  AR OR CR1
+};
+
+validate(CR2, CR1, AR2);
+
+analyze(analysis1, analysis3);

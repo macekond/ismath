@@ -8,12 +8,31 @@ import java.io.InputStreamReader;
 import java.util.HashMap;
 
 /**
+ * Reads token table from *.token file produced by ANTLR. Provides translation
+ * function, which returns token name for number.
  *
  * @author Martin Vejmelka (martin.vejmelka@fel.cvut.cz)
  */
 public class TokenList {
 
-    private HashMap<Integer, String> tokens = null;
+    private HashMap<Integer, String> tokens;
+    private static TokenList instance;
+
+    private TokenList() {
+        tokens = null;
+    }
+
+    /**
+     * Singleton implementation.
+     *
+     * @return instance of TokenList class
+     */
+    public static TokenList getInstance() {
+        if (instance == null) {
+            instance = new TokenList();
+        }
+        return instance;        
+    }
 
     /**
      * Returns string name of the token (e.g. 'Label' or 'Name') which belongs to specified number.

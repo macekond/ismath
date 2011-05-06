@@ -17,11 +17,11 @@ tokens {
 }
 
 @header {
-    package cz.cvut.fel.archval.ruleset_parser.antlr;
+    package cz.cvut.fel.archval.core.avd.parser;
 }
 
 @lexer::header {
-    package cz.cvut.fel.archval.ruleset_parser.antlr;
+    package cz.cvut.fel.archval.core.avd.parser;
 }
 
 validation_unit
@@ -108,9 +108,9 @@ quantification_variable
 
 quantification_predicate
 	:
-	(COLON Name LPAREN selector_params RPAREN)
+	(COLON Name LPAREN selector_params? RPAREN)
 	->
-	^(Name selector_params)
+	^(Name selector_params?)
 	;
 
 orexpression
@@ -224,15 +224,17 @@ catom
 	
 // operators
 EXISTS	:	'EXISTS';
+ALL	:	'ALL';
+IN	:	'IN';
+
 INTERSECT
 	:	'INTERSECT';
 UNION	:	'UNION';
 SETMINUS:	'SETMINUS';
+
 NOT 	:	'NOT';
 AND	:	'AND';
 OR	:	'OR';
-IN	:	'IN';
-ALL	:	'ALL';
 
 // keywords
 ATOMIC_RULE_KW

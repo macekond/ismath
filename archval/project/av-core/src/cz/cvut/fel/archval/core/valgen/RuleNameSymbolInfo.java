@@ -5,9 +5,9 @@ package cz.cvut.fel.archval.core.valgen;
  *
  * @author Martin Vejmelka (martin.vejmelka@fel.cvut.cz)
  */
-public class SymbolInfo {
+public class RuleNameSymbolInfo {
 
-    private SymbolKind variableKind;
+    private RuleNameSymbolKind variableKind;
     private int definitionLine;
     private int definitionColumn;
 
@@ -27,11 +27,11 @@ public class SymbolInfo {
         this.definitionLine = definitionLine;
     }
 
-    public SymbolKind getVariableKind() {
+    public RuleNameSymbolKind getVariableKind() {
         return variableKind;
     }
 
-    public void setVariableKind(SymbolKind variableKind) {
+    public void setVariableKind(RuleNameSymbolKind variableKind) {
         this.variableKind = variableKind;
     }
 }
