@@ -1,6 +1,7 @@
 
 package cz.cvut.fel.archval.core.api;
 
+import cz.cvut.fel.archval.core.api.ex.RequiredGraphNotFound;
 import cz.cvut.fel.archval.core.api.model.graph.GraphModel;
 import cz.cvut.fel.archval.core.api.model.report.ValidationReport;
 import java.util.Set;
@@ -20,6 +21,6 @@ public interface ValidationModelIface {
      * @param graphModel model to be validated by this ValidationModel
      * @return ValidationReport object, which is tree of validation result for avd file tree structure
      */
-    ValidationReport validate(GraphModel graphModel);
+    ValidationReport validate(GraphModel graphModel) throws RequiredGraphNotFound;
 
 }

@@ -1,7 +1,7 @@
 package cz.cvut.fel.archval.core.mock;
 
 import cz.cvut.fel.archval.core.api.analysis.AnalysisIface;
-import cz.cvut.fel.archval.core.api.analysis.AnalysisResult;
+import cz.cvut.fel.archval.core.api.model.report.AnalysisResult;
 import cz.cvut.fel.archval.core.api.register.AnalysesRegisterIface;
 import java.util.HashMap;
 import java.util.LinkedList;

@@ -2,9 +2,13 @@ package cz.cvut.fel.archval.core.model.validation;
 
 import cz.cvut.fel.archval.core.api.ValidationModelIface;
 import cz.cvut.fel.archval.core.api.analysis.AnalysisIface;
+import cz.cvut.fel.archval.core.api.ex.RequiredGraphNotFound;
 import cz.cvut.fel.archval.core.api.model.graph.GraphModel;
+import cz.cvut.fel.archval.core.api.model.report.AtomicRuleResult;
+import cz.cvut.fel.archval.core.api.model.report.CompoundRuleResult;
 import cz.cvut.fel.archval.core.api.model.report.ValidationReport;
-import cz.cvut.fel.archval.core.api.Validator;
+import cz.cvut.fel.archval.core.api.model.report.RuleResult;
+import cz.cvut.fel.archval.core.model.validation.ar.AtomicRule;
 import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.List;
@@ -16,7 +20,7 @@ import java.util.Set;
  *
  * @author Martin Vejmelka (martin.vejmelka@fel.cvut.cz)
  */
-public class ValidationModel implements Validator, ValidationModelIface {
+public class ValidationModel implements ValidationModelIface {
 
     private List<AnalysisIface> requiredAnalyses;
     private List<Rule> requiredRules;
@@ -44,7 +48,6 @@ public class ValidationModel implements Validator, ValidationModelIface {
      * 
      * @param rule to be added to the list of rules (rule may be added and performed multiple times)
      */
-
     public void addRequiredRule(Rule rule) {
         requiredRules.add(rule);
     }
@@ -64,15 +67,27 @@ public class ValidationModel implements Validator, ValidationModelIface {
      * @param graphModel model to be validated by this ValidationModel
      * @return ValidationReport object, which is tree of validation result for avd file tree structure
      */
-    public ValidationReport validate(GraphModel graphModel) {
+    public ValidationReport validate(GraphModel graphModel) throws RequiredGraphNotFound {
 
         ValidationReport validationReport = new ValidationReport();
 
-        // TODO: perform validation and assemble the validationReport object
-
         // evaluate validation commands
+        for (Rule rule : requiredRules) {
+            RuleResult ruleResult = null;
+            if (rule instanceof AtomicRule) {
+                ruleResult = new AtomicRuleResult();
+            } else {
+                ruleResult = new CompoundRuleResult();
+            }
+            rule.evaluate(graphModel, ruleResult);
+            validationReport.addRuleResult(ruleResult);
+        }
 
         // evaluate analysis commands
-        throw new UnsupportedOperationException("Not supported yet.");
+        for (AnalysisIface analysisIface : requiredAnalyses) {
+            validationReport.addAnalysisResult(analysisIface.evaluate());
+        }
+
+        return validationReport;
     }
 }

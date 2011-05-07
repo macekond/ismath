@@ -2,6 +2,9 @@ package cz.cvut.fel.archval.core.model.validation.cr;
 
 import cz.cvut.fel.archval.core.api.ex.RequiredGraphNotFound;
 import cz.cvut.fel.archval.core.api.model.graph.GraphModel;
+import cz.cvut.fel.archval.core.api.model.report.CompoundRuleResult;
+import cz.cvut.fel.archval.core.api.model.report.DataResult;
+import cz.cvut.fel.archval.core.api.model.report.ResultNode;
 import cz.cvut.fel.archval.core.model.validation.Rule;
 import cz.cvut.fel.archval.core.model.validation.cr.iface.CrBooleanNodeIface;
 import java.util.HashSet;
@@ -31,7 +34,12 @@ public class CompoundRule extends Rule {
         return compoundRuleExpressionRoot.getRequiredGraphTypes();
     }
 
-    public boolean evaluate(GraphModel graphModel) throws RequiredGraphNotFound {
-        return compoundRuleExpressionRoot.evaluate(graphModel);
+    public boolean evaluate(GraphModel graphModel, ResultNode resultNode) throws
+            RequiredGraphNotFound {
+
+        CompoundRuleResult compoundRuleResult = (CompoundRuleResult) resultNode;
+        DataResult dataResult = new DataResult();
+        compoundRuleResult.setDataResult(dataResult);
+        return compoundRuleExpressionRoot.evaluate(graphModel, dataResult);
     }
 }

@@ -2,6 +2,7 @@ package cz.cvut.fel.archval.core.model.validation.cr.iface;
 
 import cz.cvut.fel.archval.core.api.ex.RequiredGraphNotFound;
 import cz.cvut.fel.archval.core.api.model.graph.GraphModel;
+import cz.cvut.fel.archval.core.api.model.report.ResultNode;
 import java.util.Set;
 
 /**
@@ -10,7 +11,8 @@ import java.util.Set;
  */
 public interface CrObjectNodeIface {
 
-    public Object evaluate(GraphModel graphModel) throws RequiredGraphNotFound;
+    public Object evaluate(GraphModel graphModel, ResultNode resultNode) throws
+            RequiredGraphNotFound;
 
     public Set<String> getRequiredGraphTypes();
 }

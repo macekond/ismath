@@ -4,6 +4,9 @@ import cz.cvut.fel.archval.core.api.model.graph.Edge;
 import cz.cvut.fel.archval.core.api.model.graph.Graph;
 import cz.cvut.fel.archval.core.api.model.graph.Vertex;
 import cz.cvut.fel.archval.core.api.model.graph.visitor.GraphElementVisitor;
+import cz.cvut.fel.archval.core.api.model.report.DataResult;
+import cz.cvut.fel.archval.core.api.model.report.ResultNode;
+import cz.cvut.fel.archval.core.api.types.DataType;
 import cz.cvut.fel.archval.core.model.validation.ar.iface.ArVertexSetNodeIface;
 import java.util.HashSet;
 import java.util.Set;
@@ -16,17 +19,20 @@ public class ArDefaultVertexSet implements ArVertexSetNodeIface, GraphElementVis
 
     private Set<Vertex> vertices;
 
-    public Set<Vertex> evaluate(Graph graph, Vertex vertex) {
-        throw new UnsupportedOperationException("Not supported yet.");
+    public Set<Vertex> evaluate(Graph graph, Vertex vertex, ResultNode resultNode) {
+        return evaluate(graph, resultNode);
     }
 
-    public Set<Vertex> evaluate(Graph graph, Edge edge) {
-        throw new UnsupportedOperationException("Not supported yet.");
+    public Set<Vertex> evaluate(Graph graph, Edge edge, ResultNode resultNode) {
+        return evaluate(graph, resultNode);
     }
 
-    public Set<Vertex> evaluate(Graph graph) {
+    protected Set<Vertex> evaluate(Graph graph, ResultNode resultNode) {
+        DataResult dataResult = (DataResult) resultNode;
         vertices = new HashSet<Vertex>();
         graph.accept(this);
+        dataResult.setResult(vertices);
+        dataResult.setDataType(DataType.VERTEX_SET);
         return vertices;
     }
 

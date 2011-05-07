@@ -3,6 +3,7 @@ package cz.cvut.fel.archval.core.model.validation.ar.iface;
 import cz.cvut.fel.archval.core.api.model.graph.Edge;
 import cz.cvut.fel.archval.core.api.model.graph.Graph;
 import cz.cvut.fel.archval.core.api.model.graph.Vertex;
+import cz.cvut.fel.archval.core.api.model.report.ResultNode;
 
 /**
  *
@@ -10,7 +11,7 @@ import cz.cvut.fel.archval.core.api.model.graph.Vertex;
  */
 public interface ArBooleanNodeIface extends ArObjectNodeIface {
 
-    public Boolean evaluate(Graph graph, Edge edge);
+    public Boolean evaluate(Graph graph, Edge edge, ResultNode resultNode);
 
-    public Boolean evaluate(Graph graph, Vertex vertex);
+    public Boolean evaluate(Graph graph, Vertex vertex, ResultNode resultNode);
 }

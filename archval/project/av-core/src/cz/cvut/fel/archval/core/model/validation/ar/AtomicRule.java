@@ -5,6 +5,10 @@ import cz.cvut.fel.archval.core.api.model.graph.Edge;
 import cz.cvut.fel.archval.core.api.model.graph.Graph;
 import cz.cvut.fel.archval.core.api.model.graph.GraphModel;
 import cz.cvut.fel.archval.core.api.model.graph.Vertex;
+import cz.cvut.fel.archval.core.api.model.report.AtomicRuleResult;
+import cz.cvut.fel.archval.core.api.model.report.DataResult;
+import cz.cvut.fel.archval.core.api.model.report.ResultNode;
+import cz.cvut.fel.archval.core.api.model.report.RuleResult;
 import cz.cvut.fel.archval.core.model.validation.ar.iface.ArBooleanNodeIface;
 import cz.cvut.fel.archval.core.model.validation.Rule;
 import cz.cvut.fel.archval.core.model.validation.ar.iface.ArObjectNodeIface;
@@ -68,7 +72,12 @@ public class AtomicRule extends Rule {
      * @param graph graph to be validated
      * @return true if this atomic rule is satisfied, false otherwise
      */
-    public boolean evaluate(GraphModel graphModel) throws RequiredGraphNotFound {
+    public boolean evaluate(GraphModel graphModel,
+            ResultNode resultNode) throws RequiredGraphNotFound {
+
+        AtomicRuleResult atomicRuleResult = (AtomicRuleResult) resultNode;
+        atomicRuleResult.setAtomicRuleType(atomicRuleType);
+        atomicRuleResult.setAtomicRuleQuantificationType(quantificationType);
 
         boolean result = false;
 
@@ -78,15 +87,19 @@ public class AtomicRule extends Rule {
                     + requiredGraphType + "' was not found in supplied model.");
         }
 
+        DataResult basicSetDataResult = new DataResult();
+        atomicRuleResult.setBasicSetResult(basicSetDataResult);
         if (atomicRuleType == AtomicRuleType.VERTEX_RULE) {
             Set<Vertex> vertices = (Set<Vertex>) basicSetSelector.evaluate(
-                    graph, (Vertex) null);
+                    graph, (Vertex) null, basicSetDataResult);
 
             if (quantificationType == AtomicRuleQuantificationType.EXISTENTIAL) {
 
                 result = false;
                 for (Vertex vertex : vertices) {
-                    result = atomicRuleEpressionRoot.evaluate(graph, vertex);
+                    DataResult elementResult = new DataResult();
+                    atomicRuleResult.addElementResult(vertex.getId(), elementResult);
+                    result = atomicRuleEpressionRoot.evaluate(graph, vertex, elementResult);
                     if (result == true) {
                         break;
                     }
@@ -96,7 +109,9 @@ public class AtomicRule extends Rule {
 
                 result = true;
                 for (Vertex vertex : vertices) {
-                    result = atomicRuleEpressionRoot.evaluate(graph, vertex);
+                    DataResult elementResult = new DataResult();
+                    atomicRuleResult.addElementResult(vertex.getId(), elementResult);
+                    result = atomicRuleEpressionRoot.evaluate(graph, vertex, elementResult);
                     if (result == false) {
                         break;
                     }
@@ -105,13 +120,15 @@ public class AtomicRule extends Rule {
 
         } else if (atomicRuleType == AtomicRuleType.EDGE_RULE) {
             Set<Edge> edges = (Set<Edge>) basicSetSelector.evaluate(
-                    graph, (Edge) null);
+                    graph, (Edge) null, basicSetDataResult);
 
             if (quantificationType == AtomicRuleQuantificationType.EXISTENTIAL) {
 
                 result = false;
                 for (Edge edge : edges) {
-                    result = atomicRuleEpressionRoot.evaluate(graph, edge);
+                    DataResult elementResult = new DataResult();
+                    atomicRuleResult.addElementResult(edge.getId(), elementResult);
+                    result = atomicRuleEpressionRoot.evaluate(graph, edge, elementResult);
                     if (result == true) {
                         break;
                     }
@@ -121,7 +138,9 @@ public class AtomicRule extends Rule {
 
                 result = true;
                 for (Edge edge : edges) {
-                    result = atomicRuleEpressionRoot.evaluate(graph, edge);
+                    DataResult elementResult = new DataResult();
+                    atomicRuleResult.addElementResult(edge.getId(), elementResult);
+                    result = atomicRuleEpressionRoot.evaluate(graph, edge, elementResult);
                     if (result == false) {
                         break;
                     }
@@ -133,6 +152,7 @@ public class AtomicRule extends Rule {
             assert false;
         }
 
+        atomicRuleResult.setResult(result);
         return result;
     }
 }

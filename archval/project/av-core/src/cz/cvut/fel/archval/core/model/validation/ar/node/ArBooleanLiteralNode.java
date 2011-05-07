@@ -3,6 +3,9 @@ package cz.cvut.fel.archval.core.model.validation.ar.node;
 import cz.cvut.fel.archval.core.api.model.graph.Edge;
 import cz.cvut.fel.archval.core.api.model.graph.Graph;
 import cz.cvut.fel.archval.core.api.model.graph.Vertex;
+import cz.cvut.fel.archval.core.api.model.report.DataResult;
+import cz.cvut.fel.archval.core.api.model.report.ResultNode;
+import cz.cvut.fel.archval.core.api.types.DataType;
 import cz.cvut.fel.archval.core.model.validation.ar.iface.ArBooleanNodeIface;
 
 /**
@@ -22,11 +25,18 @@ public class ArBooleanLiteralNode implements ArBooleanNodeIface {
         this.value = value;
     }
 
-    public Boolean evaluate(Graph graph, Edge edge) {
-        return value;
+    public Boolean evaluate(Graph graph, Edge edge, ResultNode resultNode) {
+        return evaluate(resultNode);
     }
 
-    public Boolean evaluate(Graph graph, Vertex vertex) {
+    public Boolean evaluate(Graph graph, Vertex vertex, ResultNode resultNode) {
+        return evaluate(resultNode);
+    }
+
+    protected Boolean evaluate(ResultNode resultNode) {
+        DataResult dataResult = (DataResult) resultNode;
+        dataResult.setResult(value);
+        dataResult.setDataType(DataType.BOOLEAN);
         return value;
     }
 }

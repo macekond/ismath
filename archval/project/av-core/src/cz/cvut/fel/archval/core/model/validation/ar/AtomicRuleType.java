@@ -7,6 +7,13 @@ package cz.cvut.fel.archval.core.model.validation.ar;
  */
 public enum AtomicRuleType {
 
+    /**
+     * Vertex rule
+     */
     VERTEX_RULE,
+
+    /**
+     * Edge rule
+     */
     EDGE_RULE
 }

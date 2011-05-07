@@ -1,5 +1,7 @@
 package cz.cvut.fel.archval.core.api.analysis;
 
+import cz.cvut.fel.archval.core.api.model.report.AnalysisResult;
+
 /**
  * Analysis interface to be implemented by analysis provider.
  *
@@ -12,5 +14,4 @@ public interface AnalysisIface {
     public String getRequiredGraphType();
 
     public AnalysisResult evaluate();
-
 }
