@@ -9,8 +9,13 @@ import cz.cvut.fel.archval.core.api.model.validation.cr.iface.CrBooleanNodeIface
  */
 public class CrNotNode implements CrBooleanNodeIface {
 
+    public CrBooleanNodeIface operand;
+
+    public void setOperand(CrBooleanNodeIface operand) {
+        this.operand = operand;
+    }
+
     public Boolean evaluate(GraphModel graphModel) {
         throw new UnsupportedOperationException("Not supported yet.");
     }
-
 }

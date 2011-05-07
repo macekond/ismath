@@ -10,6 +10,7 @@ import cz.cvut.fel.archval.core.api.model.validation.Rule;
 import cz.cvut.fel.archval.core.avd.parser.ArchvalRulesetGrammarLexer;
 import cz.cvut.fel.archval.core.avd.parser.ArchvalRulesetGrammarParser;
 import cz.cvut.fel.archval.core.api.model.validation.ValidationModel;
+import cz.cvut.fel.archval.core.operator.checker.OperatorMismatchException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.HashMap;
@@ -46,7 +47,7 @@ public class ValidationModelGenerator implements ValidationModelGeneratorIface {
 
     public ValidationModel constructValidationModel(InputStream is) throws
             IOException, RecognitionException,
-            ValidationModelGenerationException, OperatorNotFoundException {
+            ValidationModelGenerationException, OperatorNotFoundException, OperatorMismatchException {
 
         if (is == null) {
             throw new IllegalArgumentException("Input parameter is not "
@@ -57,7 +58,7 @@ public class ValidationModelGenerator implements ValidationModelGeneratorIface {
 
     public ValidationModel constructValidationModel(String string) throws
             IOException, RecognitionException,
-            ValidationModelGenerationException, OperatorNotFoundException {
+            ValidationModelGenerationException, OperatorNotFoundException, OperatorMismatchException {
 
         if (string == null) {
             throw new IllegalArgumentException("Input parameter string is not "
@@ -67,7 +68,7 @@ public class ValidationModelGenerator implements ValidationModelGeneratorIface {
     }
 
     protected ValidationModel constructValidationModel(CharStream charStream)
-            throws RecognitionException, ValidationModelGenerationException, IOException, OperatorNotFoundException {
+            throws RecognitionException, ValidationModelGenerationException, IOException, OperatorNotFoundException, OperatorMismatchException {
 
         Tree avdTree = getTreeForCharStream(charStream);
         RuleNameSymbolTable ruleNamesSymbolTable = new RuleNameSymbolTable();

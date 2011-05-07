@@ -13,11 +13,11 @@ import cz.cvut.fel.archval.core.api.types.DataType;
 public class ArVertexNode implements ArVertexNodeIface {
 
     public Vertex evaluate(Graph graph, Vertex vertex, DataType expectedType) {
-        throw new UnsupportedOperationException("Not supported yet.");
+        return vertex;
     }
 
     public Vertex evaluate(Graph graph, Edge edge, DataType expectedType) {
-        throw new UnsupportedOperationException("Not supported yet.");
+        throw new IllegalStateException("This method can't be called in vertex "
+                + "bound rule.");
     }
-
 }

@@ -13,6 +13,25 @@ import java.util.Set;
  */
 public class ArVertexUnionNode implements ArVertexSetNodeIface {
 
+    private ArVertexSetNodeIface left;
+    private ArVertexSetNodeIface right;
+
+    public ArVertexSetNodeIface getLeft() {
+        return left;
+    }
+
+    public void setLeft(ArVertexSetNodeIface left) {
+        this.left = left;
+    }
+
+    public ArVertexSetNodeIface getRight() {
+        return right;
+    }
+
+    public void setRight(ArVertexSetNodeIface right) {
+        this.right = right;
+    }
+
     public Set<Vertex> evaluate(Graph graph, Vertex vertex, DataType expectedType) {
         throw new UnsupportedOperationException("Not supported yet.");
     }

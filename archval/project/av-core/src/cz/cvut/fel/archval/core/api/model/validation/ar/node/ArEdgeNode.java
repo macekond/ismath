@@ -13,10 +13,11 @@ import cz.cvut.fel.archval.core.api.types.DataType;
 public class ArEdgeNode implements ArEdgeNodeIface {
 
     public Edge evaluate(Graph graph, Vertex vertex, DataType expectedType) {
-        throw new UnsupportedOperationException("Not supported yet.");
+        throw new IllegalStateException("This method can't be called in edge "
+                + "bound rule.");
     }
 
     public Edge evaluate(Graph graph, Edge edge, DataType expectedType) {
-        throw new UnsupportedOperationException("Not supported yet.");
+        return edge;
     }
 }

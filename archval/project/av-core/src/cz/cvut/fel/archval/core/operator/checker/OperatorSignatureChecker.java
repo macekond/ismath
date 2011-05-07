@@ -3,6 +3,7 @@ package cz.cvut.fel.archval.core.operator.checker;
 import cz.cvut.fel.archval.core.api.operator.OperatorIface;
 import cz.cvut.fel.archval.core.api.types.DataType;
 import cz.cvut.fel.archval.core.api.types.TokenTypeMap;
+import cz.cvut.fel.archval.core.avd.parser.TokenList;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import org.antlr.runtime.tree.Tree;
@@ -44,16 +45,23 @@ public class OperatorSignatureChecker {
             DataType expectedReturnType) throws
             OperatorMismatchException, FileNotFoundException, IOException {
 
-        // TODO: untested code!! requires review and unit tests
-
-        // check operator name
+        // check that expected operator is not null
         String operatorName = operatorTree.getText();
-        // OperatorIface selectedOperator = operatorsRegister.getOperatorByName(operatorName);
         if (expectedOperator == null) {
             throw new OperatorMismatchException("Operator with name "
                     + operatorName + " was not found. (Line: "
                     + operatorTree.getLine() + ", column: "
-                    + +operatorTree.getCharPositionInLine() + ")");
+                    + operatorTree.getCharPositionInLine() + ")");
+        }
+
+        // check that operator name match
+        if (!expectedOperator.getName().equals(operatorName)) {
+            throw new OperatorMismatchException("Invalid operator name."
+                    + "Expected operator name was: '"
+                    + expectedOperator.getName() + "', but '" + operatorName
+                    + "' was found. (Line: "
+                    + operatorTree.getLine() + ", column: "
+                    + operatorTree.getCharPositionInLine() + ")");
         }
 
         // check parameters count
@@ -63,7 +71,7 @@ public class OperatorSignatureChecker {
                     + "count. Found operator with same name, but with "
                     + "differend paramater count. (Line: "
                     + operatorTree.getLine() + ", column: "
-                    + +operatorTree.getCharPositionInLine() + ")");
+                    + operatorTree.getCharPositionInLine() + ")");
         }
 
         if (expectedOperator.getReturnType() != expectedReturnType) {
@@ -78,15 +86,45 @@ public class OperatorSignatureChecker {
             Tree operandTree = operatorTree.getChild(i);
             TokenTypeMap ttm = TokenTypeMap.getInstance();
             DataType operandType = ttm.getTokenDataType(operandTree.getType());
+            String tokenType = TokenList.getInstance().getTokenName(
+                    operandTree.getType());
 
-            if (operandType != expectedOperator.getOperandType(i)) {
-                throw new OperatorMismatchException("Unexpected parameter "
-                        + "type. Expected "
-                        + expectedOperator.getOperandType(i).toString()
-                        + "value. (Line: " + operandTree.getLine()
-                        + ", column: " + operandTree.getCharPositionInLine()
-                        + ")");
+            if (operandType != DataType.UNKNOWN) {
+                if (operandType != expectedOperator.getOperandType(i)) {
+                    throwUnexpectedOperatorException(operandTree, expectedOperator.getOperandType(i));
+                }
+                continue;
+            }
+
+            // data type is unknown
+            if (expectedOperator.getOperandType(i) == DataType.BOOLEAN) {
+                if (tokenType.equals("Name")) {
+                    continue;
+                }
+                throwUnexpectedOperatorException(operandTree, expectedOperator.getOperandType(i));
+            }
+
+            if (expectedOperator.getOperandType(i) == DataType.VERTEX_SET
+                    || expectedOperator.getOperandType(i) == DataType.EDGE_SET) {
+                if (tokenType.equals("UNION")
+                        || tokenType.equals("INTERSECT")
+                        || tokenType.equals("SETMINUS")
+                        || tokenType.equals("Name")) {
+                    continue;
+                }
+                throwUnexpectedOperatorException(operandTree, expectedOperator.getOperandType(i));
             }
         }
+
+    }
+
+    protected void throwUnexpectedOperatorException(Tree operandTree, DataType expectedType)
+            throws OperatorMismatchException {
+        throw new OperatorMismatchException("Unexpected parameter "
+                + "type. Expected "
+                + expectedType.toString()
+                + "value. (Line: " + operandTree.getLine()
+                + ", column: " + operandTree.getCharPositionInLine()
+                + ")");
     }
 }

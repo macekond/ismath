@@ -21,6 +21,8 @@ public class TokenTypeMap {
         types.put("Edge", DataType.EDGE);
         types.put("Number", DataType.NUMBER);
         types.put("Label", DataType.LABEL);
+        types.put("True", DataType.BOOLEAN);
+        types.put("False", DataType.BOOLEAN);
     }
 
     public static TokenTypeMap getInstance() {

@@ -5,6 +5,7 @@ import cz.cvut.fel.archval.core.api.ex.ValidationModelGenerationException;
 import cz.cvut.fel.archval.core.api.model.validation.ValidationModel;
 import cz.cvut.fel.archval.core.mock.MockAnalysesRegister;
 import cz.cvut.fel.archval.core.mock.MockOperatorsRegister;
+import cz.cvut.fel.archval.core.operator.checker.OperatorMismatchException;
 import java.io.IOException;
 import java.io.InputStream;
 import org.antlr.runtime.RecognitionException;
@@ -21,7 +22,7 @@ public class ValidationModelGeneratorTest {
     @Test(expected = IllegalArgumentException.class)
     public void testNullParametersInConstructionMethods() throws
             RecognitionException, ValidationModelGenerationException,
-            IOException, OperatorNotFoundException {
+            IOException, OperatorNotFoundException, OperatorMismatchException {
 
         ValidationModelGenerator validationModelGenerator =
                 new ValidationModelGenerator(
@@ -35,7 +36,7 @@ public class ValidationModelGeneratorTest {
     // TODO: remove UOE after complete class is implemented
     @Test(expected=UnsupportedOperationException.class)
     public void testConstructionFromStream() throws IOException,
-            RecognitionException, ValidationModelGenerationException, OperatorNotFoundException {
+            RecognitionException, ValidationModelGenerationException, OperatorNotFoundException, OperatorMismatchException {
 
         ValidationModelGenerator validationModelGenerator =
                 new ValidationModelGenerator(

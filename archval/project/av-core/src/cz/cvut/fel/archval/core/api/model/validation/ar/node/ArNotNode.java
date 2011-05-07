@@ -13,11 +13,21 @@ import cz.cvut.fel.archval.core.api.types.DataType;
  */
 public class ArNotNode implements ArBooleanNodeIface {
 
+    private ArBooleanNodeIface operand;
+
     public Boolean evaluate(Graph graph, Edge edge, DataType expectedType) {
         throw new UnsupportedOperationException("Not supported yet.");
     }
 
     public Boolean evaluate(Graph graph, Vertex vertex, DataType expectedType) {
         throw new UnsupportedOperationException("Not supported yet.");
+    }
+
+    public ArBooleanNodeIface getOperand() {
+        return operand;
+    }
+
+    public void setOperand(ArBooleanNodeIface operand) {
+        this.operand = operand;
     }
 }

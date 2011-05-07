@@ -15,8 +15,6 @@ public class MockOperatorsRegister implements OperatorsRegisterIface {
     private HashMap<String, OperatorIface> operators;
 
     public MockOperatorsRegister() {
-        
-
     }
 
     public OperatorIface getOperatorByName(String name) {

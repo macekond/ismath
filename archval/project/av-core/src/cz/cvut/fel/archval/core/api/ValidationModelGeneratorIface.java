@@ -3,6 +3,7 @@ package cz.cvut.fel.archval.core.api;
 import cz.cvut.fel.archval.core.api.ex.OperatorNotFoundException;
 import cz.cvut.fel.archval.core.api.ex.ValidationModelGenerationException;
 import cz.cvut.fel.archval.core.api.model.validation.ValidationModel;
+import cz.cvut.fel.archval.core.operator.checker.OperatorMismatchException;
 import java.io.IOException;
 import java.io.InputStream;
 import org.antlr.runtime.RecognitionException;
@@ -26,7 +27,7 @@ public interface ValidationModelGeneratorIface {
     ValidationModel constructValidationModel(InputStream is) throws
             IOException, RecognitionException,
             ValidationModelGenerationException,
-            OperatorNotFoundException;
+            OperatorNotFoundException, OperatorMismatchException;
 
     /**
      * Constructs new ValidationModel from string.
@@ -41,5 +42,5 @@ public interface ValidationModelGeneratorIface {
     ValidationModel constructValidationModel(String string) throws
             IOException, RecognitionException,
             ValidationModelGenerationException,
-            OperatorNotFoundException;
+            OperatorNotFoundException, OperatorMismatchException;
 }
