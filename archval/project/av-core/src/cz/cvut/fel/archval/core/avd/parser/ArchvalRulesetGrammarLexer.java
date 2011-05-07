@@ -1,4 +1,4 @@
-// $ANTLR 3.1.3 July 11, 2010 13:49:50 ArchvalRulesetGrammar.g 2011-05-06 14:29:25
+// $ANTLR 3.1.3 July 11, 2010 13:49:50 ArchvalRulesetGrammar.g 2011-05-07 21:58:56
 
     package cz.cvut.fel.archval.core.avd.parser;
 
@@ -65,8 +65,8 @@ public class ArchvalRulesetGrammarLexer extends Lexer {
         try {
             int _type = EXISTS;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // ArchvalRulesetGrammar.g:226:8: ( 'EXISTS' )
-            // ArchvalRulesetGrammar.g:226:10: 'EXISTS'
+            // ArchvalRulesetGrammar.g:230:8: ( 'EXISTS' )
+            // ArchvalRulesetGrammar.g:230:10: 'EXISTS'
             {
             match("EXISTS"); 
 
@@ -86,8 +86,8 @@ public class ArchvalRulesetGrammarLexer extends Lexer {
         try {
             int _type = ALL;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // ArchvalRulesetGrammar.g:227:5: ( 'ALL' )
-            // ArchvalRulesetGrammar.g:227:7: 'ALL'
+            // ArchvalRulesetGrammar.g:231:5: ( 'ALL' )
+            // ArchvalRulesetGrammar.g:231:7: 'ALL'
             {
             match("ALL"); 
 
@@ -107,8 +107,8 @@ public class ArchvalRulesetGrammarLexer extends Lexer {
         try {
             int _type = IN;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // ArchvalRulesetGrammar.g:228:4: ( 'IN' )
-            // ArchvalRulesetGrammar.g:228:6: 'IN'
+            // ArchvalRulesetGrammar.g:232:4: ( 'IN' )
+            // ArchvalRulesetGrammar.g:232:6: 'IN'
             {
             match("IN"); 
 
@@ -128,8 +128,8 @@ public class ArchvalRulesetGrammarLexer extends Lexer {
         try {
             int _type = INTERSECT;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // ArchvalRulesetGrammar.g:231:2: ( 'INTERSECT' )
-            // ArchvalRulesetGrammar.g:231:4: 'INTERSECT'
+            // ArchvalRulesetGrammar.g:235:2: ( 'INTERSECT' )
+            // ArchvalRulesetGrammar.g:235:4: 'INTERSECT'
             {
             match("INTERSECT"); 
 
@@ -149,8 +149,8 @@ public class ArchvalRulesetGrammarLexer extends Lexer {
         try {
             int _type = UNION;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // ArchvalRulesetGrammar.g:232:7: ( 'UNION' )
-            // ArchvalRulesetGrammar.g:232:9: 'UNION'
+            // ArchvalRulesetGrammar.g:236:7: ( 'UNION' )
+            // ArchvalRulesetGrammar.g:236:9: 'UNION'
             {
             match("UNION"); 
 
@@ -170,8 +170,8 @@ public class ArchvalRulesetGrammarLexer extends Lexer {
         try {
             int _type = SETMINUS;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // ArchvalRulesetGrammar.g:233:9: ( 'SETMINUS' )
-            // ArchvalRulesetGrammar.g:233:11: 'SETMINUS'
+            // ArchvalRulesetGrammar.g:237:9: ( 'SETMINUS' )
+            // ArchvalRulesetGrammar.g:237:11: 'SETMINUS'
             {
             match("SETMINUS"); 
 
@@ -191,8 +191,8 @@ public class ArchvalRulesetGrammarLexer extends Lexer {
         try {
             int _type = NOT;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // ArchvalRulesetGrammar.g:235:6: ( 'NOT' )
-            // ArchvalRulesetGrammar.g:235:8: 'NOT'
+            // ArchvalRulesetGrammar.g:239:6: ( 'NOT' )
+            // ArchvalRulesetGrammar.g:239:8: 'NOT'
             {
             match("NOT"); 
 
@@ -212,8 +212,8 @@ public class ArchvalRulesetGrammarLexer extends Lexer {
         try {
             int _type = AND;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // ArchvalRulesetGrammar.g:236:5: ( 'AND' )
-            // ArchvalRulesetGrammar.g:236:7: 'AND'
+            // ArchvalRulesetGrammar.g:240:5: ( 'AND' )
+            // ArchvalRulesetGrammar.g:240:7: 'AND'
             {
             match("AND"); 
 
@@ -233,8 +233,8 @@ public class ArchvalRulesetGrammarLexer extends Lexer {
         try {
             int _type = OR;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // ArchvalRulesetGrammar.g:237:4: ( 'OR' )
-            // ArchvalRulesetGrammar.g:237:6: 'OR'
+            // ArchvalRulesetGrammar.g:241:4: ( 'OR' )
+            // ArchvalRulesetGrammar.g:241:6: 'OR'
             {
             match("OR"); 
 
@@ -254,8 +254,8 @@ public class ArchvalRulesetGrammarLexer extends Lexer {
         try {
             int _type = ATOMIC_RULE_KW;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // ArchvalRulesetGrammar.g:241:2: ( 'atomic_rule' )
-            // ArchvalRulesetGrammar.g:241:4: 'atomic_rule'
+            // ArchvalRulesetGrammar.g:245:2: ( 'atomic_rule' )
+            // ArchvalRulesetGrammar.g:245:4: 'atomic_rule'
             {
             match("atomic_rule"); 
 
@@ -275,8 +275,8 @@ public class ArchvalRulesetGrammarLexer extends Lexer {
         try {
             int _type = COMPOUND_RULE_KW;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // ArchvalRulesetGrammar.g:243:2: ( 'compound_rule' )
-            // ArchvalRulesetGrammar.g:243:4: 'compound_rule'
+            // ArchvalRulesetGrammar.g:247:2: ( 'compound_rule' )
+            // ArchvalRulesetGrammar.g:247:4: 'compound_rule'
             {
             match("compound_rule"); 
 
@@ -296,8 +296,8 @@ public class ArchvalRulesetGrammarLexer extends Lexer {
         try {
             int _type = VALIDATE_KW;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // ArchvalRulesetGrammar.g:245:2: ( 'validate' )
-            // ArchvalRulesetGrammar.g:245:4: 'validate'
+            // ArchvalRulesetGrammar.g:249:2: ( 'validate' )
+            // ArchvalRulesetGrammar.g:249:4: 'validate'
             {
             match("validate"); 
 
@@ -317,8 +317,8 @@ public class ArchvalRulesetGrammarLexer extends Lexer {
         try {
             int _type = ANALYZE_KW;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // ArchvalRulesetGrammar.g:247:2: ( 'analyze' )
-            // ArchvalRulesetGrammar.g:247:4: 'analyze'
+            // ArchvalRulesetGrammar.g:251:2: ( 'analyze' )
+            // ArchvalRulesetGrammar.g:251:4: 'analyze'
             {
             match("analyze"); 
 
@@ -338,8 +338,8 @@ public class ArchvalRulesetGrammarLexer extends Lexer {
         try {
             int _type = LBRACE;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // ArchvalRulesetGrammar.g:250:9: ( '{' )
-            // ArchvalRulesetGrammar.g:250:11: '{'
+            // ArchvalRulesetGrammar.g:254:9: ( '{' )
+            // ArchvalRulesetGrammar.g:254:11: '{'
             {
             match('{'); 
 
@@ -358,8 +358,8 @@ public class ArchvalRulesetGrammarLexer extends Lexer {
         try {
             int _type = RBRACE;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // ArchvalRulesetGrammar.g:251:8: ( '}' )
-            // ArchvalRulesetGrammar.g:251:10: '}'
+            // ArchvalRulesetGrammar.g:255:8: ( '}' )
+            // ArchvalRulesetGrammar.g:255:10: '}'
             {
             match('}'); 
 
@@ -378,8 +378,8 @@ public class ArchvalRulesetGrammarLexer extends Lexer {
         try {
             int _type = LPAREN;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // ArchvalRulesetGrammar.g:252:8: ( '(' )
-            // ArchvalRulesetGrammar.g:252:10: '('
+            // ArchvalRulesetGrammar.g:256:8: ( '(' )
+            // ArchvalRulesetGrammar.g:256:10: '('
             {
             match('('); 
 
@@ -398,8 +398,8 @@ public class ArchvalRulesetGrammarLexer extends Lexer {
         try {
             int _type = RPAREN;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // ArchvalRulesetGrammar.g:253:8: ( ')' )
-            // ArchvalRulesetGrammar.g:253:10: ')'
+            // ArchvalRulesetGrammar.g:257:8: ( ')' )
+            // ArchvalRulesetGrammar.g:257:10: ')'
             {
             match(')'); 
 
@@ -418,8 +418,8 @@ public class ArchvalRulesetGrammarLexer extends Lexer {
         try {
             int _type = COMMA;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // ArchvalRulesetGrammar.g:254:7: ( ',' )
-            // ArchvalRulesetGrammar.g:254:9: ','
+            // ArchvalRulesetGrammar.g:258:7: ( ',' )
+            // ArchvalRulesetGrammar.g:258:9: ','
             {
             match(','); 
 
@@ -438,8 +438,8 @@ public class ArchvalRulesetGrammarLexer extends Lexer {
         try {
             int _type = SEMICOLON;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // ArchvalRulesetGrammar.g:256:2: ( ';' )
-            // ArchvalRulesetGrammar.g:256:4: ';'
+            // ArchvalRulesetGrammar.g:260:2: ( ';' )
+            // ArchvalRulesetGrammar.g:260:4: ';'
             {
             match(';'); 
 
@@ -458,8 +458,8 @@ public class ArchvalRulesetGrammarLexer extends Lexer {
         try {
             int _type = COLON;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // ArchvalRulesetGrammar.g:257:7: ( ':' )
-            // ArchvalRulesetGrammar.g:257:9: ':'
+            // ArchvalRulesetGrammar.g:261:7: ( ':' )
+            // ArchvalRulesetGrammar.g:261:9: ':'
             {
             match(':'); 
 
@@ -478,8 +478,8 @@ public class ArchvalRulesetGrammarLexer extends Lexer {
         try {
             int _type = True;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // ArchvalRulesetGrammar.g:260:6: ( 'true' )
-            // ArchvalRulesetGrammar.g:260:8: 'true'
+            // ArchvalRulesetGrammar.g:264:6: ( 'true' )
+            // ArchvalRulesetGrammar.g:264:8: 'true'
             {
             match("true"); 
 
@@ -499,8 +499,8 @@ public class ArchvalRulesetGrammarLexer extends Lexer {
         try {
             int _type = False;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // ArchvalRulesetGrammar.g:261:7: ( 'false' )
-            // ArchvalRulesetGrammar.g:261:9: 'false'
+            // ArchvalRulesetGrammar.g:265:7: ( 'false' )
+            // ArchvalRulesetGrammar.g:265:9: 'false'
             {
             match("false"); 
 
@@ -520,8 +520,8 @@ public class ArchvalRulesetGrammarLexer extends Lexer {
         try {
             int _type = Vertex;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // ArchvalRulesetGrammar.g:262:8: ( 'v' )
-            // ArchvalRulesetGrammar.g:262:10: 'v'
+            // ArchvalRulesetGrammar.g:266:8: ( 'v' )
+            // ArchvalRulesetGrammar.g:266:10: 'v'
             {
             match('v'); 
 
@@ -540,8 +540,8 @@ public class ArchvalRulesetGrammarLexer extends Lexer {
         try {
             int _type = Edge;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // ArchvalRulesetGrammar.g:263:6: ( 'e' )
-            // ArchvalRulesetGrammar.g:263:8: 'e'
+            // ArchvalRulesetGrammar.g:267:6: ( 'e' )
+            // ArchvalRulesetGrammar.g:267:8: 'e'
             {
             match('e'); 
 
@@ -560,8 +560,8 @@ public class ArchvalRulesetGrammarLexer extends Lexer {
         try {
             int _type = VertexSet;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // ArchvalRulesetGrammar.g:265:2: ( 'V' )
-            // ArchvalRulesetGrammar.g:265:4: 'V'
+            // ArchvalRulesetGrammar.g:269:2: ( 'V' )
+            // ArchvalRulesetGrammar.g:269:4: 'V'
             {
             match('V'); 
 
@@ -580,8 +580,8 @@ public class ArchvalRulesetGrammarLexer extends Lexer {
         try {
             int _type = EdgeSet;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // ArchvalRulesetGrammar.g:266:9: ( 'E' )
-            // ArchvalRulesetGrammar.g:266:11: 'E'
+            // ArchvalRulesetGrammar.g:270:9: ( 'E' )
+            // ArchvalRulesetGrammar.g:270:11: 'E'
             {
             match('E'); 
 
@@ -600,8 +600,8 @@ public class ArchvalRulesetGrammarLexer extends Lexer {
         try {
             int _type = Name;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // ArchvalRulesetGrammar.g:267:6: ( ( 'a' .. 'z' | 'A' .. 'Z' ) ( 'a' .. 'z' | 'A' .. 'Z' | '0' .. '9' | '_' )* )
-            // ArchvalRulesetGrammar.g:267:8: ( 'a' .. 'z' | 'A' .. 'Z' ) ( 'a' .. 'z' | 'A' .. 'Z' | '0' .. '9' | '_' )*
+            // ArchvalRulesetGrammar.g:271:6: ( ( 'a' .. 'z' | 'A' .. 'Z' ) ( 'a' .. 'z' | 'A' .. 'Z' | '0' .. '9' | '_' )* )
+            // ArchvalRulesetGrammar.g:271:8: ( 'a' .. 'z' | 'A' .. 'Z' ) ( 'a' .. 'z' | 'A' .. 'Z' | '0' .. '9' | '_' )*
             {
             if ( (input.LA(1)>='A' && input.LA(1)<='Z')||(input.LA(1)>='a' && input.LA(1)<='z') ) {
                 input.consume();
@@ -612,7 +612,7 @@ public class ArchvalRulesetGrammarLexer extends Lexer {
                 recover(mse);
                 throw mse;}
 
-            // ArchvalRulesetGrammar.g:268:3: ( 'a' .. 'z' | 'A' .. 'Z' | '0' .. '9' | '_' )*
+            // ArchvalRulesetGrammar.g:272:3: ( 'a' .. 'z' | 'A' .. 'Z' | '0' .. '9' | '_' )*
             loop1:
             do {
                 int alt1=2;
@@ -661,10 +661,10 @@ public class ArchvalRulesetGrammarLexer extends Lexer {
         try {
             int _type = Number;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // ArchvalRulesetGrammar.g:269:8: ( ( '0' .. '9' )+ )
-            // ArchvalRulesetGrammar.g:269:10: ( '0' .. '9' )+
+            // ArchvalRulesetGrammar.g:273:8: ( ( '0' .. '9' )+ )
+            // ArchvalRulesetGrammar.g:273:10: ( '0' .. '9' )+
             {
-            // ArchvalRulesetGrammar.g:269:10: ( '0' .. '9' )+
+            // ArchvalRulesetGrammar.g:273:10: ( '0' .. '9' )+
             int cnt2=0;
             loop2:
             do {
@@ -678,7 +678,7 @@ public class ArchvalRulesetGrammarLexer extends Lexer {
 
                 switch (alt2) {
             	case 1 :
-            	    // ArchvalRulesetGrammar.g:269:11: '0' .. '9'
+            	    // ArchvalRulesetGrammar.g:273:11: '0' .. '9'
             	    {
             	    matchRange('0','9'); 
 
@@ -710,11 +710,11 @@ public class ArchvalRulesetGrammarLexer extends Lexer {
         try {
             int _type = Label;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // ArchvalRulesetGrammar.g:270:8: ( '\"' ( 'a' .. 'z' | 'A' .. 'Z' | '0' .. '9' | '_' | '-' )* '\"' )
-            // ArchvalRulesetGrammar.g:270:10: '\"' ( 'a' .. 'z' | 'A' .. 'Z' | '0' .. '9' | '_' | '-' )* '\"'
+            // ArchvalRulesetGrammar.g:274:8: ( '\"' ( 'a' .. 'z' | 'A' .. 'Z' | '0' .. '9' | '_' | '-' )* '\"' )
+            // ArchvalRulesetGrammar.g:274:10: '\"' ( 'a' .. 'z' | 'A' .. 'Z' | '0' .. '9' | '_' | '-' )* '\"'
             {
             match('\"'); 
-            // ArchvalRulesetGrammar.g:270:14: ( 'a' .. 'z' | 'A' .. 'Z' | '0' .. '9' | '_' | '-' )*
+            // ArchvalRulesetGrammar.g:274:14: ( 'a' .. 'z' | 'A' .. 'Z' | '0' .. '9' | '_' | '-' )*
             loop3:
             do {
                 int alt3=2;
@@ -764,10 +764,10 @@ public class ArchvalRulesetGrammarLexer extends Lexer {
         try {
             int _type = WS;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // ArchvalRulesetGrammar.g:274:4: ( ( ' ' | '\\t' | '\\n' | '\\r' )+ )
-            // ArchvalRulesetGrammar.g:274:6: ( ' ' | '\\t' | '\\n' | '\\r' )+
+            // ArchvalRulesetGrammar.g:278:4: ( ( ' ' | '\\t' | '\\n' | '\\r' )+ )
+            // ArchvalRulesetGrammar.g:278:6: ( ' ' | '\\t' | '\\n' | '\\r' )+
             {
-            // ArchvalRulesetGrammar.g:274:6: ( ' ' | '\\t' | '\\n' | '\\r' )+
+            // ArchvalRulesetGrammar.g:278:6: ( ' ' | '\\t' | '\\n' | '\\r' )+
             int cnt4=0;
             loop4:
             do {

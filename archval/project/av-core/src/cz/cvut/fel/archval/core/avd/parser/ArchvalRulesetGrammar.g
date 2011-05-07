@@ -161,6 +161,10 @@ predicate_param
 	|
 	Label
 	|
+        Vertex
+        |
+        Edge
+        |
 	set_expression
 	;
 

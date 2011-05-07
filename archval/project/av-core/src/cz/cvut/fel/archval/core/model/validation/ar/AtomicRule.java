@@ -8,10 +8,8 @@ import cz.cvut.fel.archval.core.api.model.graph.Vertex;
 import cz.cvut.fel.archval.core.api.model.report.AtomicRuleResult;
 import cz.cvut.fel.archval.core.api.model.report.DataResult;
 import cz.cvut.fel.archval.core.api.model.report.ResultNode;
-import cz.cvut.fel.archval.core.api.model.report.RuleResult;
 import cz.cvut.fel.archval.core.model.validation.ar.iface.ArBooleanNodeIface;
 import cz.cvut.fel.archval.core.model.validation.Rule;
-import cz.cvut.fel.archval.core.model.validation.ar.iface.ArObjectNodeIface;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -25,7 +23,7 @@ public class AtomicRule extends Rule {
     private String name;
     private String requiredGraphType;
     private AtomicRuleType atomicRuleType;
-    private ArObjectNodeIface basicSetSelector;
+    private ArBooleanNodeIface basicSetSelector;
     private AtomicRuleQuantificationType quantificationType;
     private ArBooleanNodeIface atomicRuleEpressionRoot;
 
@@ -47,7 +45,7 @@ public class AtomicRule extends Rule {
         this.quantificationType = quantificationType;
     }
 
-    public void setBasicSetSelector(ArObjectNodeIface basicSetSelector) {
+    public void setBasicSetSelector(ArBooleanNodeIface basicSetSelector) {
         this.basicSetSelector = basicSetSelector;
     }
 
@@ -99,13 +97,18 @@ public class AtomicRule extends Rule {
         DataResult basicSetDataResult = new DataResult();
         atomicRuleResult.setBasicSetResult(basicSetDataResult);
         if (atomicRuleType == AtomicRuleType.VERTEX_RULE) {
-            Set<Vertex> vertices = (Set<Vertex>) basicSetSelector.evaluate(
-                    graph, (Vertex) null, basicSetDataResult);
+
+            Set<Vertex> selectedVertices = new HashSet<Vertex>();
+            for (Vertex vertex : graph.getVertices()) {
+                if (basicSetSelector.evaluate(graph, vertex, new ResultNode())) {
+                    selectedVertices.add(vertex);
+                }
+            }
 
             if (quantificationType == AtomicRuleQuantificationType.EXISTENTIAL) {
 
                 result = false;
-                for (Vertex vertex : vertices) {
+                for (Vertex vertex : selectedVertices) {
                     DataResult elementResult = new DataResult();
                     atomicRuleResult.addElementResult(vertex.getId(), elementResult);
                     result = atomicRuleEpressionRoot.evaluate(graph, vertex, elementResult);
@@ -117,7 +120,7 @@ public class AtomicRule extends Rule {
             } else {
 
                 result = true;
-                for (Vertex vertex : vertices) {
+                for (Vertex vertex : selectedVertices) {
                     DataResult elementResult = new DataResult();
                     atomicRuleResult.addElementResult(vertex.getId(), elementResult);
                     result = atomicRuleEpressionRoot.evaluate(graph, vertex, elementResult);
@@ -128,13 +131,18 @@ public class AtomicRule extends Rule {
             }
 
         } else if (atomicRuleType == AtomicRuleType.EDGE_RULE) {
-            Set<Edge> edges = (Set<Edge>) basicSetSelector.evaluate(
-                    graph, (Edge) null, basicSetDataResult);
+
+            Set<Edge> selectedEdges = new HashSet<Edge>();
+            for (Edge edge : graph.getEdges()) {
+                if (basicSetSelector.evaluate(graph, edge, new ResultNode())) {
+                    selectedEdges.add(edge);
+                }
+            }
 
             if (quantificationType == AtomicRuleQuantificationType.EXISTENTIAL) {
 
                 result = false;
-                for (Edge edge : edges) {
+                for (Edge edge : selectedEdges) {
                     DataResult elementResult = new DataResult();
                     atomicRuleResult.addElementResult(edge.getId(), elementResult);
                     result = atomicRuleEpressionRoot.evaluate(graph, edge, elementResult);
@@ -146,7 +154,7 @@ public class AtomicRule extends Rule {
             } else {
 
                 result = true;
-                for (Edge edge : edges) {
+                for (Edge edge : selectedEdges) {
                     DataResult elementResult = new DataResult();
                     atomicRuleResult.addElementResult(edge.getId(), elementResult);
                     result = atomicRuleEpressionRoot.evaluate(graph, edge, elementResult);

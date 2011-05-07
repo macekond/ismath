@@ -34,8 +34,7 @@ import cz.cvut.fel.archval.core.api.register.OperatorsRegisterIface;
 import cz.cvut.fel.archval.core.api.types.DataType;
 import cz.cvut.fel.archval.core.avd.parser.TokenList;
 import cz.cvut.fel.archval.core.api.ex.OperatorMismatchException;
-import cz.cvut.fel.archval.core.model.validation.ar.node.ArDefaultEdgeSet;
-import cz.cvut.fel.archval.core.model.validation.ar.node.ArDefaultVertexSet;
+import cz.cvut.fel.archval.core.model.validation.ar.node.ArTruePredicate;
 import cz.cvut.fel.archval.core.valgen.op.OperatorSignatureChecker;
 import java.io.FileNotFoundException;
 import java.io.IOException;
@@ -81,31 +80,14 @@ public class AtomicRuleGenerator {
         }
         atomicRule.setAtomicRuleType(ruleType);
 
-        DataType expectedReturnDataType =
-                (ruleType == AtomicRuleType.VERTEX_RULE)
-                ? DataType.VERTEX_SET : DataType.EDGE_SET;
-
         atomicRule.setBasicSetSelector(null);
         int childNodePointer = 2;
         if (atomicRuleTree.getChildCount() > 3) {
-
             Tree selectorTree = atomicRuleTree.getChild(childNodePointer);
-
-            if (ruleType == AtomicRuleType.VERTEX_RULE) {
-                atomicRule.setBasicSetSelector(constructVertexSetNode(
-                        selectorTree, ruleType));
-            } else {
-                atomicRule.setBasicSetSelector(
-                        constructEdgeSetNode(selectorTree, ruleType));
-            }
-
+            atomicRule.setBasicSetSelector(constructBooleanNode(selectorTree, ruleType));
             childNodePointer++;
         } else {
-            if (ruleType == AtomicRuleType.VERTEX_RULE) {
-                atomicRule.setBasicSetSelector(new ArDefaultVertexSet());
-            } else {
-                atomicRule.setBasicSetSelector(new ArDefaultEdgeSet());
-            }
+            atomicRule.setBasicSetSelector(new ArTruePredicate());
         }
 
         atomicRule.setAtomicRuleEpressionRoot(
@@ -160,6 +142,12 @@ public class AtomicRuleGenerator {
                 } else if (operator.getOperandType(i) == DataType.LABEL) {
                     arPredicateNode.addOperand(constructStringNode(
                             tree.getChild(i)));
+                } else if (operator.getOperandType(i) == DataType.VERTEX) {
+                    arPredicateNode.addOperand(constructVertexNode(
+                            tree.getChild(i), art));
+                } else if (operator.getOperandType(i) == DataType.EDGE) {
+                    arPredicateNode.addOperand(constructEdgeNode(
+                            tree.getChild(i), art));
                 } else {
                     assert false;
                 }

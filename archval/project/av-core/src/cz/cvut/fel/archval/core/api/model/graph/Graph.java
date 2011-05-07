@@ -23,6 +23,14 @@ public class Graph {
         this.graphType = graphType;
     }
 
+    public List<Vertex> getVertices() {
+        return vertices;
+    }
+
+    public List<Edge> getEdges() {
+        return edges;
+    }
+
     /**
      * Visitor pattern implementation. This method accepts visitor, which
      * iterates allover the graph edges and vertices.

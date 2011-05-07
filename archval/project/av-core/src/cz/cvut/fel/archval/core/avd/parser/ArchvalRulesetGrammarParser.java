@@ -1,4 +1,4 @@
-// $ANTLR 3.1.3 July 11, 2010 13:49:50 ArchvalRulesetGrammar.g 2011-05-06 14:29:24
+// $ANTLR 3.1.3 July 11, 2010 13:49:50 ArchvalRulesetGrammar.g 2011-05-07 21:58:55
 
     package cz.cvut.fel.archval.core.avd.parser;
 
@@ -237,7 +237,7 @@ public class ArchvalRulesetGrammarParser extends Parser {
 
 
             // AST REWRITE
-            // elements: validate_command, atomic_rule, compound_rule, analyze_command
+            // elements: analyze_command, compound_rule, atomic_rule, validate_command
             // token labels: 
             // rule labels: retval
             // token list labels: 
@@ -409,7 +409,7 @@ public class ArchvalRulesetGrammarParser extends Parser {
 
 
             // AST REWRITE
-            // elements: atomic_rule_spec, rname, grname
+            // elements: rname, grname, atomic_rule_spec
             // token labels: grname, rname
             // rule labels: retval
             // token list labels: 
@@ -1879,7 +1879,7 @@ public class ArchvalRulesetGrammarParser extends Parser {
                     int alt15=2;
                     int LA15_0 = input.LA(1);
 
-                    if ( ((LA15_0>=Name && LA15_0<=LPAREN)||(LA15_0>=Number && LA15_0<=Label)) ) {
+                    if ( ((LA15_0>=Name && LA15_0<=LPAREN)||LA15_0==Vertex||LA15_0==Edge||(LA15_0>=Number && LA15_0<=Label)) ) {
                         alt15=1;
                     }
                     switch (alt15) {
@@ -2063,7 +2063,7 @@ public class ArchvalRulesetGrammarParser extends Parser {
     };
 
     // $ANTLR start "predicate_param"
-    // ArchvalRulesetGrammar.g:158:1: predicate_param : ( Number | Label | set_expression );
+    // ArchvalRulesetGrammar.g:158:1: predicate_param : ( Number | Label | Vertex | Edge | set_expression );
     public final ArchvalRulesetGrammarParser.predicate_param_return predicate_param() throws RecognitionException {
         ArchvalRulesetGrammarParser.predicate_param_return retval = new ArchvalRulesetGrammarParser.predicate_param_return();
         retval.start = input.LT(1);
@@ -2072,15 +2072,19 @@ public class ArchvalRulesetGrammarParser extends Parser {
 
         Token Number76=null;
         Token Label77=null;
-        ArchvalRulesetGrammarParser.set_expression_return set_expression78 = null;
+        Token Vertex78=null;
+        Token Edge79=null;
+        ArchvalRulesetGrammarParser.set_expression_return set_expression80 = null;
 
 
         Object Number76_tree=null;
         Object Label77_tree=null;
+        Object Vertex78_tree=null;
+        Object Edge79_tree=null;
 
         try {
-            // ArchvalRulesetGrammar.g:159:2: ( Number | Label | set_expression )
-            int alt18=3;
+            // ArchvalRulesetGrammar.g:159:2: ( Number | Label | Vertex | Edge | set_expression )
+            int alt18=5;
             switch ( input.LA(1) ) {
             case Number:
                 {
@@ -2092,10 +2096,20 @@ public class ArchvalRulesetGrammarParser extends Parser {
                 alt18=2;
                 }
                 break;
+            case Vertex:
+                {
+                alt18=3;
+                }
+                break;
+            case Edge:
+                {
+                alt18=4;
+                }
+                break;
             case Name:
             case LPAREN:
                 {
-                alt18=3;
+                alt18=5;
                 }
                 break;
             default:
@@ -2131,16 +2145,40 @@ public class ArchvalRulesetGrammarParser extends Parser {
                     }
                     break;
                 case 3 :
-                    // ArchvalRulesetGrammar.g:164:2: set_expression
+                    // ArchvalRulesetGrammar.g:164:9: Vertex
                     {
                     root_0 = (Object)adaptor.nil();
 
-                    pushFollow(FOLLOW_set_expression_in_predicate_param732);
-                    set_expression78=set_expression();
+                    Vertex78=(Token)match(input,Vertex,FOLLOW_Vertex_in_predicate_param739); 
+                    Vertex78_tree = (Object)adaptor.create(Vertex78);
+                    adaptor.addChild(root_0, Vertex78_tree);
+
+
+                    }
+                    break;
+                case 4 :
+                    // ArchvalRulesetGrammar.g:166:9: Edge
+                    {
+                    root_0 = (Object)adaptor.nil();
+
+                    Edge79=(Token)match(input,Edge,FOLLOW_Edge_in_predicate_param759); 
+                    Edge79_tree = (Object)adaptor.create(Edge79);
+                    adaptor.addChild(root_0, Edge79_tree);
+
+
+                    }
+                    break;
+                case 5 :
+                    // ArchvalRulesetGrammar.g:168:2: set_expression
+                    {
+                    root_0 = (Object)adaptor.nil();
+
+                    pushFollow(FOLLOW_set_expression_in_predicate_param772);
+                    set_expression80=set_expression();
 
                     state._fsp--;
 
-                    adaptor.addChild(root_0, set_expression78.getTree());
+                    adaptor.addChild(root_0, set_expression80.getTree());
 
                     }
                     break;
@@ -2165,38 +2203,38 @@ public class ArchvalRulesetGrammarParser extends Parser {
     };
 
     // $ANTLR start "set_expression"
-    // ArchvalRulesetGrammar.g:167:1: set_expression : set_atom ( ( INTERSECT | UNION | SETMINUS ) set_atom )* ;
+    // ArchvalRulesetGrammar.g:171:1: set_expression : set_atom ( ( INTERSECT | UNION | SETMINUS ) set_atom )* ;
     public final ArchvalRulesetGrammarParser.set_expression_return set_expression() throws RecognitionException {
         ArchvalRulesetGrammarParser.set_expression_return retval = new ArchvalRulesetGrammarParser.set_expression_return();
         retval.start = input.LT(1);
 
         Object root_0 = null;
 
-        Token INTERSECT80=null;
-        Token UNION81=null;
-        Token SETMINUS82=null;
-        ArchvalRulesetGrammarParser.set_atom_return set_atom79 = null;
+        Token INTERSECT82=null;
+        Token UNION83=null;
+        Token SETMINUS84=null;
+        ArchvalRulesetGrammarParser.set_atom_return set_atom81 = null;
 
-        ArchvalRulesetGrammarParser.set_atom_return set_atom83 = null;
+        ArchvalRulesetGrammarParser.set_atom_return set_atom85 = null;
 
 
-        Object INTERSECT80_tree=null;
-        Object UNION81_tree=null;
-        Object SETMINUS82_tree=null;
+        Object INTERSECT82_tree=null;
+        Object UNION83_tree=null;
+        Object SETMINUS84_tree=null;
 
         try {
-            // ArchvalRulesetGrammar.g:168:2: ( set_atom ( ( INTERSECT | UNION | SETMINUS ) set_atom )* )
-            // ArchvalRulesetGrammar.g:169:2: set_atom ( ( INTERSECT | UNION | SETMINUS ) set_atom )*
+            // ArchvalRulesetGrammar.g:172:2: ( set_atom ( ( INTERSECT | UNION | SETMINUS ) set_atom )* )
+            // ArchvalRulesetGrammar.g:173:2: set_atom ( ( INTERSECT | UNION | SETMINUS ) set_atom )*
             {
             root_0 = (Object)adaptor.nil();
 
-            pushFollow(FOLLOW_set_atom_in_set_expression744);
-            set_atom79=set_atom();
+            pushFollow(FOLLOW_set_atom_in_set_expression784);
+            set_atom81=set_atom();
 
             state._fsp--;
 
-            adaptor.addChild(root_0, set_atom79.getTree());
-            // ArchvalRulesetGrammar.g:169:11: ( ( INTERSECT | UNION | SETMINUS ) set_atom )*
+            adaptor.addChild(root_0, set_atom81.getTree());
+            // ArchvalRulesetGrammar.g:173:11: ( ( INTERSECT | UNION | SETMINUS ) set_atom )*
             loop20:
             do {
                 int alt20=2;
@@ -2209,9 +2247,9 @@ public class ArchvalRulesetGrammarParser extends Parser {
 
                 switch (alt20) {
             	case 1 :
-            	    // ArchvalRulesetGrammar.g:169:12: ( INTERSECT | UNION | SETMINUS ) set_atom
+            	    // ArchvalRulesetGrammar.g:173:12: ( INTERSECT | UNION | SETMINUS ) set_atom
             	    {
-            	    // ArchvalRulesetGrammar.g:169:12: ( INTERSECT | UNION | SETMINUS )
+            	    // ArchvalRulesetGrammar.g:173:12: ( INTERSECT | UNION | SETMINUS )
             	    int alt19=3;
             	    switch ( input.LA(1) ) {
             	    case INTERSECT:
@@ -2238,31 +2276,31 @@ public class ArchvalRulesetGrammarParser extends Parser {
 
             	    switch (alt19) {
             	        case 1 :
-            	            // ArchvalRulesetGrammar.g:169:13: INTERSECT
+            	            // ArchvalRulesetGrammar.g:173:13: INTERSECT
             	            {
-            	            INTERSECT80=(Token)match(input,INTERSECT,FOLLOW_INTERSECT_in_set_expression748); 
-            	            INTERSECT80_tree = (Object)adaptor.create(INTERSECT80);
-            	            root_0 = (Object)adaptor.becomeRoot(INTERSECT80_tree, root_0);
+            	            INTERSECT82=(Token)match(input,INTERSECT,FOLLOW_INTERSECT_in_set_expression788); 
+            	            INTERSECT82_tree = (Object)adaptor.create(INTERSECT82);
+            	            root_0 = (Object)adaptor.becomeRoot(INTERSECT82_tree, root_0);
 
 
             	            }
             	            break;
             	        case 2 :
-            	            // ArchvalRulesetGrammar.g:169:26: UNION
+            	            // ArchvalRulesetGrammar.g:173:26: UNION
             	            {
-            	            UNION81=(Token)match(input,UNION,FOLLOW_UNION_in_set_expression753); 
-            	            UNION81_tree = (Object)adaptor.create(UNION81);
-            	            root_0 = (Object)adaptor.becomeRoot(UNION81_tree, root_0);
+            	            UNION83=(Token)match(input,UNION,FOLLOW_UNION_in_set_expression793); 
+            	            UNION83_tree = (Object)adaptor.create(UNION83);
+            	            root_0 = (Object)adaptor.becomeRoot(UNION83_tree, root_0);
 
 
             	            }
             	            break;
             	        case 3 :
-            	            // ArchvalRulesetGrammar.g:169:35: SETMINUS
+            	            // ArchvalRulesetGrammar.g:173:35: SETMINUS
             	            {
-            	            SETMINUS82=(Token)match(input,SETMINUS,FOLLOW_SETMINUS_in_set_expression758); 
-            	            SETMINUS82_tree = (Object)adaptor.create(SETMINUS82);
-            	            root_0 = (Object)adaptor.becomeRoot(SETMINUS82_tree, root_0);
+            	            SETMINUS84=(Token)match(input,SETMINUS,FOLLOW_SETMINUS_in_set_expression798); 
+            	            SETMINUS84_tree = (Object)adaptor.create(SETMINUS84);
+            	            root_0 = (Object)adaptor.becomeRoot(SETMINUS84_tree, root_0);
 
 
             	            }
@@ -2270,12 +2308,12 @@ public class ArchvalRulesetGrammarParser extends Parser {
 
             	    }
 
-            	    pushFollow(FOLLOW_set_atom_in_set_expression762);
-            	    set_atom83=set_atom();
+            	    pushFollow(FOLLOW_set_atom_in_set_expression802);
+            	    set_atom85=set_atom();
 
             	    state._fsp--;
 
-            	    adaptor.addChild(root_0, set_atom83.getTree());
+            	    adaptor.addChild(root_0, set_atom85.getTree());
 
             	    }
             	    break;
@@ -2307,35 +2345,35 @@ public class ArchvalRulesetGrammarParser extends Parser {
     };
 
     // $ANTLR start "set_atom"
-    // ArchvalRulesetGrammar.g:172:1: set_atom : ( Name LPAREN ( selector_params )? RPAREN -> ^( Name ( selector_params )? ) | LPAREN set_expression RPAREN -> set_expression );
+    // ArchvalRulesetGrammar.g:176:1: set_atom : ( Name LPAREN ( selector_params )? RPAREN -> ^( Name ( selector_params )? ) | LPAREN set_expression RPAREN -> set_expression );
     public final ArchvalRulesetGrammarParser.set_atom_return set_atom() throws RecognitionException {
         ArchvalRulesetGrammarParser.set_atom_return retval = new ArchvalRulesetGrammarParser.set_atom_return();
         retval.start = input.LT(1);
 
         Object root_0 = null;
 
-        Token Name84=null;
-        Token LPAREN85=null;
-        Token RPAREN87=null;
-        Token LPAREN88=null;
-        Token RPAREN90=null;
-        ArchvalRulesetGrammarParser.selector_params_return selector_params86 = null;
+        Token Name86=null;
+        Token LPAREN87=null;
+        Token RPAREN89=null;
+        Token LPAREN90=null;
+        Token RPAREN92=null;
+        ArchvalRulesetGrammarParser.selector_params_return selector_params88 = null;
 
-        ArchvalRulesetGrammarParser.set_expression_return set_expression89 = null;
+        ArchvalRulesetGrammarParser.set_expression_return set_expression91 = null;
 
 
-        Object Name84_tree=null;
-        Object LPAREN85_tree=null;
-        Object RPAREN87_tree=null;
-        Object LPAREN88_tree=null;
-        Object RPAREN90_tree=null;
+        Object Name86_tree=null;
+        Object LPAREN87_tree=null;
+        Object RPAREN89_tree=null;
+        Object LPAREN90_tree=null;
+        Object RPAREN92_tree=null;
         RewriteRuleTokenStream stream_Name=new RewriteRuleTokenStream(adaptor,"token Name");
         RewriteRuleTokenStream stream_RPAREN=new RewriteRuleTokenStream(adaptor,"token RPAREN");
         RewriteRuleTokenStream stream_LPAREN=new RewriteRuleTokenStream(adaptor,"token LPAREN");
         RewriteRuleSubtreeStream stream_selector_params=new RewriteRuleSubtreeStream(adaptor,"rule selector_params");
         RewriteRuleSubtreeStream stream_set_expression=new RewriteRuleSubtreeStream(adaptor,"rule set_expression");
         try {
-            // ArchvalRulesetGrammar.g:173:2: ( Name LPAREN ( selector_params )? RPAREN -> ^( Name ( selector_params )? ) | LPAREN set_expression RPAREN -> set_expression )
+            // ArchvalRulesetGrammar.g:177:2: ( Name LPAREN ( selector_params )? RPAREN -> ^( Name ( selector_params )? ) | LPAREN set_expression RPAREN -> set_expression )
             int alt22=2;
             int LA22_0 = input.LA(1);
 
@@ -2353,15 +2391,15 @@ public class ArchvalRulesetGrammarParser extends Parser {
             }
             switch (alt22) {
                 case 1 :
-                    // ArchvalRulesetGrammar.g:174:8: Name LPAREN ( selector_params )? RPAREN
+                    // ArchvalRulesetGrammar.g:178:8: Name LPAREN ( selector_params )? RPAREN
                     {
-                    Name84=(Token)match(input,Name,FOLLOW_Name_in_set_atom782);  
-                    stream_Name.add(Name84);
+                    Name86=(Token)match(input,Name,FOLLOW_Name_in_set_atom822);  
+                    stream_Name.add(Name86);
 
-                    LPAREN85=(Token)match(input,LPAREN,FOLLOW_LPAREN_in_set_atom784);  
-                    stream_LPAREN.add(LPAREN85);
+                    LPAREN87=(Token)match(input,LPAREN,FOLLOW_LPAREN_in_set_atom824);  
+                    stream_LPAREN.add(LPAREN87);
 
-                    // ArchvalRulesetGrammar.g:174:20: ( selector_params )?
+                    // ArchvalRulesetGrammar.g:178:20: ( selector_params )?
                     int alt21=2;
                     int LA21_0 = input.LA(1);
 
@@ -2370,22 +2408,22 @@ public class ArchvalRulesetGrammarParser extends Parser {
                     }
                     switch (alt21) {
                         case 1 :
-                            // ArchvalRulesetGrammar.g:174:20: selector_params
+                            // ArchvalRulesetGrammar.g:178:20: selector_params
                             {
-                            pushFollow(FOLLOW_selector_params_in_set_atom786);
-                            selector_params86=selector_params();
+                            pushFollow(FOLLOW_selector_params_in_set_atom826);
+                            selector_params88=selector_params();
 
                             state._fsp--;
 
-                            stream_selector_params.add(selector_params86.getTree());
+                            stream_selector_params.add(selector_params88.getTree());
 
                             }
                             break;
 
                     }
 
-                    RPAREN87=(Token)match(input,RPAREN,FOLLOW_RPAREN_in_set_atom789);  
-                    stream_RPAREN.add(RPAREN87);
+                    RPAREN89=(Token)match(input,RPAREN,FOLLOW_RPAREN_in_set_atom829);  
+                    stream_RPAREN.add(RPAREN89);
 
 
 
@@ -2400,14 +2438,14 @@ public class ArchvalRulesetGrammarParser extends Parser {
                     RewriteRuleSubtreeStream stream_retval=new RewriteRuleSubtreeStream(adaptor,"rule retval",retval!=null?retval.tree:null);
 
                     root_0 = (Object)adaptor.nil();
-                    // 175:8: -> ^( Name ( selector_params )? )
+                    // 179:8: -> ^( Name ( selector_params )? )
                     {
-                        // ArchvalRulesetGrammar.g:176:8: ^( Name ( selector_params )? )
+                        // ArchvalRulesetGrammar.g:180:8: ^( Name ( selector_params )? )
                         {
                         Object root_1 = (Object)adaptor.nil();
                         root_1 = (Object)adaptor.becomeRoot(stream_Name.nextNode(), root_1);
 
-                        // ArchvalRulesetGrammar.g:176:15: ( selector_params )?
+                        // ArchvalRulesetGrammar.g:180:15: ( selector_params )?
                         if ( stream_selector_params.hasNext() ) {
                             adaptor.addChild(root_1, stream_selector_params.nextTree());
 
@@ -2423,19 +2461,19 @@ public class ArchvalRulesetGrammarParser extends Parser {
                     }
                     break;
                 case 2 :
-                    // ArchvalRulesetGrammar.g:178:2: LPAREN set_expression RPAREN
+                    // ArchvalRulesetGrammar.g:182:2: LPAREN set_expression RPAREN
                     {
-                    LPAREN88=(Token)match(input,LPAREN,FOLLOW_LPAREN_in_set_atom818);  
-                    stream_LPAREN.add(LPAREN88);
+                    LPAREN90=(Token)match(input,LPAREN,FOLLOW_LPAREN_in_set_atom858);  
+                    stream_LPAREN.add(LPAREN90);
 
-                    pushFollow(FOLLOW_set_expression_in_set_atom820);
-                    set_expression89=set_expression();
+                    pushFollow(FOLLOW_set_expression_in_set_atom860);
+                    set_expression91=set_expression();
 
                     state._fsp--;
 
-                    stream_set_expression.add(set_expression89.getTree());
-                    RPAREN90=(Token)match(input,RPAREN,FOLLOW_RPAREN_in_set_atom822);  
-                    stream_RPAREN.add(RPAREN90);
+                    stream_set_expression.add(set_expression91.getTree());
+                    RPAREN92=(Token)match(input,RPAREN,FOLLOW_RPAREN_in_set_atom862);  
+                    stream_RPAREN.add(RPAREN92);
 
 
 
@@ -2450,7 +2488,7 @@ public class ArchvalRulesetGrammarParser extends Parser {
                     RewriteRuleSubtreeStream stream_retval=new RewriteRuleSubtreeStream(adaptor,"rule retval",retval!=null?retval.tree:null);
 
                     root_0 = (Object)adaptor.nil();
-                    // 179:2: -> set_expression
+                    // 183:2: -> set_expression
                     {
                         adaptor.addChild(root_0, stream_set_expression.nextTree());
 
@@ -2480,33 +2518,33 @@ public class ArchvalRulesetGrammarParser extends Parser {
     };
 
     // $ANTLR start "selector_params"
-    // ArchvalRulesetGrammar.g:183:1: selector_params : selector_param ( COMMA selector_param )* -> selector_param ( selector_param )* ;
+    // ArchvalRulesetGrammar.g:187:1: selector_params : selector_param ( COMMA selector_param )* -> selector_param ( selector_param )* ;
     public final ArchvalRulesetGrammarParser.selector_params_return selector_params() throws RecognitionException {
         ArchvalRulesetGrammarParser.selector_params_return retval = new ArchvalRulesetGrammarParser.selector_params_return();
         retval.start = input.LT(1);
 
         Object root_0 = null;
 
-        Token COMMA92=null;
-        ArchvalRulesetGrammarParser.selector_param_return selector_param91 = null;
-
+        Token COMMA94=null;
         ArchvalRulesetGrammarParser.selector_param_return selector_param93 = null;
 
+        ArchvalRulesetGrammarParser.selector_param_return selector_param95 = null;
 
-        Object COMMA92_tree=null;
+
+        Object COMMA94_tree=null;
         RewriteRuleTokenStream stream_COMMA=new RewriteRuleTokenStream(adaptor,"token COMMA");
         RewriteRuleSubtreeStream stream_selector_param=new RewriteRuleSubtreeStream(adaptor,"rule selector_param");
         try {
-            // ArchvalRulesetGrammar.g:184:2: ( selector_param ( COMMA selector_param )* -> selector_param ( selector_param )* )
-            // ArchvalRulesetGrammar.g:185:2: selector_param ( COMMA selector_param )*
+            // ArchvalRulesetGrammar.g:188:2: ( selector_param ( COMMA selector_param )* -> selector_param ( selector_param )* )
+            // ArchvalRulesetGrammar.g:189:2: selector_param ( COMMA selector_param )*
             {
-            pushFollow(FOLLOW_selector_param_in_selector_params840);
-            selector_param91=selector_param();
+            pushFollow(FOLLOW_selector_param_in_selector_params880);
+            selector_param93=selector_param();
 
             state._fsp--;
 
-            stream_selector_param.add(selector_param91.getTree());
-            // ArchvalRulesetGrammar.g:185:17: ( COMMA selector_param )*
+            stream_selector_param.add(selector_param93.getTree());
+            // ArchvalRulesetGrammar.g:189:17: ( COMMA selector_param )*
             loop23:
             do {
                 int alt23=2;
@@ -2519,17 +2557,17 @@ public class ArchvalRulesetGrammarParser extends Parser {
 
                 switch (alt23) {
             	case 1 :
-            	    // ArchvalRulesetGrammar.g:185:18: COMMA selector_param
+            	    // ArchvalRulesetGrammar.g:189:18: COMMA selector_param
             	    {
-            	    COMMA92=(Token)match(input,COMMA,FOLLOW_COMMA_in_selector_params843);  
-            	    stream_COMMA.add(COMMA92);
+            	    COMMA94=(Token)match(input,COMMA,FOLLOW_COMMA_in_selector_params883);  
+            	    stream_COMMA.add(COMMA94);
 
-            	    pushFollow(FOLLOW_selector_param_in_selector_params845);
-            	    selector_param93=selector_param();
+            	    pushFollow(FOLLOW_selector_param_in_selector_params885);
+            	    selector_param95=selector_param();
 
             	    state._fsp--;
 
-            	    stream_selector_param.add(selector_param93.getTree());
+            	    stream_selector_param.add(selector_param95.getTree());
 
             	    }
             	    break;
@@ -2552,10 +2590,10 @@ public class ArchvalRulesetGrammarParser extends Parser {
             RewriteRuleSubtreeStream stream_retval=new RewriteRuleSubtreeStream(adaptor,"rule retval",retval!=null?retval.tree:null);
 
             root_0 = (Object)adaptor.nil();
-            // 186:2: -> selector_param ( selector_param )*
+            // 190:2: -> selector_param ( selector_param )*
             {
                 adaptor.addChild(root_0, stream_selector_param.nextTree());
-                // ArchvalRulesetGrammar.g:187:17: ( selector_param )*
+                // ArchvalRulesetGrammar.g:191:17: ( selector_param )*
                 while ( stream_selector_param.hasNext() ) {
                     adaptor.addChild(root_0, stream_selector_param.nextTree());
 
@@ -2586,27 +2624,27 @@ public class ArchvalRulesetGrammarParser extends Parser {
     };
 
     // $ANTLR start "selector_param"
-    // ArchvalRulesetGrammar.g:190:1: selector_param : ( Vertex | Edge | Number | Label );
+    // ArchvalRulesetGrammar.g:194:1: selector_param : ( Vertex | Edge | Number | Label );
     public final ArchvalRulesetGrammarParser.selector_param_return selector_param() throws RecognitionException {
         ArchvalRulesetGrammarParser.selector_param_return retval = new ArchvalRulesetGrammarParser.selector_param_return();
         retval.start = input.LT(1);
 
         Object root_0 = null;
 
-        Token set94=null;
+        Token set96=null;
 
-        Object set94_tree=null;
+        Object set96_tree=null;
 
         try {
-            // ArchvalRulesetGrammar.g:191:2: ( Vertex | Edge | Number | Label )
+            // ArchvalRulesetGrammar.g:195:2: ( Vertex | Edge | Number | Label )
             // ArchvalRulesetGrammar.g:
             {
             root_0 = (Object)adaptor.nil();
 
-            set94=(Token)input.LT(1);
+            set96=(Token)input.LT(1);
             if ( input.LA(1)==Vertex||input.LA(1)==Edge||(input.LA(1)>=Number && input.LA(1)<=Label) ) {
                 input.consume();
-                adaptor.addChild(root_0, (Object)adaptor.create(set94));
+                adaptor.addChild(root_0, (Object)adaptor.create(set96));
                 state.errorRecovery=false;
             }
             else {
@@ -2636,34 +2674,34 @@ public class ArchvalRulesetGrammarParser extends Parser {
     };
 
     // $ANTLR start "compound_rule_spec"
-    // ArchvalRulesetGrammar.g:201:1: compound_rule_spec : candexpression ( OR candexpression )* ;
+    // ArchvalRulesetGrammar.g:205:1: compound_rule_spec : candexpression ( OR candexpression )* ;
     public final ArchvalRulesetGrammarParser.compound_rule_spec_return compound_rule_spec() throws RecognitionException {
         ArchvalRulesetGrammarParser.compound_rule_spec_return retval = new ArchvalRulesetGrammarParser.compound_rule_spec_return();
         retval.start = input.LT(1);
 
         Object root_0 = null;
 
-        Token OR96=null;
-        ArchvalRulesetGrammarParser.candexpression_return candexpression95 = null;
-
+        Token OR98=null;
         ArchvalRulesetGrammarParser.candexpression_return candexpression97 = null;
 
+        ArchvalRulesetGrammarParser.candexpression_return candexpression99 = null;
 
-        Object OR96_tree=null;
+
+        Object OR98_tree=null;
 
         try {
-            // ArchvalRulesetGrammar.g:202:2: ( candexpression ( OR candexpression )* )
-            // ArchvalRulesetGrammar.g:203:2: candexpression ( OR candexpression )*
+            // ArchvalRulesetGrammar.g:206:2: ( candexpression ( OR candexpression )* )
+            // ArchvalRulesetGrammar.g:207:2: candexpression ( OR candexpression )*
             {
             root_0 = (Object)adaptor.nil();
 
-            pushFollow(FOLLOW_candexpression_in_compound_rule_spec898);
-            candexpression95=candexpression();
+            pushFollow(FOLLOW_candexpression_in_compound_rule_spec938);
+            candexpression97=candexpression();
 
             state._fsp--;
 
-            adaptor.addChild(root_0, candexpression95.getTree());
-            // ArchvalRulesetGrammar.g:203:17: ( OR candexpression )*
+            adaptor.addChild(root_0, candexpression97.getTree());
+            // ArchvalRulesetGrammar.g:207:17: ( OR candexpression )*
             loop24:
             do {
                 int alt24=2;
@@ -2676,18 +2714,18 @@ public class ArchvalRulesetGrammarParser extends Parser {
 
                 switch (alt24) {
             	case 1 :
-            	    // ArchvalRulesetGrammar.g:203:18: OR candexpression
+            	    // ArchvalRulesetGrammar.g:207:18: OR candexpression
             	    {
-            	    OR96=(Token)match(input,OR,FOLLOW_OR_in_compound_rule_spec901); 
-            	    OR96_tree = (Object)adaptor.create(OR96);
-            	    root_0 = (Object)adaptor.becomeRoot(OR96_tree, root_0);
+            	    OR98=(Token)match(input,OR,FOLLOW_OR_in_compound_rule_spec941); 
+            	    OR98_tree = (Object)adaptor.create(OR98);
+            	    root_0 = (Object)adaptor.becomeRoot(OR98_tree, root_0);
 
-            	    pushFollow(FOLLOW_candexpression_in_compound_rule_spec904);
-            	    candexpression97=candexpression();
+            	    pushFollow(FOLLOW_candexpression_in_compound_rule_spec944);
+            	    candexpression99=candexpression();
 
             	    state._fsp--;
 
-            	    adaptor.addChild(root_0, candexpression97.getTree());
+            	    adaptor.addChild(root_0, candexpression99.getTree());
 
             	    }
             	    break;
@@ -2719,34 +2757,34 @@ public class ArchvalRulesetGrammarParser extends Parser {
     };
 
     // $ANTLR start "candexpression"
-    // ArchvalRulesetGrammar.g:206:1: candexpression : cnotexpression ( AND cnotexpression )* ;
+    // ArchvalRulesetGrammar.g:210:1: candexpression : cnotexpression ( AND cnotexpression )* ;
     public final ArchvalRulesetGrammarParser.candexpression_return candexpression() throws RecognitionException {
         ArchvalRulesetGrammarParser.candexpression_return retval = new ArchvalRulesetGrammarParser.candexpression_return();
         retval.start = input.LT(1);
 
         Object root_0 = null;
 
-        Token AND99=null;
-        ArchvalRulesetGrammarParser.cnotexpression_return cnotexpression98 = null;
-
+        Token AND101=null;
         ArchvalRulesetGrammarParser.cnotexpression_return cnotexpression100 = null;
 
+        ArchvalRulesetGrammarParser.cnotexpression_return cnotexpression102 = null;
 
-        Object AND99_tree=null;
+
+        Object AND101_tree=null;
 
         try {
-            // ArchvalRulesetGrammar.g:207:2: ( cnotexpression ( AND cnotexpression )* )
-            // ArchvalRulesetGrammar.g:208:2: cnotexpression ( AND cnotexpression )*
+            // ArchvalRulesetGrammar.g:211:2: ( cnotexpression ( AND cnotexpression )* )
+            // ArchvalRulesetGrammar.g:212:2: cnotexpression ( AND cnotexpression )*
             {
             root_0 = (Object)adaptor.nil();
 
-            pushFollow(FOLLOW_cnotexpression_in_candexpression918);
-            cnotexpression98=cnotexpression();
+            pushFollow(FOLLOW_cnotexpression_in_candexpression958);
+            cnotexpression100=cnotexpression();
 
             state._fsp--;
 
-            adaptor.addChild(root_0, cnotexpression98.getTree());
-            // ArchvalRulesetGrammar.g:208:17: ( AND cnotexpression )*
+            adaptor.addChild(root_0, cnotexpression100.getTree());
+            // ArchvalRulesetGrammar.g:212:17: ( AND cnotexpression )*
             loop25:
             do {
                 int alt25=2;
@@ -2759,18 +2797,18 @@ public class ArchvalRulesetGrammarParser extends Parser {
 
                 switch (alt25) {
             	case 1 :
-            	    // ArchvalRulesetGrammar.g:208:18: AND cnotexpression
+            	    // ArchvalRulesetGrammar.g:212:18: AND cnotexpression
             	    {
-            	    AND99=(Token)match(input,AND,FOLLOW_AND_in_candexpression921); 
-            	    AND99_tree = (Object)adaptor.create(AND99);
-            	    root_0 = (Object)adaptor.becomeRoot(AND99_tree, root_0);
+            	    AND101=(Token)match(input,AND,FOLLOW_AND_in_candexpression961); 
+            	    AND101_tree = (Object)adaptor.create(AND101);
+            	    root_0 = (Object)adaptor.becomeRoot(AND101_tree, root_0);
 
-            	    pushFollow(FOLLOW_cnotexpression_in_candexpression924);
-            	    cnotexpression100=cnotexpression();
+            	    pushFollow(FOLLOW_cnotexpression_in_candexpression964);
+            	    cnotexpression102=cnotexpression();
 
             	    state._fsp--;
 
-            	    adaptor.addChild(root_0, cnotexpression100.getTree());
+            	    adaptor.addChild(root_0, cnotexpression102.getTree());
 
             	    }
             	    break;
@@ -2802,26 +2840,26 @@ public class ArchvalRulesetGrammarParser extends Parser {
     };
 
     // $ANTLR start "cnotexpression"
-    // ArchvalRulesetGrammar.g:211:1: cnotexpression : ( NOT )? catom ;
+    // ArchvalRulesetGrammar.g:215:1: cnotexpression : ( NOT )? catom ;
     public final ArchvalRulesetGrammarParser.cnotexpression_return cnotexpression() throws RecognitionException {
         ArchvalRulesetGrammarParser.cnotexpression_return retval = new ArchvalRulesetGrammarParser.cnotexpression_return();
         retval.start = input.LT(1);
 
         Object root_0 = null;
 
-        Token NOT101=null;
-        ArchvalRulesetGrammarParser.catom_return catom102 = null;
+        Token NOT103=null;
+        ArchvalRulesetGrammarParser.catom_return catom104 = null;
 
 
-        Object NOT101_tree=null;
+        Object NOT103_tree=null;
 
         try {
-            // ArchvalRulesetGrammar.g:212:2: ( ( NOT )? catom )
-            // ArchvalRulesetGrammar.g:213:2: ( NOT )? catom
+            // ArchvalRulesetGrammar.g:216:2: ( ( NOT )? catom )
+            // ArchvalRulesetGrammar.g:217:2: ( NOT )? catom
             {
             root_0 = (Object)adaptor.nil();
 
-            // ArchvalRulesetGrammar.g:213:5: ( NOT )?
+            // ArchvalRulesetGrammar.g:217:5: ( NOT )?
             int alt26=2;
             int LA26_0 = input.LA(1);
 
@@ -2830,11 +2868,11 @@ public class ArchvalRulesetGrammarParser extends Parser {
             }
             switch (alt26) {
                 case 1 :
-                    // ArchvalRulesetGrammar.g:213:5: NOT
+                    // ArchvalRulesetGrammar.g:217:5: NOT
                     {
-                    NOT101=(Token)match(input,NOT,FOLLOW_NOT_in_cnotexpression938); 
-                    NOT101_tree = (Object)adaptor.create(NOT101);
-                    root_0 = (Object)adaptor.becomeRoot(NOT101_tree, root_0);
+                    NOT103=(Token)match(input,NOT,FOLLOW_NOT_in_cnotexpression978); 
+                    NOT103_tree = (Object)adaptor.create(NOT103);
+                    root_0 = (Object)adaptor.becomeRoot(NOT103_tree, root_0);
 
 
                     }
@@ -2842,12 +2880,12 @@ public class ArchvalRulesetGrammarParser extends Parser {
 
             }
 
-            pushFollow(FOLLOW_catom_in_cnotexpression942);
-            catom102=catom();
+            pushFollow(FOLLOW_catom_in_cnotexpression982);
+            catom104=catom();
 
             state._fsp--;
 
-            adaptor.addChild(root_0, catom102.getTree());
+            adaptor.addChild(root_0, catom104.getTree());
 
             }
 
@@ -2870,27 +2908,27 @@ public class ArchvalRulesetGrammarParser extends Parser {
     };
 
     // $ANTLR start "catom"
-    // ArchvalRulesetGrammar.g:216:1: catom : ( Name | LPAREN compound_rule_spec RPAREN -> compound_rule_spec );
+    // ArchvalRulesetGrammar.g:220:1: catom : ( Name | LPAREN compound_rule_spec RPAREN -> compound_rule_spec );
     public final ArchvalRulesetGrammarParser.catom_return catom() throws RecognitionException {
         ArchvalRulesetGrammarParser.catom_return retval = new ArchvalRulesetGrammarParser.catom_return();
         retval.start = input.LT(1);
 
         Object root_0 = null;
 
-        Token Name103=null;
-        Token LPAREN104=null;
-        Token RPAREN106=null;
-        ArchvalRulesetGrammarParser.compound_rule_spec_return compound_rule_spec105 = null;
+        Token Name105=null;
+        Token LPAREN106=null;
+        Token RPAREN108=null;
+        ArchvalRulesetGrammarParser.compound_rule_spec_return compound_rule_spec107 = null;
 
 
-        Object Name103_tree=null;
-        Object LPAREN104_tree=null;
-        Object RPAREN106_tree=null;
+        Object Name105_tree=null;
+        Object LPAREN106_tree=null;
+        Object RPAREN108_tree=null;
         RewriteRuleTokenStream stream_RPAREN=new RewriteRuleTokenStream(adaptor,"token RPAREN");
         RewriteRuleTokenStream stream_LPAREN=new RewriteRuleTokenStream(adaptor,"token LPAREN");
         RewriteRuleSubtreeStream stream_compound_rule_spec=new RewriteRuleSubtreeStream(adaptor,"rule compound_rule_spec");
         try {
-            // ArchvalRulesetGrammar.g:217:2: ( Name | LPAREN compound_rule_spec RPAREN -> compound_rule_spec )
+            // ArchvalRulesetGrammar.g:221:2: ( Name | LPAREN compound_rule_spec RPAREN -> compound_rule_spec )
             int alt27=2;
             int LA27_0 = input.LA(1);
 
@@ -2908,31 +2946,31 @@ public class ArchvalRulesetGrammarParser extends Parser {
             }
             switch (alt27) {
                 case 1 :
-                    // ArchvalRulesetGrammar.g:218:2: Name
+                    // ArchvalRulesetGrammar.g:222:2: Name
                     {
                     root_0 = (Object)adaptor.nil();
 
-                    Name103=(Token)match(input,Name,FOLLOW_Name_in_catom954); 
-                    Name103_tree = (Object)adaptor.create(Name103);
-                    adaptor.addChild(root_0, Name103_tree);
+                    Name105=(Token)match(input,Name,FOLLOW_Name_in_catom994); 
+                    Name105_tree = (Object)adaptor.create(Name105);
+                    adaptor.addChild(root_0, Name105_tree);
 
 
                     }
                     break;
                 case 2 :
-                    // ArchvalRulesetGrammar.g:220:2: LPAREN compound_rule_spec RPAREN
+                    // ArchvalRulesetGrammar.g:224:2: LPAREN compound_rule_spec RPAREN
                     {
-                    LPAREN104=(Token)match(input,LPAREN,FOLLOW_LPAREN_in_catom960);  
-                    stream_LPAREN.add(LPAREN104);
+                    LPAREN106=(Token)match(input,LPAREN,FOLLOW_LPAREN_in_catom1000);  
+                    stream_LPAREN.add(LPAREN106);
 
-                    pushFollow(FOLLOW_compound_rule_spec_in_catom962);
-                    compound_rule_spec105=compound_rule_spec();
+                    pushFollow(FOLLOW_compound_rule_spec_in_catom1002);
+                    compound_rule_spec107=compound_rule_spec();
 
                     state._fsp--;
 
-                    stream_compound_rule_spec.add(compound_rule_spec105.getTree());
-                    RPAREN106=(Token)match(input,RPAREN,FOLLOW_RPAREN_in_catom964);  
-                    stream_RPAREN.add(RPAREN106);
+                    stream_compound_rule_spec.add(compound_rule_spec107.getTree());
+                    RPAREN108=(Token)match(input,RPAREN,FOLLOW_RPAREN_in_catom1004);  
+                    stream_RPAREN.add(RPAREN108);
 
 
 
@@ -2947,7 +2985,7 @@ public class ArchvalRulesetGrammarParser extends Parser {
                     RewriteRuleSubtreeStream stream_retval=new RewriteRuleSubtreeStream(adaptor,"rule retval",retval!=null?retval.tree:null);
 
                     root_0 = (Object)adaptor.nil();
-                    // 221:2: -> compound_rule_spec
+                    // 225:2: -> compound_rule_spec
                     {
                         adaptor.addChild(root_0, stream_compound_rule_spec.nextTree());
 
@@ -3047,42 +3085,44 @@ public class ArchvalRulesetGrammarParser extends Parser {
     public static final BitSet FOLLOW_True_in_condition650 = new BitSet(new long[]{0x0000000000000002L});
     public static final BitSet FOLLOW_False_in_condition656 = new BitSet(new long[]{0x0000000000000002L});
     public static final BitSet FOLLOW_Name_in_condition662 = new BitSet(new long[]{0x0000000000001000L});
-    public static final BitSet FOLLOW_LPAREN_in_condition664 = new BitSet(new long[]{0x0000000C00003800L});
+    public static final BitSet FOLLOW_LPAREN_in_condition664 = new BitSet(new long[]{0x0000000C04803800L});
     public static final BitSet FOLLOW_predicate_params_in_condition666 = new BitSet(new long[]{0x0000000000002000L});
     public static final BitSet FOLLOW_RPAREN_in_condition669 = new BitSet(new long[]{0x0000000000000002L});
     public static final BitSet FOLLOW_predicate_param_in_predicate_params692 = new BitSet(new long[]{0x0000000000100002L});
-    public static final BitSet FOLLOW_COMMA_in_predicate_params695 = new BitSet(new long[]{0x0000000C00001800L});
+    public static final BitSet FOLLOW_COMMA_in_predicate_params695 = new BitSet(new long[]{0x0000000C04801800L});
     public static final BitSet FOLLOW_predicate_param_in_predicate_params697 = new BitSet(new long[]{0x0000000000100002L});
     public static final BitSet FOLLOW_Number_in_predicate_param720 = new BitSet(new long[]{0x0000000000000002L});
     public static final BitSet FOLLOW_Label_in_predicate_param726 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_set_expression_in_predicate_param732 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_set_atom_in_set_expression744 = new BitSet(new long[]{0x0000007000000002L});
-    public static final BitSet FOLLOW_INTERSECT_in_set_expression748 = new BitSet(new long[]{0x0000000C00001800L});
-    public static final BitSet FOLLOW_UNION_in_set_expression753 = new BitSet(new long[]{0x0000000C00001800L});
-    public static final BitSet FOLLOW_SETMINUS_in_set_expression758 = new BitSet(new long[]{0x0000000C00001800L});
-    public static final BitSet FOLLOW_set_atom_in_set_expression762 = new BitSet(new long[]{0x0000007000000002L});
-    public static final BitSet FOLLOW_Name_in_set_atom782 = new BitSet(new long[]{0x0000000000001000L});
-    public static final BitSet FOLLOW_LPAREN_in_set_atom784 = new BitSet(new long[]{0x0000000C04802000L});
-    public static final BitSet FOLLOW_selector_params_in_set_atom786 = new BitSet(new long[]{0x0000000000002000L});
-    public static final BitSet FOLLOW_RPAREN_in_set_atom789 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_LPAREN_in_set_atom818 = new BitSet(new long[]{0x0000000C00001800L});
-    public static final BitSet FOLLOW_set_expression_in_set_atom820 = new BitSet(new long[]{0x0000000000002000L});
-    public static final BitSet FOLLOW_RPAREN_in_set_atom822 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_selector_param_in_selector_params840 = new BitSet(new long[]{0x0000000000100002L});
-    public static final BitSet FOLLOW_COMMA_in_selector_params843 = new BitSet(new long[]{0x0000000C04800000L});
-    public static final BitSet FOLLOW_selector_param_in_selector_params845 = new BitSet(new long[]{0x0000000000100002L});
+    public static final BitSet FOLLOW_Vertex_in_predicate_param739 = new BitSet(new long[]{0x0000000000000002L});
+    public static final BitSet FOLLOW_Edge_in_predicate_param759 = new BitSet(new long[]{0x0000000000000002L});
+    public static final BitSet FOLLOW_set_expression_in_predicate_param772 = new BitSet(new long[]{0x0000000000000002L});
+    public static final BitSet FOLLOW_set_atom_in_set_expression784 = new BitSet(new long[]{0x0000007000000002L});
+    public static final BitSet FOLLOW_INTERSECT_in_set_expression788 = new BitSet(new long[]{0x0000000C04801800L});
+    public static final BitSet FOLLOW_UNION_in_set_expression793 = new BitSet(new long[]{0x0000000C04801800L});
+    public static final BitSet FOLLOW_SETMINUS_in_set_expression798 = new BitSet(new long[]{0x0000000C04801800L});
+    public static final BitSet FOLLOW_set_atom_in_set_expression802 = new BitSet(new long[]{0x0000007000000002L});
+    public static final BitSet FOLLOW_Name_in_set_atom822 = new BitSet(new long[]{0x0000000000001000L});
+    public static final BitSet FOLLOW_LPAREN_in_set_atom824 = new BitSet(new long[]{0x0000000C04802000L});
+    public static final BitSet FOLLOW_selector_params_in_set_atom826 = new BitSet(new long[]{0x0000000000002000L});
+    public static final BitSet FOLLOW_RPAREN_in_set_atom829 = new BitSet(new long[]{0x0000000000000002L});
+    public static final BitSet FOLLOW_LPAREN_in_set_atom858 = new BitSet(new long[]{0x0000000C04801800L});
+    public static final BitSet FOLLOW_set_expression_in_set_atom860 = new BitSet(new long[]{0x0000000000002000L});
+    public static final BitSet FOLLOW_RPAREN_in_set_atom862 = new BitSet(new long[]{0x0000000000000002L});
+    public static final BitSet FOLLOW_selector_param_in_selector_params880 = new BitSet(new long[]{0x0000000000100002L});
+    public static final BitSet FOLLOW_COMMA_in_selector_params883 = new BitSet(new long[]{0x0000000C04800000L});
+    public static final BitSet FOLLOW_selector_param_in_selector_params885 = new BitSet(new long[]{0x0000000000100002L});
     public static final BitSet FOLLOW_set_in_selector_param0 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_candexpression_in_compound_rule_spec898 = new BitSet(new long[]{0x0000000020000002L});
-    public static final BitSet FOLLOW_OR_in_compound_rule_spec901 = new BitSet(new long[]{0x0000000080001800L});
-    public static final BitSet FOLLOW_candexpression_in_compound_rule_spec904 = new BitSet(new long[]{0x0000000020000002L});
-    public static final BitSet FOLLOW_cnotexpression_in_candexpression918 = new BitSet(new long[]{0x0000000040000002L});
-    public static final BitSet FOLLOW_AND_in_candexpression921 = new BitSet(new long[]{0x0000000080001800L});
-    public static final BitSet FOLLOW_cnotexpression_in_candexpression924 = new BitSet(new long[]{0x0000000040000002L});
-    public static final BitSet FOLLOW_NOT_in_cnotexpression938 = new BitSet(new long[]{0x0000000080001800L});
-    public static final BitSet FOLLOW_catom_in_cnotexpression942 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_Name_in_catom954 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_LPAREN_in_catom960 = new BitSet(new long[]{0x0000000080001800L});
-    public static final BitSet FOLLOW_compound_rule_spec_in_catom962 = new BitSet(new long[]{0x0000000000002000L});
-    public static final BitSet FOLLOW_RPAREN_in_catom964 = new BitSet(new long[]{0x0000000000000002L});
+    public static final BitSet FOLLOW_candexpression_in_compound_rule_spec938 = new BitSet(new long[]{0x0000000020000002L});
+    public static final BitSet FOLLOW_OR_in_compound_rule_spec941 = new BitSet(new long[]{0x0000000080001800L});
+    public static final BitSet FOLLOW_candexpression_in_compound_rule_spec944 = new BitSet(new long[]{0x0000000020000002L});
+    public static final BitSet FOLLOW_cnotexpression_in_candexpression958 = new BitSet(new long[]{0x0000000040000002L});
+    public static final BitSet FOLLOW_AND_in_candexpression961 = new BitSet(new long[]{0x0000000080001800L});
+    public static final BitSet FOLLOW_cnotexpression_in_candexpression964 = new BitSet(new long[]{0x0000000040000002L});
+    public static final BitSet FOLLOW_NOT_in_cnotexpression978 = new BitSet(new long[]{0x0000000080001800L});
+    public static final BitSet FOLLOW_catom_in_cnotexpression982 = new BitSet(new long[]{0x0000000000000002L});
+    public static final BitSet FOLLOW_Name_in_catom994 = new BitSet(new long[]{0x0000000000000002L});
+    public static final BitSet FOLLOW_LPAREN_in_catom1000 = new BitSet(new long[]{0x0000000080001800L});
+    public static final BitSet FOLLOW_compound_rule_spec_in_catom1002 = new BitSet(new long[]{0x0000000000002000L});
+    public static final BitSet FOLLOW_RPAREN_in_catom1004 = new BitSet(new long[]{0x0000000000000002L});
 
 }

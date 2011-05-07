@@ -6,7 +6,7 @@ atomic_rule AR(graphType0) {
 
 atomic_rule AR2(graphType2) {
     EXISTS v IN V {
-        true AND has_more_then(selector("string", v), 3)
+        true AND has_more_then(g(), 3)
     }
 };
 
