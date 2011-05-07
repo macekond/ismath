@@ -22,16 +22,16 @@ public class CrOrNode implements CrBooleanNodeIface {
         this.right = right;
     }
 
-    public Boolean evaluate(GraphModel graphModel) {
-        Boolean leftResult = left.evaluate(graphModel);
-        Boolean rightResult = right.evaluate(graphModel);
-        return leftResult || rightResult;
-    }
-
     public Set<String> getRequiredGraphTypes() {
         Set<String> requiredGraphTypes = new HashSet<String>();
         requiredGraphTypes.addAll(left.getRequiredGraphTypes());
         requiredGraphTypes.addAll(right.getRequiredGraphTypes());
         return requiredGraphTypes;
+    }
+
+    public Boolean evaluate(GraphModel graphModel) {
+        Boolean leftResult = left.evaluate(graphModel);
+        Boolean rightResult = right.evaluate(graphModel);
+        return leftResult || rightResult;
     }
 }

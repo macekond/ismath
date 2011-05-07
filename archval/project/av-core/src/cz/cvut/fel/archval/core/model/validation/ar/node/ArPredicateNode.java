@@ -31,18 +31,18 @@ public class ArPredicateNode implements ArBooleanNodeIface {
         this.operator = operator;
     }
 
-    public Boolean evaluate(Graph graph, Edge edge) {
-        List<Object> list = new LinkedList<Object>();
-        for (ArObjectNodeIface arObjectNodeIface : operands) {
-            list.add(arObjectNodeIface.evaluate(graph, edge));
-        }
-        return (Boolean) operator.execute(graph, list);
-    }
-
     public Boolean evaluate(Graph graph, Vertex vertex) {
         List<Object> list = new LinkedList<Object>();
         for (ArObjectNodeIface arObjectNodeIface : operands) {
             list.add(arObjectNodeIface.evaluate(graph, vertex));
+        }
+        return (Boolean) operator.execute(graph, list);
+    }
+
+    public Boolean evaluate(Graph graph, Edge edge) {
+        List<Object> list = new LinkedList<Object>();
+        for (ArObjectNodeIface arObjectNodeIface : operands) {
+            list.add(arObjectNodeIface.evaluate(graph, edge));
         }
         return (Boolean) operator.execute(graph, list);
     }

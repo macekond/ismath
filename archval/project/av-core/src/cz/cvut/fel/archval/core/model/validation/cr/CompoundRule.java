@@ -23,14 +23,14 @@ public class CompoundRule extends Rule {
         this.compoundRuleExpressionRoot = compoundRuleExpressionRoot;
     }
 
-    public boolean evaluate(GraphModel graphModel) {
-        throw new UnsupportedOperationException("Not supported yet.");
-    }
-
     public Set<String> getRequiredGraphTypes() {
         if (compoundRuleExpressionRoot == null) {
             return new HashSet<String>();
         }
         return compoundRuleExpressionRoot.getRequiredGraphTypes();
+    }
+
+    public boolean evaluate(GraphModel graphModel) {
+        throw new UnsupportedOperationException("Not supported yet.");
     }
 }

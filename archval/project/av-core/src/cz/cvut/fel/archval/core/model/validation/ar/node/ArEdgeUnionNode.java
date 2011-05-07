@@ -4,7 +4,6 @@ import cz.cvut.fel.archval.core.api.model.graph.Edge;
 import cz.cvut.fel.archval.core.api.model.graph.Graph;
 import cz.cvut.fel.archval.core.api.model.graph.Vertex;
 import cz.cvut.fel.archval.core.model.validation.ar.iface.ArEdgeSetNodeIface;
-import cz.cvut.fel.archval.core.api.types.DataType;
 import java.util.HashSet;
 import java.util.Set;
 

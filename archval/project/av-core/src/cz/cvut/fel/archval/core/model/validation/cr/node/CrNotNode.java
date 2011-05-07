@@ -16,11 +16,11 @@ public class CrNotNode implements CrBooleanNodeIface {
         this.operand = operand;
     }
 
-    public Boolean evaluate(GraphModel graphModel) {
-        return !operand.evaluate(graphModel);
-    }
-
     public Set<String> getRequiredGraphTypes() {
         return operand.getRequiredGraphTypes();
+    }
+
+    public Boolean evaluate(GraphModel graphModel) {
+        return !operand.evaluate(graphModel);
     }
 }
