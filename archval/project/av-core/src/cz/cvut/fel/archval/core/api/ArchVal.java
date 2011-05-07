@@ -1,8 +1,5 @@
 package cz.cvut.fel.archval.core.api;
 
-import cz.cvut.fel.archval.core.api.GraphModelGeneratorIface;
-import cz.cvut.fel.archval.core.api.ValidationModelGeneratorIface;
-import cz.cvut.fel.archval.core.api.ValidationTaskIface;
 import cz.cvut.fel.archval.core.graphgen.GraphModelGenerator;
 import cz.cvut.fel.archval.core.api.register.AnalysesRegisterIface;
 import cz.cvut.fel.archval.core.api.register.GraphGeneratorsRegisterIface;
