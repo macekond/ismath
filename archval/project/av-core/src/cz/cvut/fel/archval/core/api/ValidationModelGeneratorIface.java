@@ -9,6 +9,10 @@ import java.io.InputStream;
 import org.antlr.runtime.RecognitionException;
 
 /**
+ * Interface of validation model generator. This interface allows its user to
+ * create new validation model from either string or input stream. Generated
+ * model can be than easily used to validate existing GraphModel instance using
+ * validate() method of the resulting graph.
  *
  * @author Martin Vejmelka (martin.vejmelka@fel.cvut.cz)
  */
