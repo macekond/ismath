@@ -10,7 +10,19 @@ import cz.cvut.fel.archval.core.api.model.graph.Vertex;
  */
 public interface GraphElementVisitor {
 
+    /**
+     * Visitor pattern implementation. This method will be called with existing
+     * edge from the graph.
+     *
+     * @param edge edge which can be processed by the visitor implementing class
+     */
     public void visit(Edge edge);
 
+    /**
+     * Visitor pattern implementation. This method will be called with existing
+     * edge from the graph.
+     *
+     * @param vertex vertex which can be processed by the visitor implementing class
+     */
     public void visit(Vertex vertex);
 }
