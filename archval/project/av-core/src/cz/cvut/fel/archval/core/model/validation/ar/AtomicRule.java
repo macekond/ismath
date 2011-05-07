@@ -22,6 +22,7 @@ import java.util.Set;
  */
 public class AtomicRule extends Rule {
 
+    private String name;
     private String requiredGraphType;
     private AtomicRuleType atomicRuleType;
     private ArObjectNodeIface basicSetSelector;
@@ -64,6 +65,14 @@ public class AtomicRule extends Rule {
 
     public void setAtomicRuleEpressionRoot(ArBooleanNodeIface atomicRuleEpressionRoot) {
         this.atomicRuleEpressionRoot = atomicRuleEpressionRoot;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
     }
 
     /**

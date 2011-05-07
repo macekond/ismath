@@ -32,6 +32,7 @@ public class CompoundRuleGenerator {
     public CompoundRule constructCompoundRule(Tree compoundRuleTree, HashMap<String, Rule> definedRules) throws FileNotFoundException, IOException, ValidationModelGenerationException {
 
         CompoundRule compoundRule = new CompoundRule();
+        compoundRule.setName(compoundRuleTree.getText());
         compoundRule.setCompoundRuleExpressionRoot(
                 constructBooleanNode(compoundRuleTree.getChild(0), definedRules));
 

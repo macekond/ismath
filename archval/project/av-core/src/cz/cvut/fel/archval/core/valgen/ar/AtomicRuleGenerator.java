@@ -63,6 +63,7 @@ public class AtomicRuleGenerator {
         }
 
         AtomicRule atomicRule = new AtomicRule();
+        atomicRule.setName(atomicRuleTree.getText());
 
         atomicRule.setRequiredGraphType(atomicRuleTree.getChild(0).getText());
         if (atomicRuleTree.getChild(1).getText().equals("ALL")) {

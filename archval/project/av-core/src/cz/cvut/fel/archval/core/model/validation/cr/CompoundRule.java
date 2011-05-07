@@ -17,6 +17,7 @@ import java.util.Set;
  */
 public class CompoundRule extends Rule {
 
+    private String name;
     private CrBooleanNodeIface compoundRuleExpressionRoot;
 
     public CrBooleanNodeIface getCompoundRuleExpressionRoot() {
@@ -32,6 +33,14 @@ public class CompoundRule extends Rule {
             return new HashSet<String>();
         }
         return compoundRuleExpressionRoot.getRequiredGraphTypes();
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
     }
 
     public boolean evaluate(GraphModel graphModel, ResultNode resultNode) throws
