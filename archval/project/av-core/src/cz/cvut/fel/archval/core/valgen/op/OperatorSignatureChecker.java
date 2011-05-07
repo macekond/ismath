@@ -124,7 +124,7 @@ public class OperatorSignatureChecker {
         throw new OperatorMismatchException("Unexpected parameter "
                 + "type. Expected "
                 + expectedType.toString()
-                + "value. (Line: " + operandTree.getLine()
+                + " value. (Line: " + operandTree.getLine()
                 + ", column: " + operandTree.getCharPositionInLine()
                 + ")");
     }

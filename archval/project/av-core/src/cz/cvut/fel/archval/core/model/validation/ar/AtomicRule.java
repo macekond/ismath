@@ -70,6 +70,7 @@ public class AtomicRule extends Rule {
      * @return true if this atomic rule is satisfied, false otherwise
      */
     public boolean evaluate(GraphModel graphModel) {
+        // TODO: implement
         throw new UnsupportedOperationException("Not supported yet.");
     }
 }

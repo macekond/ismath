@@ -31,7 +31,7 @@ public class CompoundRuleGenerator {
 
         CompoundRule compoundRule = new CompoundRule();
         compoundRule.setCompoundRuleExpressionRoot(
-                constructBooleanNode(compoundRuleTree, definedRules));
+                constructBooleanNode(compoundRuleTree.getChild(0), definedRules));
 
         return compoundRule;
     }

@@ -32,7 +32,6 @@ import cz.cvut.fel.archval.core.model.validation.ar.node.ArVertexUnionNode;
 import cz.cvut.fel.archval.core.api.operator.OperatorIface;
 import cz.cvut.fel.archval.core.api.register.OperatorsRegisterIface;
 import cz.cvut.fel.archval.core.api.types.DataType;
-import cz.cvut.fel.archval.core.api.types.TokenTypeMap;
 import cz.cvut.fel.archval.core.avd.parser.TokenList;
 import cz.cvut.fel.archval.core.api.ex.OperatorMismatchException;
 import cz.cvut.fel.archval.core.valgen.op.OperatorSignatureChecker;
@@ -54,7 +53,7 @@ public class AtomicRuleGenerator {
         this.operatorsRegister = operatorsRegister;
     }
 
-    public AtomicRule constructAtomicRule(Tree atomicRuleTree) throws IOException, OperatorNotFoundException, OperatorMismatchException {
+    public AtomicRule constructAtomicRule(Tree atomicRuleTree) throws IOException, OperatorNotFoundException, OperatorMismatchException, ValidationModelGenerationException {
         if (atomicRuleTree.getChildCount() < 3) {
             throw new IllegalArgumentException("Invalid tree passed. This tree "
                     + "is supposed to have at least 3 children according to the"
@@ -83,56 +82,17 @@ public class AtomicRuleGenerator {
         int childNodePointer = 2;
         if (atomicRuleTree.getChildCount() > 3) {
 
-            // TODO: replace this code with call to OperatorSignatureChecker class
             Tree selectorTree = atomicRuleTree.getChild(childNodePointer);
-
-            // check operator name
             String operatorName = selectorTree.getText();
             OperatorIface selectedOperator = operatorsRegister.getOperatorByName(operatorName);
-            if (selectedOperator == null) {
-                throw new OperatorNotFoundException("Operator with name "
-                        + operatorName + " was not found. (Line: "
-                        + selectorTree.getLine() + ", column: "
-                        + selectorTree.getCharPositionInLine() + ")");
-            }
 
-            // check parameters count
-            int paramsCount = selectorTree.getChildCount();
-            if (selectedOperator.getOperandsCount() != paramsCount) {
-                throw new OperatorNotFoundException("Invalid operator operands"
-                        + "count. Found operator with same name, but with "
-                        + "differend paramater count. (Line: "
-                        + selectorTree.getLine() + ", column: "
-                        + selectorTree.getCharPositionInLine() + ")");
-            }
-
-            // check return value
             DataType expectedReturnDataType =
                     (ruleType == AtomicRuleType.VERTEX_RULE)
                     ? DataType.VERTEX_SET : DataType.EDGE_SET;
 
-            if (selectedOperator.getReturnType() != expectedReturnDataType) {
-                throw new OperatorNotFoundException("Invalid operator return "
-                        + "value. (Line: " + selectorTree.getLine()
-                        + ", column: " + selectorTree.getCharPositionInLine()
-                        + ")");
-            }
-
-            // check operand types
-            for (int i = 0; i < paramsCount; i++) {
-                Tree operandTree = selectorTree.getChild(i);
-                TokenTypeMap ttm = TokenTypeMap.getInstance();
-                DataType operandType = ttm.getTokenDataType(operandTree.getType());
-
-                if (operandType != selectedOperator.getOperandType(i)) {
-                    throw new OperatorNotFoundException("Unexpected parameter "
-                            + "type. Expected "
-                            + selectedOperator.getOperandType(i).toString()
-                            + "value. (Line: " + operandTree.getLine()
-                            + ", column: " + operandTree.getCharPositionInLine()
-                            + ")");
-                }
-            }
+            OperatorSignatureChecker.getInstance().validateOperator(
+                    selectedOperator, selectorTree, expectedReturnDataType);
+            
             atomicRule.setBasicSetSelector(selectedOperator);
 
             childNodePointer++;
@@ -145,7 +105,7 @@ public class AtomicRuleGenerator {
         return atomicRule;
     }
 
-    protected ArBooleanNodeIface constructBooleanNode(Tree tree, AtomicRuleType art) throws FileNotFoundException, IOException, OperatorMismatchException {
+    protected ArBooleanNodeIface constructBooleanNode(Tree tree, AtomicRuleType art) throws FileNotFoundException, IOException, OperatorMismatchException, ValidationModelGenerationException {
         String tokenType = TokenList.getInstance().getTokenName(tree.getType());
         ArBooleanNodeIface node = null;
         if (tokenType.equals("OR")) {
@@ -235,7 +195,7 @@ public class AtomicRuleGenerator {
         return new ArEdgeNode();
     }
 
-    protected ArVertexSetNodeIface constructVertexSetNode(Tree tree, AtomicRuleType art) throws FileNotFoundException, IOException, OperatorMismatchException {
+    protected ArVertexSetNodeIface constructVertexSetNode(Tree tree, AtomicRuleType art) throws FileNotFoundException, IOException, OperatorMismatchException, ValidationModelGenerationException {
         String tokenType = TokenList.getInstance().getTokenName(tree.getType());
         ArVertexSetNodeIface node = null;
         if (tokenType.equals("INTERSECT")) {
@@ -262,10 +222,10 @@ public class AtomicRuleGenerator {
             arVertexSelector.setOperator(operator);
             for (int i = 0; i < operator.getOperandsCount(); i++) {
                 if (operator.getOperandType(i) == DataType.VERTEX) {
-                    arVertexSelector.addOperand(constructVertexSetNode(
+                    arVertexSelector.addOperand(constructVertexNode(
                             tree.getChild(i), art));
                 } else if (operator.getOperandType(i) == DataType.EDGE) {
-                    arVertexSelector.addOperand(constructEdgeSetNode(
+                    arVertexSelector.addOperand(constructEdgeNode(
                             tree.getChild(i), art));
                 } else if (operator.getOperandType(i) == DataType.NUMBER) {
                     arVertexSelector.addOperand(constructIntegerNode(

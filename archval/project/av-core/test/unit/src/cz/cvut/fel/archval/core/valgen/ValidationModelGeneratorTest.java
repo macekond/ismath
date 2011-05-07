@@ -33,8 +33,7 @@ public class ValidationModelGeneratorTest {
         validationModelGenerator.constructValidationModel((InputStream) null);
     }
 
-    // TODO: remove UOE after complete class is implemented
-    @Test(expected=UnsupportedOperationException.class)
+    @Test
     public void testConstructionFromStream() throws IOException,
             RecognitionException, ValidationModelGenerationException, OperatorNotFoundException, OperatorMismatchException {
 
@@ -51,5 +50,6 @@ public class ValidationModelGeneratorTest {
 
         ValidationModel validationModel =
                 validationModelGenerator.constructValidationModel(inputStream);
+        System.out.println();
     }
 }

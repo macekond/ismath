@@ -19,6 +19,10 @@ public class ArEdgeSelector implements ArEdgeSetNodeIface {
     private List<ArObjectNodeIface> operands;
     private OperatorIface operator;
 
+    public ArEdgeSelector() {
+        operands = new LinkedList<ArObjectNodeIface>();
+    }
+
     public void addOperand(ArObjectNodeIface operand) {
         operands.add(operand);
     }

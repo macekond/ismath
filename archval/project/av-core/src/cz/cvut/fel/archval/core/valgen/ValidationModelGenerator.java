@@ -128,7 +128,7 @@ public class ValidationModelGenerator implements ValidationModelGeneratorIface {
 
         // generate compound rules
         for (int i = 0; i < compoundRulesTree.getChildCount(); i++) {
-            Tree compoundRuleTree = atomicRulesTree.getChild(i);
+            Tree compoundRuleTree = compoundRulesTree.getChild(i);
             definedRules.put(compoundRuleTree.getText(),
                     compoundRuleGenerator.constructCompoundRule(
                     compoundRuleTree, definedRules));
@@ -138,9 +138,9 @@ public class ValidationModelGenerator implements ValidationModelGeneratorIface {
         // subnodes)
         for (int i = 0; i < validationsTree.getChildCount(); i++) {
             String ruleName = validationsTree.getChild(i).getText();
-            if (definedRules.containsKey(ruleName)) {
+            if (!definedRules.containsKey(ruleName)) {
                 throw new ValidationModelGenerationException("Object "
-                        + "representation for rule '" + ruleName + "' could not"
+                        + "representation for rule '" + ruleName + "' couldn't "
                         + "be found. Unknown error.");
             }
             validationModel.addRequiredRule(definedRules.get(ruleName));

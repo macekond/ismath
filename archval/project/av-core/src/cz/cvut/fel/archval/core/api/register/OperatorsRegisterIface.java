@@ -10,5 +10,10 @@ import cz.cvut.fel.archval.core.api.operator.OperatorIface;
  */
 public interface OperatorsRegisterIface {
 
+    /**
+     * Returns OperatorIface instance by supplied name.
+     * @param name name of the operator to be found
+     * @return OperatorIface instance or null if no such operator is found
+     */
     public OperatorIface getOperatorByName(String name);
 }

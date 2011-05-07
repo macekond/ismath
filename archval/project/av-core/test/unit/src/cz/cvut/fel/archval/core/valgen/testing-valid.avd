@@ -1,6 +1,6 @@
 atomic_rule AR2(graphType2) {
     EXISTS v IN V {
-        true AND has_more_than(selector(), 3)
+        true AND has_more_then(selector("string", v), 3)
     }
 };
 
@@ -15,7 +15,7 @@ compound_rule CR1 {
 };
 
 compound_rule CR2 {
-  AR OR CR1
+  AR1 OR CR1
 };
 
 validate(CR2, CR1, AR2);

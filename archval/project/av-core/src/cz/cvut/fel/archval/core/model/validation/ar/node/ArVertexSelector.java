@@ -6,7 +6,6 @@ import cz.cvut.fel.archval.core.api.model.graph.Vertex;
 import cz.cvut.fel.archval.core.model.validation.ar.iface.ArObjectNodeIface;
 import cz.cvut.fel.archval.core.model.validation.ar.iface.ArVertexSetNodeIface;
 import cz.cvut.fel.archval.core.api.operator.OperatorIface;
-import cz.cvut.fel.archval.core.api.types.DataType;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Set;
@@ -19,6 +18,10 @@ public class ArVertexSelector implements ArVertexSetNodeIface {
 
     private List<ArObjectNodeIface> operands;
     private OperatorIface operator;
+
+    public ArVertexSelector() {
+        operands = new LinkedList<ArObjectNodeIface>();
+    }
 
     public void addOperand(ArObjectNodeIface operand) {
         operands.add(operand);

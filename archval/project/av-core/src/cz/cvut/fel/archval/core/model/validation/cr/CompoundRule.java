@@ -22,6 +22,7 @@ public class CompoundRule extends Rule {
     }
 
     public boolean evaluate(GraphModel graphModel) {
+        // TODO: implement
         throw new UnsupportedOperationException("Not supported yet.");
     }
 }
