@@ -1,8 +1,8 @@
 package cz.cvut.fel.archval.core.model.validation.cr.node;
 
+import cz.cvut.fel.archval.core.api.ex.RequiredGraphNotFound;
 import cz.cvut.fel.archval.core.api.model.graph.GraphModel;
 import cz.cvut.fel.archval.core.model.validation.Rule;
-import cz.cvut.fel.archval.core.model.validation.ar.AtomicRule;
 import cz.cvut.fel.archval.core.model.validation.cr.iface.CrBooleanNodeIface;
 import java.util.Set;
 
@@ -18,7 +18,7 @@ public class CrRuleNode implements CrBooleanNodeIface {
         this.rule = rule;
     }
 
-    public Boolean evaluate(GraphModel graphModel) {
+    public Boolean evaluate(GraphModel graphModel) throws RequiredGraphNotFound {
         return rule.evaluate(graphModel);
     }
 

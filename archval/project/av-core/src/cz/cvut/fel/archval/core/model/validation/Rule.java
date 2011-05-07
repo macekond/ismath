@@ -1,5 +1,6 @@
 package cz.cvut.fel.archval.core.model.validation;
 
+import cz.cvut.fel.archval.core.api.ex.RequiredGraphNotFound;
 import cz.cvut.fel.archval.core.api.model.graph.GraphModel;
 import java.util.Set;
 
@@ -13,7 +14,7 @@ import java.util.Set;
  */
 public abstract class Rule {
 
-    public abstract boolean evaluate(GraphModel graphModel);
+    public abstract boolean evaluate(GraphModel graphModel) throws RequiredGraphNotFound;
 
     public abstract Set<String> getRequiredGraphTypes();
 }

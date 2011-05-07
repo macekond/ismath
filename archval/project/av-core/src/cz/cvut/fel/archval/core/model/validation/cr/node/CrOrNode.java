@@ -1,5 +1,6 @@
 package cz.cvut.fel.archval.core.model.validation.cr.node;
 
+import cz.cvut.fel.archval.core.api.ex.RequiredGraphNotFound;
 import cz.cvut.fel.archval.core.api.model.graph.GraphModel;
 import cz.cvut.fel.archval.core.model.validation.cr.iface.CrBooleanNodeIface;
 import java.util.HashSet;
@@ -29,7 +30,7 @@ public class CrOrNode implements CrBooleanNodeIface {
         return requiredGraphTypes;
     }
 
-    public Boolean evaluate(GraphModel graphModel) {
+    public Boolean evaluate(GraphModel graphModel) throws RequiredGraphNotFound {
         Boolean leftResult = left.evaluate(graphModel);
         Boolean rightResult = right.evaluate(graphModel);
         return leftResult || rightResult;

@@ -1,8 +1,9 @@
 package cz.cvut.fel.archval.core.model.validation.cr;
 
+import cz.cvut.fel.archval.core.api.ex.RequiredGraphNotFound;
 import cz.cvut.fel.archval.core.api.model.graph.GraphModel;
 import cz.cvut.fel.archval.core.model.validation.Rule;
-import cz.cvut.fel.archval.core.model.validation.cr.iface.CrObjectNodeIface;
+import cz.cvut.fel.archval.core.model.validation.cr.iface.CrBooleanNodeIface;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -13,13 +14,13 @@ import java.util.Set;
  */
 public class CompoundRule extends Rule {
 
-    private CrObjectNodeIface compoundRuleExpressionRoot;
+    private CrBooleanNodeIface compoundRuleExpressionRoot;
 
-    public CrObjectNodeIface getCompoundRuleExpressionRoot() {
+    public CrBooleanNodeIface getCompoundRuleExpressionRoot() {
         return compoundRuleExpressionRoot;
     }
 
-    public void setCompoundRuleExpressionRoot(CrObjectNodeIface compoundRuleExpressionRoot) {
+    public void setCompoundRuleExpressionRoot(CrBooleanNodeIface compoundRuleExpressionRoot) {
         this.compoundRuleExpressionRoot = compoundRuleExpressionRoot;
     }
 
@@ -30,7 +31,7 @@ public class CompoundRule extends Rule {
         return compoundRuleExpressionRoot.getRequiredGraphTypes();
     }
 
-    public boolean evaluate(GraphModel graphModel) {
-        throw new UnsupportedOperationException("Not supported yet.");
+    public boolean evaluate(GraphModel graphModel) throws RequiredGraphNotFound {
+        return compoundRuleExpressionRoot.evaluate(graphModel);
     }
 }
