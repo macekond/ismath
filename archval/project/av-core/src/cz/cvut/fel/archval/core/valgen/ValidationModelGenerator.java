@@ -19,6 +19,8 @@ import cz.cvut.fel.archval.core.api.ex.OperatorMismatchException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Set;
 import org.antlr.runtime.ANTLRInputStream;
 import org.antlr.runtime.ANTLRStringStream;
 import org.antlr.runtime.CharStream;
@@ -136,6 +138,7 @@ public class ValidationModelGenerator implements ValidationModelGeneratorIface {
 
         // add required rules to model (others are discarded or referred by
         // subnodes)
+        Set<String> requiredGraphsTypes = new HashSet<String>();
         for (int i = 0; i < validationsTree.getChildCount(); i++) {
             String ruleName = validationsTree.getChild(i).getText();
             if (!definedRules.containsKey(ruleName)) {
@@ -143,7 +146,14 @@ public class ValidationModelGenerator implements ValidationModelGeneratorIface {
                         + "representation for rule '" + ruleName + "' couldn't "
                         + "be found. Unknown error.");
             }
+            requiredGraphsTypes.addAll(
+                    definedRules.get(ruleName).getRequiredGraphTypes());
             validationModel.addRequiredRule(definedRules.get(ruleName));
+        }
+
+        // add required graphs to model
+        for (String string : requiredGraphsTypes) {
+            validationModel.addRequiredGraphType(string);
         }
 
         return validationModel;

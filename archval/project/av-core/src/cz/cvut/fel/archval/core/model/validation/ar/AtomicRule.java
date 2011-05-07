@@ -4,6 +4,8 @@ import cz.cvut.fel.archval.core.api.model.graph.GraphModel;
 import cz.cvut.fel.archval.core.model.validation.ar.iface.ArBooleanNodeIface;
 import cz.cvut.fel.archval.core.api.operator.OperatorIface;
 import cz.cvut.fel.archval.core.model.validation.Rule;
+import java.util.HashSet;
+import java.util.Set;
 
 /**
  * AtomicRule object which can be evaluated on some graph.
@@ -18,8 +20,10 @@ public class AtomicRule extends Rule {
     private AtomicRuleQuantificationType quantificationType;
     private ArBooleanNodeIface atomicRuleEpressionRoot;
 
-    public String getRequiredGraphType() {
-        return requiredGraphType;
+    public Set<String> getRequiredGraphTypes() {
+        Set<String> requiredGraphTypes = new HashSet<String>();
+        requiredGraphTypes.add(requiredGraphType);
+        return requiredGraphTypes;
     }
 
     public void setRequiredGraphType(String requiredGraphType) {

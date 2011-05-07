@@ -53,8 +53,8 @@ public class ValidationModel implements Validator, ValidationModelIface {
         requiredGraphTypes.add(graphType);
     }
 
-    public List<String> getAllRequiredGraphTypes() {
-        throw new UnsupportedOperationException("Not implemented yet.");
+    public Set<String> getAllRequiredGraphTypes() {
+        return requiredGraphTypes;
     }
 
     /**

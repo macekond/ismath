@@ -45,11 +45,16 @@ public class ValidationModelGeneratorTest {
         InputStream inputStream =
                 ValidationModelGeneratorTest.class.getResourceAsStream(
                 "testing-valid.avd");
-        
         Assert.assertNotNull(inputStream);
 
         ValidationModel validationModel =
                 validationModelGenerator.constructValidationModel(inputStream);
-        System.out.println();
+        Assert.assertTrue(validationModel.getAllRequiredGraphTypes().contains(
+                "graphType1"));
+        Assert.assertTrue(validationModel.getAllRequiredGraphTypes().contains(
+                "graphType2"));
+        Assert.assertTrue(!validationModel.getAllRequiredGraphTypes().contains(
+                "graphType0"));
+
     }
 }

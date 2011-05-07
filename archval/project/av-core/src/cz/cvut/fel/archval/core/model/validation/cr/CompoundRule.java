@@ -3,6 +3,8 @@ package cz.cvut.fel.archval.core.model.validation.cr;
 import cz.cvut.fel.archval.core.api.model.graph.GraphModel;
 import cz.cvut.fel.archval.core.model.validation.Rule;
 import cz.cvut.fel.archval.core.model.validation.cr.iface.CrObjectNodeIface;
+import java.util.HashSet;
+import java.util.Set;
 
 /**
  * Represents compound rule. It's able to evaluate itself when given GraphModel.
@@ -22,7 +24,13 @@ public class CompoundRule extends Rule {
     }
 
     public boolean evaluate(GraphModel graphModel) {
-        // TODO: implement
         throw new UnsupportedOperationException("Not supported yet.");
+    }
+
+    public Set<String> getRequiredGraphTypes() {
+        if (compoundRuleExpressionRoot == null) {
+            return new HashSet<String>();
+        }
+        return compoundRuleExpressionRoot.getRequiredGraphTypes();
     }
 }

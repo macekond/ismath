@@ -2,6 +2,7 @@ package cz.cvut.fel.archval.core.model.validation.cr.node;
 
 import cz.cvut.fel.archval.core.api.model.graph.GraphModel;
 import cz.cvut.fel.archval.core.model.validation.cr.iface.CrBooleanNodeIface;
+import java.util.Set;
 
 /**
  *
@@ -17,5 +18,9 @@ public class CrNotNode implements CrBooleanNodeIface {
 
     public Boolean evaluate(GraphModel graphModel) {
         return !operand.evaluate(graphModel);
+    }
+
+    public Set<String> getRequiredGraphTypes() {
+        return operand.getRequiredGraphTypes();
     }
 }

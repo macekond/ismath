@@ -16,6 +16,8 @@ import java.util.HashMap;
 import org.antlr.runtime.tree.Tree;
 
 /**
+ * Component which generates compound rule based on AVD tree and set of already
+ * defined rules.
  *
  * @author Martin Vejmelka (martin.vejmelka@fel.cvut.cz)
  */
