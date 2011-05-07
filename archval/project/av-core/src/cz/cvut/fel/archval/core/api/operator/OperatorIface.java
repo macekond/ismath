@@ -1,5 +1,6 @@
 package cz.cvut.fel.archval.core.api.operator;
 
+import cz.cvut.fel.archval.core.api.model.graph.Graph;
 import cz.cvut.fel.archval.core.api.types.DataType;
 import java.util.List;
 
@@ -45,7 +46,5 @@ public interface OperatorIface {
      * @param operands list of operands, types of these operands will correspond to that provede by getOperandType method
      * @return object, whose precise type corresponds with getReturnType() method value
      */
-    public Object execute(List<?> operands);
-
-
+    public Object execute(Graph graph, List<Object> operands);
 }

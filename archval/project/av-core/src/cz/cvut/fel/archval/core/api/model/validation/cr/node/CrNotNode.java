@@ -16,6 +16,6 @@ public class CrNotNode implements CrBooleanNodeIface {
     }
 
     public Boolean evaluate(GraphModel graphModel) {
-        throw new UnsupportedOperationException("Not supported yet.");
+        return !operand.evaluate(graphModel);
     }
 }

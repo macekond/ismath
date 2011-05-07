@@ -1,5 +1,6 @@
 package cz.cvut.fel.archval.core.mock;
 
+import cz.cvut.fel.archval.core.api.model.graph.Graph;
 import cz.cvut.fel.archval.core.api.operator.OperatorIface;
 import cz.cvut.fel.archval.core.api.register.OperatorsRegisterIface;
 import cz.cvut.fel.archval.core.api.types.DataType;
@@ -41,7 +42,7 @@ public class MockOperatorsRegister implements OperatorsRegisterIface {
             }
 
             @Override
-            public Object execute(List<?> operands) {
+            public Object execute(Graph graph, List<Object> operands) {
                 throw new UnsupportedOperationException("Not supported yet.");
             }
         };

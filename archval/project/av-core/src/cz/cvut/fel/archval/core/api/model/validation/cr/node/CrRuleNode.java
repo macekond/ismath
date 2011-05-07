@@ -17,6 +17,6 @@ public class CrRuleNode implements CrBooleanNodeIface {
     }
 
     public Boolean evaluate(GraphModel graphModel) {
-        throw new UnsupportedOperationException("Not supported yet.");
+        return rule.evaluate(graphModel);
     }
 }

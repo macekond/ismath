@@ -7,8 +7,8 @@ package cz.cvut.fel.archval.core.api.types;
 public enum DataType {
 
     BOOLEAN, // Object instanceof Boolean
-    VERTEX_SET, // Object instanceof List<Vertex>
-    EDGE_SET, // Object instanceof List<Edge>
+    VERTEX_SET, // Object instanceof Set<Vertex>
+    EDGE_SET, // Object instanceof Set<Edge>
     VERTEX, // Object instanceof Vertex
     EDGE, // Object instanceof Edge
     NUMBER, // Object instanceof Integer

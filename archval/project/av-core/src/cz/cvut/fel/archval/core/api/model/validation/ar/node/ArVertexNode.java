@@ -4,7 +4,6 @@ import cz.cvut.fel.archval.core.api.model.graph.Edge;
 import cz.cvut.fel.archval.core.api.model.graph.Graph;
 import cz.cvut.fel.archval.core.api.model.graph.Vertex;
 import cz.cvut.fel.archval.core.api.model.validation.ar.iface.ArVertexNodeIface;
-import cz.cvut.fel.archval.core.api.types.DataType;
 
 /**
  *
@@ -12,11 +11,11 @@ import cz.cvut.fel.archval.core.api.types.DataType;
  */
 public class ArVertexNode implements ArVertexNodeIface {
 
-    public Vertex evaluate(Graph graph, Vertex vertex, DataType expectedType) {
+    public Vertex evaluate(Graph graph, Vertex vertex) {
         return vertex;
     }
 
-    public Vertex evaluate(Graph graph, Edge edge, DataType expectedType) {
+    public Vertex evaluate(Graph graph, Edge edge) {
         throw new IllegalStateException("This method can't be called in vertex "
                 + "bound rule.");
     }

@@ -7,6 +7,7 @@ import cz.cvut.fel.archval.core.api.model.validation.ar.iface.ArObjectNodeIface;
 import cz.cvut.fel.archval.core.api.model.validation.ar.iface.ArVertexSetNodeIface;
 import cz.cvut.fel.archval.core.api.operator.OperatorIface;
 import cz.cvut.fel.archval.core.api.types.DataType;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Set;
 
@@ -27,11 +28,19 @@ public class ArVertexSelector implements ArVertexSetNodeIface {
         this.operator = operator;
     }
 
-    public Set<Vertex> evaluate(Graph graph, Vertex vertex, DataType expectedType) {
-        throw new UnsupportedOperationException("Not supported yet.");
+    public Set<Vertex> evaluate(Graph graph, Vertex vertex) {
+        List<Object> results = new LinkedList<Object>();
+        for (ArObjectNodeIface arObjectNodeIface : operands) {
+            results.add(arObjectNodeIface.evaluate(graph, vertex));
+        }
+        return (Set<Vertex>) operator.execute(graph, results);
     }
 
-    public Set<Vertex> evaluate(Graph graph, Edge edge, DataType expectedType) {
-        throw new UnsupportedOperationException("Not supported yet.");
+    public Set<Vertex> evaluate(Graph graph, Edge edge) {
+        List<Object> results = new LinkedList<Object>();
+        for (ArObjectNodeIface arObjectNodeIface : operands) {
+            results.add(arObjectNodeIface.evaluate(graph, edge));
+        }
+        return (Set<Vertex>) operator.execute(graph, results);
     }
 }

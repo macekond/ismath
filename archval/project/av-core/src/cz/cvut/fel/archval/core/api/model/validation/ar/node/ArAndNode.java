@@ -4,7 +4,6 @@ import cz.cvut.fel.archval.core.api.model.graph.Edge;
 import cz.cvut.fel.archval.core.api.model.graph.Graph;
 import cz.cvut.fel.archval.core.api.model.graph.Vertex;
 import cz.cvut.fel.archval.core.api.model.validation.ar.iface.ArBooleanNodeIface;
-import cz.cvut.fel.archval.core.api.types.DataType;
 
 /**
  * And operator node representation.
@@ -15,14 +14,6 @@ public class ArAndNode implements ArBooleanNodeIface {
 
     private ArBooleanNodeIface left;
     private ArBooleanNodeIface right;
-
-    public Boolean evaluate(Graph graph, Edge edge, DataType expectedType) {
-        throw new UnsupportedOperationException("Not supported yet.");
-    }
-
-    public Boolean evaluate(Graph graph, Vertex vertex, DataType expectedType) {
-        throw new UnsupportedOperationException("Not supported yet.");
-    }
 
     public ArBooleanNodeIface getLeft() {
         return left;
@@ -38,5 +29,17 @@ public class ArAndNode implements ArBooleanNodeIface {
 
     public void setRight(ArBooleanNodeIface right) {
         this.right = right;
+    }
+
+    public Boolean evaluate(Graph graph, Edge edge) {
+        Boolean leftResult = left.evaluate(graph, edge);
+        Boolean rightResult = right.evaluate(graph, edge);
+        return leftResult && rightResult;
+    }
+
+    public Boolean evaluate(Graph graph, Vertex vertex) {
+        Boolean leftResult = left.evaluate(graph, vertex);
+        Boolean rightResult = right.evaluate(graph, vertex);
+        return leftResult && rightResult;
     }
 }

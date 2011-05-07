@@ -4,7 +4,7 @@ import cz.cvut.fel.archval.core.api.model.graph.Edge;
 import cz.cvut.fel.archval.core.api.model.graph.Graph;
 import cz.cvut.fel.archval.core.api.model.graph.Vertex;
 import cz.cvut.fel.archval.core.api.model.validation.ar.iface.ArVertexSetNodeIface;
-import cz.cvut.fel.archval.core.api.types.DataType;
+import java.util.HashSet;
 import java.util.Set;
 
 /**
@@ -32,11 +32,17 @@ public class ArVertexIntersectNode implements ArVertexSetNodeIface {
         this.right = right;
     }
 
-    public Set<Vertex> evaluate(Graph graph, Vertex vertex, DataType expectedType) {
-        throw new UnsupportedOperationException("Not supported yet.");
+    public Set<Vertex> evaluate(Graph graph, Vertex vertex) {
+        HashSet<Vertex> hashSet = new HashSet<Vertex>();
+        hashSet.addAll(left.evaluate(graph, vertex));
+        hashSet.retainAll(right.evaluate(graph, vertex));
+        return hashSet;
     }
 
-    public Set<Vertex> evaluate(Graph graph, Edge edge, DataType expectedType) {
-        throw new UnsupportedOperationException("Not supported yet.");
+    public Set<Vertex> evaluate(Graph graph, Edge edge) {
+        HashSet<Vertex> hashSet = new HashSet<Vertex>();
+        hashSet.addAll(left.evaluate(graph, edge));
+        hashSet.retainAll(right.evaluate(graph, edge));
+        return hashSet;
     }
 }

@@ -21,6 +21,8 @@ public class CrAndNode implements CrBooleanNodeIface {
     }
 
     public Boolean evaluate(GraphModel graphModel) {
-        throw new UnsupportedOperationException("Not supported yet.");
+        Boolean leftResult = left.evaluate(graphModel);
+        Boolean rightResult = right.evaluate(graphModel);
+        return leftResult && rightResult;
     }
 }
