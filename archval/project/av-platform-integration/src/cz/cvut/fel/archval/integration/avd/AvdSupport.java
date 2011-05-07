@@ -1,6 +1,6 @@
 package cz.cvut.fel.archval.integration.avd;
 
-import cz.cvut.fel.archval.core.api.model.validation.ValidationModel;
+import cz.cvut.fel.archval.core.api.ValidationModelIface;
 import java.io.BufferedReader;
 import java.io.FileNotFoundException;
 import java.io.IOException;
@@ -28,10 +28,9 @@ public class AvdSupport implements AvdCookie {
      *
      * @return validation model to be used to perform validation
      */
-    public ValidationModel getValidationModel() {
+    public ValidationModelIface getValidationModel() {
 
         Logger logger = Logger.getLogger(AvdSupport.class.getName());
-
 
         logger.log(Level.SEVERE, "Creatig valiation model");
         logger.log(Level.SEVERE, "Reading file: ");

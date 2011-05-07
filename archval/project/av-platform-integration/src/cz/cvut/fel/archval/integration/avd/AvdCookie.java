@@ -1,6 +1,6 @@
 package cz.cvut.fel.archval.integration.avd;
 
-import cz.cvut.fel.archval.core.api.model.validation.ValidationModel;
+import cz.cvut.fel.archval.core.api.ValidationModelIface;
 
 /**
  * Cookie representing model loading from AVD file.
@@ -9,5 +9,5 @@ import cz.cvut.fel.archval.core.api.model.validation.ValidationModel;
  */
 public interface AvdCookie {
 
-    public ValidationModel getValidationModel();
+    public ValidationModelIface getValidationModel();
 }
