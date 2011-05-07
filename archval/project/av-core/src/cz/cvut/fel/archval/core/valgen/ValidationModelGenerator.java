@@ -1,16 +1,21 @@
 package cz.cvut.fel.archval.core.valgen;
 
+import cz.cvut.fel.archval.core.valgen.cr.CompoundRuleGenerator;
+import cz.cvut.fel.archval.core.valgen.ar.AtomicRuleGenerator;
+import cz.cvut.fel.archval.core.valgen.symbol.RuleNameSymbolTable;
+import cz.cvut.fel.archval.core.valgen.symbol.RuleNameSymbolKind;
+import cz.cvut.fel.archval.core.valgen.symbol.RuleNameSymbolInfo;
 import cz.cvut.fel.archval.core.api.ValidationModelGeneratorIface;
 import cz.cvut.fel.archval.core.api.analysis.AnalysisIface;
 import cz.cvut.fel.archval.core.api.ex.OperatorNotFoundException;
 import cz.cvut.fel.archval.core.api.register.AnalysesRegisterIface;
 import cz.cvut.fel.archval.core.api.register.OperatorsRegisterIface;
 import cz.cvut.fel.archval.core.api.ex.ValidationModelGenerationException;
-import cz.cvut.fel.archval.core.api.model.validation.Rule;
+import cz.cvut.fel.archval.core.model.validation.Rule;
 import cz.cvut.fel.archval.core.avd.parser.ArchvalRulesetGrammarLexer;
 import cz.cvut.fel.archval.core.avd.parser.ArchvalRulesetGrammarParser;
-import cz.cvut.fel.archval.core.api.model.validation.ValidationModel;
-import cz.cvut.fel.archval.core.operator.checker.OperatorMismatchException;
+import cz.cvut.fel.archval.core.model.validation.ValidationModel;
+import cz.cvut.fel.archval.core.api.ex.OperatorMismatchException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.HashMap;

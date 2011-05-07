@@ -4,6 +4,8 @@ import cz.cvut.fel.archval.core.api.analysis.AnalysisIface;
 import java.util.List;
 
 /**
+ * Important integration interface. Represents list of object implementing
+ * AnalysisInterface in the system.
  *
  * @author Martin Vejmelka (martin.vejmelka@fel.cvut.cz)
  */

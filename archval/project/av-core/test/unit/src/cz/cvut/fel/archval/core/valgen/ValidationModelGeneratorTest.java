@@ -2,10 +2,10 @@ package cz.cvut.fel.archval.core.valgen;
 
 import cz.cvut.fel.archval.core.api.ex.OperatorNotFoundException;
 import cz.cvut.fel.archval.core.api.ex.ValidationModelGenerationException;
-import cz.cvut.fel.archval.core.api.model.validation.ValidationModel;
+import cz.cvut.fel.archval.core.model.validation.ValidationModel;
 import cz.cvut.fel.archval.core.mock.MockAnalysesRegister;
 import cz.cvut.fel.archval.core.mock.MockOperatorsRegister;
-import cz.cvut.fel.archval.core.operator.checker.OperatorMismatchException;
+import cz.cvut.fel.archval.core.api.ex.OperatorMismatchException;
 import java.io.IOException;
 import java.io.InputStream;
 import org.antlr.runtime.RecognitionException;

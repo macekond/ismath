@@ -2,7 +2,7 @@ package cz.cvut.fel.archval.core.task;
 
 import cz.cvut.fel.archval.core.api.ValidationTaskIface;
 import cz.cvut.fel.archval.core.api.model.graph.GraphModel;
-import cz.cvut.fel.archval.core.api.model.validation.ValidationModel;
+import cz.cvut.fel.archval.core.model.validation.ValidationModel;
 
 /**
  * Manages validation process.

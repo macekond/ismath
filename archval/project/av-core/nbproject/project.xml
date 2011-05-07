@@ -113,15 +113,13 @@
             <public-packages>
                 <package>cz.cvut.fel.archval.core.api</package>
                 <package>cz.cvut.fel.archval.core.api.analysis</package>
-                <package>cz.cvut.fel.archval.core.api.ex.valgen</package>
+                <package>cz.cvut.fel.archval.core.api.ex</package>
                 <package>cz.cvut.fel.archval.core.api.model.graph</package>
                 <package>cz.cvut.fel.archval.core.api.model.graph.visitor</package>
                 <package>cz.cvut.fel.archval.core.api.model.report</package>
-                <package>cz.cvut.fel.archval.core.api.model.validation</package>
                 <package>cz.cvut.fel.archval.core.api.operator</package>
                 <package>cz.cvut.fel.archval.core.api.register</package>
                 <package>cz.cvut.fel.archval.core.api.types</package>
-                <package>cz.cvut.fel.archval.core.api.validator</package>
                 <package>cz.cvut.fel.archval.core.avd.parser</package>
             </public-packages>
         </data>

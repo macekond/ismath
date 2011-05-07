@@ -1,5 +1,6 @@
 package cz.cvut.fel.archval.core.valgen;
 
+import cz.cvut.fel.archval.core.valgen.ar.AtomicRuleGenerator;
 import cz.cvut.fel.archval.core.avd.parser.TokenList;
 import cz.cvut.fel.archval.core.mock.MockOperatorsRegister;
 import org.junit.Test;
