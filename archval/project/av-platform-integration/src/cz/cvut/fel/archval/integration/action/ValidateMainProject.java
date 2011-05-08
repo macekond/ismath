@@ -2,6 +2,8 @@ package cz.cvut.fel.archval.integration.action;
 
 import cz.cvut.fel.archval.core.api.ValidationModelIface;
 import cz.cvut.fel.archval.integration.avd.AvdCookie;
+import cz.cvut.fel.archval.integration.register.AmbiguousOperatorsFoundException;
+import cz.cvut.fel.archval.integration.register.OperatorsRegister;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import java.util.Enumeration;
@@ -12,6 +14,7 @@ import org.netbeans.api.project.ProjectUtils;
 import org.netbeans.api.project.ui.OpenProjects;
 import org.openide.awt.StatusDisplayer;
 import org.openide.filesystems.FileObject;
+import org.openide.util.Exceptions;
 import org.openide.windows.IOProvider;
 import org.openide.windows.InputOutput;
 
@@ -24,6 +27,15 @@ public final class ValidateMainProject implements ActionListener {
     }
 
     public void actionPerformed(ActionEvent ev) {
+        OperatorsRegister instance;
+        try {
+            instance = OperatorsRegister.getInstance();
+        } catch (AmbiguousOperatorsFoundException ex) {
+            System.out.println("Exception here!!!");
+            Exceptions.printStackTrace(ex);
+            System.out.println("Exthere!");
+        }
+
         ValidationModelIface validationModel = avdCookie.getValidationModel();
 
         StatusDisplayer.getDefault().setStatusText("Starting validation action.");

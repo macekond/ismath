@@ -1,0 +1,4 @@
+cz.cvut.fel.archval.demeter.operators.EmptyVertexSetPredicate
+cz.cvut.fel.archval.demeter.operators.FVertexSetSelector
+cz.cvut.fel.archval.demeter.operators.OneVertexSetSelector
+cz.cvut.fel.archval.demeter.operators.VertexKindPredicate

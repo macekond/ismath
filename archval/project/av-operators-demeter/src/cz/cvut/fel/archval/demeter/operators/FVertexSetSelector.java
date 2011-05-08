@@ -6,7 +6,6 @@ import cz.cvut.fel.archval.core.api.operator.OperatorIface;
 import cz.cvut.fel.archval.core.api.types.DataType;
 import java.util.LinkedList;
 import java.util.List;
-import javax.swing.text.html.parser.DTD;
 
 /**
  * F selector implementation (selects vertices which are first follower with
@@ -46,7 +45,7 @@ public class FVertexSetSelector implements OperatorIface {
         String vertexLabel = (String) operands.get(1);
         String edgeLabel = (String) operands.get(2);
         
-        // TODO: implement!
+        // TODO: implement F operator as specified in the work
         throw new UnsupportedOperationException("Not supported yet.");
     }
 }
