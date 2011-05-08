@@ -66,7 +66,7 @@ public class ArchVal {
      */
     public ValidationTaskIface createValidationTask(
             GraphModel graphModel,
-            ValidationModel validationModel) {
+            ValidationModelIface validationModel) {
         return new ValidationTask(graphModel, validationModel);
     }
 }

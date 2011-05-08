@@ -1,14 +1,17 @@
 package cz.cvut.fel.archval.integration.avd;
 
+import cz.cvut.fel.archval.core.api.ArchVal;
+import cz.cvut.fel.archval.core.api.ValidationModelGeneratorIface;
 import cz.cvut.fel.archval.core.api.ValidationModelIface;
-import java.io.BufferedReader;
-import java.io.FileNotFoundException;
+import cz.cvut.fel.archval.core.api.ex.OperatorMismatchException;
+import cz.cvut.fel.archval.core.api.ex.OperatorNotFoundException;
+import cz.cvut.fel.archval.core.api.ex.ValidationModelGenerationException;
+import cz.cvut.fel.archval.integration.archval.ArchvalInstance;
+import cz.cvut.fel.archval.integration.register.AmbiguousOperatorsFoundException;
+import cz.cvut.fel.archval.integration.register.DuplicateAnalysisNameException;
+import cz.cvut.fel.archval.integration.register.DuplicateGraphGeneratorException;
 import java.io.IOException;
-import java.io.InputStreamReader;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-import org.openide.filesystems.FileObject;
-import org.openide.util.Exceptions;
+import org.antlr.runtime.RecognitionException;
 
 /**
  * Implementation of AvdCookie interface.
@@ -28,33 +31,19 @@ public class AvdSupport implements AvdCookie {
      *
      * @return validation model to be used to perform validation
      */
-    public ValidationModelIface getValidationModel() {
+    public ValidationModelIface getValidationModel() throws
+            DuplicateGraphGeneratorException,
+            AmbiguousOperatorsFoundException,
+            DuplicateAnalysisNameException,
+            IOException, ValidationModelGenerationException,
+            OperatorNotFoundException, OperatorMismatchException, RecognitionException {
 
-        Logger logger = Logger.getLogger(AvdSupport.class.getName());
+        ArchVal archval = ArchvalInstance.getInstance();
 
-        logger.log(Level.SEVERE, "Creatig valiation model");
-        logger.log(Level.SEVERE, "Reading file: ");
-        FileObject fo = avdDataObject.getPrimaryFile();
-        try {
-            BufferedReader br = new BufferedReader(new InputStreamReader(fo.getInputStream()));
+        ValidationModelGeneratorIface validationModelGenerator =
+                archval.getValidationModelGenerator();
 
-            String line = null;
-            while ((line = br.readLine()) != null) {
-                logger.log(Level.SEVERE, "line: {0}", line);
-            }
-
-        } catch (FileNotFoundException ex) {
-            Exceptions.printStackTrace(ex);
-        } catch (IOException ex) {
-            Exceptions.printStackTrace(ex);
-        }
-
-
-        // TODO: implement
-        // throw new UnsupportedOperationException("Not supported yet.");
-
-
-
-        return null;
+        return validationModelGenerator.constructValidationModel(
+                avdDataObject.getPrimaryFile().getInputStream());
     }
 }

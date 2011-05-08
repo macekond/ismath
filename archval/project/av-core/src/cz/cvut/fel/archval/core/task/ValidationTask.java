@@ -1,11 +1,11 @@
 package cz.cvut.fel.archval.core.task;
 
 import cz.cvut.fel.archval.core.api.ValidationCompletedListener;
+import cz.cvut.fel.archval.core.api.ValidationModelIface;
 import cz.cvut.fel.archval.core.api.ValidationTaskIface;
 import cz.cvut.fel.archval.core.api.ex.RequiredGraphNotFound;
 import cz.cvut.fel.archval.core.api.model.graph.GraphModel;
 import cz.cvut.fel.archval.core.api.model.report.ValidationReport;
-import cz.cvut.fel.archval.core.model.validation.ValidationModel;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -19,12 +19,12 @@ public class ValidationTask implements ValidationTaskIface {
     private boolean taskRunning = false;
     private boolean validationPerformed;
     private GraphModel graphModel;
-    private ValidationModel validationModel;
+    private ValidationModelIface validationModel;
     private ValidationReport validationReport;
     private List<ValidationCompletedListener> validationCompletedListeners;
     private Exception caughtException;
 
-    public ValidationTask(GraphModel graphModel, ValidationModel validationModel) {
+    public ValidationTask(GraphModel graphModel, ValidationModelIface validationModel) {
         this.graphModel = graphModel;
         this.validationModel = validationModel;
         validationCompletedListeners = new LinkedList<ValidationCompletedListener>();

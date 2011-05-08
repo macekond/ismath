@@ -12,6 +12,7 @@
                 <attr name="noIconInMenu" boolvalue="false"/>
                 <attr name="selectionType" stringvalue="EXACTLY_ONE"/>
                 <attr name="type" stringvalue="cz.cvut.fel.archval.integration.avd.AvdCookie"/>
+                <attr name="asynchronous" boolvalue="true"/>
             </file>
         </folder>
     </folder>
