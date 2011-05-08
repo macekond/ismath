@@ -1,4 +1,4 @@
-package cz.cvut.fel.archval.demeter.grapgen;
+package cz.cvut.fel.archval.demeter.graphgen;
 
 import cz.cvut.fel.archval.core.api.graphgen.GraphGeneratorIface;
 import cz.cvut.fel.archval.core.api.model.graph.Graph;

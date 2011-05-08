@@ -14,7 +14,7 @@ import org.openide.util.Lookup;
 public class GraphGeneratorsRegister implements GraphGeneratorsRegisterIface {
 
     private HashMap<String, GraphGeneratorIface> graphGeneratorsMap;
-    private static OperatorsRegister instance;
+    private static GraphGeneratorsRegister instance;
 
     private GraphGeneratorsRegister() throws DuplicateGraphGeneratorException {
         graphGeneratorsMap = new HashMap<String, GraphGeneratorIface>();
@@ -31,6 +31,13 @@ public class GraphGeneratorsRegister implements GraphGeneratorsRegisterIface {
                     graphGenerator);
         }
 
+    }
+
+    public static GraphGeneratorsRegister getInstance() throws DuplicateGraphGeneratorException {
+        if (instance == null) {
+            instance = new GraphGeneratorsRegister();
+        }
+        return instance;
     }
 
     public Set<String> getAvaliableGeneratorTypes() {

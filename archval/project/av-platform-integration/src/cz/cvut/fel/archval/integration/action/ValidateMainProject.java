@@ -3,10 +3,14 @@ package cz.cvut.fel.archval.integration.action;
 import cz.cvut.fel.archval.core.api.ValidationModelIface;
 import cz.cvut.fel.archval.integration.avd.AvdCookie;
 import cz.cvut.fel.archval.integration.register.AmbiguousOperatorsFoundException;
+import cz.cvut.fel.archval.integration.register.DuplicateGraphGeneratorException;
+import cz.cvut.fel.archval.integration.register.GraphGeneratorsRegister;
 import cz.cvut.fel.archval.integration.register.OperatorsRegister;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import java.util.Enumeration;
+import java.util.HashSet;
+import java.util.Set;
 import org.netbeans.api.java.source.JavaSource;
 import org.netbeans.api.project.Project;
 import org.netbeans.api.project.ProjectInformation;
@@ -34,6 +38,16 @@ public final class ValidateMainProject implements ActionListener {
             System.out.println("Exception here!!!");
             Exceptions.printStackTrace(ex);
             System.out.println("Exthere!");
+        }
+        
+        Set<String> avaliableGeneratorTypes = new HashSet<String>();
+        try {
+            avaliableGeneratorTypes = GraphGeneratorsRegister.getInstance().getAvaliableGeneratorTypes();
+        } catch (DuplicateGraphGeneratorException ex) {
+            Exceptions.printStackTrace(ex);
+        }
+        for (String string : avaliableGeneratorTypes) {
+            System.out.println("graph type: " + string);
         }
 
         ValidationModelIface validationModel = avdCookie.getValidationModel();
