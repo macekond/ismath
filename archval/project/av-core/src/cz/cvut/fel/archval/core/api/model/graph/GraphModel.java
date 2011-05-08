@@ -13,6 +13,10 @@ public class GraphModel {
 
     private HashMap<String, Graph> graphs;
 
+    public GraphModel() {
+        graphs = new HashMap<String, Graph>();
+    }
+
     /**
      * Adds existing graph to GraphModel. If this model already exists graph of
      * the same type no action is taken and the model is left the same.

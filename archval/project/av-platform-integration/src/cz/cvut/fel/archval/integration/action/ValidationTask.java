@@ -80,7 +80,7 @@ public class ValidationTask extends Thread {
 
             File projectDirectory =
                     FileUtil.toFile(mainProject.getProjectDirectory());
-            
+
             StatusDisplayer.getDefault().setStatusText(
                     "Generating graph model.");
             GraphModel graphModel =
@@ -102,7 +102,7 @@ public class ValidationTask extends Thread {
             // TODO: output results of the validation
 
             StatusDisplayer.getDefault().setStatusText("Done.");
-            
+
         } catch (UnsupportedOperationException ex) {
             Exceptions.printStackTrace(ex);
         } catch (GraphGeneratorNotFoundException ex) {
@@ -122,6 +122,8 @@ public class ValidationTask extends Thread {
         } catch (OperatorNotFoundException ex) {
             Exceptions.printStackTrace(ex);
         } catch (OperatorMismatchException ex) {
+            Exceptions.printStackTrace(ex);
+        } catch (Exception ex) {
             Exceptions.printStackTrace(ex);
         } finally {
             ph.finish();

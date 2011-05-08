@@ -12,5 +12,5 @@ public interface GraphGeneratorIface {
 
     public String getGraphType();
 
-    public Graph getGraph(File projectDirectory);
+    public Graph getGraph(File projectDirectory) throws Exception;
 }

@@ -22,7 +22,8 @@ public class GraphModelGenerator implements GraphModelGeneratorIface {
         this.graphGeneratorsRegister = generatorsRegister;
     }
 
-    public GraphModel generateModel(Set<String> requiredGraphTypes, File projectDirectory) throws GraphGeneratorNotFoundException {
+    public GraphModel generateModel(Set<String> requiredGraphTypes,
+            File projectDirectory) throws Exception {
         GraphModel graphModel = new GraphModel();
         for (String string : requiredGraphTypes) {
             GraphGeneratorIface graphGenerator = graphGeneratorsRegister.getGraphGeneratorByType(string);

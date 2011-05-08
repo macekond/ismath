@@ -19,5 +19,5 @@ public interface GraphModelGeneratorIface {
      * @return GraphModel created using GraphGenerators available from GraphGenerator register
      * @throws GraphGeneratorNotFoundException if some of required graph generators was not found
      */
-    public GraphModel generateModel(Set<String> requiredGraphTypes, File projectDirectory) throws GraphGeneratorNotFoundException;
+    public GraphModel generateModel(Set<String> requiredGraphTypes, File projectDirectory) throws Exception;
 }
