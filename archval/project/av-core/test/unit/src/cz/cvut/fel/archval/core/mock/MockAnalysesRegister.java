@@ -1,6 +1,7 @@
 package cz.cvut.fel.archval.core.mock;
 
 import cz.cvut.fel.archval.core.api.analysis.AnalysisIface;
+import cz.cvut.fel.archval.core.api.model.graph.Graph;
 import cz.cvut.fel.archval.core.api.model.report.AnalysisResult;
 import cz.cvut.fel.archval.core.api.register.AnalysesRegisterIface;
 import java.util.HashMap;
@@ -25,12 +26,13 @@ public class MockAnalysesRegister implements AnalysesRegisterIface {
                 return "mygraph";
             }
 
-            public AnalysisResult evaluate() {
-                return new AnalysisResult();
-            }
-
             public String getAnalysisName() {
                 return "bogusName";
+            }
+
+            @Override
+            public AnalysisResult evaluate(Graph graph) {
+                throw new UnsupportedOperationException("Not supported yet.");
             }
         };
 

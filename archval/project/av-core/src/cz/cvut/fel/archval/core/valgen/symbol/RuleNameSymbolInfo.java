@@ -1,8 +1,9 @@
-
 package cz.cvut.fel.archval.core.valgen.symbol;
 
 /**
- *
+ * Represents rule name symbol information. Includes line and comlumn of the
+ * token in source file.
+ * 
  * @author Martin Vejmelka (martin.vejmelka@fel.cvut.cz)
  */
 public class RuleNameSymbolInfo {

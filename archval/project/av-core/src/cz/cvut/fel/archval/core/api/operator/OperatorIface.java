@@ -5,7 +5,8 @@ import cz.cvut.fel.archval.core.api.types.DataType;
 import java.util.List;
 
 /**
- * Common interface for all the operators.
+ * Common interface for all the operators. It must be implemented by operator
+ * provider.
  * 
  * @author Martin Vejmelka (martin.vejmelka@fel.cvut.cz)
  */

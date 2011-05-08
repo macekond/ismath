@@ -5,6 +5,7 @@ import java.util.LinkedList;
 import java.util.List;
 
 /**
+ * Class representing data result of evaluation tree.
  *
  * @author Martin Vejmelka (martin.vejmelka@fel.cvut.cz)
  */

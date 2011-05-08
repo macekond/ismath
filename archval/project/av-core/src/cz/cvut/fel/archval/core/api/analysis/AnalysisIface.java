@@ -1,5 +1,6 @@
 package cz.cvut.fel.archval.core.api.analysis;
 
+import cz.cvut.fel.archval.core.api.model.graph.Graph;
 import cz.cvut.fel.archval.core.api.model.report.AnalysisResult;
 
 /**
@@ -13,5 +14,5 @@ public interface AnalysisIface {
 
     public String getRequiredGraphType();
 
-    public AnalysisResult evaluate();
+    public AnalysisResult evaluate(Graph graph);
 }

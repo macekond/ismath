@@ -5,6 +5,7 @@ import cz.cvut.fel.archval.core.model.validation.ar.AtomicRuleType;
 import java.util.HashMap;
 
 /**
+ * Class representing result of atomic rule evaluation.
  *
  * @author Martin Vejmelka (martin.vejmelka@fel.cvut.cz)
  */

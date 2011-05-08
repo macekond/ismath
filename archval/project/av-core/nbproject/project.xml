@@ -114,6 +114,7 @@
                 <package>cz.cvut.fel.archval.core.api</package>
                 <package>cz.cvut.fel.archval.core.api.analysis</package>
                 <package>cz.cvut.fel.archval.core.api.ex</package>
+                <package>cz.cvut.fel.archval.core.api.graphgen</package>
                 <package>cz.cvut.fel.archval.core.api.model.graph</package>
                 <package>cz.cvut.fel.archval.core.api.model.graph.visitor</package>
                 <package>cz.cvut.fel.archval.core.api.model.report</package>

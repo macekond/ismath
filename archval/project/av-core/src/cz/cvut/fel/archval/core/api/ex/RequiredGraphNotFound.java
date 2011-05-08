@@ -1,6 +1,7 @@
 package cz.cvut.fel.archval.core.api.ex;
 
 /**
+ * Thrown when graph of required type is not found.
  *
  * @author Martin Vejmelka (martin.vejmelka@fel.cvut.cz)
  */

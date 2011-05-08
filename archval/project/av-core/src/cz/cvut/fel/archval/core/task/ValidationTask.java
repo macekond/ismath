@@ -14,22 +14,27 @@ import cz.cvut.fel.archval.core.model.validation.ValidationModel;
 public class ValidationTask implements ValidationTaskIface {
 
     public ValidationTask(GraphModel graphModel, ValidationModel validationModel) {
+        // TODO: implement
         throw new UnsupportedOperationException("Not yet implemented");
     }
 
     public void runSynchronous() {
+        // TODO: implement
         throw new UnsupportedOperationException("Not supported yet.");
     }
 
     public void runAsynchronous() {
+        // TODO: implement
         throw new UnsupportedOperationException("Not supported yet.");
     }
 
     public void registerValidationCompletedListener(ValidationCompletedListener validationCompletedListener) {
+        // TODO: implement
         throw new UnsupportedOperationException("Not supported yet.");
     }
 
     public ValidationReport getReport() {
+        // TODO: implement
         throw new UnsupportedOperationException("Not supported yet.");
     }
 }

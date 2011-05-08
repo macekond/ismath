@@ -1,6 +1,7 @@
 package cz.cvut.fel.archval.core.api.model.report;
 
 /**
+ * Class representing result of compound rule evaluation.
  *
  * @author Martin Vejmelka (martin.vejmelka@fel.cvut.cz)
  */

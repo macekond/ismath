@@ -3,6 +3,7 @@ package cz.cvut.fel.archval.core.model.validation;
 import cz.cvut.fel.archval.core.api.ValidationModelIface;
 import cz.cvut.fel.archval.core.api.analysis.AnalysisIface;
 import cz.cvut.fel.archval.core.api.ex.RequiredGraphNotFound;
+import cz.cvut.fel.archval.core.api.model.graph.Graph;
 import cz.cvut.fel.archval.core.api.model.graph.GraphModel;
 import cz.cvut.fel.archval.core.api.model.report.AtomicRuleResult;
 import cz.cvut.fel.archval.core.api.model.report.CompoundRuleResult;
@@ -85,7 +86,14 @@ public class ValidationModel implements ValidationModelIface {
 
         // evaluate analysis commands
         for (AnalysisIface analysisIface : requiredAnalyses) {
-            validationReport.addAnalysisResult(analysisIface.evaluate());
+            Graph analysisGraph = graphModel.getGraphByType(analysisIface.getRequiredGraphType());
+            if (analysisGraph == null) {
+                throw new RequiredGraphNotFound("Graph of type '"
+                        + analysisIface.getRequiredGraphType() + "' was not found in the "
+                        + "supplied graph model.");
+
+            }
+            validationReport.addAnalysisResult(analysisIface.evaluate(analysisGraph));
         }
 
         return validationReport;

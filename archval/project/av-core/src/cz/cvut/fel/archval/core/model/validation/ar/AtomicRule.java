@@ -100,7 +100,7 @@ public class AtomicRule extends Rule {
 
             Set<Vertex> selectedVertices = new HashSet<Vertex>();
             for (Vertex vertex : graph.getVertices()) {
-                if (basicSetSelector.evaluate(graph, vertex, new ResultNode())) {
+                if (basicSetSelector.evaluate(graph, vertex, new DataResult())) {
                     selectedVertices.add(vertex);
                 }
             }
@@ -134,7 +134,7 @@ public class AtomicRule extends Rule {
 
             Set<Edge> selectedEdges = new HashSet<Edge>();
             for (Edge edge : graph.getEdges()) {
-                if (basicSetSelector.evaluate(graph, edge, new ResultNode())) {
+                if (basicSetSelector.evaluate(graph, edge, new DataResult())) {
                     selectedEdges.add(edge);
                 }
             }

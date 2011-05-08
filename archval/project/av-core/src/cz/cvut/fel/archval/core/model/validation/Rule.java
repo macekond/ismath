@@ -3,7 +3,6 @@ package cz.cvut.fel.archval.core.model.validation;
 import cz.cvut.fel.archval.core.api.ex.RequiredGraphNotFound;
 import cz.cvut.fel.archval.core.api.model.graph.GraphModel;
 import cz.cvut.fel.archval.core.api.model.report.ResultNode;
-import cz.cvut.fel.archval.core.api.model.report.RuleResult;
 import java.util.Set;
 
 /**

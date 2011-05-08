@@ -1,6 +1,7 @@
 package cz.cvut.fel.archval.core.api.types;
 
 /**
+ * Represents enumeration of all types supported by the evaluation system.
  *
  * @author Martin Vejmelka (martin.vejmelka@fel.cvut.cz)
  */

@@ -1,10 +1,9 @@
 package cz.cvut.fel.archval.core.api.model.report;
 
 /**
- *
+ * Supertype for all nodes of result tree.
+ * 
  * @author Martin Vejmelka (martin.vejmelka@fel.cvut.cz)
  */
-public class ResultNode {
-
-   
+public abstract class ResultNode {
 }

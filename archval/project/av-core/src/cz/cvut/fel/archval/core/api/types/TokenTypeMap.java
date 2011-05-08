@@ -15,7 +15,6 @@ public class TokenTypeMap {
     private static TokenTypeMap instance;
     HashMap<String, DataType> types = new HashMap<String, DataType>();
 
-    // TODO: add all DataType types!
     private TokenTypeMap() {
         types.put("Vertex", DataType.VERTEX);
         types.put("Edge", DataType.EDGE);
@@ -25,6 +24,11 @@ public class TokenTypeMap {
         types.put("False", DataType.BOOLEAN);
     }
 
+    /**
+     * Singleton implementation.
+     *
+     * @return instance of TokenTypeMap class
+     */
     public static TokenTypeMap getInstance() {
         if (instance == null) {
             instance = new TokenTypeMap();
@@ -32,6 +36,15 @@ public class TokenTypeMap {
         return instance;
     }
 
+    /**
+     * Returns DataType represented by number or DataType.UNKNOWN if it can't be
+     * mapped.
+     *
+     * @param tokenNumber number of the token in *.toknes file produced by antlr
+     * @return DataType enum memeber
+     * @throws FileNotFoundException if *.tokens file couldn't be found
+     * @throws IOException if *.tokens file couldn't be read
+     */
     public DataType getTokenDataType(Integer tokenNumber) throws
             FileNotFoundException, IOException {
 
@@ -39,6 +52,15 @@ public class TokenTypeMap {
         return getTokenDataType(tokenList.getTokenName(tokenNumber));
     }
 
+    /**
+     * Returns DataType represented by string or DataType.UNKNOWN if it can't be
+     * mapped.
+     *
+     * @param tokenName name of the token
+     * @return DataType enum memeber
+     * @throws FileNotFoundException if *.tokens file couldn't be found
+     * @throws IOException if *.tokens file couldn't be read
+     */
     public DataType getTokenDataType(String tokenName) {
         if (types.containsKey(tokenName)) {
             return types.get(tokenName);
