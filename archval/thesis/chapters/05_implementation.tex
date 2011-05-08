@@ -131,12 +131,11 @@ Seznam integračních komponent je k dispozici v tabulce \ref{implementation-int
       \textbf{Název} & \textbf{Typ} & \textbf{Zodpovědnost} \\
       \hline
       \hline
-      Action & class & integrace s běhovou platformou, vstupní/aktivační bod \\ \hline
+      ValidateMainProjectAction & class & integrace s běhovou platformou, vstupní/aktivační bod \\ \hline
       %% TODO: 'třída implementující rozhraní...'
       GraphGeneratorRegister & class & třída poskytující přístup k informacím o existujících poskytovatelích generátorů grafu \\ \hline
       OperatorRegister & class & třída poskytující přístup k informacím o existujících poskytovatelích operátorů \\ \hline
       AnalysesRegister & class & třída poskytující přístup k informacím o existujících poskytovatelích komponent analýzy \\ \hline
-      OutputGeneratorRegister & class & třída poskytující přístup k informacím o existujících poskytovatelích generátorů výstupních reportů \\ \hline
     \end{tabular}
   \end{center}
 \end{table}
@@ -148,7 +147,7 @@ Seznam integračních komponent je k dispozici v tabulce \ref{implementation-int
 \end{itemize}
 
 \subsection{Přidání uživatelské akce do nabídky prostředí}
-Třída \emph{Action}
+Třída \emph{ValidateMainProjectAction}
 
 Integrace do běhové platformy. Reprezentuje uživatelskou akci. Bude implementováno na základě zvolené implementační platformy (akce v GUI).
 

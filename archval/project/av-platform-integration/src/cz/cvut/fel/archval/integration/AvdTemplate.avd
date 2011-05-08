@@ -1,6 +1,6 @@
 atomic_rule law_of_demeter(demeter_graph) {
     ALL v IN V : kind(v, "class") {
-        empty(
+        vertex_set_is_empty(
             (
                 (
                     F(v, "class", "has_field")
@@ -12,7 +12,7 @@ atomic_rule law_of_demeter(demeter_graph) {
                 INTERSECT
                 F(v, "class", "uses")
                 SETMINUS
-                construct_set(v)
+                construct_vertex_set_from_vertex(v)
             )
         )
     }
