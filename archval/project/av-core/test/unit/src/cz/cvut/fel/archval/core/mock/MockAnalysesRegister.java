@@ -32,7 +32,7 @@ public class MockAnalysesRegister implements AnalysesRegisterIface {
 
             @Override
             public AnalysisResult evaluate(Graph graph) {
-                throw new UnsupportedOperationException("Not supported yet.");
+                return new AnalysisResult();
             }
         };
 

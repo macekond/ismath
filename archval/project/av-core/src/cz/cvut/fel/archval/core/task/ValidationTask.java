@@ -15,7 +15,7 @@ public class ValidationTask implements ValidationTaskIface {
 
     public ValidationTask(GraphModel graphModel, ValidationModel validationModel) {
         // TODO: implement
-        throw new UnsupportedOperationException("Not yet implemented");
+        throw new UnsupportedOperationException("Not supported yet.");
     }
 
     public void runSynchronous() {

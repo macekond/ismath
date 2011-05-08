@@ -10,7 +10,6 @@ import java.util.List;
  */
 public class Graph {
 
-    // TODO: implement completely and test completely
     private List<Edge> edges;
     private List<Vertex> vertices;
     private String graphType;

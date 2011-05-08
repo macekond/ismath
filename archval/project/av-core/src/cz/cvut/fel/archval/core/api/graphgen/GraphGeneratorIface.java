@@ -1,6 +1,7 @@
 package cz.cvut.fel.archval.core.api.graphgen;
 
 import cz.cvut.fel.archval.core.api.model.graph.Graph;
+import java.io.File;
 
 /**
  * Interface which must be implemented by graph generator provider.
@@ -11,6 +12,5 @@ public interface GraphGeneratorIface {
 
     public String getGraphType();
 
-    // TODO: specify input for graph generator!!!
-    public Graph getGraph();
+    public Graph getGraph(File projectDirectory);
 }

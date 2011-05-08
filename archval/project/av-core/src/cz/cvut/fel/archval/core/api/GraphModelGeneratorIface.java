@@ -2,6 +2,7 @@ package cz.cvut.fel.archval.core.api;
 
 import cz.cvut.fel.archval.core.api.ex.GraphGeneratorNotFoundException;
 import cz.cvut.fel.archval.core.api.model.graph.GraphModel;
+import java.io.File;
 import java.util.Set;
 
 /**
@@ -18,5 +19,5 @@ public interface GraphModelGeneratorIface {
      * @return GraphModel created using GraphGenerators available from GraphGenerator register
      * @throws GraphGeneratorNotFoundException if some of required graph generators was not found
      */
-    public GraphModel generateModel(Set<String> requiredGraphTypes) throws GraphGeneratorNotFoundException;
+    public GraphModel generateModel(Set<String> requiredGraphTypes, File projectDirectory) throws GraphGeneratorNotFoundException;
 }
