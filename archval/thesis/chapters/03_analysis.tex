@@ -190,8 +190,8 @@ Uveďme nyní \emph{striktní třídní formu} pravidla \emph{Law of Demeter}:
   \item C,
   \item třídy členských datových polí třídy C,
   \item třídy argumentů M,
-  \item třídy, jejichž konstruktor je volán v~M,
-  \item třídy globálních proměnných použitých v~M.
+  \item třídy, jejichž konstruktor je volán v M,
+  \item třídy globálních proměnných použitých v M.
   \end{itemize}
 \end{designprinciple}
 
@@ -260,7 +260,7 @@ public class Wallet {
 Kód pro zaplacení prodavači novin potom vypadá takto:
 \begin{lstlisting}
 // code from some method inside the Paperboy class
-payment = 2.0; // I~want my two dollars!
+payment = 2.0; // I want my two dollars!
 
 Wallet theWallet = myCustomer.getWallet();
 if (theWallet.getTotalMoney() > payment) {

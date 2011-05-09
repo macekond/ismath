@@ -22,7 +22,7 @@ Pro provedení validace princip LoD využijeme graf podobný tomu na obrázku \r
 Pravidlo LoD potom specifikujeme nad grafem $G = \langle V, E, \rho, K, C, \mathit{Kind}, \mathit{Classifier}\rangle$ následovně:
 
 \begin{align*}
-\forall v~\in V: Kind(v) = ``class"\\
+\forall v \in V: Kind(v) = ``class"\\
 \end{align*}
 \begin{align*}
 [((&F(G, v, ``class", ``has\_field") \cup F(G, v, ``class", ``has\_param") \cup \\
@@ -56,7 +56,7 @@ Vyhodnocení univerzálního kvantifikátoru $\forall v \in V$ lze přepsat jako
     caption={Implementace univerzálního kvantifikátoru $\forall$.},
     label=listing-forall
   ]
-for (Vertex v~: vertices) {
+for (Vertex v : vertices) {
     if (!condition(v, ...)) {
         return false;
     }
@@ -71,7 +71,7 @@ Analogicky budeme postupovat u~existenčního kvantifikátoru $\exists$. Zde ná
     caption={Implementace existenčního kvantifikátoru $\exists$.},
     label=listing-exists
   ]
-for (Vertex v~: vertices) {
+for (Vertex v : vertices) {
     if (condition(v, ..)) {
         return true;
     }
