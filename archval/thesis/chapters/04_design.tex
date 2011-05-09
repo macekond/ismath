@@ -11,9 +11,7 @@ Abychom mohli specifikovat pravidla, musíme nejprve definovat strukturu, nad kt
 Analyzovaný softwarový projekt abstrahujeme jako orientovaný multigraf rozšířený o~zobrazení množiny uzlů do množiny typů a zobrazení hran do množiny jejich klasifikátorů (označení typu vztahu mezi uzly). Dále přidáme ke každému vrcholu zobrazení, které mu přiřadí jméno (řetězec). Získáme tak následující definici pojmu \emph{grafový model programu}:
 
 \begin{definition}
-
 \textbf{Grafovým modelem projektu} nazveme strukturu
-
 \begin{displaymath}
   G = \langle V, E, \rho, K, C, N, \mathit{Kind}, \mathit{Classifier}, \mathit{Name}\rangle
   \label{extended_multigraph}
@@ -31,7 +29,6 @@ v~níž platí:
 \item $\mathit{Classifier}: E \mapsto C$ je zobrazení, které přiřadí každé hraně její klasifikátor (zda se jedná o~\emph{method call}, \emph{dědičnost}, atd.)
 \item $\mathit{Name}: V \mapsto N$ je zobrazení, které přiřadí vrcholu jeho jméno (např. jméno třídy, jméno metody, \ldots)
 \end{itemize}
-
 \end{definition}
 
 Ukázka formalizace zdrojového kódu pomocí grafu je na obrázku \ref{design-graph_example}. V~uvedeném příkladě můžeme strukturu $G$ namapovat následujícím způsobem:
@@ -116,13 +113,16 @@ Uvedené množiny můžeme poměrně snadno reprezentovat v~programovacím jazyc
 
 Vrcholy takto vytvořeného grafu nemusí být pouze třídy, můžeme použít libovolné syntaktické elementy z~kódu, který analyzujeme. Vždy záleží na úrovni prováděné analýzy, co zvolíme jako vrcholy grafu, jaké hrany mezi nimi zvolíme a jaká označení a typy budou mít. Nástroj, který budeme navrhovat bude počítat s~libovolným takto vybudovaným grafem. Ke grafům konkrétního typu přiřadíme idnentifikátory a při specifikaci pravidel vždy uvedeme, nad kterým typem grafu má definované pravidlo platit.
 
+% TODO: napsat definici typu grafového modelu projektu
+
 \subsection{Formalizace pravidel}
 \label{design-rules_formalization}
 % TODO: CONTINUEHERE: aktualizovat (gramatika byla přesunuta)
 Nyní, když máme definován model, můžeme popsat jazyk pravidel, která mají pro daný model platit. Vytvoříme jednoduchý jazyk (DSL) pro specifikaci validačních parametrů. Jazyk popíšeme jednoduchou gramatikou. U~této gramatiky předpokládáme, že bílé znaky jsou ignorovány (pokud nejsou uvnitř řetězce).
 
 % TODO: definovat základní elementy jazyka pravidel
-
+% TODO: zapsat matematicky pravidlo
+\subsubsection{Matematická formulace pravidel}
 \begin{itemize}
 \item co jsou to selektory (napsat definici platnou pro tento dokument),
 \item co jsou to predikáty (napsat definici platnou pro tento dokument),
@@ -352,7 +352,10 @@ Vstupem je množina pravidel zapsaná ve vhodné serializaci výše popsaných m
   \caption{Znázornění vstupů a výstupů komponenty \emph{ValidationModelGenerator}.\label{design-validation_model_generator_io}}
 \end{figure}
 
-\emph{Vstupy:} Stream, String
+\begin{itemize}
+\item \emph{Vstup:} stream, string
+\item \emph{Výstup:} instance třídy \emph{ValidationModel}
+\end{itemize}
 
 \subsubsection{Komponenta ValidationTask}
 
@@ -368,26 +371,10 @@ Samostatné vlákno s~řízením celého validačního procesu. Synchronized sek
 \item \verb-getReport() : ValidationReport-
 \end{itemize}
 
-%% \subsubsection{Komponenta Validator}
-%% Vstupem bude ValidationModel a GraphModel
-
-%% Komponenta \emph{Validator} je znázorněna na obrázku \ref{design-validator_io}.
-
-%% \begin{figure}[h!]
-%%   \centering
-%%   \includegraphics[width=0.45\textwidth]{./graphs/validator_io_graph.png}
-%%   \caption{Znázornění vstupů a výstupů komponenty \emph{Validator}.\label{design-validator_io}}
-%% \end{figure}
-
-\paragraph{Rozhraní}
-\begin{itemize}
-\item \verb-+performValidation(ValidationModel, GraphModel) : ValidationReport-
-\end{itemize}
-
 Výstupem bude \emph{ValidationReport} (vnitřní struktura, která se bude posléze převádět na vhodnou vnější reprezentaci).
 
 \subsubsection{Komponenta ArchVal (fasáda)}
-% TODO: napsat, jakým způsobem bude fungovat (v podstatě singleton)
+% TODO: popsat účel (fasáda) a způsob použití
 \paragraph{Rozhraní}
 \begin{itemize}
 \item \begin{verbatim}ArchVal(
@@ -412,6 +399,10 @@ Aby bylo možné systém rozšiřovat přidáváním dalších operátorů, gene
 \end{itemize}
 
 \subsection{Rozhraní GraphGeneratorIface}
+\begin{itemize}
+\item \verb+getGraphTypeId() : String+
+\item \verb+generateGraph(projectFilesSpecification) : Graph+
+\end{itemize}
 % TODO: roztřídit
 %% \item compiler
 %% \item generátor vnitřní struktury (modelu) -- modelem je v našem případě graf
@@ -426,22 +417,8 @@ Aby bylo možné systém rozšiřovat přidáváním dalších operátorů, gene
 
 Každý graph generátor (resp. graf) musí mít specifikované jedinečné id grafu. (To bude dále použito např. při specifikaci pravidel, kde je potřeba sdělit validátoru, nad kterým grafem má pravidlo platit).
 
-\begin{itemize}
-\item \verb+getGraphTypeId() : String+
-\item \verb+generateGraph(projectFilesSpecification) : Graph+
-\end{itemize}
-
 \subsection{Rozhraní OperatorIface}
 
-\subsubsection{Typy operátorů}
-% TODO: rozepsat
-\begin{itemize}
-\item predikáty,
-\item vrcholové selektory,
-\item hranové selektory.
-\end{itemize}
-
-\subsubsection{Operace poskytované rozhraním OperatorIface}
 \begin{itemize}
 \item \verb-getName() : String-
 \item \verb-getOperandsCount() : int-
@@ -483,7 +460,7 @@ Každý graph generátor (resp. graf) musí mít specifikované jedinečné id g
 \item systém pomocí výstupních modulů vygeneruje reporty (na základě konfigurace ???)
 \end{itemize}
 
-\section{Návrh rozhraní pro zadávání pravidel}
+\section{Návrh vstupního rozhraní (zadávání pravidel)}
 %% TODO: zapracovat:
 U~každého pravidla musí být deklarace typu grafu, nad nímž má platit.
 %% rozhraní pro zadávání pravidel bude dáno jazykem, který se pro definici pravidel bude používat - možná kompilátor DSL jazyka, výrazy, atd.
@@ -493,18 +470,15 @@ U~každého pravidla musí být deklarace typu grafu, nad nímž má platit.
 \item zvýrazňování syntaxe (\uv{nice-to-have} feature)
 \end{itemize}
 
-\section{Návrh rozhraní pro ověřování platnosti pravidel (validaci)}
-%% TODO: navrhnout způsob a formát výstupu
-%% - diskutovat různé možnosti
-%%     - textový výstup v okně
-%%     - reprezentace swing komponentou
-%%     - html výstup
-%%     - výstup do souboru
+\section{Návrh výstupního rozhraní (provádění validace)}
+% TODO: sort and formulate
+Podpora pro různé formáty výstupu. Popsat vnitřní reprezentaci reportu, tak aby jej bylo možné převést na vhodnou vnější reprezentaci. Podpora pro dopsání různých výstupních formátu jako např.:
 \begin{itemize}
-\item výstupní rozhraní
-\item validační události
+\item HTML export
+\item export prostého textového výstupu
+\item textový výstup v okně
+\item reprezentace swing komponentou (např. JTree komponenta)
 \end{itemize}
-% TODO: v implementaci popsat textový výstup
 
 \section{Návrh způsobu integrace do různých typů prostředí}
 %% TODO: zapracovat
@@ -517,8 +491,6 @@ Rozhraní ArchVal API je záměrně navrženo tak, aby jej bylo možné integrov
 \item TUI -- jednoduché textové rozhraní pro validaci
 \item GUI -- zde NetBeans platforma
 \end{itemize}
-
-Možnosti různého způsobu vstupu pravidel -- editor se zvýrazňováním syntaxe.
 
 \section{Návrh technologií pro implementaci}
   % TODO: vytvorit prehled technologii i s jejich popisy

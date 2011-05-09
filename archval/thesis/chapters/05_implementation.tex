@@ -1,6 +1,9 @@
 \chapter{Implementace}
 % TODO: napsat přehled, co bude v této kapitole
 
+% TODO: použít nebo smazat (případně zařadit jinam)
+% TODO: moduly popsané v části \ref{design-architecture} implementujeme jako jednotlivé moduly platformy NetBeans.
+
 \section{Specifikace pravidel požadovaných zadáním práce}
 Pro specifikaci Demeter law definujeme predikát, který nám umožní vybrat vhodné množiny vrcholů. Vybrané množiny potom ověřeíme pomocí predikátu, který uřčí, zda jsou tyto množiny v~pořádku, či zda porušují \emph{LoD} princip.
 
@@ -36,16 +39,9 @@ Specifikované pravidlo vyjadřuje požadavek, aby množina vrcholů do níž se
 
 \subsection{Low coupling, high cohesion}
 % TODO:
-%% Typy závislostí mezi třídami
-%% \begin{itemize}
-%% \item třída A dědí ze třídy B
-%% \item třída A provádí instanciaci třídy B
-%% \item třída A používá existující intanci třídy B (pracuje s referencí na tuto třídu)
-%% \end{itemize}
-%% Na základě těchto závislostí lze sestavit orientovaný graf. Hrany budeme dále klasifikovat podle toho, o jakou závislost se jedná (dědičnost vs. vyvolání metody).
+% odkázat na rešeši v analýze a přidat poznámku o tom, že tato pravidla nebyla specifikována s tím, že je možné je realizovat jako analýzu pomocí rozhraní AnalysisIface
 
 \section{Implementace jádra systému (modul av-core)}
-% TODO: moduly popsané v části \ref{design-architecture} implementujeme jako jednotlivé moduly platformy NetBeans.
 
 \subsection{Implementace základních operátorů}
 Vyhodnocení univerzálního kvantifikátoru $\forall v \in V$ lze přepsat jako jednoduchý cyklus přes vrcholy vrácené zpřesňující operátorem, která vybírá nějakou podmnožinu z~množiny vrcholů analyzovaného grafu. Získáme tak kód podobný listingu \ref{listing-forall}. V~tomto kódu, který je fragmentem metody, používáme symoblický název \verb+condition+ pro podmínku, kterou musí splňovat každý prvek \emph{v} iterované kolekce vrcholů \emph{vertices}.
@@ -130,13 +126,8 @@ Integrace do běhové platformy. Reprezentuje uživatelskou akci. Bude implement
 \end{itemize}
 
 \subsection{Výstupní rozhraní}
-Podpora pro různé formáty výstupu. Popsat vnitřní reprezentaci reportu, tak aby jej bylo možné převést na vhodnou vnější reprezentaci. Podpora pro dopsání různých výstupních formátu jako např.:
-\begin{itemize}
-\item HTML
-\item prostý text
-\item zobrazení pomocí swing komponent (vygenerování modelu pro JTree)
-\item \ldots
-\end{itemize}
+% TODO: zde popsat implementované výstupní rozhraní (alternativy by měly být diskutovány v návrhu)
+% TODO: textový výstup
 
 \section{Implementace modulů rozšíření}
 
