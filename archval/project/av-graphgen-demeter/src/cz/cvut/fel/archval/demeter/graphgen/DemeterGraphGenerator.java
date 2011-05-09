@@ -60,13 +60,17 @@ import java.util.concurrent.ExecutionException;
 import java.util.concurrent.Future;
 import javax.lang.model.element.Element;
 import javax.lang.model.element.ElementKind;
+import javax.lang.model.element.ExecutableElement;
 import javax.lang.model.element.Modifier;
 import javax.lang.model.element.TypeElement;
+import javax.lang.model.element.VariableElement;
+import javax.lang.model.type.DeclaredType;
+import javax.lang.model.type.TypeKind;
+import javax.tools.Diagnostic.Kind;
 import org.netbeans.api.java.source.CompilationController;
 import org.netbeans.api.java.source.CompilationInfo;
 import org.netbeans.api.java.source.JavaSource;
 import org.netbeans.api.java.source.Task;
-import org.openide.awt.StatusDisplayer;
 import org.openide.filesystems.FileObject;
 import org.openide.filesystems.FileUtil;
 import org.openide.windows.IOProvider;
@@ -158,20 +162,17 @@ public class DemeterGraphGenerator implements GraphGeneratorIface {
             Void retval = null;
             TypeElement typeElement = (TypeElement) el;
             if (el.getKind() == ElementKind.CLASS) {
-                printIndented("Class:", level);
+                printIndented("Class:" + typeElement.getQualifiedName(), level);
                 retval = super.visitClass(node, v);
                 printIndented(">  >Class", level);
-
             } else if (el.getKind() == ElementKind.INTERFACE) {
                 printIndented("Interface: " + typeElement.getQualifiedName(), level);
                 retval = super.visitClass(node, v);
                 printIndented(">  >Interface", level);
-
             } else if (el.getKind() == ElementKind.ENUM) {
                 printIndented("Enum: " + typeElement.getQualifiedName(), level);
                 retval = super.visitClass(node, v);
                 printIndented(">  >Enum", level);
-
             } else {
                 printIndented("Unknown class type: " + typeElement.getQualifiedName(), level);
                 retval = super.visitClass(node, v);
@@ -197,9 +198,15 @@ public class DemeterGraphGenerator implements GraphGeneratorIface {
             Element el = info.getTrees().getElement(currentPath);
             if (el.getKind() == ElementKind.CLASS || el.getKind() == ElementKind.INTERFACE) {
                 TypeElement typeElement = (TypeElement) el;
-                printIndented("Identifier: " + typeElement.getQualifiedName(), level);
+                printIndented("Identifier: " + el.getKind() + " " + typeElement.getQualifiedName(), level);
+            } else if (el.getKind() == ElementKind.CONSTRUCTOR) {
+                ExecutableElement exl = (ExecutableElement) el;
+                printIndented("Identifier: " + el.getKind() + " " + exl.getReturnType(), level);
+            } else if (el.getKind() == ElementKind.FIELD) {
+                VariableElement vel = (VariableElement) el;
+                printIndented("Identifier (field): " + el.getKind() + " " + node.getName() + " " + vel.asType(), level);
             } else {
-                printIndented("Identifier: (other) ", level);
+                printIndented("Identifier: " + el.getKind() + " " + el.getSimpleName(), level);
             }
             Void retval = super.visitIdentifier(node, p);
             printIndented(">  >Identifier", level);
@@ -213,8 +220,7 @@ public class DemeterGraphGenerator implements GraphGeneratorIface {
             Element el = info.getTrees().getElement(currentPath);
             printIndented("Variable: " + el.getSimpleName(), level);
             if (el.getKind() == ElementKind.CLASS || el.getKind() == ElementKind.INTERFACE) {
-                TypeElement typeElement = (TypeElement) el;
-                printIndented("variable type: " + typeElement.getQualifiedName(), level);
+                printIndented("variable type: ", level);
             }
             Void retval = super.visitVariable(node, p);
             printIndented(">  >Variable", level);
@@ -617,7 +623,11 @@ public class DemeterGraphGenerator implements GraphGeneratorIface {
             int level = getNestingLevel(currentPath);
             Element el = info.getTrees().getElement(currentPath);
             if (el != null) {
-                printIndented("MemberSelect: " + el.getKind(), level);
+                if (el.getKind() == ElementKind.FIELD) {
+                    printIndented("MemberSelect: " + el.getKind() + " " + el.asType(), level);
+                } else {
+                    printIndented("MemberSelect: " + el.getKind(), level);
+                }
             } else {
                 printIndented("MemberSelect:", level);
             }
@@ -631,8 +641,27 @@ public class DemeterGraphGenerator implements GraphGeneratorIface {
             TreePath currentPath = getCurrentPath();
             int level = getNestingLevel(currentPath);
             Element el = info.getTrees().getElement(currentPath);
+            ExecutableElement exl = (ExecutableElement) info.getTrees().getElement(currentPath);
+
+            TypeElement myclass = (TypeElement) exl.getEnclosingElement();
+            printIndented("enclosing element: " + myclass, level);
+
+            if (node.getMethodSelect().getKind() == Tree.Kind.MEMBER_SELECT) {
+                printIndented(((MemberSelectTree) node.getMethodSelect()).getIdentifier().toString(), level);
+            } else if (node.getMethodSelect().getKind() == Tree.Kind.IDENTIFIER) {
+                printIndented(((IdentifierTree) node.getMethodSelect()).getName().toString(), level);
+            }
+
+            if (exl.getModifiers().contains(Modifier.STATIC)) {
+                printIndented("It's static method.", level);
+            }
             if (el != null) {
-                printIndented("MethodInvocation: " + el.getKind(), level);
+                String type = null;
+                if (exl.getReturnType().getKind() == TypeKind.DECLARED) {
+                    type = ((TypeElement) ((DeclaredType) exl.getReturnType()).asElement()).getQualifiedName().toString();
+                }
+                printIndented("MethodInvocation: " + type + " " + el.getKind(), level);
+                printIndented("kind:: " + exl.getReturnType().getKind(), level);
             } else {
                 printIndented("MethodInvocation:", level);
             }
