@@ -11,7 +11,7 @@ Abychom mohli specifikovat pravidla, musíme nejprve definovat strukturu, nad kt
 Analyzovaný softwarový projekt abstrahujeme jako orientovaný multigraf rozšířený o~zobrazení množiny uzlů do množiny typů a zobrazení hran do množiny jejich klasifikátorů (označení typu vztahu mezi uzly). Dále přidáme ke každému vrcholu zobrazení, které mu přiřadí jméno (řetězec). Získáme tak následující strukturu:
 
 \begin{displaymath}
-  G = \langle V, E, \rho, K, C, N, \mathit{Kind}, \mathit{Class}, \mathit{Name}\rangle
+  G = \langle V, E, \rho, K, C, N, \mathit{Kind}, \mathit{Classifier}, \mathit{Name}\rangle
   \label{extended_multigraph}
 \end{displaymath}
 v~níž platí:
@@ -24,7 +24,7 @@ v~níž platí:
 \item $\mathit{Kind}: V \mapsto K$ je zobrazení, které přiřadí každému vrcholu jeho typ,
 \item $C$ je množina klasifikátorů hran,
 \item $N$ je množina jmen (řetězců)
-\item $\mathit{Class}: E \mapsto C$ je zobrazení, které přiřadí každé hraně její klasifikátor (zda se jedná o~\emph{method call}, \emph{dědičnost}, atd.)
+\item $\mathit{Classifier}: E \mapsto C$ je zobrazení, které přiřadí každé hraně její klasifikátor (zda se jedná o~\emph{method call}, \emph{dědičnost}, atd.)
 \item $\mathit{Name}: V \mapsto N$ je zobrazení, které přiřadí vrcholu jeho jméno (např. jméno třídy, jméno metody, \ldots)
 \end{itemize}
 
@@ -90,7 +90,7 @@ přiřazení typů uzlům $Kind$,
 \end{align*}
 a přiřazení klasifikátorů hranám:
 \begin{align*}
-  Class = &\{ \\
+  Classifier = &\{ \\
   &(1, ``extends"), \\
   &(2, ``extends"), \\
   &(3, ``extends"), \\
