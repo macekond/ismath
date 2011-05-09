@@ -5,14 +5,14 @@ V~části první se zabýváme obecnou problematikou návrhu software, často po
 
 Druhá část se zabývá konkrétními principy objektového návrhu, konkrétně principy \emph{low coupling}, \emph{high cohesion} a \emph{Law of Demeter}. Kromě rešerše týkající se těchto principů jsou zde demonstrovány jednoduché ukázky jejich porušení.
 
-Poslední část se zabývá analýzou Java projektů, které budou vstupem pro validaci a analýzu. Je zde rozebráno, z~jakých souborů se projekt realizovaný v~jazyce Java skládá a jaká je základní struktura zdrojových \verb+*.java+ souborů. Dále pak tato část obsahuje rešerši existujících nástrojů pro předzpracování zdrojových kódů do podoby vhodné pro další práci.
+Poslední část se zabývá analýzou Java projektů, které budou vstupem pro validaci a analýzu. Je zde rozebráno, z~jakých souborů se projekt realizovaný v~jazyce Java skládá a~jaká je základní struktura zdrojových \verb+*.java+ souborů. Dále pak tato část obsahuje rešerši existujících nástrojů pro předzpracování zdrojových kódů do podoby vhodné pro další práci.
 \section{Problematika návrhu software}
 Při návrhu software se uplatňují nejrůznější přístupy, vzory, pravidla. Cílem této sekce je podat rychlý přehled o~používaných návrhových konceptech, aspektech návrhu software a objektově orientovaném návrhu. U~některých aspektů uvažujeme možnost jejich podpory pomocí vhodného nástroje. Mnoho z~uvedených pojmů a postupů je dále použito při návrhu nástroje, jehož vytvoření je jedním z~cílů této práce.
 
 \subsection{Koncepty používané při návrhu software}
 Existující koncepty návrhu software poskytují vývojářům základ, z~něhož lze odvodit a aplikovat další sofistikované metody \cite{wiki:software_design}. Většinou se jedná o~různé pohledy na způsob dekompozice systému na části realizovatelné v~konkrétním programovacím jazyce. Postupem času se vyvinula celá množina konceptů návrhu software \cite{swengineeringconcepts}. Uveďme alespoň některé:
 
-\paragraph{Abstrakce (Abstraction)} Abstrakce je proces nebo výsledek zobecnění a redukce informačního obsahu konceptu nebo pozorovatelného jevu. Typicky ponecháváme pouze informaci, která je relevantní pro konkrétní účel nebo záměr.
+\paragraph{Abstrakce (Abstraction)} Abstrakce je proces nebo výsledek zobecnění a redukce informačního obsahu konceptu nebo pozorovatelného jevu. Typicky ponecháváme pouze \mbox{informaci}, která je relevantní pro konkrétní účel nebo záměr.
 
 \paragraph{Postupné zjemňování (Refinement)} Postupné zjemňování/zpřesňování představuje proces tvorby\footnote{Tento koncept byl použit i pro tvorbu této práce. Nejprve byla provedena dekompozice tématu na základní bloky (specifikace, analýza, návrh, \ldots) a poté byly \uv{rekurzivním sestupem} realizované další sekce, podsekce a nakonec i elementární součásti práce (odstavce a věty).}. Je vytvářena hierarchie dekompozicí makroskopických příkazů funkce po krocích, dokud nejsou dosaženy elementární příkazy programovacího jazyka. V~každém kroku je dekomponována jedna nebo více instrukcí daného programu do detailnějších instrukcí. Abstrakce a zjemňování jsou vzájemně komplementární oblasti.
 
@@ -48,13 +48,13 @@ Při návrhu software musíme vzít v~potaz velké množství aspektů \cite{wik
 \item \emph{použitelnost (usability)}.
 \end{itemize}
 
-Zatímco některé aspekty jsou pro tuto práci zcela nepodstatné (dobrým příkladem budiž \emph{balení}, které se zabývá způsobem dodávky software a podpůrných materiálů), jiné je možné podpořit pomocí vhodného nástroje. Pojďme se nyní podívat na aspekty, jejichž podpora možná je:
+Zatímco některé aspekty jsou pro tuto práci zcela nepodstatné (dobrým příkladem je \emph{balení}, které se zabývá způsobem dodávky software a podpůrných materiálů), jiné je možné podpořit pomocí vhodného nástroje. Pojďme se nyní podívat na aspekty, jejichž podpora možná je:
 
 \paragraph{Rozšiřitelnost} Tato vlastnost znamená praktický důsledek, kdy nové funkčnosti mohou být do existujícího systému přidány bez majoritních změn ve \emph{výchozí architektuře}. Pokud by bylo možné určit pravidla, která určují základní architekturu a která je možné vynutit, bylo by možné při rozšiřování systému tato pravidla opět aplikovat, což by vedlo k~dodržení výchozí architektury.
 
 \paragraph{Udržovatelnost} Klíčovou charakteristikou \emph{udržovatelnosti} je možnost obnovit stav systému v~rozumném čase. Příkladem mohou být aktualizace virové báze antivirových programů. Jiným příkladem může být instalace bezpečnostních aktualizací. Tuto vlastnost nelze podpořit zcela přímo, je však důsledkem ostatních vlastností (zejména \emph{rozšiřitelnost} a \emph{modularita}).
 
-\paragraph{Modularita} \emph{Modularita} znamená, že výsledný systém sestává z~dobře definovaných a nezávislých komponent. To vede k~lepší \emph{udržovatelnosti}. Komponenty mohou být v~takovém případě vyvíjeny a testovány izolovaně předtím než jsou integrovány do výsledného požadovaného softwarového systému. Navíc získáme dobrou možnost dělby práce v~rámci vývojového týmu pracujícího na softwarovém projektu.
+\paragraph{Modularita} \emph{Modularita} znamená, že výsledný systém sestává z~dobře definovaných a~nezávislých komponent. To vede k~lepší \emph{udržovatelnosti}. Komponenty mohou být v~takovém případě vyvíjeny a testovány izolovaně předtím než jsou integrovány do výsledného požadovaného softwarového systému. Navíc získáme dobrou možnost dělby práce v~rámci vývojového týmu pracujícího na softwarovém projektu.
 
 \paragraph{Znovupoužitelnost} Je důležité, aby bylo možné přidávat nové vlastnosti (features) systému a provádět modifikace s~pouze omezenou nebo žádnou modifikací existujících komponent (možnost použít komponenty znovu pro jiné případy užití).
 
@@ -143,7 +143,7 @@ Ke snížení koheze dochází když:
 Nevýhodou nízké koheze je:
 \begin{itemize}
 \item obtížnější porozumění modulům,
-\item obtížnější údržbu systému -- logické změny v~řešené doméně ovlivňují více modulů a také proto, že změny v~jednom modulu vyžadují změny v~modulu jiném,
+\item obtížnější údržbu systému -- logické změny v~řešené doméně ovlivňují více modulů a~také proto, že změny v~jednom modulu vyžadují změny v~modulu jiném,
 \item obtížnější znovupoužití modulu -- většina aplikací nepotřebuje náhodnou množinu operací, kterou modul poskytuje.
 \end{itemize}
 
@@ -278,7 +278,7 @@ Ukázka nevyhoví definované class verzi principu LoD. Kód který se stará o~
 Nejhorší variantou závislosti je závislost na konkrétním obsahu jiného modulu. Typickým příkladem může být přímý přístup k~proměnným konkrétní třídy.
 
 \begin{lstlisting}
-class A~{
+class A {
     public long pieceOfData;
 
     long getNumber() {
@@ -300,7 +300,7 @@ Tento kus kódu je špatný jednak z~hlediska zapouzdření (proměnná \verb+pi
 Podíváme-li se na jinou úroveň závislostí, můžeme se setkat s~kódem podobným následujícímu:
 
 \begin{lstlisting}
-class A~{
+class A {
 
     int do(int what) {
         if (what == 1) {
@@ -414,7 +414,7 @@ Pro provedení analýzy nám postačí zdrojové kódy zpracované do fáze \emp
 Podívejme se nyní, jakými prostředky je možné tuto reprezentaci získat:
 
 \subsubsection{Vlastní kód pro zpracovávání zdrojových kódů}
-Samozřejmě je možné napsat pro zpracování zdrojových kódů vlastní nástroj. Zahrnovalo by to vytvoření lexikálního analyzátoru (tokenizer), syntaktického parseru (zásobníkový automat) a dalších mechanismů pro vybudování AST, rozlišení jmen, navázání proměnných a realizaci velkého množství dalších operací.
+Samozřejmě je možné napsat pro zpracování zdrojových kódů vlastní nástroj. Zahrnovalo by to vytvoření lexikálního analyzátoru (tokenizer), syntaktického parseru (zásobníkový automat) a dalších mechanismů pro vybudování AST, rozlišení jmen, navázání proměnných a~realizaci velkého množství dalších operací.
 
 Jedná se však o~velmi náročný a rozsáhlý systém, jehož rozsah by překračoval nejen rámec této práce, ale i možnosti jednotlivce realizovat takovou práci v~rozumném čase.
 
@@ -453,7 +453,7 @@ Jazyk Java od verze 6 poskytuje zajímavé možnosti integrace volání kompilá
   \end{itemize}
 \item \emph{JSR 269 -- Pluggable Annotation Processing API}
   \begin{itemize}
-  \item možnost přidání vlastního kódu pro zpracovávání anotací/kódu do instance překladače
+  \item možnost přidání vlastního kódu pro zpracovávání anotací (a zčásti i kódu) do instance překladače
   \item balíček \verb+javax.annotation.processing+ -- zpracovávání anotací
   \item balíček \verb+javax.lang.model+ -- třídy poskytující model pro syntaktické elementy jazyka Java
   \end{itemize}
@@ -472,7 +472,7 @@ Většina majoritních integrovaných prostředí pro vývoj v~jazyce Java (Inte
 
 To je ale přesně to, co potřebujeme pro naši práci. Proto byla provedena rešerše v~této oblasti. Byly nalezeny dva základní nástroje, které je možné použít. Jedná se o~platformu Eclipse a platformu NetBeans.
 
-Platforma Eclipse poskytuje rozhraní, které reprezentuje Java projekt jako DOM prostřednictvím balíčku \verb+org.eclipse.jdt.core.dom+ \cite{parsertools:eclipsejdt}. Poskytovaný AST je možné procházet i modifikovat.
+Platforma Eclipse poskytuje rozhraní, které reprezentuje Java projekt jako DOM prostřednictvím balíčku \verb+org.eclipse.jdt.core.dom+ \cite{parsertools:eclipsejdt}. Poskytovaný AST je možné procházet i~modifikovat.
 
 Podobnou podporou poskytuje i platforma NetBeans. Ta vnitřně používá instanci \verb+javac+ kompilátoru. Přístup k~AST v~libovolné fázi (před resolvováním jmen i po této fázi) poskytuje prostřednictvím svého \emph{Java Source API} \cite{parsertools:javasourcejavadoc}.
 
