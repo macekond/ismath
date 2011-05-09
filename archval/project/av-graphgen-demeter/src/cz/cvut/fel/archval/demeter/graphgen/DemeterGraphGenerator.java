@@ -60,6 +60,7 @@ import java.util.concurrent.ExecutionException;
 import java.util.concurrent.Future;
 import javax.lang.model.element.Element;
 import javax.lang.model.element.ElementKind;
+import javax.lang.model.element.Modifier;
 import javax.lang.model.element.TypeElement;
 import org.netbeans.api.java.source.CompilationController;
 import org.netbeans.api.java.source.CompilationInfo;
@@ -152,20 +153,31 @@ public class DemeterGraphGenerator implements GraphGeneratorIface {
             TreePath currentPath = getCurrentPath();
             int level = getNestingLevel(currentPath);
             Element el = info.getTrees().getElement(currentPath);
-            printIndented("Class:" , level);
-            if (el == null) {
-                StatusDisplayer.getDefault().setStatusText(
-                        "Cannot resolve class!");
+            printIndented("Class:", level);
+
+            Void retval = null;
+            TypeElement typeElement = (TypeElement) el;
+            if (el.getKind() == ElementKind.CLASS) {
+                printIndented("Class:", level);
+                retval = super.visitClass(node, v);
+                printIndented(">  >Class", level);
+
+            } else if (el.getKind() == ElementKind.INTERFACE) {
+                printIndented("Interface: " + typeElement.getQualifiedName(), level);
+                retval = super.visitClass(node, v);
+                printIndented(">  >Interface", level);
+
+            } else if (el.getKind() == ElementKind.ENUM) {
+                printIndented("Enum: " + typeElement.getQualifiedName(), level);
+                retval = super.visitClass(node, v);
+                printIndented(">  >Enum", level);
+
             } else {
-                if (el.getKind() == ElementKind.CLASS || el.getKind() == ElementKind.INTERFACE) {
-                    TypeElement typeElement = (TypeElement) el;
-                    printIndented("- class name: " + typeElement.getQualifiedName(), level);
-                } else if (el.getKind() == ElementKind.ENUM) {
-                    TypeElement typeElement = (TypeElement) el;
-                    printIndented("- enum name: " + typeElement.getQualifiedName(), level);
-                }
+                printIndented("Unknown class type: " + typeElement.getQualifiedName(), level);
+                retval = super.visitClass(node, v);
+                printIndented(">  >Unknown class type", level);
             }
-            return super.visitClass(node, v);
+            return retval;
         }
 
         @Override
@@ -173,7 +185,9 @@ public class DemeterGraphGenerator implements GraphGeneratorIface {
             TreePath currentPath = getCurrentPath();
             int level = getNestingLevel(currentPath);
             printIndented("Method: " + node.getName(), level);
-            return super.visitMethod(node, p);
+            Void retval = super.visitMethod(node, p);
+            printIndented(">  >Method", level);
+            return retval;
         }
 
         @Override
@@ -184,8 +198,12 @@ public class DemeterGraphGenerator implements GraphGeneratorIface {
             if (el.getKind() == ElementKind.CLASS || el.getKind() == ElementKind.INTERFACE) {
                 TypeElement typeElement = (TypeElement) el;
                 printIndented("Identifier: " + typeElement.getQualifiedName(), level);
+            } else {
+                printIndented("Identifier: (other) ", level);
             }
-            return super.visitIdentifier(node, p);
+            Void retval = super.visitIdentifier(node, p);
+            printIndented(">  >Identifier", level);
+            return retval;
         }
 
         @Override
@@ -198,592 +216,687 @@ public class DemeterGraphGenerator implements GraphGeneratorIface {
                 TypeElement typeElement = (TypeElement) el;
                 printIndented("variable type: " + typeElement.getQualifiedName(), level);
             }
-            return super.visitVariable(node, p);
+            Void retval = super.visitVariable(node, p);
+            printIndented(">  >Variable", level);
+            return retval;
         }
 
         @Override
         public Void visitAnnotatedType(AnnotatedTypeTree node, Void p) {
             TreePath currentPath = getCurrentPath();
             int level = getNestingLevel(currentPath);
-	    Element el = info.getTrees().getElement(currentPath);
-	    if (el != null) {
-		printIndented("AnnotatedType: " + el.getKind(), level);
-	    } else {
-		printIndented("AnnotatedType:", level);
-	    }
-            return super.visitAnnotatedType(node, p);
+            Element el = info.getTrees().getElement(currentPath);
+            if (el != null) {
+                printIndented("AnnotatedType: " + el.getKind(), level);
+            } else {
+                printIndented("AnnotatedType:", level);
+            }
+            Void retval = super.visitAnnotatedType(node, p);
+            printIndented(">  >AnnotatedType", level);
+            return retval;
         }
 
         @Override
         public Void visitAnnotation(AnnotationTree node, Void p) {
             TreePath currentPath = getCurrentPath();
             int level = getNestingLevel(currentPath);
-	    Element el = info.getTrees().getElement(currentPath);
-	    if (el != null) {
-		printIndented("Annotation: " + el.getKind(), level);
-	    } else {
-		printIndented("Annotation:", level);
-	    }
-            return super.visitAnnotation(node, p);
+            Element el = info.getTrees().getElement(currentPath);
+            if (el != null) {
+                printIndented("Annotation: " + el.getKind(), level);
+            } else {
+                printIndented("Annotation:", level);
+            }
+            Void retval = super.visitAnnotation(node, p);
+            printIndented(">  >Annotation", level);
+            return retval;
         }
 
         @Override
         public Void visitArrayAccess(ArrayAccessTree node, Void p) {
             TreePath currentPath = getCurrentPath();
             int level = getNestingLevel(currentPath);
-	    Element el = info.getTrees().getElement(currentPath);
-	    if (el != null) {
-		printIndented("ArrayAccess: " + el.getKind(), level);
-	    } else {
-		printIndented("ArrayAccess:", level);
-	    }
-            return super.visitArrayAccess(node, p);
+            Element el = info.getTrees().getElement(currentPath);
+            if (el != null) {
+                printIndented("ArrayAccess: " + el.getKind(), level);
+            } else {
+                printIndented("ArrayAccess:", level);
+            }
+            Void retval = super.visitArrayAccess(node, p);
+            printIndented(">  >ArrayAccess", level);
+            return retval;
         }
 
         @Override
         public Void visitArrayType(ArrayTypeTree node, Void p) {
             TreePath currentPath = getCurrentPath();
             int level = getNestingLevel(currentPath);
-	    Element el = info.getTrees().getElement(currentPath);
-	    if (el != null) {
-		printIndented("ArrayType: " + el.getKind(), level);
-	    } else {
-		printIndented("ArrayType:", level);
-	    }
-            return super.visitArrayType(node, p);
+            Element el = info.getTrees().getElement(currentPath);
+            if (el != null) {
+                printIndented("ArrayType: " + el.getKind(), level);
+            } else {
+                printIndented("ArrayType:", level);
+            }
+            Void retval = super.visitArrayType(node, p);
+            printIndented(">  >ArrayType", level);
+            return retval;
         }
 
         @Override
         public Void visitAssert(AssertTree node, Void p) {
             TreePath currentPath = getCurrentPath();
             int level = getNestingLevel(currentPath);
-	    Element el = info.getTrees().getElement(currentPath);
-	    if (el != null) {
-		printIndented("Assert: " + el.getKind(), level);
-	    } else {
-		printIndented("Assert:", level);
-	    }
-            return super.visitAssert(node, p);
+            Element el = info.getTrees().getElement(currentPath);
+            if (el != null) {
+                printIndented("Assert: " + el.getKind(), level);
+            } else {
+                printIndented("Assert:", level);
+            }
+            Void retval = super.visitAssert(node, p);
+            printIndented(">  >Assert", level);
+            return retval;
         }
 
         @Override
         public Void visitAssignment(AssignmentTree node, Void p) {
             TreePath currentPath = getCurrentPath();
             int level = getNestingLevel(currentPath);
-	    Element el = info.getTrees().getElement(currentPath);
-	    if (el != null) {
-		printIndented("Assignment: " + el.getKind(), level);
-	    } else {
-		printIndented("Assignment:", level);
-	    }
-            return super.visitAssignment(node, p);
+            Element el = info.getTrees().getElement(currentPath);
+            if (el != null) {
+                printIndented("Assignment: " + el.getKind(), level);
+            } else {
+                printIndented("Assignment:", level);
+            }
+            Void retval = super.visitAssignment(node, p);
+            printIndented(">  >Assignment", level);
+            return retval;
         }
 
         @Override
         public Void visitBinary(BinaryTree node, Void p) {
             TreePath currentPath = getCurrentPath();
             int level = getNestingLevel(currentPath);
-	    Element el = info.getTrees().getElement(currentPath);
-	    if (el != null) {
-		printIndented("Binary: " + el.getKind(), level);
-	    } else {
-		printIndented("Binary:", level);
-	    }
-            return super.visitBinary(node, p);
+            Element el = info.getTrees().getElement(currentPath);
+            if (el != null) {
+                printIndented("Binary: " + el.getKind(), level);
+            } else {
+                printIndented("Binary:", level);
+            }
+            Void retval = super.visitBinary(node, p);
+            printIndented(">  >Binary", level);
+            return retval;
         }
 
         @Override
         public Void visitBlock(BlockTree node, Void p) {
             TreePath currentPath = getCurrentPath();
             int level = getNestingLevel(currentPath);
-	    Element el = info.getTrees().getElement(currentPath);
-	    if (el != null) {
-		printIndented("Block: " + el.getKind(), level);
-	    } else {
-		printIndented("Block:", level);
-	    }
-            return super.visitBlock(node, p);
+            Element el = info.getTrees().getElement(currentPath);
+            if (el != null) {
+                printIndented("Block: " + el.getKind(), level);
+            } else {
+                printIndented("Block:", level);
+            }
+            Void retval = super.visitBlock(node, p);
+            printIndented(">  >Block", level);
+            return retval;
         }
 
         @Override
         public Void visitBreak(BreakTree node, Void p) {
             TreePath currentPath = getCurrentPath();
             int level = getNestingLevel(currentPath);
-	    Element el = info.getTrees().getElement(currentPath);
-	    if (el != null) {
-		printIndented("Break: " + el.getKind(), level);
-	    } else {
-		printIndented("Break:", level);
-	    }
-            return super.visitBreak(node, p);
+            Element el = info.getTrees().getElement(currentPath);
+            if (el != null) {
+                printIndented("Break: " + el.getKind(), level);
+            } else {
+                printIndented("Break:", level);
+            }
+            Void retval = super.visitBreak(node, p);
+            printIndented(">  >Break", level);
+            return retval;
         }
 
         @Override
         public Void visitCase(CaseTree node, Void p) {
             TreePath currentPath = getCurrentPath();
             int level = getNestingLevel(currentPath);
-	    Element el = info.getTrees().getElement(currentPath);
-	    if (el != null) {
-		printIndented("Case: " + el.getKind(), level);
-	    } else {
-		printIndented("Case:", level);
-	    }
-            return super.visitCase(node, p);
+            Element el = info.getTrees().getElement(currentPath);
+            if (el != null) {
+                printIndented("Case: " + el.getKind(), level);
+            } else {
+                printIndented("Case:", level);
+            }
+            Void retval = super.visitCase(node, p);
+            printIndented(">  >Case", level);
+            return retval;
         }
 
         @Override
         public Void visitCatch(CatchTree node, Void p) {
             TreePath currentPath = getCurrentPath();
             int level = getNestingLevel(currentPath);
-	    Element el = info.getTrees().getElement(currentPath);
-	    if (el != null) {
-		printIndented("Catch: " + el.getKind(), level);
-	    } else {
-		printIndented("Catch:", level);
-	    }
-            return super.visitCatch(node, p);
+            Element el = info.getTrees().getElement(currentPath);
+            if (el != null) {
+                printIndented("Catch: " + el.getKind(), level);
+            } else {
+                printIndented("Catch:", level);
+            }
+            Void retval = super.visitCatch(node, p);
+            printIndented(">  >Catch", level);
+            return retval;
         }
 
         @Override
         public Void visitCompilationUnit(CompilationUnitTree node, Void p) {
             TreePath currentPath = getCurrentPath();
             int level = getNestingLevel(currentPath);
-	    Element el = info.getTrees().getElement(currentPath);
-	    if (el != null) {
-		printIndented("CompilationUnit: " + el.getKind(), level);
-	    } else {
-		printIndented("CompilationUnit:", level);
-	    }
-            return super.visitCompilationUnit(node, p);
+            Element el = info.getTrees().getElement(currentPath);
+            if (el != null) {
+                printIndented("CompilationUnit: " + el.getKind(), level);
+            } else {
+                printIndented("CompilationUnit:", level);
+            }
+            Void retval = super.visitCompilationUnit(node, p);
+            printIndented(">  >CompilationUnit", level);
+            return retval;
         }
 
         @Override
         public Void visitCompoundAssignment(CompoundAssignmentTree node, Void p) {
             TreePath currentPath = getCurrentPath();
             int level = getNestingLevel(currentPath);
-	    Element el = info.getTrees().getElement(currentPath);
-	    if (el != null) {
-		printIndented("CompoundAssignment: " + el.getKind(), level);
-	    } else {
-		printIndented("CompoundAssignment:", level);
-	    }
-            return super.visitCompoundAssignment(node, p);
+            Element el = info.getTrees().getElement(currentPath);
+            if (el != null) {
+                printIndented("CompoundAssignment: " + el.getKind(), level);
+            } else {
+                printIndented("CompoundAssignment:", level);
+            }
+            Void retval = super.visitCompoundAssignment(node, p);
+            printIndented(">  >CompoundAssignment", level);
+            return retval;
         }
 
         @Override
         public Void visitConditionalExpression(ConditionalExpressionTree node, Void p) {
             TreePath currentPath = getCurrentPath();
             int level = getNestingLevel(currentPath);
-	    Element el = info.getTrees().getElement(currentPath);
-	    if (el != null) {
-		printIndented("ConditionalExpression: " + el.getKind(), level);
-	    } else {
-		printIndented("ConditionalExpression:", level);
-	    }
-            return super.visitConditionalExpression(node, p);
+            Element el = info.getTrees().getElement(currentPath);
+            if (el != null) {
+                printIndented("ConditionalExpression: " + el.getKind(), level);
+            } else {
+                printIndented("ConditionalExpression:", level);
+            }
+            Void retval = super.visitConditionalExpression(node, p);
+            printIndented(">  >ConditionalExpression", level);
+            return retval;
         }
 
         @Override
         public Void visitContinue(ContinueTree node, Void p) {
             TreePath currentPath = getCurrentPath();
             int level = getNestingLevel(currentPath);
-	    Element el = info.getTrees().getElement(currentPath);
-	    if (el != null) {
-		printIndented("Continue: " + el.getKind(), level);
-	    } else {
-		printIndented("Continue:", level);
-	    }
-            return super.visitContinue(node, p);
+            Element el = info.getTrees().getElement(currentPath);
+            if (el != null) {
+                printIndented("Continue: " + el.getKind(), level);
+            } else {
+                printIndented("Continue:", level);
+            }
+            Void retval = super.visitContinue(node, p);
+            printIndented(">  >Continue", level);
+            return retval;
         }
 
         @Override
         public Void visitDoWhileLoop(DoWhileLoopTree node, Void p) {
             TreePath currentPath = getCurrentPath();
             int level = getNestingLevel(currentPath);
-	    Element el = info.getTrees().getElement(currentPath);
-	    if (el != null) {
-		printIndented("DoWhileLoop: " + el.getKind(), level);
-	    } else {
-		printIndented("DoWhileLoop:", level);
-	    }
-            return super.visitDoWhileLoop(node, p);
+            Element el = info.getTrees().getElement(currentPath);
+            if (el != null) {
+                printIndented("DoWhileLoop: " + el.getKind(), level);
+            } else {
+                printIndented("DoWhileLoop:", level);
+            }
+            Void retval = super.visitDoWhileLoop(node, p);
+            printIndented(">  >DoWhileLoop", level);
+            return retval;
         }
 
         @Override
         public Void visitEmptyStatement(EmptyStatementTree node, Void p) {
             TreePath currentPath = getCurrentPath();
             int level = getNestingLevel(currentPath);
-	    Element el = info.getTrees().getElement(currentPath);
-	    if (el != null) {
-		printIndented("EmptyStatement: " + el.getKind(), level);
-	    } else {
-		printIndented("EmptyStatement:", level);
-	    }
-            return super.visitEmptyStatement(node, p);
+            Element el = info.getTrees().getElement(currentPath);
+            if (el != null) {
+                printIndented("EmptyStatement: " + el.getKind(), level);
+            } else {
+                printIndented("EmptyStatement:", level);
+            }
+            Void retval = super.visitEmptyStatement(node, p);
+            printIndented(">  >EmptyStatement", level);
+            return retval;
         }
 
         @Override
         public Void visitEnhancedForLoop(EnhancedForLoopTree node, Void p) {
             TreePath currentPath = getCurrentPath();
             int level = getNestingLevel(currentPath);
-	    Element el = info.getTrees().getElement(currentPath);
-	    if (el != null) {
-		printIndented("EnhancedForLoop: " + el.getKind(), level);
-	    } else {
-		printIndented("EnhancedForLoop:", level);
-	    }
-            return super.visitEnhancedForLoop(node, p);
+            Element el = info.getTrees().getElement(currentPath);
+            if (el != null) {
+                printIndented("EnhancedForLoop: " + el.getKind(), level);
+            } else {
+                printIndented("EnhancedForLoop:", level);
+            }
+            Void retval = super.visitEnhancedForLoop(node, p);
+            printIndented(">  >EnhancedForLoop", level);
+            return retval;
         }
 
         @Override
         public Void visitErroneous(ErroneousTree node, Void p) {
             TreePath currentPath = getCurrentPath();
             int level = getNestingLevel(currentPath);
-	    Element el = info.getTrees().getElement(currentPath);
-	    if (el != null) {
-		printIndented("Erroneous: " + el.getKind(), level);
-	    } else {
-		printIndented("Erroneous:", level);
-	    }
-            return super.visitErroneous(node, p);
+            Element el = info.getTrees().getElement(currentPath);
+            if (el != null) {
+                printIndented("Erroneous: " + el.getKind(), level);
+            } else {
+                printIndented("Erroneous:", level);
+            }
+            Void retval = super.visitErroneous(node, p);
+            printIndented(">  >Erroneous", level);
+            return retval;
         }
 
         @Override
         public Void visitExpressionStatement(ExpressionStatementTree node, Void p) {
             TreePath currentPath = getCurrentPath();
             int level = getNestingLevel(currentPath);
-	    Element el = info.getTrees().getElement(currentPath);
-	    if (el != null) {
-		printIndented("ExpressionStatement: " + el.getKind(), level);
-	    } else {
-		printIndented("ExpressionStatement:", level);
-	    }
-            return super.visitExpressionStatement(node, p);
+            Element el = info.getTrees().getElement(currentPath);
+            if (el != null) {
+                printIndented("ExpressionStatement: " + el.getKind(), level);
+            } else {
+                printIndented("ExpressionStatement:", level);
+            }
+            Void retval = super.visitExpressionStatement(node, p);
+            printIndented(">  >ExpressionStatement", level);
+            return retval;
         }
 
         @Override
         public Void visitForLoop(ForLoopTree node, Void p) {
             TreePath currentPath = getCurrentPath();
             int level = getNestingLevel(currentPath);
-	    Element el = info.getTrees().getElement(currentPath);
-	    if (el != null) {
-		printIndented("ForLoop: " + el.getKind(), level);
-	    } else {
-		printIndented("ForLoop:", level);
-	    }
-            return super.visitForLoop(node, p);
+            Element el = info.getTrees().getElement(currentPath);
+            if (el != null) {
+                printIndented("ForLoop: " + el.getKind(), level);
+            } else {
+                printIndented("ForLoop:", level);
+            }
+            Void retval = super.visitForLoop(node, p);
+            printIndented(">  >ForLoop", level);
+            return retval;
         }
 
         @Override
         public Void visitIf(IfTree node, Void p) {
             TreePath currentPath = getCurrentPath();
             int level = getNestingLevel(currentPath);
-	    Element el = info.getTrees().getElement(currentPath);
-	    if (el != null) {
-		printIndented("If: " + el.getKind(), level);
-	    } else {
-		printIndented("If:", level);
-	    }
-            return super.visitIf(node, p);
+            Element el = info.getTrees().getElement(currentPath);
+            if (el != null) {
+                printIndented("If: " + el.getKind(), level);
+            } else {
+                printIndented("If:", level);
+            }
+            Void retval = super.visitIf(node, p);
+            printIndented(">  >If", level);
+            return retval;
         }
 
         @Override
         public Void visitImport(ImportTree node, Void p) {
             TreePath currentPath = getCurrentPath();
             int level = getNestingLevel(currentPath);
-	    Element el = info.getTrees().getElement(currentPath);
-	    if (el != null) {
-		printIndented("Import: " + el.getKind(), level);
-	    } else {
-		printIndented("Import:", level);
-	    }
-            return super.visitImport(node, p);
+            Element el = info.getTrees().getElement(currentPath);
+            if (el != null) {
+                printIndented("Import: " + el.getKind(), level);
+            } else {
+                printIndented("Import:", level);
+            }
+            Void retval = super.visitImport(node, p);
+            printIndented(">  >Import", level);
+            return retval;
         }
 
         @Override
         public Void visitInstanceOf(InstanceOfTree node, Void p) {
             TreePath currentPath = getCurrentPath();
             int level = getNestingLevel(currentPath);
-	    Element el = info.getTrees().getElement(currentPath);
-	    if (el != null) {
-		printIndented("InstanceOf: " + el.getKind(), level);
-	    } else {
-		printIndented("InstanceOf:", level);
-	    }
-            return super.visitInstanceOf(node, p);
+            Element el = info.getTrees().getElement(currentPath);
+            if (el != null) {
+                printIndented("InstanceOf: " + el.getKind(), level);
+            } else {
+                printIndented("InstanceOf:", level);
+            }
+            Void retval = super.visitInstanceOf(node, p);
+            printIndented(">  >InstanceOf", level);
+            return retval;
         }
 
         @Override
         public Void visitLabeledStatement(LabeledStatementTree node, Void p) {
             TreePath currentPath = getCurrentPath();
             int level = getNestingLevel(currentPath);
-	    Element el = info.getTrees().getElement(currentPath);
-	    if (el != null) {
-		printIndented("LabeledStatement: " + el.getKind(), level);
-	    } else {
-		printIndented("LabeledStatement:", level);
-	    }
-            return super.visitLabeledStatement(node, p);
+            Element el = info.getTrees().getElement(currentPath);
+            if (el != null) {
+                printIndented("LabeledStatement: " + el.getKind(), level);
+            } else {
+                printIndented("LabeledStatement:", level);
+            }
+            Void retval = super.visitLabeledStatement(node, p);
+            printIndented(">  >LabeledStatement", level);
+            return retval;
         }
 
         @Override
         public Void visitLiteral(LiteralTree node, Void p) {
             TreePath currentPath = getCurrentPath();
             int level = getNestingLevel(currentPath);
-	    Element el = info.getTrees().getElement(currentPath);
-	    if (el != null) {
-		printIndented("Literal: " + el.getKind(), level);
-	    } else {
-		printIndented("Literal:", level);
-	    }
-            return super.visitLiteral(node, p);
+            Element el = info.getTrees().getElement(currentPath);
+            if (el != null) {
+                printIndented("Literal: " + el.getKind(), level);
+            } else {
+                printIndented("Literal:", level);
+            }
+            Void retval = super.visitLiteral(node, p);
+            printIndented(">  >Literal", level);
+            return retval;
         }
 
         @Override
         public Void visitMemberSelect(MemberSelectTree node, Void p) {
             TreePath currentPath = getCurrentPath();
             int level = getNestingLevel(currentPath);
-	    Element el = info.getTrees().getElement(currentPath);
-	    if (el != null) {
-		printIndented("MemberSelect: " + el.getKind(), level);
-	    } else {
-		printIndented("MemberSelect:", level);
-	    }
-            return super.visitMemberSelect(node, p);
+            Element el = info.getTrees().getElement(currentPath);
+            if (el != null) {
+                printIndented("MemberSelect: " + el.getKind(), level);
+            } else {
+                printIndented("MemberSelect:", level);
+            }
+            Void retval = super.visitMemberSelect(node, p);
+            printIndented(">  >MemberSelect", level);
+            return retval;
         }
 
         @Override
         public Void visitMethodInvocation(MethodInvocationTree node, Void p) {
             TreePath currentPath = getCurrentPath();
             int level = getNestingLevel(currentPath);
-	    Element el = info.getTrees().getElement(currentPath);
-	    if (el != null) {
-		printIndented("MethodInvocation: " + el.getKind(), level);
-	    } else {
-		printIndented("MethodInvocation:", level);
-	    }
-            return super.visitMethodInvocation(node, p);
+            Element el = info.getTrees().getElement(currentPath);
+            if (el != null) {
+                printIndented("MethodInvocation: " + el.getKind(), level);
+            } else {
+                printIndented("MethodInvocation:", level);
+            }
+            Void retval = super.visitMethodInvocation(node, p);
+            printIndented(">  >MethodInvocation", level);
+            return retval;
         }
 
         @Override
         public Void visitModifiers(ModifiersTree node, Void p) {
             TreePath currentPath = getCurrentPath();
             int level = getNestingLevel(currentPath);
-	    Element el = info.getTrees().getElement(currentPath);
-	    if (el != null) {
-		printIndented("Modifiers: " + el.getKind(), level);
-	    } else {
-		printIndented("Modifiers:", level);
-	    }
-            return super.visitModifiers(node, p);
+            Element el = info.getTrees().getElement(currentPath);
+            if (el != null) {
+                printIndented("Modifiers: " + el.getKind(), level);
+            } else {
+                printIndented("Modifiers:", level);
+            }
+            for (Modifier modifier : node.getFlags()) {
+                printIndented("- " + modifier.toString(), level);
+            }
+            Void retval = super.visitModifiers(node, p);
+            printIndented(">  >Modifiers", level);
+            return retval;
         }
 
         @Override
         public Void visitNewArray(NewArrayTree node, Void p) {
             TreePath currentPath = getCurrentPath();
             int level = getNestingLevel(currentPath);
-	    Element el = info.getTrees().getElement(currentPath);
-	    if (el != null) {
-		printIndented("NewArray: " + el.getKind(), level);
-	    } else {
-		printIndented("NewArray:", level);
-	    }
-            return super.visitNewArray(node, p);
+            Element el = info.getTrees().getElement(currentPath);
+            if (el != null) {
+                printIndented("NewArray: " + el.getKind(), level);
+            } else {
+                printIndented("NewArray:", level);
+            }
+            Void retval = super.visitNewArray(node, p);
+            printIndented(">  >NewArray", level);
+            return retval;
         }
 
         @Override
         public Void visitNewClass(NewClassTree node, Void p) {
             TreePath currentPath = getCurrentPath();
             int level = getNestingLevel(currentPath);
-	    Element el = info.getTrees().getElement(currentPath);
-	    if (el != null) {
-		printIndented("NewClass: " + el.getKind(), level);
-	    } else {
-		printIndented("NewClass:", level);
-	    }
-            return super.visitNewClass(node, p);
+            Element el = info.getTrees().getElement(currentPath);
+            if (el != null) {
+                printIndented("NewClass: " + el.getKind(), level);
+            } else {
+                printIndented("NewClass:", level);
+            }
+            Void retval = super.visitNewClass(node, p);
+            printIndented(">  >NewClass", level);
+            return retval;
         }
 
         @Override
         public Void visitOther(Tree node, Void p) {
             TreePath currentPath = getCurrentPath();
             int level = getNestingLevel(currentPath);
-	    Element el = info.getTrees().getElement(currentPath);
-	    if (el != null) {
-		printIndented("Other: " + el.getKind(), level);
-	    } else {
-		printIndented("Other:", level);
-	    }
-            return super.visitOther(node, p);
+            Element el = info.getTrees().getElement(currentPath);
+            if (el != null) {
+                printIndented("Other: " + el.getKind(), level);
+            } else {
+                printIndented("Other:", level);
+            }
+            Void retval = super.visitOther(node, p);
+            printIndented(">  >Other", level);
+            return retval;
         }
 
         @Override
         public Void visitParameterizedType(ParameterizedTypeTree node, Void p) {
             TreePath currentPath = getCurrentPath();
             int level = getNestingLevel(currentPath);
-	    Element el = info.getTrees().getElement(currentPath);
-	    if (el != null) {
-		printIndented("ParameterizedType: " + el.getKind(), level);
-	    } else {
-		printIndented("ParameterizedType:", level);
-	    }
-            return super.visitParameterizedType(node, p);
+            Element el = info.getTrees().getElement(currentPath);
+            if (el != null) {
+                printIndented("ParameterizedType: " + el.getKind(), level);
+            } else {
+                printIndented("ParameterizedType:", level);
+            }
+            Void retval = super.visitParameterizedType(node, p);
+            printIndented(">  >ParameterizedType", level);
+            return retval;
         }
 
         @Override
         public Void visitParenthesized(ParenthesizedTree node, Void p) {
             TreePath currentPath = getCurrentPath();
             int level = getNestingLevel(currentPath);
-	    Element el = info.getTrees().getElement(currentPath);
-	    if (el != null) {
-		printIndented("Parenthesized: " + el.getKind(), level);
-	    } else {
-		printIndented("Parenthesized:", level);
-	    }
-            return super.visitParenthesized(node, p);
+            Element el = info.getTrees().getElement(currentPath);
+            if (el != null) {
+                printIndented("Parenthesized: " + el.getKind(), level);
+            } else {
+                printIndented("Parenthesized:", level);
+            }
+            Void retval = super.visitParenthesized(node, p);
+            printIndented(">  >Parenthesized", level);
+            return retval;
         }
 
         @Override
         public Void visitPrimitiveType(PrimitiveTypeTree node, Void p) {
             TreePath currentPath = getCurrentPath();
             int level = getNestingLevel(currentPath);
-	    Element el = info.getTrees().getElement(currentPath);
-	    if (el != null) {
-		printIndented("PrimitiveType: " + el.getKind(), level);
-	    } else {
-		printIndented("PrimitiveType:", level);
-	    }
-            return super.visitPrimitiveType(node, p);
+            Element el = info.getTrees().getElement(currentPath);
+            if (el != null) {
+                printIndented("PrimitiveType: " + el.getKind(), level);
+            } else {
+                printIndented("PrimitiveType:", level);
+            }
+            Void retval = super.visitPrimitiveType(node, p);
+            printIndented(">  >PrimitiveType", level);
+            return retval;
         }
 
         @Override
         public Void visitReturn(ReturnTree node, Void p) {
             TreePath currentPath = getCurrentPath();
             int level = getNestingLevel(currentPath);
-	    Element el = info.getTrees().getElement(currentPath);
-	    if (el != null) {
-		printIndented("Return: " + el.getKind(), level);
-	    } else {
-		printIndented("Return:", level);
-	    }
-            return super.visitReturn(node, p);
+            Element el = info.getTrees().getElement(currentPath);
+            if (el != null) {
+                printIndented("Return: " + el.getKind(), level);
+            } else {
+                printIndented("Return:", level);
+            }
+            Void retval = super.visitReturn(node, p);
+            printIndented(">  >Return", level);
+            return retval;
         }
 
         @Override
         public Void visitSwitch(SwitchTree node, Void p) {
             TreePath currentPath = getCurrentPath();
             int level = getNestingLevel(currentPath);
-	    Element el = info.getTrees().getElement(currentPath);
-	    if (el != null) {
-		printIndented("Switch: " + el.getKind(), level);
-	    } else {
-		printIndented("Switch:", level);
-	    }
-            return super.visitSwitch(node, p);
+            Element el = info.getTrees().getElement(currentPath);
+            if (el != null) {
+                printIndented("Switch: " + el.getKind(), level);
+            } else {
+                printIndented("Switch:", level);
+            }
+            Void retval = super.visitSwitch(node, p);
+            printIndented(">  >Switch", level);
+            return retval;
         }
 
         @Override
         public Void visitSynchronized(SynchronizedTree node, Void p) {
             TreePath currentPath = getCurrentPath();
             int level = getNestingLevel(currentPath);
-	    Element el = info.getTrees().getElement(currentPath);
-	    if (el != null) {
-		printIndented("Synchronized: " + el.getKind(), level);
-	    } else {
-		printIndented("Synchronized:", level);
-	    }
-            return super.visitSynchronized(node, p);
+            Element el = info.getTrees().getElement(currentPath);
+            if (el != null) {
+                printIndented("Synchronized: " + el.getKind(), level);
+            } else {
+                printIndented("Synchronized:", level);
+            }
+            Void retval = super.visitSynchronized(node, p);
+            printIndented(">  >Synchronized", level);
+            return retval;
         }
 
         @Override
         public Void visitThrow(ThrowTree node, Void p) {
             TreePath currentPath = getCurrentPath();
             int level = getNestingLevel(currentPath);
-	    Element el = info.getTrees().getElement(currentPath);
-	    if (el != null) {
-		printIndented("Throw: " + el.getKind(), level);
-	    } else {
-		printIndented("Throw:", level);
-	    }
-            return super.visitThrow(node, p);
+            Element el = info.getTrees().getElement(currentPath);
+            if (el != null) {
+                printIndented("Throw: " + el.getKind(), level);
+            } else {
+                printIndented("Throw:", level);
+            }
+            Void retval = super.visitThrow(node, p);
+            printIndented(">  >Throw", level);
+            return retval;
         }
 
         @Override
         public Void visitTry(TryTree node, Void p) {
             TreePath currentPath = getCurrentPath();
             int level = getNestingLevel(currentPath);
-	    Element el = info.getTrees().getElement(currentPath);
-	    if (el != null) {
-		printIndented("Try: " + el.getKind(), level);
-	    } else {
-		printIndented("Try:", level);
-	    }
-            return super.visitTry(node, p);
+            Element el = info.getTrees().getElement(currentPath);
+            if (el != null) {
+                printIndented("Try: " + el.getKind(), level);
+            } else {
+                printIndented("Try:", level);
+            }
+            Void retval = super.visitTry(node, p);
+            printIndented(">  >Try", level);
+            return retval;
         }
 
         @Override
         public Void visitTypeCast(TypeCastTree node, Void p) {
             TreePath currentPath = getCurrentPath();
             int level = getNestingLevel(currentPath);
-	    Element el = info.getTrees().getElement(currentPath);
-	    if (el != null) {
-		printIndented("TypeCast: " + el.getKind(), level);
-	    } else {
-		printIndented("TypeCast:", level);
-	    }
-            return super.visitTypeCast(node, p);
+            Element el = info.getTrees().getElement(currentPath);
+            if (el != null) {
+                printIndented("TypeCast: " + el.getKind(), level);
+            } else {
+                printIndented("TypeCast:", level);
+            }
+            Void retval = super.visitTypeCast(node, p);
+            printIndented(">  >TypeCast", level);
+            return retval;
         }
 
         @Override
         public Void visitTypeParameter(TypeParameterTree node, Void p) {
             TreePath currentPath = getCurrentPath();
             int level = getNestingLevel(currentPath);
-	    Element el = info.getTrees().getElement(currentPath);
-	    if (el != null) {
-		printIndented("TypeParameter: " + el.getKind(), level);
-	    } else {
-		printIndented("TypeParameter:", level);
-	    }
-            return super.visitTypeParameter(node, p);
+            Element el = info.getTrees().getElement(currentPath);
+            if (el != null) {
+                printIndented("TypeParameter: " + el.getKind(), level);
+            } else {
+                printIndented("TypeParameter:", level);
+            }
+            Void retval = super.visitTypeParameter(node, p);
+            printIndented(">  >TypeParameter", level);
+            return retval;
         }
 
         @Override
         public Void visitUnary(UnaryTree node, Void p) {
             TreePath currentPath = getCurrentPath();
             int level = getNestingLevel(currentPath);
-	    Element el = info.getTrees().getElement(currentPath);
-	    if (el != null) {
-		printIndented("Unary: " + el.getKind(), level);
-	    } else {
-		printIndented("Unary:", level);
-	    }
-            return super.visitUnary(node, p);
+            Element el = info.getTrees().getElement(currentPath);
+            if (el != null) {
+                printIndented("Unary: " + el.getKind(), level);
+            } else {
+                printIndented("Unary:", level);
+            }
+            Void retval = super.visitUnary(node, p);
+            printIndented(">  >Unary", level);
+            return retval;
         }
 
         @Override
         public Void visitWhileLoop(WhileLoopTree node, Void p) {
             TreePath currentPath = getCurrentPath();
             int level = getNestingLevel(currentPath);
-	    Element el = info.getTrees().getElement(currentPath);
-	    if (el != null) {
-		printIndented("WhileLoop: " + el.getKind(), level);
-	    } else {
-		printIndented("WhileLoop:", level);
-	    }
-            return super.visitWhileLoop(node, p);
+            Element el = info.getTrees().getElement(currentPath);
+            if (el != null) {
+                printIndented("WhileLoop: " + el.getKind(), level);
+            } else {
+                printIndented("WhileLoop:", level);
+            }
+            Void retval = super.visitWhileLoop(node, p);
+            printIndented(">  >WhileLoop", level);
+            return retval;
         }
 
         @Override
         public Void visitWildcard(WildcardTree node, Void p) {
             TreePath currentPath = getCurrentPath();
             int level = getNestingLevel(currentPath);
-	    Element el = info.getTrees().getElement(currentPath);
-	    if (el != null) {
-		printIndented("Wildcard: " + el.getKind(), level);
-	    } else {
-		printIndented("Wildcard:", level);
-	    }
-            return super.visitWildcard(node, p);
+            Element el = info.getTrees().getElement(currentPath);
+            if (el != null) {
+                printIndented("Wildcard: " + el.getKind(), level);
+            } else {
+                printIndented("Wildcard:", level);
+            }
+            Void retval = super.visitWildcard(node, p);
+            printIndented(">  >Wildcard", level);
+            return retval;
         }
 
         private int getNestingLevel(TreePath treePath) {
