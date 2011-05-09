@@ -5,7 +5,7 @@ V~části první se zabýváme obecnou problematikou návrhu software, často po
 
 Druhá část se zabývá konkrétními principy objektového návrhu, konkrétně principy \emph{low coupling}, \emph{high cohesion} a \emph{Law of Demeter}. Kromě rešerše týkající se těchto principů jsou zde demonstrovány jednoduché ukázky jejich porušení.
 
-Poslední část se zabývá analýzou java projektů, které budou vstupem pro validaci a anlýzu. Je zde rozebráno, z~jakých souborů se projekt realizovaný v~jazyce Java skládá a jaká je základní struktura zdrojových \verb+*.java+ souborů. Dále pak tato část obsahuje rešerši existujících nástrojů pro předzpracování zdrojových kódů do podoby vhodné pro další práci.
+Poslední část se zabývá analýzou Java projektů, které budou vstupem pro validaci a analýzu. Je zde rozebráno, z~jakých souborů se projekt realizovaný v~jazyce Java skládá a jaká je základní struktura zdrojových \verb+*.java+ souborů. Dále pak tato část obsahuje rešerši existujících nástrojů pro předzpracování zdrojových kódů do podoby vhodné pro další práci.
 \section{Problematika návrhu software}
 Při návrhu software se uplatňují nejrůznější přístupy, vzory, pravidla. Cílem této sekce je podat rychlý přehled o~používaných návrhových konceptech, aspektech návrhu software a objektově orientovaném návrhu. U~některých aspektů uvažujeme možnost jejich podpory pomocí vhodného nástroje. Mnoho z~uvedených pojmů a postupů je dále použito při návrhu nástroje, jehož vytvoření je jedním z~cílů této práce.
 
@@ -178,7 +178,7 @@ Princip \emph{Law of Demeter} je velmi dobře popsán v~\cite{35588}. Článek p
   \caption{Formy návrhového principu LoD.\label{demeter_law_types}}
 \end{figure}
 
-Kromě striktní formy, která vyžaduje, aby všechny třídy dodržovaly pravidla daná principem LoD, existuje ještě minimializační verze, která se snaží minimalizovat počet porušení pravidla pod přijatelnou mez\footnote{Například umožní porušení principu LoD v~privátním API, ale bude vyžadovat dodržení ve veřejně přístupných API.}.
+Kromě striktní formy, která vyžaduje, aby všechny třídy dodržovaly pravidla daná principem LoD, existuje ještě minimalizační verze, která se snaží minimalizovat počet porušení pravidla pod přijatelnou mez\footnote{Například umožní porušení principu LoD v~privátním API, ale bude vyžadovat dodržení ve veřejně přístupných API.}.
 
 Pro statickou analýzu je vhodné použití \emph{class formy} pravidla LoD. Class forma a objektová forma se lehce liší v~tom, které třídy jsou preferovanými dodavateli funkcionality. Pro praktické použití (udržovatelnost kódu, modularita, atd.) to však nemá až takový význam.
 
@@ -270,7 +270,7 @@ if (theWallet.getTotalMoney() > payment) {
 }
 \end{lstlisting}
 
-Autor výše uvedene ukázky dále rozebírá, že je chybné předpokládat, že si od nás vezme pouliční prodavač novin naši peněženku, vezme si z~ní patřičný obnos a pěněženku nám opět vrátí. Celá situace je vyřešena přidáním nové třídy reprezentující platbu a speciální metodou \verb+getPayment+ třídy \verb+Customer+. Zákazník se tak o~svou peněženku stará sám a prodavači pouze předá požadovaný obnos.
+Autor výše uvedené ukázky dále rozebírá, že je chybné předpokládat, že si od nás vezme pouliční prodavač novin naši peněženku, vezme si z~ní patřičný obnos a peněženku nám opět vrátí. Celá situace je vyřešena přidáním nové třídy reprezentující platbu a speciální metodou \verb+getPayment+ třídy \verb+Customer+. Zákazník se tak o~svou peněženku stará sám a prodavači pouze předá požadovaný obnos.
 
 Ukázka nevyhoví definované class verzi principu LoD. Kód který se stará o~získání platby podle všeho dostává referenci na zákazníka. Na základě této reference získá referenci na objekt třídy \verb+Wallet+. A~právě objekt třídy \verb+Wallet+ nespadá ani do jedné z~kategorií povolených dodavatelů funkcionality (není třídou třídní proměnné, ani třídou předávanou v~parametrech, není ve třídě konstruován a není ani globální proměnnou).
 
@@ -353,10 +353,10 @@ V~rámci této sekce se podíváme nejprve na to, z~čeho se skládá softwarov�
 \subsection{Statický model programu v~Javě}
 Vstupem pro validační systém budou zdrojové kódy existujícího Java projektu ve vhodné podobě. Jedná se vlastně o~fyzický model programu. V~případě Java projektu sestává tento model z~nějaké množiny souborů, které obsahují data různých typů. První podsekce této sekce se zabývá typy souborů, které se mohou vyskytnout v~projektu, ve druhé podsekci je potom rozebírán obsah a formát souborů programovacího jazyka Java.
 
-Zastavme se ještě nad pojmem \emph{fyzický model} programu. Tento model je zpravidla výsledkem vhodné transformace (ať už automatizované nebo ruční) nějakého předešlého modelu (většinou UML model, textová specifikace atd.). S~tímto modelem můžeme dále pracovat a provádět nad ním transformace. To je ostatně cílem různých nástrojů pro refaktoring a automatizované zvyšování kvality kódu. Konkrétně refactoring je příkladem endogenní horizontální transformace (zdrojový i cílový meta-model je shodný a úroveň abstrakce zůstává nezměněna) \cite{Mens05ataxonomy}.
+Zastavme se ještě nad pojmem \emph{fyzický model} programu. Tento model je zpravidla výsledkem vhodné transformace (ať už automatizované nebo ruční) nějakého předešlého modelu (většinou UML model, textová specifikace atd.). S~tímto modelem můžeme dále pracovat a provádět nad ním transformace. To je ostatně cílem různých nástrojů pro refaktoring a automatizované zvyšování kvality kódu. Konkrétně refaktoring je příkladem endogenní horizontální transformace (zdrojový i cílový meta-model je shodný a úroveň abstrakce zůstává nezměněna) \cite{Mens05ataxonomy}.
 
 \subsubsection{Struktura softwarového projektu v~Javě}
-Existuje velké množství způsobů, kterými jsou organizovány softwarové projekty. Téměř každé Java IDE má navíc svůj vlastní formát, ve kterém ukládá metadata o~projektu. Přesto všechny tyto projekty zahrnují stejnou podmnožinu konkrétních zdrojových souborů, z~nichž se skládá vlastní softwarový projekt. Podívejme se, jaké soubory můžeme nalézt v~běžném java projektu:
+Existuje velké množství způsobů, kterými jsou organizovány softwarové projekty. Téměř každé Java IDE má navíc svůj vlastní formát, ve kterém ukládá metadata o~projektu. Přesto všechny tyto projekty zahrnují stejnou podmnožinu konkrétních zdrojových souborů, z~nichž se skládá vlastní softwarový projekt. Podívejme se, jaké soubory můžeme nalézt v~běžném Java projektu:
 
 \begin{itemize}
 \item soubory \verb+*.java+ -- soubory se zdrojovými kódy v~jazyce Java, tyto soubory představují z~hlediska gramatiky jazyka Java kořenový element \emph{CompilationUnit} (o~něm bude dále pojednáno v~podsekci \ref{analysis-java_grammar_elements}),
@@ -384,9 +384,9 @@ Některé z~těchto tříd budou povolenými závislostmi pro všechny třídy p
 
 \subsubsection{Syntaktické elementy programovacího jazyka Java}
 \label{analysis-java_grammar_elements}
-Jak již bylo zmíněno v~předchozí sekci, základním kořenovým elementem gramatiky programovacího jazyka java je \emph{CompilationUnit}. Kompletní popis všech elementů jazyka poskytuje specifikace jazyka java \cite{Gosling:2005:JLS:1036643}.
+Jak již bylo zmíněno v~předchozí sekci, základním kořenovým elementem gramatiky programovacího jazyka Java je \emph{CompilationUnit}. Kompletní popis všech elementů jazyka poskytuje specifikace jazyka Java \cite{Gosling:2005:JLS:1036643}.
 
-Element \emph{CompilationUnit} dále obsahuje volitelně \emph{deklaraci balíčku}, \emph{příkazy importu} prvků z~jiných jmenných prostorů a \emph{deklarace datových typů} (obrázek \ref{toplevel_elements}). Ty jsou pro prováděnou validaci a anlýzu nejdůležitější.
+Element \emph{CompilationUnit} dále obsahuje volitelně \emph{deklaraci balíčku}, \emph{příkazy importu} prvků z~jiných jmenných prostorů a \emph{deklarace datových typů} (obrázek \ref{toplevel_elements}). Ty jsou pro prováděnou validaci a analýzu nejdůležitější.
 
 \begin{figure}[h!]
   \centering
@@ -402,7 +402,7 @@ Každá deklarace datového typuje představována neterminálním symbolem \emp
   \caption{Rozklad elementu TypeDeclaration.\label{type_declaration_options}}
 \end{figure}
 
-Datové typy budou výchozími body při sestavování vnitřní reprezentace pro provádění validace a anylýzy. Jejich další podelementy jsou tvořeny členskými proměnnými, konstruktory, metodami, abstraktními metodami (signatury metod v~rozhraních) a vnořenými datovými typy. Dále se elementy dělí až na úroveň jednotlivých příkazů, konstrukcí objektů, výrazů atd.
+Datové typy budou výchozími body při sestavování vnitřní reprezentace pro provádění validace a analýzy. Jejich další podelementy jsou tvořeny členskými proměnnými, konstruktory, metodami, abstraktními metodami (signatury metod v~rozhraních) a vnořenými datovými typy. Dále se elementy dělí až na úroveň jednotlivých příkazů, konstrukcí objektů, výrazů atd.
 
 \subsection{Zpracovávání zdrojových kódů v~jazyce Java}
 Protože navrhované ověřované principy přesahují rámec jedné kompilační jednotky, je nutné provést vhodné předzpracování zdrojových kódů tak, aby bylo možné analyzovat vztahy částí kódu i mezi jednotlivými kompilačními jednotkami.
@@ -436,7 +436,7 @@ Při použití některého z~výše uvedených nástrojů bychom se dostali na �
 \subsubsection{Použití vhodné knihovny nebo existujícího programu}
 Další možností jsou existující knihovny a nástroje pro zpracování kódů v~jazyce Java.
 
-Jako příklad můžeme uvést knihovnu \emph{JavaParser} \cite{parsertools:javaparser}. Jedná se o~samostatný java projekt, který je možné zaintegrovat prostřednictvím nástroje Maven do vlastního projektu. Při bližším prozkoumání zjistíme, že se jedná vlastně o~aplikaci nástroje JavaCC (resp. JJTree) distribuovaného spolu s~gramatikou jazyka Java 1.5.
+Jako příklad můžeme uvést knihovnu \emph{JavaParser} \cite{parsertools:javaparser}. Jedná se o~samostatný Java projekt, který je možné zaintegrovat prostřednictvím nástroje Maven do vlastního projektu. Při bližším prozkoumání zjistíme, že se jedná vlastně o~aplikaci nástroje JavaCC (resp. JJTree) distribuovaného spolu s~gramatikou jazyka Java 1.5.
 
 Jiným nástrojem je \emph{spoon} \cite{parsertools:spoon}. Je to volně dostupný nástroj, preprocesor kódu v~jazyce Java. Poskytuje úplný a detailní meta-model jazyka Java, kde každý element může být jak čten tak i modifikován. Dalším významným faktem je integrace nástroje do platformy Eclipse formou pluginu.
 
@@ -472,7 +472,7 @@ Většina majoritních integrovaných prostředí pro vývoj v~jazyce Java (Inte
 
 To je ale přesně to, co potřebujeme pro naši práci. Proto byla provedena rešerše v~této oblasti. Byly nalezeny dva základní nástroje, které je možné použít. Jedná se o~platformu Eclipse a platformu NetBeans.
 
-Platforma Eclipse poskytuje rozhraní, které reprezentuje java projekt jako DOM prostřednictvím balíčku \verb+org.eclipse.jdt.core.dom+ \cite{parsertools:eclipsejdt}. Poskytovaný AST je možné procházet i modifikovat.
+Platforma Eclipse poskytuje rozhraní, které reprezentuje Java projekt jako DOM prostřednictvím balíčku \verb+org.eclipse.jdt.core.dom+ \cite{parsertools:eclipsejdt}. Poskytovaný AST je možné procházet i modifikovat.
 
 Podobnou podporou poskytuje i platforma NetBeans. Ta vnitřně používá instanci \verb+javac+ kompilátoru. Přístup k~AST v~libovolné fázi (před resolvováním jmen i po této fázi) poskytuje prostřednictvím svého \emph{Java Source API} \cite{parsertools:javasourcejavadoc}.
 
