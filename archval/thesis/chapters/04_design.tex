@@ -108,7 +108,7 @@ a přiřazení klasifikátorů hranám:
 
 Uvedené množiny můžeme poměrně snadno reprezentovat v~programovacím jazyce Java jako objekty. V~dalším návrhu bude zavedena třída \emph{Vertex}, hrana \emph{Edge} a další podobné objekty.
 
-Vrcholy takto vytvořeného grafu nemusí být pouze třídy, můžeme použít libovolné syntaktické elementy z~kódu, který analyzujeme. Vždy záleží na úrovni prováděné analýzy, co zvolíme jako vrcholy grafu, jaké hrany mezi nimi zvolíme a jaká označení a typy budou mít. Nástroj, který budeme navrhovat bude počítat s~libovolným takto vybudovaným grafem. Ke grafům konkrétního typu přiřadíme idnentifikátory a při specifikaci pravidel vždy uvedme, nad kterým typem grafu má definované pravidlo platit.
+Vrcholy takto vytvořeného grafu nemusí být pouze třídy, můžeme použít libovolné syntaktické elementy z~kódu, který analyzujeme. Vždy záleží na úrovni prováděné analýzy, co zvolíme jako vrcholy grafu, jaké hrany mezi nimi zvolíme a jaká označení a typy budou mít. Nástroj, který budeme navrhovat bude počítat s~libovolným takto vybudovaným grafem. Ke grafům konkrétního typu přiřadíme idnentifikátory a při specifikaci pravidel vždy uvedeme, nad kterým typem grafu má definované pravidlo platit.
 
 \subsection{Formalizace pravidel}
 \label{design-rules_formalization}
@@ -250,10 +250,11 @@ ValidationModel v~sobě bude zapouzdřovat data z~AVD souborů. AVD soubory budo
 \item \emph{Graph} (class) -- graph type id
 \item \emph{Vertex} (class)
 \item \emph{Edge} (class)
-\item \emph{GraphModel} (class) -- množina grafů různých typů
+\item \emph{GraphModel} (class) -- množina grafů různých typů, každý graf bude zahrnut právě jednou
 \end{itemize}
 
 \subsubsection{Model validace}
+Model validace bude reprezentován třídou \emph{ValidationModel}. Tato třída bude reprezentovat existující množinu pravidel a současně bude umožňovat tato pravidla provést nad existující množinou grafů (\emph{GraphModel}).
 % TODO: rozepsat
 \begin{itemize}
 \item \emph{ValidationModel} (class) -- AST strom souboru pravidel s~navázanými operátory; bude se přegenerovávat při úpravě souboru/textu v~GUI, atd\ldots
@@ -296,18 +297,8 @@ Jádro systému bude poskytovat třídy a rozhraní popsané v~tabulce \ref{desi
 \end{table}
 
 \begin{itemize}
-\item \emph{GraphModelGenerator} -- updateGraphModel() -- přegeneruje graph model -- pouze doplní požadované chybějící grafy, regenerate() -- kompletně zruší všechny grafy a vyganeruje nové (všechny požadované)
+\item \emph{GraphModelGenerator} -- updateGraphModel() -- přegeneruje graph model -- pouze doplní požadované chybějící grafy, regenerate() -- kompletně zruší všechny grafy a vygeneruje nové (všechny požadované)
 \end{itemize}
-
-% TODO: move to appropriate position:
-%% případy užití při generování grafu
-%% \item možnosti generování grafu závislostí mezi třídami (vnitřní reprezentace):
-%%   \begin{itemize}
-%%   \item on demand -- když bude potřeba, vybuduje se kompletně celý graf a poté se zahodí
-%%   \item on the fly -- při práci uživatele na kódu se bude vždy generovat znovu celý graf
-%%   \item kombinovaný přístup -- graf se ve vhodných okamžicích celý vybuduje a poté budou probíhat jeho následné aktualizace na základě uživatelovy práce nad kódem
-%%   \end{itemize}
-% ENDTODO
 
 Na obrázku \ref{design-archval_core} jsou zobrazeny komponenty modulu \emph{archval-core}.
 
@@ -324,10 +315,10 @@ Reprezentuje komponentu, která provede převod zdrojových kódů na graf (zobr
 % TODO: rozepsat
 GraphModelGeneratorIface
 
-Komponenta typu \emph{GraphModelGenerator} je znázorněna na obrázku \ref{design-graph_generator_io}.
+Komponenta typu \emph{GraphModelGeneratorIface} je znázorněna na obrázku \ref{design-graph_generator_io}.
 
 \begin{itemize}
-\item \emph{Vstup:} seznam java souborů, z~nichž sestává projekt, identifikátory požadovaných typů grafů
+\item \emph{Vstup:} seznam Java souborů, z~nichž sestává projekt, identifikátory požadovaných typů grafů
 \item \emph{Výstup:} GraphModel objekt
 \end{itemize}
 
@@ -396,6 +387,8 @@ Výstupem bude \emph{ValidationReport} (vnitřní struktura, která se bude posl
 \end{itemize}
 
 \subsubsection{Rozhraní registrů poskytovatelů implementací}
+
+Aby bylo možné systém rozšiřovat přidáváním dalších operátorů, generátorů grafů nových typů a analýz, musíme poskytnout vhodný mechanismus, který umožní zapojení nových modulů do programu.
 % TODO: sort
 \begin{itemize}
 \item SPI, poskytovatel služby, lookup, META-INF/services,
@@ -467,7 +460,7 @@ Hierarchie rozhraní operátorů je znázorněna na obrázku \ref{design-operato
 %TODO: popis validačního procesu: rozepsat následující itemize
 \begin{itemize}
 \item systém načte moduly
-\item systém zkontroluje základní předpoklady - existuje alespoň jeden modul pro generování grafu, alespoň jeden modul operátorů (nebo poskytovatel analyzerů ???) a alespoň jeden modul s~poskytovatelem generátou výstupu
+\item systém zkontroluje základní předpoklady - existuje alespoň jeden modul pro generování grafu, alespoň jeden modul operátorů (nebo poskytovatel analyzerů ???) a alespoň jeden modul s~poskytovatelem generátoru výstupu
 \item systém zparsuje soubor pravidel a vygeneruje AST
 \item systém zkontroluje, zda pro AST pravidel existují potřebné providery grafů
 \item systém zkontroluje, zda pro AST pravidel existují všechny operátory
@@ -519,7 +512,7 @@ Možnosti různého způsobu vstupu pravidel -- editor se zvýrazňováním synt
 \item NetBeans platform
 \item Maven project
 \item Java 1.6
-\item vstupem bude java maven projekt
+\item vstupem bude Java Maven projekt
 \item \ldots
   % TODO: vytvorit prehled technologii i s jejich popisy
 \end{itemize}
