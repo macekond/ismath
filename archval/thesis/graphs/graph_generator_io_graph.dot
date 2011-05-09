@@ -11,7 +11,8 @@ digraph GraphModelGeneratorManagerIOGraph {
         label="seznam požadovaných\ntypů grafů"
     ];
     GraphGenerator[
-        shape="invhouse"
+        shape="invhouse",
+	label="GraphModelGenerator"
     ];
     GraphModel[
         label="GraphModel"

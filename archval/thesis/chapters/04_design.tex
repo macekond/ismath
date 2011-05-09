@@ -8,7 +8,11 @@ Abychom mohli specifikovat pravidla, musíme nejprve definovat strukturu, nad kt
 \subsection{Formalizace modelu programu pomocí grafu}
 \label{design-graph_formalization}
 
-Analyzovaný softwarový projekt abstrahujeme jako orientovaný multigraf rozšířený o~zobrazení množiny uzlů do množiny typů a zobrazení hran do množiny jejich klasifikátorů (označení typu vztahu mezi uzly). Dále přidáme ke každému vrcholu zobrazení, které mu přiřadí jméno (řetězec). Získáme tak následující strukturu:
+Analyzovaný softwarový projekt abstrahujeme jako orientovaný multigraf rozšířený o~zobrazení množiny uzlů do množiny typů a zobrazení hran do množiny jejich klasifikátorů (označení typu vztahu mezi uzly). Dále přidáme ke každému vrcholu zobrazení, které mu přiřadí jméno (řetězec). Získáme tak následující definici pojmu \emph{grafový model programu}:
+
+\begin{definition}
+
+\textbf{Grafovým modelem projektu} nazveme strukturu
 
 \begin{displaymath}
   G = \langle V, E, \rho, K, C, N, \mathit{Kind}, \mathit{Classifier}, \mathit{Name}\rangle
@@ -21,12 +25,14 @@ v~níž platí:
 \item $V \cap E = \emptyset$
 \item $\rho: E \mapsto V \times V$ je zobrazení množiny hran do množiny uspořádaných dvojic vrcholů (incidence)
 \item $K$ je libovolná množina označení typů vrcholů\footnote{Pod pojmem typ zde rozumíme jakékoliv označení, které specifikuje o~jaký objekt se jedná -- může to být třída, metoda, příkaz, \ldots},
-\item $\mathit{Kind}: V \mapsto K$ je zobrazení, které přiřadí každému vrcholu jeho typ,
 \item $C$ je množina klasifikátorů hran,
 \item $N$ je množina jmen (řetězců)
+\item $\mathit{Kind}: V \mapsto K$ je zobrazení, které přiřadí každému vrcholu jeho typ,
 \item $\mathit{Classifier}: E \mapsto C$ je zobrazení, které přiřadí každé hraně její klasifikátor (zda se jedná o~\emph{method call}, \emph{dědičnost}, atd.)
 \item $\mathit{Name}: V \mapsto N$ je zobrazení, které přiřadí vrcholu jeho jméno (např. jméno třídy, jméno metody, \ldots)
 \end{itemize}
+
+\end{definition}
 
 Ukázka formalizace zdrojového kódu pomocí grafu je na obrázku \ref{design-graph_example}. V~uvedeném příkladě můžeme strukturu $G$ namapovat následujícím způsobem:
 \begin{figure}[h!]
@@ -226,7 +232,6 @@ Přehled doménových objektů podává tabulka \ref{design-domain_object_table}
       \emph{ValidationModel} & class & model validace načtený ze vstupního \emph{souboru definic} \\ \hline
       \hline
       \emph{ValidationReport} & class &  objekt reprezentující výstup validace\\ \hline
-      \emph{AnalysisReport} & class & objekt reprezentující výstup analýzy \\ \hline
     \end{tabular}
   \end{center}
 
@@ -242,15 +247,16 @@ ValidationModel v~sobě bude zapouzdřovat data z~AVD souborů. AVD soubory budo
 \item jména typů grafů
 \item jména atomických a složených pravidel (jmenný prostor pro atomická i složená pravidla je sdílený)
 \item jména operátorů
+\item datové typy v modelu
 \end{itemize}
 
 \subsubsection{Reprezentace grafů}
 % TODO: rozepsat
 \begin{itemize}
-\item \emph{Graph} (class) -- graph type id
-\item \emph{Vertex} (class)
-\item \emph{Edge} (class)
-\item \emph{GraphModel} (class) -- množina grafů různých typů, každý graf bude zahrnut právě jednou
+\item \emph{Graph} (class) -- graph type id,
+\item \emph{Vertex} (class),
+\item \emph{Edge} (class),
+\item \emph{GraphModel} (class) -- množina\footnote{Každý typ grafu může být v množině zahrnut právě jednou.} grafů různých typů.
 \end{itemize}
 
 \subsubsection{Model validace}
@@ -264,7 +270,11 @@ Model validace bude reprezentován třídou \emph{ValidationModel}. Tato třída
 % TODO: rozepsat, zpřesnit
 \begin{itemize}
 \item \emph{ValidationReport} (class) -- výstupem jsou \verb+true/false+ hodnoty pro jednotlivá pravidla, případně strom, který bude odpovídat stromu, který bude ve ValidationModel, aby bylo možné zpětně určit množiny a predikáty, které způsobily nesplnění pravidla
-\item \emph{AnalysisReport} (class) -- výstupem budou tvrzení o~projektu, která budou doplněna množinami, pro která tato tvrzení platí (např. detekce anomálií -- projekt má příliš mnoho vazeb z~nějaké třídy do jiné)
+% TODO:
+\begin{itemize}
+\item \emph{RuleResult}
+\item \emph{AnalysisResult}
+\end{itemize}
 \end{itemize}
 
 \subsection{Jádro systému}
@@ -284,8 +294,7 @@ Jádro systému bude poskytovat třídy a rozhraní popsané v~tabulce \ref{desi
       \emph{ValidationModelGeneratorIface} & interface & rozhraní předchozí komponenty \\ \hline
       \emph{ValidationTask} & class & hlavní proces validace \\ \hline
       \emph{ValidationTaskIface} & interface & rozhraní předchozí komponenty \\ \hline
-      \emph{Validator} & class & bude provádět validaci pravidel v~grafu na základě vstupních pravidel \\ \hline
-      \emph{Analyzer} & class & bude provádět statistické analýzy (pro návrhové principy, které nelze popsat přesnými pravidly) \\ \hline
+      \hline
       \emph{ArchVal} & class & fasáda ArchVal systému -- bude poskytovat instance výše specifikovaných komponent \\ \hline
       \hline
       \emph{GraphGeneratorsRegisterIface} & interface & rozhraní registru existujících poskytovatelů generátorů grafu \\ \hline
@@ -318,8 +327,8 @@ GraphModelGeneratorIface
 Komponenta typu \emph{GraphModelGeneratorIface} je znázorněna na obrázku \ref{design-graph_generator_io}.
 
 \begin{itemize}
-\item \emph{Vstup:} seznam Java souborů, z~nichž sestává projekt, identifikátory požadovaných typů grafů
-\item \emph{Výstup:} GraphModel objekt
+\item \emph{Vstup:} adresář obsahující Java soubory analyzovaného projektu, identifikátory požadovaných typů grafů
+\item \emph{Výstup:} instance třídy \emph{GraphModel}
 \end{itemize}
 
 \begin{figure}[h!]
@@ -330,7 +339,7 @@ Komponenta typu \emph{GraphModelGeneratorIface} je znázorněna na obrázku \ref
 
 \subsubsection{Komponenta ValidationModelGenerator}
 % TODO: formulate
-ValidationModelGeneratorIface
+\emph{ValidationModelGeneratorIface}
 
 Znázornění vstupů a výstupů komponenty \emph{ValidationModelGenerator} je na obrázku \ref{design-validation_model_generator_io}.
 
@@ -343,34 +352,32 @@ Vstupem je množina pravidel zapsaná ve vhodné serializaci výše popsaných m
   \caption{Znázornění vstupů a výstupů komponenty \emph{ValidationModelGenerator}.\label{design-validation_model_generator_io}}
 \end{figure}
 
-Různé vstupy: File, Stream, String, \ldots
+\emph{Vstupy:} Stream, String
 
 \subsubsection{Komponenta ValidationTask}
-ValidationTaskIface
 
 Samostatné vlákno s~řízením celého validačního procesu. Synchronized sekce. Vstupem bude vhodná specifikace umístění analyzovaného projektu.
 
-% TODO: vyladit a doplnit následující interface
+\paragraph{ValidationTaskIface}
 \begin{itemize}
-\item \verb+setProject()+
-\item \verb+startValidationThread()+
-\item \verb+cancelValidationThread()+
-\item \verb+getReport()+
-\item \verb+runSynchronous()+
-\item \verb+runAsynchronous()+
-\item \verb+addProgressListener(ValidationTaskProgressListener)+ -- umožní zaregistrovat listener, který bude notifikován o~průběhu validace
+\item \verb-runSynchronous() : void-
+\item \verb-runAsynchronous() : void- -- synchronized blok
+\item \begin{verbatim}registerValidationCompletedListener(
+    ValidationCompletedListener validationCompletedListener
+) : void\end{verbatim}
+\item \verb-getReport() : ValidationReport-
 \end{itemize}
 
-\subsubsection{Komponenta Validator}
-Vstupem bude ValidationModel a GraphModel
+%% \subsubsection{Komponenta Validator}
+%% Vstupem bude ValidationModel a GraphModel
 
-Komponenta \emph{Validator} je znázorněna na obrázku \ref{design-validator_io}.
+%% Komponenta \emph{Validator} je znázorněna na obrázku \ref{design-validator_io}.
 
-\begin{figure}[h!]
-  \centering
-  \includegraphics[width=0.45\textwidth]{./graphs/validator_io_graph.png}
-  \caption{Znázornění vstupů a výstupů komponenty \emph{Validator}.\label{design-validator_io}}
-\end{figure}
+%% \begin{figure}[h!]
+%%   \centering
+%%   \includegraphics[width=0.45\textwidth]{./graphs/validator_io_graph.png}
+%%   \caption{Znázornění vstupů a výstupů komponenty \emph{Validator}.\label{design-validator_io}}
+%% \end{figure}
 
 \paragraph{Rozhraní}
 \begin{itemize}
@@ -379,34 +386,29 @@ Komponenta \emph{Validator} je znázorněna na obrázku \ref{design-validator_io
 
 Výstupem bude \emph{ValidationReport} (vnitřní struktura, která se bude posléze převádět na vhodnou vnější reprezentaci).
 
-\subsubsection{Komponenta Analyzer}
+\subsubsection{Komponenta ArchVal (fasáda)}
+% TODO: napsat, jakým způsobem bude fungovat (v podstatě singleton)
+\paragraph{Rozhraní}
 \begin{itemize}
-\item analysis providers
-\item vstupem bude \emph{GraphModel} -- musí specifikovat nad jakým grafem pracuje
-\item výstupem bude \emph{AnalysisReport}
+\item \begin{verbatim}ArchVal(
+    GraphGeneratorsRegisterIface graphGeneratorsRegister,
+    OperatorsRegisterIface operatorsRegister,
+    AnalysesRegisterIface analysesRegister) : ArchVal\end{verbatim}
+\item \verb-GraphModelGeneratorIface getGraphModelGenerator()-
+\item \verb-ValidationModelGeneratorIface getValidationModelGenerator()-
+\item \begin{verbatim}ValidationTaskIface createValidationTask(
+    GraphModel graphModel,
+    ValidationModelIface validationModel) : GraphModel\end{verbatim}
 \end{itemize}
 
 \subsubsection{Rozhraní registrů poskytovatelů implementací}
 
 Aby bylo možné systém rozšiřovat přidáváním dalších operátorů, generátorů grafů nových typů a analýz, musíme poskytnout vhodný mechanismus, který umožní zapojení nových modulů do programu.
-% TODO: sort
-\begin{itemize}
-\item SPI, poskytovatel služby, lookup, META-INF/services,
-\end{itemize}
 
 \begin{itemize}
 \item GraphGeneratorsRegisterIface
 \item OperatorsRegisterIface
 \item AnalysesRegisterIface
-\end{itemize}
-
-\subsubsection{Komponenta ArchVal (fasáda)}
-% TODO: napsat, jakým způsobem bude fungovat (v podstatě singleton)
-\paragraph{Rozhraní}
-\begin{itemize}
-\item \verb-+createValidationTask(ValidationModel, GraphModel) : ValidationTask-
-\item \verb-+getGraphModelGenerator() : GraphModelGenerator-
-\item \verb-+getValidationModelGenerator() : ValidationModelGenerator-
 \end{itemize}
 
 \subsection{Rozhraní GraphGeneratorIface}
@@ -430,21 +432,30 @@ Každý graph generátor (resp. graf) musí mít specifikované jedinečné id g
 \end{itemize}
 
 \subsection{Rozhraní OperatorIface}
-Hierarchie rozhraní operátorů je znázorněna na obrázku \ref{design-operator_interfaces_hierarchy}.
 
+\subsubsection{Typy operátorů}
+% TODO: rozepsat
 \begin{itemize}
-\item \emph{PredicateIface}
-\item \emph{VertexSelectorIface}
-\item \emph{EdgeSelectorIface}
+\item predikáty,
+\item vrcholové selektory,
+\item hranové selektory.
 \end{itemize}
 
-\begin{figure}[h!]
-  \centering
-  \includegraphics[width=0.8\textwidth]{./uml/operator_interfaces.png}
-  \caption{Hierarchie rozhraní operátorů.\label{design-operator_interfaces_hierarchy}}
-\end{figure}
+\subsubsection{Operace poskytované rozhraním OperatorIface}
+\begin{itemize}
+\item \verb-getName() : String-
+\item \verb-getOperandsCount() : int-
+\item \verb-getOperandType(int index) : DataType-
+\item \verb-getReturnType() : DataType-
+\item \verb-execute(Graph graph, List<Object> operands) : Object-
+\end{itemize}
 
 \subsection{Rozhraní AnalysisIface}
+\begin{itemize}
+\item \verb-getAnalysisName() : String-
+\item \verb-getRequiredGraphType() : String-
+\item \verb-evaluate(Graph graph) : AnalysisResult-
+\end{itemize}
 
 \subsection{Základní průběh validačního procesu}
 
@@ -458,9 +469,10 @@ Hierarchie rozhraní operátorů je znázorněna na obrázku \ref{design-operato
 
 %TODO: add activity and/or sequence diagram
 %TODO: popis validačního procesu: rozepsat následující itemize
+%% TODO: sjednotit s realitou
 \begin{itemize}
 \item systém načte moduly
-\item systém zkontroluje základní předpoklady - existuje alespoň jeden modul pro generování grafu, alespoň jeden modul operátorů (nebo poskytovatel analyzerů ???) a alespoň jeden modul s~poskytovatelem generátoru výstupu
+\item systém zkontroluje základní předpoklady - existuje alespoň jeden modul pro generování grafu, alespoň jeden modul operátorů (nebo poskytovatel analyzerů) a alespoň jeden modul s~poskytovatelem generátoru výstupu
 \item systém zparsuje soubor pravidel a vygeneruje AST
 \item systém zkontroluje, zda pro AST pravidel existují potřebné providery grafů
 \item systém zkontroluje, zda pro AST pravidel existují všechny operátory
@@ -478,7 +490,7 @@ U~každého pravidla musí být deklarace typu grafu, nad nímž má platit.
 \begin{itemize}
 \item rozhraní pro zadávání pravidel
 \item formát zadávání pravidel (serializace formalismu tak, aby jej bylo možné textově nebo jinak zadávat)
-\item zvýrazňování syntaxe
+\item zvýrazňování syntaxe (\uv{nice-to-have} feature)
 \end{itemize}
 
 \section{Návrh rozhraní pro ověřování platnosti pravidel (validaci)}
@@ -492,6 +504,7 @@ U~každého pravidla musí být deklarace typu grafu, nad nímž má platit.
 \item výstupní rozhraní
 \item validační události
 \end{itemize}
+% TODO: v implementaci popsat textový výstup
 
 \section{Návrh způsobu integrace do různých typů prostředí}
 %% TODO: zapracovat
@@ -508,11 +521,10 @@ Rozhraní ArchVal API je záměrně navrženo tak, aby jej bylo možné integrov
 Možnosti různého způsobu vstupu pravidel -- editor se zvýrazňováním syntaxe.
 
 \section{Návrh technologií pro implementaci}
+  % TODO: vytvorit prehled technologii i s jejich popisy
 \begin{itemize}
 \item NetBeans platform
-\item Maven project
 \item Java 1.6
 \item vstupem bude Java Maven projekt
 \item \ldots
-  % TODO: vytvorit prehled technologii i s jejich popisy
 \end{itemize}
