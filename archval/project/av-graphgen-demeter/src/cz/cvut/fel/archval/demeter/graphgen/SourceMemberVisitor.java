@@ -39,8 +39,10 @@ public class SourceMemberVisitor extends TreePathScanner<Void, Void> {
             false);
     private Graph graph;
     private Deque<Vertex> stack;
-    private String currentEdgeClassifier = null;
+    private String currentEdgeClassifier = "use";
     private boolean inclass = false;
+    private static final String KIND_CLASS = "class";
+    private static final String KIND_METHOD = "method";
 
     public SourceMemberVisitor(CompilationInfo info) {
         this.info = info;
@@ -58,6 +60,9 @@ public class SourceMemberVisitor extends TreePathScanner<Void, Void> {
 
             printIndented("[add class vertex '" + tel.getQualifiedName()
                     + "' to stack here]", level);
+            Vertex vertex =
+                    ensureVertex(tel.getQualifiedName().toString(), KIND_CLASS);
+            stack.push(vertex);
 
         }
 
@@ -67,6 +72,7 @@ public class SourceMemberVisitor extends TreePathScanner<Void, Void> {
 
         if (level == 1) {
             printIndented("[remove class from stack]\n\n", level);
+            stack.pop();
         }
         return retval;
     }
@@ -84,11 +90,21 @@ public class SourceMemberVisitor extends TreePathScanner<Void, Void> {
                     + tel.getQualifiedName().toString() + "." + node.getName()
                     + "(~)' to stack]", level);
 
+            Vertex vertex = ensureVertex(tel.getQualifiedName().toString()
+                    + "." + node.getName() + "()", KIND_METHOD);
+            stack.push(vertex);
+
             // add references to this class and supertypes
             printIndented("[add edge " + tel.getQualifiedName() + "(self)]", level);
+            Vertex target = ensureVertex(tel.getQualifiedName().toString(),
+                    KIND_CLASS);
+            ensureEdge(stack.peek(), target, "self");
             for (TypeElement typeElement : getSupertypes(tel)) {
                 printIndented("[add edge "
                         + typeElement.getQualifiedName() + "(self)]", level);
+                target = ensureVertex(typeElement.getQualifiedName().toString(),
+                        KIND_CLASS);
+                ensureEdge(stack.peek(), target, "self");
             }
 
         }
@@ -96,6 +112,7 @@ public class SourceMemberVisitor extends TreePathScanner<Void, Void> {
         Void retval = super.visitMethod(node, p);
         if (level == 2) { // end of method in toplevel class
             printIndented("[remove method vertex from stack]", level);
+            stack.pop();
         }
         return retval;
     }
@@ -134,8 +151,11 @@ public class SourceMemberVisitor extends TreePathScanner<Void, Void> {
 
                 TypeElement tel = (TypeElement) el;
 
-                printIndented("[Add edge '" + tel.getQualifiedName() + "' ("
+                printIndented("[add edge '" + tel.getQualifiedName() + "' ("
                         + currentEdgeClassifier + ")]", level);
+                Vertex target = ensureVertex(tel.getQualifiedName().toString(),
+                        KIND_CLASS);
+                ensureEdge(stack.peek(), target, currentEdgeClassifier);
 
                 if (currentEdgeClassifier != null
                         && (currentEdgeClassifier.equals("field")
@@ -144,10 +164,13 @@ public class SourceMemberVisitor extends TreePathScanner<Void, Void> {
 
                     // add all superclasses also
                     for (TypeElement typeElement : getSupertypes(tel)) {
-                        printIndented("[Add edge '" + typeElement.getQualifiedName() + "' ("
+                        printIndented("[add edge '" + typeElement.getQualifiedName() + "' ("
                                 + currentEdgeClassifier + ")]", level);
-                    }
 
+                        target = ensureVertex(typeElement.getQualifiedName().toString(),
+                                KIND_CLASS);
+                        ensureEdge(stack.peek(), target, currentEdgeClassifier);
+                    }
                 }
             }
         }
@@ -169,6 +192,9 @@ public class SourceMemberVisitor extends TreePathScanner<Void, Void> {
 
         TypeElement enclosingClassElement = (TypeElement) exl.getEnclosingElement();
         printIndented("[add edge " + enclosingClassElement.getQualifiedName() + " (use)]", level);
+        Vertex target = ensureVertex(enclosingClassElement.getQualifiedName().toString(),
+                KIND_CLASS);
+        ensureEdge(stack.peek(), target, currentEdgeClassifier);
 
         return super.visitMethodInvocation(node, p);
     }
@@ -183,6 +209,9 @@ public class SourceMemberVisitor extends TreePathScanner<Void, Void> {
             if (el.getKind() == ElementKind.FIELD) {
                 TypeElement enclosingClassElement = (TypeElement) el.getEnclosingElement();
                 printIndented("[member add edge " + enclosingClassElement.getQualifiedName() + " (use)]", level);
+                Vertex target = ensureVertex(enclosingClassElement.getQualifiedName().toString(),
+                        KIND_CLASS);
+                ensureEdge(stack.peek(), target, currentEdgeClassifier);
             }
         }
 
@@ -239,11 +268,12 @@ public class SourceMemberVisitor extends TreePathScanner<Void, Void> {
 
     private void printIndented(String string, int level) {
         // InputOutput localIo = IOProvider.getDefault().getIO("DG-analysis-tree", false);
-        String indentation = "";
+      /*  String indentation = "";
         for (int i = 0; i < level; i++) {
-            indentation += "    ";
+        indentation += "    ";
         }
-        io.getOut().println("[" + level + "] " + indentation + string);
+        io.getOut().println("[" + level + "] " + indentation + string); */
+        io.getOut().println(string);
     }
 
     private Vertex ensureVertex(String name, String kind) {
@@ -258,6 +288,8 @@ public class SourceMemberVisitor extends TreePathScanner<Void, Void> {
     private Edge ensureEdge(Vertex tail, Vertex head, String classifier) {
         Edge edge = graph.getEdgeByVerticesAndClassifier(tail, head, classifier);
         if (edge == null) {
+            io.getOut().println("create : " + tail.getName() + " - " + head.getName() + " - " + classifier);
+
             edge = Edge.create(tail, head, classifier);
             graph.addEdge(edge);
         }

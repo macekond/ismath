@@ -17,6 +17,10 @@ public class AtomicRuleResult extends RuleResult {
     private AtomicRuleQuantificationType atomicRuleQuantificationType;
     private boolean result;
 
+    public AtomicRuleResult() {
+        elementResults = new HashMap<Long, ResultNode>();
+    }
+
     public RuleType getRuleType() {
         return RuleType.ATOMIC_RULE;
     }

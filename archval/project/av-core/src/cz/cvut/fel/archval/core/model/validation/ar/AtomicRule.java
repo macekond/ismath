@@ -99,7 +99,7 @@ public class AtomicRule extends Rule {
         atomicRuleResult.setBasicSetResult(basicSetDataResult);
         if (atomicRuleType == AtomicRuleType.VERTEX_RULE) {
 
-            Set<Vertex> selectedVertices = new HashSet<Vertex>();
+            HashSet<Vertex> selectedVertices = new HashSet<Vertex>();
             for (Vertex vertex : graph.getVertices()) {
                 if (basicSetSelector.evaluate(graph, vertex, new DataResult())) {
                     selectedVertices.add(vertex);

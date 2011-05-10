@@ -15,12 +15,10 @@ public class Graph {
     private Set<Edge> edges;
     private Set<Vertex> vertices;
     private String graphType;
-    private HashMap<String, Vertex> vertexNameMap;
 
     public Graph() {
         edges = new HashSet<Edge>();
         vertices = new HashSet<Vertex>();
-        vertexNameMap = new HashMap<String, Vertex>();
     }
 
     public String getGraphType() {
@@ -52,15 +50,11 @@ public class Graph {
 
     public void addVertex(Vertex vertex) {
         vertices.add(vertex);
-        if (vertexNameMap.containsKey(vertex.getName())) {
-            return;
-        }
-        vertexNameMap.put(vertex.getName(), vertex);
     }
 
     public Set<Edge> getVertexOutgoingEdges(Vertex vertex) {
         Set<Edge> resultSet = new HashSet<Edge>();
-        for (Edge edge : resultSet) {
+        for (Edge edge : edges) {
             if (edge.getTail().equals(vertex)) {
                 resultSet.add(edge);
             }
@@ -74,7 +68,12 @@ public class Graph {
      * @return Vertex instance or null
      */
     public Vertex getVertexByName(String name) {
-        return vertexNameMap.get(name);
+        for (Vertex vertex : vertices) {
+            if (vertex.getName().equals(name)) {
+                return vertex;
+            }
+        }
+        return null;
     }
 
     public Vertex getVertexByNameAndKind(String name, String kind) {

@@ -54,7 +54,8 @@ public class ValidationModelGenerator implements ValidationModelGeneratorIface {
 
     public ValidationModel constructValidationModel(InputStream is) throws
             IOException, RecognitionException,
-            ValidationModelGenerationException, OperatorNotFoundException, OperatorMismatchException {
+            ValidationModelGenerationException, OperatorNotFoundException,
+            OperatorMismatchException {
 
         if (is == null) {
             throw new IllegalArgumentException("Input parameter is not "
@@ -65,7 +66,8 @@ public class ValidationModelGenerator implements ValidationModelGeneratorIface {
 
     public ValidationModel constructValidationModel(String string) throws
             IOException, RecognitionException,
-            ValidationModelGenerationException, OperatorNotFoundException, OperatorMismatchException {
+            ValidationModelGenerationException, OperatorNotFoundException,
+            OperatorMismatchException {
 
         if (string == null) {
             throw new IllegalArgumentException("Input parameter string is not "
@@ -75,7 +77,8 @@ public class ValidationModelGenerator implements ValidationModelGeneratorIface {
     }
 
     protected ValidationModel constructValidationModel(CharStream charStream)
-            throws RecognitionException, ValidationModelGenerationException, IOException, OperatorNotFoundException, OperatorMismatchException {
+            throws RecognitionException, ValidationModelGenerationException,
+            IOException, OperatorNotFoundException, OperatorMismatchException {
 
         Tree avdTree = getTreeForCharStream(charStream);
         RuleNameSymbolTable ruleNamesSymbolTable = new RuleNameSymbolTable();

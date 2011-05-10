@@ -54,7 +54,10 @@ public class AtomicRuleGenerator {
         this.operatorsRegister = operatorsRegister;
     }
 
-    public AtomicRule constructAtomicRule(Tree atomicRuleTree) throws IOException, OperatorNotFoundException, OperatorMismatchException, ValidationModelGenerationException {
+    public AtomicRule constructAtomicRule(Tree atomicRuleTree) throws
+            IOException, OperatorNotFoundException, OperatorMismatchException,
+            ValidationModelGenerationException {
+
         if (atomicRuleTree.getChildCount() < 3) {
             throw new IllegalArgumentException("Invalid tree passed. This tree "
                     + "is supposed to have at least 3 children according to the"
@@ -165,9 +168,12 @@ public class AtomicRuleGenerator {
         return arIntegerNode;
     }
 
-    protected ArStringNodeIface constructStringNode(Tree tree) throws FileNotFoundException, IOException {
+    protected ArStringNodeIface constructStringNode(Tree tree) throws
+            FileNotFoundException, IOException {
+
         ArStringNode arStringNode = new ArStringNode();
-        arStringNode.setValue(tree.getText());
+        String labelString = tree.getText();
+        arStringNode.setValue(labelString.substring(1, labelString.length() - 1));
         return arStringNode;
     }
 

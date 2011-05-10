@@ -53,8 +53,7 @@ public class FVertexSetSelector implements OperatorIface {
         collectVertices(graph, vertex, vertexLabel, edgeLabel, resultSet,
                 false, visitedVertices);
 
-        // TODO: implement F operator as specified in the work
-        throw new UnsupportedOperationException("Not supported yet.");
+        return resultSet;
     }
 
     private void collectVertices(Graph g, Vertex v, String kind,
@@ -77,10 +76,10 @@ public class FVertexSetSelector implements OperatorIface {
         // process outgoing edges
         for (Edge edge : g.getVertexOutgoingEdges(v)) {
             if (edge.getClassifier().equals(classifier)) {
-                collectVertices(g, v, kind, classifier, result, true,
+                collectVertices(g, edge.getHead(), kind, classifier, result, true,
                         visitedVertices);
             } else {
-                collectVertices(g, v, kind, classifier, result, false,
+                collectVertices(g, edge.getHead(), kind, classifier, result, false,
                         visitedVertices);
             }
         }
