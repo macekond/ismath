@@ -267,13 +267,11 @@ public class SourceMemberVisitor extends TreePathScanner<Void, Void> {
     }
 
     private void printIndented(String string, int level) {
-        // InputOutput localIo = IOProvider.getDefault().getIO("DG-analysis-tree", false);
-      /*  String indentation = "";
+        String indentation = "";
         for (int i = 0; i < level; i++) {
-        indentation += "    ";
+            indentation += "    ";
         }
-        io.getOut().println("[" + level + "] " + indentation + string); */
-        io.getOut().println(string);
+        io.getOut().println("[" + level + "] " + indentation + string);
     }
 
     private Vertex ensureVertex(String name, String kind) {
@@ -286,9 +284,11 @@ public class SourceMemberVisitor extends TreePathScanner<Void, Void> {
     }
 
     private Edge ensureEdge(Vertex tail, Vertex head, String classifier) {
+        InputOutput localIo = IOProvider.getDefault().getIO("DG-edges", false);
         Edge edge = graph.getEdgeByVerticesAndClassifier(tail, head, classifier);
         if (edge == null) {
-            io.getOut().println("create : " + tail.getName() + " - " + head.getName() + " - " + classifier);
+
+            localIo.getOut().println(tail.getName() + " -> " + classifier.toUpperCase() + " -> " + head.getName());
 
             edge = Edge.create(tail, head, classifier);
             graph.addEdge(edge);
