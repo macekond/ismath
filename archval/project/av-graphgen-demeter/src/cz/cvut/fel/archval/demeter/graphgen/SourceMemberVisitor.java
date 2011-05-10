@@ -134,7 +134,10 @@ public class SourceMemberVisitor extends TreePathScanner<Void, Void> {
                 printIndented("[Add edge '" + tel.getQualifiedName() + "' ("
                         + currentEdgeClassifier + ")]", level);
 
-                if (currentEdgeClassifier != null && currentEdgeClassifier.equals("field")) {
+                if (currentEdgeClassifier != null
+                        && (currentEdgeClassifier.equals("field")
+                        || currentEdgeClassifier.equals("arg")
+                        || currentEdgeClassifier.equals("constr"))) {
 
                     // add all superclasses also
                     for (TypeElement typeElement : getSupertypes(tel)) {
@@ -173,17 +176,13 @@ public class SourceMemberVisitor extends TreePathScanner<Void, Void> {
         int level = getNestingLevel(currentPath);
         Element el = info.getTrees().getElement(currentPath);
 
-
-
         if (inclass) {
             if (el.getKind() == ElementKind.FIELD) {
                 TypeElement enclosingClassElement = (TypeElement) el.getEnclosingElement();
                 printIndented("[member add edge " + enclosingClassElement.getQualifiedName() + " (use)]", level);
             }
         }
-
-
-
+        
         Void retval = super.visitMemberSelect(node, p);
 
         return retval;
