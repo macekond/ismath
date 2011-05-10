@@ -7,7 +7,6 @@ import com.sun.source.tree.MethodInvocationTree;
 import com.sun.source.tree.MethodTree;
 import com.sun.source.tree.NewArrayTree;
 import com.sun.source.tree.NewClassTree;
-import com.sun.source.tree.Tree;
 import com.sun.source.tree.VariableTree;
 import com.sun.source.util.TreePath;
 import com.sun.source.util.TreePathScanner;
@@ -39,7 +38,7 @@ public class SourceMemberVisitor extends TreePathScanner<Void, Void> {
     private Graph graph;
     private Deque<Vertex> stack;
     private String currentEdgeClassifier = null;
-    private boolean ignoreMemberSelect = false;
+    private boolean inclass = false;
 
     public SourceMemberVisitor(CompilationInfo info) {
         this.info = info;
@@ -57,39 +56,15 @@ public class SourceMemberVisitor extends TreePathScanner<Void, Void> {
 
             printIndented("[add class vertex '" + tel.getQualifiedName()
                     + "' to stack here]", level);
-
-
         }
 
+        inclass = true;
         Void retval = super.visitClass(node, v);
+        inclass = false;
 
         if (level == 1) {
             printIndented("[remove class from stack]\n\n", level);
         }
-
-        /*
-        TypeElement typeElement = (TypeElement) el;
-
-        for (Element element : el.getEnclosedElements()) {
-        printIndented(element.getKind().toString(), level + 1);
-        }
-        if (el.getKind() == ElementKind.CLASS) {
-        printIndented("Class:" + typeElement.getQualifiedName(), level);
-        retval = super.visitClass(node, v);
-        printIndented(">  >Class", level);
-        } else if (el.getKind() == ElementKind.INTERFACE) {
-        printIndented("Interface: " + typeElement.getQualifiedName(), level);
-        retval = super.visitClass(node, v);
-        printIndented(">  >Interface", level);
-        } else if (el.getKind() == ElementKind.ENUM) {
-        printIndented("Enum: " + typeElement.getQualifiedName(), level);
-        retval = super.visitClass(node, v);
-        printIndented(">  >Enum", level);
-        } else {
-        printIndented("Unknown class type: " + typeElement.getQualifiedName(), level);
-        retval = super.visitClass(node, v);
-        printIndented(">  >Unknown class type", level);
-        }*/
         return retval;
     }
 
@@ -107,10 +82,10 @@ public class SourceMemberVisitor extends TreePathScanner<Void, Void> {
                     + "(~)' to stack]", level);
 
             // add references to this class and supertypes
-            printIndented("[add edge (self) to type " + className + "]", level);
+            printIndented("[add edge " + tel.getQualifiedName() + "(self)]", level);
             for (TypeElement typeElement : getSupertypes(tel)) {
-                printIndented("[add edge (self) to type "
-                        + typeElement.getQualifiedName() + "]", level);
+                printIndented("[add edge "
+                        + typeElement.getQualifiedName() + "(self)]", level);
             }
 
         }
@@ -136,6 +111,9 @@ public class SourceMemberVisitor extends TreePathScanner<Void, Void> {
             currentEdgeClassifier = "arg";
         }
         Void retval = super.visitVariable(node, p);
+        printIndented("[set edge type to \"use\"]", level);
+
+        currentEdgeClassifier = "use";
 
         return retval;
     }
@@ -168,19 +146,6 @@ public class SourceMemberVisitor extends TreePathScanner<Void, Void> {
             }
         }
 
-        /**
-        if (el.getKind() == ElementKind.CLASS || el.getKind() == ElementKind.INTERFACE) {
-        TypeElement typeElement = (TypeElement) el;
-        printIndented("Identifier: " + el.getKind() + " " + typeElement.getQualifiedName(), level);
-        } else if (el.getKind() == ElementKind.CONSTRUCTOR) {
-        ExecutableElement exl = (ExecutableElement) el;
-        printIndented("Identifier: " + el.getKind() + " " + exl.getReturnType(), level);
-        } else if (el.getKind() == ElementKind.FIELD) {
-        VariableElement vel = (VariableElement) el;
-        printIndented("Identifier (field): " + el.getKind() + " " + node.getName() + " " + vel.asType(), level);
-        } else {
-        printIndented("Identifier: " + el.getKind() + " " + el.getSimpleName(), level);
-        }*/
         Void retval = super.visitIdentifier(node, p);
         return retval;
     }
@@ -192,42 +157,14 @@ public class SourceMemberVisitor extends TreePathScanner<Void, Void> {
         Element el = info.getTrees().getElement(currentPath);
         ExecutableElement exl = (ExecutableElement) info.getTrees().getElement(currentPath);
 
-        TypeElement myclass = (TypeElement) exl.getEnclosingElement();
-
-        if (node.getMethodSelect().getKind() == Tree.Kind.MEMBER_SELECT) {
-            printIndented("methodselect", level);
-            printIndented(((MemberSelectTree) node.getMethodSelect()).getIdentifier().toString(), level);
-        } else if (node.getMethodSelect().getKind() == Tree.Kind.IDENTIFIER) {
-            printIndented(((IdentifierTree) node.getMethodSelect()).getName().toString(), level);
+        if (exl.getModifiers().contains(Modifier.STATIC)) { // static method calls are allowed
+            return super.visitMethodInvocation(node, p);
         }
 
-        if (exl.getModifiers().contains(Modifier.STATIC)) {
-            printIndented("It's static method.", level);
-        }
-        /*  if (el != null) {
-        TypeElement type = null;
-        // printIndented("thishaskind: " + exl.getReturnType().getKind(), level);
-        if (exl.getReturnType().getKind() == TypeKind.DECLARED) {
-        // type = (TypeElement) ((DeclaredType) exl.getReturnType()).asElement().getKind();
-        type = ((TypeElement) ((DeclaredType) exl.getReturnType()).asElement());
+        TypeElement enclosingClassElement = (TypeElement) exl.getEnclosingElement();
+        printIndented("[add edge " + enclosingClassElement.getQualifiedName() + " (use)]", level);
 
-        for (TypeParameterElement typeParameterElement : type.getTypeParameters()) {
-
-        printIndented("parametrized::" + typeParameterElement.getKind(), level);
-        for (TypeMirror typeMirror : typeParameterElement.getBounds()) {
-
-        printIndented("cosi: " + typeMirror.getKind(), level);
-        }
-
-
-        }
-
-        // printIndented("ithaskind: " + type.toString(), level);
-        }
-        // printIndented("kind:: " + exl.getReturnType().getKind(), level);
-        } */
-        Void retval = super.visitMethodInvocation(node, p);
-        return retval;
+        return super.visitMethodInvocation(node, p);
     }
 
     @Override
@@ -235,31 +172,20 @@ public class SourceMemberVisitor extends TreePathScanner<Void, Void> {
         TreePath currentPath = getCurrentPath();
         int level = getNestingLevel(currentPath);
         Element el = info.getTrees().getElement(currentPath);
-        /*if (el.getKind() == ElementKind.PACKAGE) {
-        return null; // ignore package selections
-        }*/
-        if (level == 1) {
-            ignoreMemberSelect = true;
-        }
-        if (ignoreMemberSelect) {
-            return null;
-        }
 
-        if (el != null) {
+
+
+        if (inclass) {
             if (el.getKind() == ElementKind.FIELD) {
-                printIndented("MemberSelect: " + el.getKind() + " " + el.asType(), level);
-            } else {
-                printIndented("MemberSelect: " + el.getKind(), level);
+                TypeElement enclosingClassElement = (TypeElement) el.getEnclosingElement();
+                printIndented("[member add edge " + enclosingClassElement.getQualifiedName() + " (use)]", level);
             }
-        } else {
-            printIndented("MemberSelect:", level);
         }
-        Void retval = super.visitMemberSelect(node, p);
-        printIndented(">  >MemberSelect", level);
 
-        if (level == 1) {
-            ignoreMemberSelect = false;
-        }
+
+
+        Void retval = super.visitMemberSelect(node, p);
+
         return retval;
     }
 
@@ -268,13 +194,12 @@ public class SourceMemberVisitor extends TreePathScanner<Void, Void> {
         TreePath currentPath = getCurrentPath();
         int level = getNestingLevel(currentPath);
         Element el = info.getTrees().getElement(currentPath);
-        if (el != null) {
-            printIndented("NewClass: " + el.getKind(), level);
-        } else {
-            printIndented("NewClass:", level);
-        }
+        String backup = currentEdgeClassifier;
+        currentEdgeClassifier = "constr";
+        printIndented("[change classifier to \"constr\"]", level);
         Void retval = super.visitNewClass(node, p);
-        printIndented(">  >NewClass", level);
+        currentEdgeClassifier = backup;
+        printIndented("[change classifier back to \"" + backup + "\"]", level);
         return retval;
     }
 
@@ -283,13 +208,12 @@ public class SourceMemberVisitor extends TreePathScanner<Void, Void> {
         TreePath currentPath = getCurrentPath();
         int level = getNestingLevel(currentPath);
         Element el = info.getTrees().getElement(currentPath);
-        if (el != null) {
-            printIndented("NewArray: " + el.getKind(), level);
-        } else {
-            printIndented("NewArray:", level);
-        }
+        String backup = currentEdgeClassifier;
+        currentEdgeClassifier = "constr";
+        printIndented("[change classifier to \"constr\"]", level);
         Void retval = super.visitNewArray(node, p);
-        printIndented(">  >NewArray", level);
+        currentEdgeClassifier = backup;
+        printIndented("[change classifier back to \"" + backup + "\"]", level);
         return retval;
     }
 
