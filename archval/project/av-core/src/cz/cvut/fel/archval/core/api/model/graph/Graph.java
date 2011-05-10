@@ -3,7 +3,6 @@ package cz.cvut.fel.archval.core.api.model.graph;
 import cz.cvut.fel.archval.core.api.model.graph.visitor.GraphElementVisitor;
 import java.util.HashMap;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
 
 /**
@@ -76,6 +75,28 @@ public class Graph {
      */
     public Vertex getVertexByName(String name) {
         return vertexNameMap.get(name);
+    }
+
+    public Vertex getVertexByNameAndKind(String name, String kind) {
+        for (Vertex vertex : vertices) {
+            if (vertex.getName().equals(name)
+                    && vertex.getKind().equals(kind)) {
+                
+                return vertex;
+            }
+        }
+        return null;
+    }
+
+    public Edge getEdgeByVerticesAndClassifier(Vertex tail, Vertex head, String classifier) {
+        for (Edge edge : edges) {
+            if (edge.getTail() == tail
+                    && edge.getHead() == head
+                    && edge.getClassifier().equals(classifier)) {
+                return edge;
+            }
+        }
+        return null;
     }
 
     /**

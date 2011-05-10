@@ -49,6 +49,7 @@ public class CompoundRule extends Rule {
         CompoundRuleResult compoundRuleResult = (CompoundRuleResult) resultNode;
         DataResult dataResult = new DataResult();
         compoundRuleResult.setDataResult(dataResult);
+        compoundRuleResult.setRuleName(name);
         return compoundRuleExpressionRoot.evaluate(graphModel, dataResult);
     }
 }

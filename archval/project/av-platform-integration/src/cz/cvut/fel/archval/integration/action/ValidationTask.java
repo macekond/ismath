@@ -8,6 +8,9 @@ import cz.cvut.fel.archval.core.api.ex.OperatorMismatchException;
 import cz.cvut.fel.archval.core.api.ex.OperatorNotFoundException;
 import cz.cvut.fel.archval.core.api.ex.ValidationModelGenerationException;
 import cz.cvut.fel.archval.core.api.model.graph.GraphModel;
+import cz.cvut.fel.archval.core.api.model.report.AtomicRuleResult;
+import cz.cvut.fel.archval.core.api.model.report.CompoundRuleResult;
+import cz.cvut.fel.archval.core.api.model.report.RuleResult;
 import cz.cvut.fel.archval.core.api.model.report.ValidationReport;
 import cz.cvut.fel.archval.integration.archval.ArchvalInstance;
 import cz.cvut.fel.archval.integration.avd.AvdCookie;
@@ -16,12 +19,11 @@ import cz.cvut.fel.archval.integration.register.DuplicateAnalysisNameException;
 import cz.cvut.fel.archval.integration.register.DuplicateGraphGeneratorException;
 import java.io.File;
 import java.io.IOException;
+import java.util.List;
 import org.antlr.runtime.RecognitionException;
 import org.netbeans.api.progress.ProgressHandle;
 import org.netbeans.api.progress.ProgressHandleFactory;
 import org.netbeans.api.project.Project;
-import org.netbeans.api.project.ProjectInformation;
-import org.netbeans.api.project.ProjectUtils;
 import org.netbeans.api.project.ui.OpenProjects;
 import org.openide.awt.StatusDisplayer;
 import org.openide.filesystems.FileUtil;
@@ -52,8 +54,6 @@ public class ValidationTask extends Thread {
                     + "project selected.");
             return;
         }
-        ProjectInformation projectInformation =
-                ProjectUtils.getInformation(mainProject);
         String projectTypeString = mainProject.getClass().getSimpleName();
         if (!projectTypeString.equals("NbMavenProjectImpl")) {
             StatusDisplayer.getDefault().setStatusText("Selected project is"
@@ -98,9 +98,31 @@ public class ValidationTask extends Thread {
 
             // processing result tree
             ValidationReport validationReport = task.getReport();
+            if (validationReport == null) {
+                io.getOut().println("Unknown error.");
+            } else {
+                io.select();
+                io.getOut().println("Validation results:");
+                io.getOut().println("-------------------");
+                List<RuleResult> rulesResults = validationReport.getRuleResultList();
+                for (RuleResult ruleResult : rulesResults) {
+                    io.getOut().print("Rule name: ");
+                    io.getOut().println(ruleResult.getRuleName());
+                    if (ruleResult instanceof AtomicRuleResult) {
+                        AtomicRuleResult arr = (AtomicRuleResult) ruleResult;
+                        io.getOut().println("Rule type: atomic rule");
+                        String stringRuleResult = (arr.getResult()) ? "OK" : "Violation found.";
+                        io.getOut().println("Rule result: " + stringRuleResult);
 
-            // TODO: output results of the validation
+                        // TODO: process the tree here
+                    } else if (ruleResult instanceof CompoundRuleResult) {
+                        CompoundRuleResult crr = (CompoundRuleResult) ruleResult;
+                        // TODO: process compound rule result here
+                    }
 
+                    // TODO: for each rule print some tree of results
+                }
+            }
             StatusDisplayer.getDefault().setStatusText("Done.");
 
         } catch (UnsupportedOperationException ex) {

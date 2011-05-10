@@ -47,18 +47,18 @@ public class Vertex implements GraphElement {
      * properly initialized.
      * 
      * @param name name of the vertex to be created
-     * @param type type of the vertex to be created
+     * @param kind type of the vertex to be created
      * @return new Vertex object
      */
-    public static Vertex create(String name, String type) {
-        if (name == null || type == null) {
+    public static Vertex create(String name, String kind) {
+        if (name == null || kind == null) {
             throw new IllegalArgumentException("Vertex object can't be created "
                     + "using null values. Please supply valid arguments to this "
                     + "method.");
         }
         Vertex vertex = new Vertex();
         vertex.setName(name);
-        vertex.setKind(type);
+        vertex.setKind(kind);
         vertex.setId(idCounter);
         idCounter++;
         return vertex;

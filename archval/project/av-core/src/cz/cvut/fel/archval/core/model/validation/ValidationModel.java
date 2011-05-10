@@ -86,14 +86,18 @@ public class ValidationModel implements ValidationModelIface {
 
         // evaluate analysis commands
         for (AnalysisIface analysisIface : requiredAnalyses) {
-            Graph analysisGraph = graphModel.getGraphByType(analysisIface.getRequiredGraphType());
+            Graph analysisGraph = graphModel.getGraphByType(
+                    analysisIface.getRequiredGraphType());
+
             if (analysisGraph == null) {
                 throw new RequiredGraphNotFound("Graph of type '"
-                        + analysisIface.getRequiredGraphType() + "' was not found in the "
+                        + analysisIface.getRequiredGraphType()
+                        + "' was not found in the "
                         + "supplied graph model.");
 
             }
-            validationReport.addAnalysisResult(analysisIface.evaluate(analysisGraph));
+            validationReport.addAnalysisResult(
+                    analysisIface.evaluate(analysisGraph));
         }
 
         return validationReport;

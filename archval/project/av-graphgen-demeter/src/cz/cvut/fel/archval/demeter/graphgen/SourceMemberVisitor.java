@@ -10,6 +10,7 @@ import com.sun.source.tree.NewClassTree;
 import com.sun.source.tree.VariableTree;
 import com.sun.source.util.TreePath;
 import com.sun.source.util.TreePathScanner;
+import cz.cvut.fel.archval.core.api.model.graph.Edge;
 import cz.cvut.fel.archval.core.api.model.graph.Graph;
 import cz.cvut.fel.archval.core.api.model.graph.Vertex;
 import java.util.Deque;
@@ -34,7 +35,8 @@ import org.openide.windows.InputOutput;
 public class SourceMemberVisitor extends TreePathScanner<Void, Void> {
 
     private CompilationInfo info;
-    private InputOutput io = IOProvider.getDefault().getIO("DG-analysis", false);
+    private InputOutput io = IOProvider.getDefault().getIO("DG-analysis",
+            false);
     private Graph graph;
     private Deque<Vertex> stack;
     private String currentEdgeClassifier = null;
@@ -56,6 +58,7 @@ public class SourceMemberVisitor extends TreePathScanner<Void, Void> {
 
             printIndented("[add class vertex '" + tel.getQualifiedName()
                     + "' to stack here]", level);
+
         }
 
         inclass = true;
@@ -182,7 +185,7 @@ public class SourceMemberVisitor extends TreePathScanner<Void, Void> {
                 printIndented("[member add edge " + enclosingClassElement.getQualifiedName() + " (use)]", level);
             }
         }
-        
+
         Void retval = super.visitMemberSelect(node, p);
 
         return retval;
@@ -241,6 +244,24 @@ public class SourceMemberVisitor extends TreePathScanner<Void, Void> {
             indentation += "    ";
         }
         io.getOut().println("[" + level + "] " + indentation + string);
+    }
+
+    private Vertex ensureVertex(String name, String kind) {
+        Vertex vertex = graph.getVertexByNameAndKind(name, kind);
+        if (vertex == null) {
+            vertex = Vertex.create(name, kind);
+            graph.addVertex(vertex);
+        }
+        return vertex;
+    }
+
+    private Edge ensureEdge(Vertex tail, Vertex head, String classifier) {
+        Edge edge = graph.getEdgeByVerticesAndClassifier(tail, head, classifier);
+        if (edge == null) {
+            edge = Edge.create(tail, head, classifier);
+            graph.addEdge(edge);
+        }
+        return edge;
     }
 
     public void setGraph(Graph graph) {

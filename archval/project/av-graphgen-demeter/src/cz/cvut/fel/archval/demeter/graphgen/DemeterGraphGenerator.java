@@ -29,6 +29,7 @@ public class DemeterGraphGenerator implements GraphGeneratorIface {
     public Graph getGraph(File projectDirectory) throws IOException, InterruptedException, ExecutionException {
 
         Graph graph = new Graph();
+        graph.setGraphType(getGraphType());
 
         FileObject projectDirectoryFileObject =
                 FileUtil.toFileObject(projectDirectory);

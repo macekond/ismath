@@ -26,4 +26,12 @@ public class ValidationReport {
     public void addAnalysisResult(AnalysisResult analysisResult) {
         analysisResults.add(analysisResult);
     }
+
+    public List<RuleResult> getRuleResultList() {
+        return ruleResults;
+    }
+
+    public List<AnalysisResult> getAnalysisResult() {
+        return analysisResults;
+    }
 }

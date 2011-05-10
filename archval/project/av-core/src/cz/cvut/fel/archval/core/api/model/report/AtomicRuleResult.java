@@ -49,7 +49,7 @@ public class AtomicRuleResult extends RuleResult {
         elementResults.put(elementId, resultNode);
     }
 
-    public boolean isResult() {
+    public boolean getResult() {
         return result;
     }
 

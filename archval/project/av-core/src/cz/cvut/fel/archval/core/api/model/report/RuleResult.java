@@ -7,5 +7,15 @@ package cz.cvut.fel.archval.core.api.model.report;
  */
 public abstract class RuleResult extends ResultNode {
 
+    private String ruleName;
+
     public abstract RuleType getRuleType();
+
+    public void setRuleName(String ruleName) {
+        this.ruleName = ruleName;
+    }
+
+    public String getRuleName() {
+        return ruleName;
+    }
 }

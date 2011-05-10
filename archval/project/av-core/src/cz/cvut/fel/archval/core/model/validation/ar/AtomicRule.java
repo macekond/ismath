@@ -85,6 +85,7 @@ public class AtomicRule extends Rule {
         AtomicRuleResult atomicRuleResult = (AtomicRuleResult) resultNode;
         atomicRuleResult.setAtomicRuleType(atomicRuleType);
         atomicRuleResult.setAtomicRuleQuantificationType(quantificationType);
+        atomicRuleResult.setRuleName(name);
 
         boolean result = false;
 

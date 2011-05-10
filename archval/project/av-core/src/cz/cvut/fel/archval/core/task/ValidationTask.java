@@ -34,7 +34,7 @@ public class ValidationTask implements ValidationTaskIface {
 
     public void runSynchronous() {
         try {
-            validationModel.validate(graphModel);
+            validationReport = validationModel.validate(graphModel);
         } catch (RequiredGraphNotFound ex) {
             caughtException = ex;
         }
