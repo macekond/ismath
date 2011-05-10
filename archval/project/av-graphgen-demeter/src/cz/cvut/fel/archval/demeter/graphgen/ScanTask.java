@@ -19,7 +19,8 @@ public class ScanTask implements Task<CompilationController> {
         this.graph = graph;
     }
 
-    public void run(CompilationController compilationController) throws Exception {
+    public void run(CompilationController compilationController)
+            throws Exception {
 
         compilationController.toPhase(JavaSource.Phase.RESOLVED);
 

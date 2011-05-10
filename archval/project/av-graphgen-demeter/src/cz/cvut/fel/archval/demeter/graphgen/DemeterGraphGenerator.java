@@ -12,8 +12,6 @@ import org.netbeans.api.java.source.JavaSource;
 import org.netbeans.api.java.source.Task;
 import org.openide.filesystems.FileObject;
 import org.openide.filesystems.FileUtil;
-import org.openide.windows.IOProvider;
-import org.openide.windows.InputOutput;
 
 /**
  * Graph which generates graph suitable for LoD analysis based on specified
