@@ -29,9 +29,8 @@ Mějme grafový model projektu $G = \langle V, E, \rho, K, C, \mathit{Kind}, \ma
 \forall v \in V: Kind(v) = ``class"\\
 \end{align*}
 \begin{align*}
-F(v, ``method", ``use") &\setminus ( F(v, ``method", ``self") \cup \\
-F(v, ``method", ``field") &\cup F(v, ``method", ``arg") \cup \\ 
-F(v, ``method", ``constr") &\cup F(v, ``method", ``static")) = \emptyset
+&F(v, ``method", ``use") \setminus ( F(v, ``method", ``self") \cup F(v, ``method", ``field") \cup \\
+&F(v, ``method", ``arg") \cup F(v, ``method", ``constr")) = \emptyset
 \end{align*}
 
 \end{designprinciple}
