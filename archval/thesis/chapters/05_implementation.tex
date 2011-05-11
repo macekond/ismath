@@ -37,27 +37,24 @@ GT = &\{ \\
 &(``field" (``class", ``class")), \\
 &(``self" (``method", ``class")), \\
 &(``arg" (``method", ``class")), \\
-&(``use" (``method", ``class")), \\
+&(``constr" (``method", ``class")), \\
 &(``use" (``method", ``class")) \\
 &\}
 \end{align*}
 Pokud budeme uvažovat koncové vrcholy jednotlivých hran a jejich zobrazení do množiny typů, potom musí platit, že obraz jednotlivých komponent hrany (vrcholů) bude shodný s~obrazem hrany provedeného pomocí zobrazení GT.
 
-Pokud \emph{grafový model projektu splní} všechny tyto podmínky, řekneme o něm, že je typu \emph{demeter graph model}.
+Pokud \emph{grafový model projektu} splní všechny tyto podmínky, řekneme o něm, že je typu \emph{demeter}.
 
-Příklad takového grafu je na obrázku \ref{implementation-lod_graph}. Lze jej získat ze zdrojových kódů pogramu.
+Příklad takového grafu je na obrázku \ref{implementation-lod_graph}. V~uvedeném obrázku princip LoD porušuje metoda \verb-method1_2-, která používá třídu \verb-Class2-, ačkoliv není ani jednou z dovolených tříd principu LoD (třída pole vlastnické třídy metody, argument metody, atd.).
 
-% TODO: aktualizovat graf!!!
 \begin{figure}[h!]
   \centering
   \includegraphics[width=1.0\textwidth]{./graphs/demeter_graph.png}
-  \caption{Graf použitý pro validaci principu LoD.\label{implementation-lod_graph}}
+  \caption{Graf \uv{typu demeter} použitý pro validaci principu LoD.\label{implementation-lod_graph}}
 \end{figure}
 
-Pravidlo LoD potom specifikujeme následovně:
-
 \begin{designprinciple}
-Mějme grafový model projektu $G = \langle V, E, \rho, K, C, \mathit{Kind}, \mathit{Classifier}\rangle$. Návrhový princip LoD splňuje graf, pro který platí:
+Mějme grafový model projektu $G = \langle V, E, \rho, K, C, \mathit{Kind}, \mathit{Classifier}\rangle$ typu demeter. Model $G$ splňuje návrhový princip LoD, pokud pro něj platí:
 
 \begin{align*}
 \forall v \in V: Kind(v) = ``method"\\
@@ -69,8 +66,7 @@ Mějme grafový model projektu $G = \langle V, E, \rho, K, C, \mathit{Kind}, \ma
 
 \end{designprinciple}
 
-% TODO: opravit!
-Specifikované pravidlo vyjadřuje požadavek, aby množina vrcholů do níž se dostaneme pomocí hran, které představují povolené vstupy tříd do analyzované třídy (třídní proměnné, parametry, vytvářené objekty), byla totožná s~množinou všech vrcholů, které představují všechny třídy používané (klasifikátor $``uses"$) v~rámci některé z~metod. Odečtení vrcholu $v$ z~výsledné množiny je zde kvůli tomu, abychom nemuseli navíc zavádět zbytečnou hranu identifikující, že třída je známá sama sobě.
+Specifikované pravidlo vyjadřuje požadavek, aby množina vrcholů (představujících třídy) do níž se dostaneme pomocí hran s klasifikátorem $``use"$ (všechna použití tříd uvnitř metody) byla podmnožinou sjednocení vrcholů, které pro danou metodu představují povolená použití tříd (vlastní třída metody, třída třídní proměnné, argument metody nebo konstruovaná třída). Je-li totiž množina ``use" vrcholů podmnožinou sjednocení ostatních množin, množinový rozdíl bude roven prázdné množině. V opačném případě bude množinový rozdíl nenulový, což bude znamenat porušení principu LoD.
 
 \subsection{Low coupling, high cohesion}
 % TODO:

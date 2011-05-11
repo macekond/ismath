@@ -13,30 +13,25 @@ digraph GraphExample {
     Class5[label="Name: \"Class5\" \nKind: \"class\""];
     Class6[label="Name: \"Class6\" \nKind: \"class\""];
 
-    field1[label="Name: \"field1\" \nKind: \"field\""];
-    field2[label="Name: \"field2\" \nKind: \"field\""];
+    Class1 -> Class4[label="Class: \"field\""]
+    Class1 -> Class5[label="Class: \"field\""]
+    Class1 -> Class6[label="Class: \"field\""]
+    Class2 -> Class4[label="Class: \"field\""]
 
-    method1[label="Name: \"method1\" \nKind: \"method\""];
 
-    param1[label="Name: \"param1\" \nKind: \"param\""];
-    param2[label="Name: \"param2\" \nKind: \"param\""];
+    method1_1[label="Name: \"method1_1\" \nKind: \"method\""];
+    method1_2[label="Name: \"method1_2\" \nKind: \"method\""];
+    method1_3[label="Name: \"method1_3\" \nKind: \"method\""];
 
-    Class1 -> field1[label="(1) Class: \"has_field\""];
-    Class1 -> field2[label="(2) Class: \"has_field\""];
 
-    Class1 -> method1[label="(3) Class: \"has_method\""];
+    method1_1 -> Class1[label="Class: \"self\""];
+    method1_2 -> Class1[label="Class: \"self\""];
+    method1_3 -> Class1[label="Class: \"self\""];
 
-    method1 -> param1[label="(4) Class: \"has_param\""];
-    method1 -> param2[label="(5) Class: \"has_param\""];
+    method1_3 -> Class6[label="Class: \"arg\""];
+    method1_3 -> Class3[label="Class: \"arg\""];
 
-    field1 -> Class2[label="(6) Class: \"is_of_type\""];
-    field2 -> Class3[label="(7) Class: \"is_of_type\""];
+    method1_3 -> Class2[label="Class: \"constr\""];
 
-    param1 -> Class3[label="(8) Class: \"is_of_type\""];
-    param2 -> Class4[label="(9) Class: \"is_of_type\""];
-
-    method1 -> Class3[label="(11) Class: \"uses\""];
-    method1 ->  Class5[label="(12) Class: \"uses\""];
-    method1 -> Class6[label="(13) Class: \"instantiates\""];
-    method1 -> Class6[label="(14) Class: \"uses\""];
+    method1_2 -> Class2[label="Class: \"use\""];
 };
