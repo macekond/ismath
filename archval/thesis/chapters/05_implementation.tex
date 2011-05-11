@@ -69,8 +69,11 @@ Mějme grafový model projektu $G = \langle V, E, \rho, K, C, \mathit{Kind}, \ma
 Specifikované pravidlo vyjadřuje požadavek, aby množina vrcholů (představujících třídy) do níž se dostaneme pomocí hran s klasifikátorem $``use"$ (všechna použití tříd uvnitř metody) byla podmnožinou sjednocení vrcholů, které pro danou metodu představují povolená použití tříd (vlastní třída metody, třída třídní proměnné, argument metody nebo konstruovaná třída). Je-li totiž množina ``use" vrcholů podmnožinou sjednocení ostatních množin, množinový rozdíl bude roven prázdné množině. V opačném případě bude množinový rozdíl nenulový, což bude znamenat porušení principu LoD.
 
 \subsection{Low coupling, high cohesion}
-% TODO:
-% odkázat na rešeši v analýze a přidat poznámku o tom, že tato pravidla nebyla specifikována s tím, že je možné je realizovat jako analýzu pomocí rozhraní AnalysisIface
+Zatímco princip LoD se nám podařilo přesně specifikovat pomocí množin. U principů \emph{low coupling} a \emph{high cohesion} bychom spíše uvažovali o realizaci vhodné analýzy. Tyto analýzy však nebyly cílem této práce.
+
+Přesto byla realizována programová podpora, která umožní snadné přidání modulu, který může pracovat nad libovolným grafem poskytovaným některým z existujících poskytovatelů generátorů grafů a tyto nebo jiné podobné vlastnosti analyzovat.
+
+Konkrétní informace a rešeše týkající se těchto principů byly rozebrány v kapitole \ref{analysis}.
 
 \section{Implementace jádra systému}
 % TODO: incorporate
