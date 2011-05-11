@@ -143,59 +143,28 @@ Můžeme si všimnout, že se obě implementace liší pouze přehozením podmí
 Podobným způsobem jsou realizovány i další operátory. Například sjednocení množin využívá operací poskytovaných třídou \verb-HashSet- programovacího jazyka Java.
 
 \section{Implementace modulů rozšíření}
-
-% TODO: rozepsat
-\begin{itemize}
-\item SPI -- implementace rozhraní
-\item pojem \emph{poskytovatel služby}
-\item lookup, META-INF/services, registrace služeb
-\end{itemize}
+V rámci této práce byly realizovány celkem dva netbeans moduly realizující rozšíření. Tyto moduly mohou současně sloužit jako návod k implementaci dalších rozšíření. Jedná se o poskytovatele generátoru grafu typu \emph{demeter} a balíček operátorů, které jsou nezbytné k provedení pravidla \emph{LoD}. Tyto operátory nicméně nejsou vázány pouze na princip \emph{Law of Demeter}. Například operátor, který testuje, zda je množina vrcholů prázná má zcela jistě obecné použití.
 
 \subsection{Modul av-graphgen-demeter (generátor grafu)}
-ukázkový poskytovatel generátoru grafu
+Modul pro generování grafu nad nímž je možné provést kontrolu principu LoD, je realizován díky možnosti využít existující infrastrukturu platformy NetBeans pro práci se zdrojovými kódy v jazyce Java a jejich syntaktickými stromy. Jak již bylo zmíněno dříve v rámci analýzy, platforma NetBeans poskytuje AST stromy, které mají již rozlišené symboly. Díky tomu můžeme stromy postupně procházet a dotazovat se na plně kvalifikovaná jména elementů představujících třídy, rozhraní atd.
 
-Implementujeme jako samostatný netbeans modul.
+Generátor grafu je realizován v rámci třídy \emph{DemeterGraphGenerator} (implementuje rozhraní \emph{GraphGeneratorIface}). Protože vstupním parametrem pro generátor grafu je \uv{pouze} adresář projektu. Je nutné vylistovat všechny soubory, které mohou obsahovat zdrojový kód v jazyce Java (\verb+*.java+ soubory). Následně je pro každý takový soubor získána instance třídy \emph{JavaSource} poskytované platformou NetBeans. Tato třída je vstupním bodem k funkcionalitám poskytovaným kompilátorem jazyka Java (třída JavaSource tato rozhraní zabaluje). Díky tomu je možné využít \emph{Java Tree API} pro iteraci všech syntaktických elementů v rámci kompilační jednotky.
 
-\emph{DemeterGraphGenerator} implementuje \emph{GraphGeneratorIface}.
-
-Zpracovávání AST:
-Vyhledávali jsme:
-\begin{itemize}
-\item visitClass
-\item visitMethod
-\item visitVariable
-\item visitIdentifier
-\item visitMethodInvocation
-\item visitMemberSelect
-\item visitNewClass
-\item visitNewArray
-\end{itemize}
-
-\begin{itemize}
-\item použití zásobníku
-\item generování hran
-\end{itemize}
-
-\begin{itemize}
-\item ``field" -- visitVariable, visitIdentifier
-\item ``self" -- enclosing element
-\item ``arg" -- visitVariable (level 3)
-\item ``constr" -- new, new array
-\item ``use" -- method invocation, member select (přístup k polím třídy)
-\end{itemize}
+To je provedeno formou návrhového vzoru \emph{Visitor}. Při generování demeter grafu nemusíme naštěstí přepisovat všechny metody třídy \emph{TreePathVisitor}, ale zaměřujeme se pouze na elementy, které potřebujeme pro vygenerování grafu. Pro vygenerování potřebného grafu nám stačí získat následující informace: které třídy je metoda členem, zjištění všech nadtříd třídy, konstrukce nové proměnné (nebo pole proměnných), deklarace polí třídy, vyvolání metody a přístup k poli třídy. Ostatní syntaktické konstrukce nejsou pro tento druh generování grafu podstatné.
 
 \subsection{Modul av-operators-demeter (operátory pro LoD)}
-ukázkový balíček operátorů pro ověřování principu LoD
+Balík operátorů poskytovaný modulem \verb+av-operators-demeter+ obsahuje následující operátory:
 
 \begin{itemize}
-\item třída \emph{EmptyVertexSetPredicate} -- \uv{empty} -- $P() = \emptyset$
-\item třída \emph{FVertexSetSelector} -- \uv{F} -- popsáno výše
-\item třída \emph{VertexKindPredicate} -- \uv{kind} -- $Kind(v, ``label")$
+\item \verb+vertex_set_is_empty+ -- třída \emph{EmptyVertexSetPredicate} -- operátor, který vrátí \verb+true+ v případě, že je množina vrcholů předaná jako parametr prázdná
+\item \verb+F+ -- třída \emph{FVertexSetSelector} -- implementace operátoru \emph{F} tak jak byl definován výše
+\item \verb+kind+ -- třída \emph{VertexKindPredicate} -- predikát, který vrátí \verb+true+, pokud má vrchol předaný jako první parametr typ shodný s řetězcem předaným jako druhý parametr
 \end{itemize}
 
-Obsahuje sadu tříd implementující operátory potřebné pro definování pravidla pro validaci LoD. Tyto třídy implementují rozhraní \emph{OperatorIface} (resp. jeho podtypy).
+Implementace oprátorů je poměrně přímočará. Zajímavý je snad jen operátor \emph{F}, který pomocí jednoduché rekurze implementuje modifikované prohledávání do hloubky, aby získal množinu potřebných vrcholů.
 
 \section{Integrace do NetBeans IDE}
+
 
 %% TODO: incorporate
 %% (modul av-platform-integration)
@@ -233,12 +202,7 @@ Třída \emph{ValidateMainProject}
 Integrace do běhové platformy. Reprezentuje uživatelskou akci. Bude implementováno na základě zvolené implementační platformy (akce v~GUI).
 
 \subsection{Vstupní rozhraní}
-% TODO: reorder to fit right order
-\subsubsection{Ukázka vstupního formátu}
-\lstinputlisting[
-  label=avdgrammar,
-  caption={Ukázka vstupního AVD souboru odpovídajícího pravidlu specifikovanému v podsekci \ref{implementation-lod_specification} (LoD).}
-]{./listings/example.avd}
+% TODO: write something about reading avd input and projects
 
 \subsection{Výstupní rozhraní}
 % TODO: zde popsat implementované výstupní rozhraní (alternativy by měly být diskutovány v návrhu)
@@ -251,7 +215,14 @@ Integrace do běhové platformy. Reprezentuje uživatelskou akci. Bude implement
 \item NetBeans lookup -- /META-INF/services
 \end{itemize}
 
-\subsubsection{Podpora editace AVD souborů}
+% TODO: rozepsat
+\begin{itemize}
+\item SPI -- implementace rozhraní
+\item pojem \emph{poskytovatel služby}
+\item lookup, META-INF/services, registrace služeb
+\end{itemize}
+
+\subsection{Podpora editace AVD souborů}
 % TODO: rozepsat
 \begin{itemize}
 \item experimentální mime typ \verb+text/x-avd+
