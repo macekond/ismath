@@ -4,6 +4,20 @@
 % TODO: použít nebo smazat (případně zařadit jinam)
 % TODO: moduly popsané v části \ref{design-architecture} implementujeme jako jednotlivé moduly platformy NetBeans.
 
+ %% Nejprve se zaměříme Vytvoříme jednoduchý jazyk (DSL) pro specifikaci validačních parametrů. Jazyk popíšeme jednoduchou gramatikou. U~této gramatiky předpokládáme, že bílé znaky jsou ignorovány (pokud nejsou uvnitř řetězce).
+
+% TODO: zapracovat
+%% ValidationModel v~sobě bude zapouzdřovat data z~AVD souborů. AVD soubory budou mít samostatné jmenné prostory pro následující typy jmen:
+
+%% \begin{itemize}
+%% \item názvy analýz
+%% \item jména typů grafů
+%% \item jména atomických a složených pravidel (jmenný prostor pro atomická i složená pravidla je sdílený)
+%% \item jména operátorů
+%% \item datové typy v modelu
+%% \end{itemize}
+
+
 \section{Specifikace pravidel požadovaných zadáním práce}
 Pro specifikaci Demeter law definujeme predikát, který nám umožní vybrat vhodné množiny vrcholů. Vybrané množiny potom ověřeíme pomocí predikátu, který uřčí, zda jsou tyto množiny v~pořádku, či zda porušují \emph{LoD} princip.
 

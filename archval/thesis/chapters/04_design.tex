@@ -8,7 +8,7 @@ Abychom mohli specifikovat pravidla, musíme nejprve definovat strukturu, nad kt
 \subsection{Formalizace modelu programu pomocí grafu}
 \label{design-graph_formalization}
 
-Analyzovaný softwarový projekt abstrahujeme jako orientovaný multigraf rozšířený o~zobrazení množiny uzlů do množiny typů a zobrazení hran do množiny jejich klasifikátorů (označení typu vztahu mezi uzly). Dále přidáme ke každému vrcholu zobrazení, které mu přiřadí jméno (řetězec). Získáme tak následující definici pojmu \emph{grafový model programu}:
+Analyzovaný softwarový projekt abstrahujeme jako orientovaný multigraf rozšířený o~zobrazení množiny uzlů do množiny typů\footnote{Pod pojmem typ zde rozumíme jakékoliv označení, které specifikuje o~jaký objekt se jedná, nikoliv datový typ. Může se jednat o vrchol typu třída, metoda, příkaz nebo třeba celý zdrojový soubor, budeme-li analyzovat vztahy mezi kompilačními jednotkami.} a zobrazení hran do množiny jejich klasifikátorů (označení typu vztahu mezi uzly). Dále přidáme ke každému vrcholu zobrazení, které mu přiřadí jméno (řetězec). Získáme tak následující definici pojmu \emph{grafový model programu}:
 
 \begin{definition}
 \textbf{Grafovým modelem projektu} nazveme strukturu
@@ -22,16 +22,17 @@ v~níž platí:
 \item $E$ je množina hran (v~našem případě vztahy mezi částmi kódu - např. volání funkce, dědičnost)
 \item $V \cap E = \emptyset$
 \item $\rho: E \mapsto V \times V$ je zobrazení množiny hran do množiny uspořádaných dvojic vrcholů (incidence)
-\item $K$ je libovolná množina označení typů vrcholů\footnote{Pod pojmem typ zde rozumíme jakékoliv označení, které specifikuje o~jaký objekt se jedná -- může to být třída, metoda, příkaz, \ldots},
+\item $K$ je libovolná množina označení typů vrcholů,
 \item $C$ je množina klasifikátorů hran,
 \item $N$ je množina jmen (řetězců)
 \item $\mathit{Kind}: V \mapsto K$ je zobrazení, které přiřadí každému vrcholu jeho typ,
-\item $\mathit{Classifier}: E \mapsto C$ je zobrazení, které přiřadí každé hraně její klasifikátor (zda se jedná o~\emph{method call}, \emph{dědičnost}, atd.)
-\item $\mathit{Name}: V \mapsto N$ je zobrazení, které přiřadí vrcholu jeho jméno (např. jméno třídy, jméno metody, \ldots)
+\item $\mathit{Classifier}: E \mapsto C$ je zobrazení, které přiřadí každé hraně její klasifikátor (zda se jedná o~method call, dědičnost, apod.)
+\item $\mathit{Name}: V \mapsto N$ je zobrazení, které přiřadí vrcholu jeho jméno (např. jméno třídy, jméno metody)
 \end{itemize}
 \end{definition}
 
 Ukázka formalizace zdrojového kódu pomocí grafu je na obrázku \ref{design-graph_example}. V~uvedeném příkladě můžeme strukturu $G$ namapovat následujícím způsobem:
+
 \begin{figure}[h!]
   \centering
   \includegraphics[width=1.0\textwidth]{./graphs/graph_example.png}
@@ -45,7 +46,7 @@ Množinu vrcholů můžeme ztotožnit s~množinou názvů elementů (v~našem p�
   &``controlGear", ``gearUp", ``gearDown" \\
   &\}
 \end{align*}
-Abychom mohli demonstrovat množinu hran, bylo provedeno očíslování. Hranu zde identifikujeme číslem. V~počítačové reprezentaci se může jednat o~konkrétní objekt uložený v~poli. Zvolený identifikátor hrany nemá vliv na prováděnou analýzu, musí pouze zajistit jednoznačnou identifikaci hrany. Množinu hran zde v~textu reprezentujeme prostým výčtem čísel\footnote{V programu bude potom hrana reprezentována konkrétním objektem případně rozšířeným o~vhodný jedinečný identifikátor.}:
+Abychom mohli demonstrovat množinu hran, bylo provedeno očíslování. Hranu zde identifikujeme číslem. V~počítačové reprezentaci se může jednat o~konkrétní objekt (resp. referenci na něj) uložený v~poli. Zvolený identifikátor hrany nemá vliv na prováděnou analýzu, musí pouze zajistit jednoznačnou identifikaci hrany. Množinu hran zde v~textu reprezentujeme prostým výčtem čísel\footnote{V programu bude potom hrana reprezentována konkrétním objektem případně rozšířeným o~vhodný jedinečný identifikátor.}:
 
 \begin{displaymath}
   E = \{1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12\}
@@ -75,7 +76,7 @@ množina klasifikátorů hran $C$,
 \begin{align*}
   C = \{ ``extends", ``has\_member", ``calls" \}
 \end{align*}
-přiřazení typů uzlům $Kind$,
+přiřazení typů uzlům,
 \begin{align*}
   Kind = &\{ \\
   &(``Bicycle", ``class"), \\
@@ -109,58 +110,86 @@ a přiřazení klasifikátorů hranám:
   \}
 \end{align*}
 
-Uvedené množiny můžeme poměrně snadno reprezentovat v~programovacím jazyce Java jako objekty. V~dalším návrhu bude zavedena třída \emph{Vertex}, hrana \emph{Edge} a další podobné objekty.
+Uvedené množiny můžeme poměrně snadno reprezentovat v~programovacím jazyce Java jako objekty. V~dalším návrhu bude zavedena třída \emph{Vertex}, hrana \emph{Edge} a další objekty pro repezentaci výše definovaných pojmů.
 
 Vrcholy takto vytvořeného grafu nemusí být pouze třídy, můžeme použít libovolné syntaktické elementy z~kódu, který analyzujeme. Vždy záleží na úrovni prováděné analýzy, co zvolíme jako vrcholy grafu, jaké hrany mezi nimi zvolíme a jaká označení a typy budou mít. Nástroj, který budeme navrhovat bude počítat s~libovolným takto vybudovaným grafem. Ke grafům konkrétního typu přiřadíme idnentifikátory a při specifikaci pravidel vždy uvedeme, nad kterým typem grafu má definované pravidlo platit.
 
-% TODO: napsat definici typu grafového modelu projektu
+Grafový model projektu je definován velmi obecně, protože nespecifikuje, jaké klasifikátory hran se mohou vyskytnout mezi kterými typy vrcholů. Proto budeme uvažovat pojem \emph{typ grafového modelu projektu}. Ten bude udávat, jaké klasifikátory mohou mít hrany, které spojují vrcholy konkrétních typů. Pojem zde nebudeme definovat, pouze naznačme, jak bychom postupovali. Je nutné přidat dodatečné zobrazení, které přiřadí každé dvojici vrcholů dvojici jejich typů. Potom je možné tyto dvojice zobrazit do množiny klasifikátorů. Toto zobrazení nám potom vymezí, jaké typy hran se mohou vyskytnout mezi vrcholy konkrétních typů.
 
 \subsection{Formalizace pravidel}
 \label{design-rules_formalization}
-% TODO: CONTINUEHERE: aktualizovat (gramatika byla přesunuta)
-Nyní, když máme definován model, můžeme popsat jazyk pravidel, která mají pro daný model platit. Vytvoříme jednoduchý jazyk (DSL) pro specifikaci validačních parametrů. Jazyk popíšeme jednoduchou gramatikou. U~této gramatiky předpokládáme, že bílé znaky jsou ignorovány (pokud nejsou uvnitř řetězce).
+Nyní, když máme definován model, můžeme popsat jazyk pravidel, která mají pro daný model platit. Pokusíme se pravidla zavést co nejformálněji. Budeme uvažovat základní matematické operace (kvantifikace, funkce, \ldots).
 
-% TODO: definovat základní elementy jazyka pravidel
-% TODO: zapsat matematicky pravidlo
-\subsubsection{Matematická formulace pravidel}
+Pravidla budeme definovat nad množinami $V$ a $E$ ve výše zmíněné definici \emph{grafového modelu projektu}. Můžeme tak hovořit o vrcholových a hranových pravidlech. O jaké pravidlo se bude jednat a nad kterými vrcholy nebo hranami bude platit vymezíme pomocí kvantifikace. Např.
+\begin{align*}
+\exists v \in V
+\end{align*}
+určí, že se jedná o vrcholy. Elementy, nad nimiž budeme chtít specifikovat další pravidlo navíc můžeme vymezit pomocí podmínky, která má platit pro všechny vybírané prvky. To může být třeba požadavek, aby všechny vybírané prvky měly konkrétní hodnotu zobrazení $Kind$:
+\begin{align*}
+\exists v \in V : HasKind(v, ``function\_name")
+\end{align*}
+
+Element typu \emph{HasKind} označíme pro další použití v textu jako \emph{predikát}. Bude se jednat o funkci, jejíž návratová hodnota má logický výsledek \emph{platí}/\emph{neplatí}. Dále můžeme nad vybranými elementy specifikovat vhodné pravidlo. To budeme provádět pomocí dalších operátorů. Uveďme příklad:
+
+\begin{align*}
+\exists v \in V &: HasKind(v, ``function\_name") \\
+\\
+CountLessThan&(OutgoingEdges(v, ``argument"), 4)
+\end{align*}
+V uvedeném případě bychom chtěli vyjádřit požadavek, aby počet argumentů každé funkce byl menší než čtyři. Sémantika výrazu ovšem závisí na tom, jak zadefinujeme použité operátory (resp. funkce) a současně na tom, jaký význam má hrana s klasifikátorem ``argument" (které elementy spojuje nebo může spojovat). Je zřejmé, že základní pravidlo by mělo mít následující součásti:
+
 \begin{itemize}
-\item co jsou to selektory (napsat definici platnou pro tento dokument),
-\item co jsou to predikáty (napsat definici platnou pro tento dokument),
-\item popis základní struktury souboru s~definicí validačních pravidel,
-\item ukázka dokumentu odpovídajícího specifikované gramatice.
-\end{itemize}
+\item označení typu grafu, nad nímž má pravidlo platit,
+\item jméno pravidla (to sice není podstatné pro definici pravidla, v dalším textu však umožníme definici složených pravidel, pro která bude zavedení identifikace pravidel nezbytné),
+\item vymezení množiny, nad kterou má pravidlo platit,
+\item logický výraz skládající se z predikátů.
+\end{itemize}.
 
-% TODO: zapracovat
-Pro jednotlivá pravidla potřebujeme \emph{úplný systém logických spojek}, to ale množina spojek $\{\wedge, \vee, \neg\}$ splňuje\footnote{Jeden z~operátorů $\wedge$ a $\vee$ je v~úplném systému logických spojek nadbytečný, ale pro pohodlnost použití jej ponecháme.}.
+Výraz uvedený ve druhé části pravidla (v našem případě $CountLessThan(...)$) může být jakýkoliv logický výraz, jehož elementy jsou predikáty platící nad nějakými objekty. Mezi predikáty budeme uvažovat \emph{úplný systém logických spojek}. Ten nám pokryje množina logických spojek $\{\wedge, \vee, \neg\}$ \footnote{Jeden z~operátorů $\wedge$ a $\vee$ je ve zmíněném systému logických spojek nadbytečný, ale pro pohodlnost použití jej ponecháme.}. Výsledkem výrazu bude logická hodnota, která nám bude udávat splnění resp. nesplnění požadovaného pravidla. Celou konstrukci (vymezení typu grafu, pojmenování pravidla, kvantifikace a logický výraz) označíme pojmem \emph{atomické pravidlo}.
 
-%% TODO: přepsat jako přesné definice, které se budou v dalším textu dodržovat
-\subsubsection{Typy operátorů}
+Abychom umožnili větší flexibilitu při definování pravidel. Můžeme atomická pravidla dále použít pro definici pravidel složených. Jediné, co k tomu potřebujeme, je úplný systém logických spojek tak, jak byl zmíněn výše. Složené pravidlo potom může vypadat např. takto:
+\begin{align*}
+P1 \wedge A1 \vee ( A2 \vee \neg P3)
+\end{align*}
+kde všechna zmíněná pravidla musí být definována dříve. Pravidla mohou být jak atomická tak složená. Díky tomu můžeme vytvořit na základě dříve definovaných primitiv složitější požadavky na platnost pravidel.
+
+V uvedených výrazech používáme různé funkce/operátory. Typy těchto funkcí omezíme na následující:
+
 \begin{itemize}
 \item Predikát (Predicate) -- operátor, který na základě vstupních parametrů a poskytované rozhodovací funkce vrací booleovskou hodnotu (true/false)
 \item Vrcholový selektor (Vertex selector) -- vrací množinu vrcholů na základě vstupních parametrů a poskytované výběrové funkce
 \item Hranový selector (Edge selector) -- vrací množinu hran na základě vstupních parametrů a poskytované výběrové funkce
 \end{itemize}
+Pro výše zmíněné operátory umožníme libovolný počet parametrů. Pro potřeby této práce však vymezíme typy elementů, které mohou být parametry. Budeme pracovat s následujícími typy:
 
-%% TODO: na tomto místě popsat formát pravidel matematicky
+\begin{itemize}
+\item vrchol,
+\item hrana,
+\item množina vrcholů,
+\item množina hran,
+\item celočíselná hodnota,
+\item řetězec (pro reprezentaci klasifikátorů a typů),
+\item logická hodnota \verb-true/false-.
+\end{itemize}
 
-Serializace pravidel ve formátu vhodném pro zadávání do počítače je přesně popsána pomocí gramatiky specifikované v~příloze \ref{avd_grammar}.
+Ve výše uvedeném příkladu ($LessThan(...)$) má predikát \emph{LessThan} dva parametry, kde první je typu \emph{množina vrcholů} druhý typu celé číslo. Na místě prvního operátoru vystupuje operátor typu \emph{hranový selektor}, jehož návratovou hodnotou je množina hran. Parametry tohoto selektoru jsou potom element typu \emph{vrchol} a \emph{řetězec}.
 
-% TODO: přidat do některé části popis, jak definovat nové pravidlo (možná až do instalační nebo programátorské příručky)
+Protože výše zmíněná formalizace pravidel není zcela vhodná pro zadávání do počítače. Poskytneme vhodnou formu serializace této matematické notace do formátu vhodného pro zadávání. Jedná se o jednoduhé mapování, které však nezmění podstatu navrženého formalismu. Formálně je způsob zadávání pravidel popsán dále pomocí gramatiky specifikované v~příloze \ref{avd_grammar}. Gramatika je popsána ve vstupním formátu nástroje ANTLR (zmiňovaného v sekci \ref{analysis-java_source_processing}). Protože se však jedná o pouze drobně modifikovanou formu EBNF, používáme ji současně jako referenční příručku pro zápis nových pravidel.
 
 \subsection{Typy analýzy}
 
-\paragraph{Přístupy}
+Ne všechny aspekty návrhu je možné zachytit pomocí konkrétně vymezitelných požadavků.  Mnohdy můžeme kvalitu návrhu posuzovat pouze kvalitativně a statisticky (dobrý návrh, lepší, moc vazeb, málo vazeb, atd.). Některé návrhové principy (např. low coupling\footnote{LoD je již konkretizací principu \emph{low coupling}, u které lze uvažovat hodnoty \emph{splněno}/\emph{nesplněno}.}, high cohesion) může být vhodnější poskytnou statistický přístup pro vyhodnocování (použití vhodného klasifikátoru).
+
+Kromě exaktního zadávání a vyhodnocování pravidel, která mají platit nad konkrétním grafem, můžeme uvažovat ještě nejrůznější druhy analýzy. Můžeme použít např.
+
 \begin{itemize}
-\item aplikace poznatků z~teorie grafů
-\item vyhodnocování statistických pravidel (např. různé meze počtů elementů v~grafech)
-\item použití data miningu (klasifikace modelů)
+\item poznatky z~teorie grafů,
+\item vyhledávání vzorů,
+\item vyhodnocování statistických pravidel (meze počtů elementů v~grafech, atd.), generování dat pro vykreslení histogramů,
+\item použití data miningu (klasifikace modelů na základě vhodné trénovací množiny, shlukování).
 \end{itemize}
 
-%% TODO: zapracovat:
-V~rámci analýzy je možné využít vyhledávání konkrétních vzorů. Dále je možné použít některou z~klasifikačních metod. Například můžeme vytvořit klasifikátor na základě existujících vzorků "dobrých" a "špatných" architektonických návrhů. Každý model totiž má velké množství statistických vlastností (features), které bychom mohli využít pro sestrojení nějakého klasifikátoru.
-
-%% TODO: zapracovat:
-Ne všechna pravidla lze popsat exaktně ve smyslu splněno/nesplněno. Mnohdy můžeme kvalitu návrhu posuzovat pouze kvantitativně (dobrý návrh, lepší, moc vazeb, málo vazeb, atd.). Pro některé vlastnosti návrhu (např. low coupling, high cohesion) může být vhodnější poskytnou statistický přístup pro vyhodnocování (např. použití vhodného klasifikátoru).
+Zajímavou možností je právě využití klasifikátorů. Každý graf má velké množství zajímavých statistických znaků (features), které je možné využít. Můžeme vytvořit klasifikátor na základě existujících vzorků "dobrých" a "špatných" architektonických návrhů (přípravou vhodných trénovacích a testovacích příkladů lze ovlivňovat chování klasifikátoru pro různé účely použití) a ten následně použít pro ověření návrhu zcela neznámých projektů.
 
 \section{Návrh architektury systému}
 \label{design-architecture}
@@ -177,9 +206,9 @@ Definujeme proto veřejná rozhraní (SPI) \cite{spi}, která budou implementov�
 
 \subsection{Globální struktura systému}
 
-Prvním stupněm dekompozice systému je jeho rozdělení na části, které budou neměnné a~na rozšíření, která bude možné přidávat a odebírat, a která tak umožní běh systému v~různých konfiguracích.
+Prvním stupněm dekompozice systému je jeho rozdělení na části, které budou \emph{neměnné} a~na \emph{rozšíření}, která bude možné přidávat a odebírat, a která tak umožní běh systému v~různých konfiguracích.
 
-Základním kamenem celého systému bude jádro, které bude integrovat dohromady všechna rozšíření a které bude obsahovat pouze základní logiku, která bude vyhodnocovat pravidla a provádět analýzy pomocí zmíněných rozšíření.
+Základním kamenem celého systému bude \emph{jádro}, které bude integrovat dohromady všechna rozšíření. Jádro bude obsahovat pouze základní logiku umožňující vyhodnocování pravidel a provádění analýz poskytovaných prostřednitvím komponent rozšíření.
 
 Znázornění základních bodů rozšíření jádra je na obrázku \ref{design-system_extensions}. Element \emph{specifikace pravidel} představuje \emph{soubor definic} obsahující pravidla ve formátu definovaném v~sekci \ref{design-rules_formalization} a další definice určující výsledný průběh validace.
 
@@ -191,17 +220,19 @@ Znázornění základních bodů rozšíření jádra je na obrázku \ref{design
 
 Vzhledem k~formalismu navrženému v~sekci \ref{design-graph_formalization} je nutné nejprve vhodným způsobem zpracovat vstup. K~tomu budou sloužit \emph{generátory grafů}. Jejich zodpovědností bude vygenerování určitého typu grafu z~AST analyzovaného programovacího jazyka.
 
-Rozšíření typu \emph{operátor} představuje jeden konkrétní operátor (selektor nebo predikát), který je možné použít v~rámci \emph{souboru definic}. Každý operátor bude deklarovat své jméno, vstupy a výstupy.
+Rozšíření typu \emph{operátor} představuje jeden konkrétní operátor (selektor nebo predikát), který je možné použít v~rámci \emph{souboru definic}. Každý operátor bude deklarovat své \emph{jméno}, \emph{počet} a \emph{typy operandů} a \emph{návratový typ}.
 
-Protože ne všechny kontroly zdrojového kódu lze zapsat jako pravidla s~výsledkem \verb+true+ nebo \verb+false+, bude možné do systému vložit vlastní \emph{analýzu}, jejímž vstupem bude graf konkrétního typu. Nad tímto grafem bude analýza vyhodnocena a výstup ve vhodném vnitřním formátu bude předán výstupnímu modulu.
+Protože ne všechny kontroly zdrojového kódu lze zapsat jako pravidla s~výsledkem \verb+true+ nebo \verb+false+, bude možné do systému vložit vlastní \emph{analýzu}, jejímž vstupem bude graf konkrétního typu. Nad tímto grafem bude analýza vyhodnocena a výstup ve vhodném vnitřním formátu bude předán vrácen jako výsledek.
 
-Nyní můžeme již specifikovat rozhraní, která budou muset být implementována poskytovateli služeb (service providers):
+Na základě provedené dekompozice definujeme seznam rozhraní, která budou muset být implementována poskytovateli služeb (service providers):
 
 \begin{itemize}
-\item \emph{GraphGeneratorIface} -- rozhraní generátoru grafu,
-\item \emph{OperatorIface} -- rozhraní operátorů (selektorů a predikátů),
-\item \emph{AnalysisIface} -- rozhraní analytických modulů.
+\item \emph{GraphGeneratorIface} -- rozhraní poskytovatele generátoru grafu,
+\item \emph{OperatorIface} -- rozhraní poskytovatele operátorů (selektorů a predikátů),
+\item \emph{AnalysisIface} -- rozhraní poskytovatele analýzy (analytického modulu).
 \end{itemize}
+
+Každé z těchto rozšíření může být implementování více různými poskytovateli. Pouze je nutné zajistit, aby nekolidovaly názvy poskytovaných služeb (jména operátorů, typů generátorů grafů a názvy analýz).
 
 Celá dekompozice provedená v~tomto stupni je zachycena v~diagramu komponent na obrázku \ref{design-modules}. Modul jádra nazveme \verb+av-core+.
 \begin{figure}[h!]
@@ -237,45 +268,29 @@ Přehled doménových objektů podává tabulka \ref{design-domain_object_table}
 
 \end{table}
 
-Třídy \emph{ValidationModel} a \emph{GraphModel} je možné vygenerovat a používat opakovaně (cache). To se může hodit v~případech, kdy chceme tentýž projekt (pro nějž jsme již jednou generovali graf) validovat pomocí jiné/upravené množiny pravidel nebo naopak pokud chceme použít jednu množinu pravidel pro validaci více projektů. Bylo by zbytečné opakovaně provádět náročné operace generování grafu nebo parsování souboru pravidel a navazování operátorů (popisováno dále).
+\emph{Graph}, \emph{Vertex} a \emph{Edge} jsou elementárními datovými třídami představujícími vygenerovaný graf jeho vrcholy a hrany. V této práci navrhujeme tyto elementy jako třídy. Je možné tyto elementy zadefinovat též jako rozhraní. Tím  bychom získali možnost analyzovat zcela libovolné elementy (např. existující objektovou hierarchii). Důležitým elementem třída \emph{Graph} bude deklarace jejího typu, který si musí nést s sebou. Jednotlivé instance grafů různých typů seskupíme do jedné entity \emph{GraphModel}, kterou budeme dále v systému předávat jako celek. To bude množina\footnote{Každý typ grafu může být zahrnut právě jednou.} grafů různých typů.
 
-% TODO: zapracovat
-ValidationModel v~sobě bude zapouzdřovat data z~AVD souborů. AVD soubory budou mít samostatné jmenné prostory pro následující typy jmen:
+Třída \emph{ValidationModel} představuje klíčovou komponentu nesoucí veškeré informace potřebné pro provedení validačního procesu. Bude se jednat o strom pravidel vygenerovaný na základě souboru specifikace pravidel, který bude mít schopnost se samostatně vyhodnotit na základě předané vstupní instance typ \emph{GraphModel}. Výsledkem vyhodnocení bude potom instance třídy \emph{ValidationReport}, která bude poskytovat informace o průběhu zpracování.
 
-\begin{itemize}
-\item názvy analýz
-\item jména typů grafů
-\item jména atomických a složených pravidel (jmenný prostor pro atomická i složená pravidla je sdílený)
-\item jména operátorů
-\item datové typy v modelu
-\end{itemize}
+Navrhované třídy \emph{ValidationModel} a \emph{GraphModel} je možné vygenerovat a používat opakovaně (cache). To se může hodit v~případech, kdy chceme tentýž projekt (pro nějž jsme již jednou generovali graf) validovat pomocí jiné/upravené množiny pravidel nebo naopak pokud chceme použít jednu množinu pravidel pro validaci více projektů. Bylo by zbytečné opakovaně provádět náročné operace generování grafu nebo parsování souboru pravidel a navazování operátorů (popisováno dále).
 
-\subsubsection{Reprezentace grafů}
-% TODO: rozepsat
-\begin{itemize}
-\item \emph{Graph} (class) -- graph type id,
-\item \emph{Vertex} (class),
-\item \emph{Edge} (class),
-\item \emph{GraphModel} (class) -- množina\footnote{Každý typ grafu může být v množině zahrnut právě jednou.} grafů různých typů.
-\end{itemize}
+Některé z těchto tříd rozebereme nyní detailněji:
 
-\subsubsection{Model validace}
-Model validace bude reprezentován třídou \emph{ValidationModel}. Tato třída bude reprezentovat existující množinu pravidel a současně bude umožňovat tato pravidla provést nad existující množinou grafů (\emph{GraphModel}).
-% TODO: rozepsat
-\begin{itemize}
-\item \emph{ValidationModel} (class) -- AST strom souboru pravidel s~navázanými operátory; bude se přegenerovávat při úpravě souboru/textu v~GUI, atd\ldots
-\end{itemize}
+\subsubsection{Třída ValidationModel}
+Validační model (třída \emph{ValidationModel}) sestává z atomických pravidel a složených pravidel. Tato pravidla je nutné načíst z existujícího souboru specifikací a sestavit z nich strom vhodný pro vyhodnocení. Přesná definice vstupního souboru je popsána v příloze \ref{avd_grammar}. Zahrnuje specifikaci atomických pravidel, složených pravidel a příkazů, které umožní vybrat pouze konkrétní podmnožinu pravidel, která se mají ověřit a příkazů, které umožní provedení vybraných analýz.
 
-\subsubsection{Výstupní objekty}
-% TODO: rozepsat, zpřesnit
-\begin{itemize}
-\item \emph{ValidationReport} (class) -- výstupem jsou \verb+true/false+ hodnoty pro jednotlivá pravidla, případně strom, který bude odpovídat stromu, který bude ve ValidationModel, aby bylo možné zpětně určit množiny a predikáty, které způsobily nesplnění pravidla
-% TODO:
-\begin{itemize}
-\item \emph{RuleResult}
-\item \emph{AnalysisResult}
-\end{itemize}
-\end{itemize}
+To vše musí model vhodným způsobem reflektovat. Na základě vstupních elmenetů vygenerujeme AST (nejspíš pomocí vhodného nástroje), který následně převedeme na strom, který se bude skládat z jednotlivých operátorů a vstupních parametrů, který bude možné vyhodnotit nad existujícím instancí třídy \emph{GraphModel}.
+
+Třídu dekomponujeme dále na třídy \emph{AtomicRule} a \emph{CompoundRule} (které budou mít společného předka \emph{Rule}, abychom mohli k těmto pravidlům při vyhodnocování přistupovat stejně. Tyto třídy budou dále obsahovat již konkrétní syntaktický strom uzlů, které budou mít metodu \emph{evaluate()}, která vždy zajistí vyhodnocení příslušeného uzlu a návrat výsledné hodnoty. Díky tomu bude vyhodnocení celého stromu pravidel (z hlediska uživatele modelu) triviální -- provedeme zavolání metody \emph{validate()} na kořenovém elementu komponenty \emph{ValidationModel}. Ta následně zavolá \emph{evaluate()} metody na svých potomcích a takto to bude probíhat až k listovým elementům.
+
+Pro vybudování zmíněného stromového modelu vytvoříme samostanou komponentu \emph{ValidationModelGenerator}, jejíž rozhraní bude definováno dále.
+
+\subsubsection{Třída ValidationReport}
+Výstupem validačního procesu bude objekt třídy \emph{ValidationReport}. Ačkoliv matematická pravidla popsaná výše mají jako výstup pouze logickou hodnotu. Je vhodné, aby bylo možné nějakým způsobem zjistit, v jaké fázi vyhodnocování došlo k nesplnění pravidla. Proto poskytneme právě datovou třídu \emph{ValidationReport}. Ta ponese nejen elementární výsledky pravidel, ale také mezivýsledky vyhodnocení jednotlivých uzlů syntaktického stromu popsaného dříve.
+
+Strom výsledků dekomponujeme podobným způsobem, jakým jsme dekomponovali třídu \emph{ValidationModel}. Poskytneme třídy \emph{AtomicRuleResult} a \emph{ComopundRuleResult}. Tyto třídy opět oddědíme od společného předka, abychom je mohli uchovávat v rámci jednoho seznamu výsledků. Kromě toho přidáme ještě třídu \emph{AnalysisResult}, která ponese informaci o konkrétní prováděné analýze.
+
+Generování objektů třídy \emph{ValidationReport} bude součástí průběhu zpracování validace. Metoda \emph{validate()} třídy \emph{ValidationModel} provede vytvoření objektu \emph{ValidationReport} a příslušných podobjektů (\emph{AtomicRuleResult}, atd.). Tyto objekty následně předá prostřednictvím \emph{evaluate()} metod do dalších vyhodnocovacích uzlů. Ty provedou totéž o úroveň níže. Každý uzel po provedení příslušné operace uloží do předaného objektu svou návratovou hodnotu. Díky tomu získáme strom obsahující data umožňující rekonstruovat průběh zpracování.
 
 \subsection{Jádro systému}
 Jádro systému bude poskytovat třídy a rozhraní popsané v~tabulce \ref{design-archval_core_components}.
