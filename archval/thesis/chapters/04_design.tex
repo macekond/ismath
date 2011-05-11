@@ -321,7 +321,7 @@ Jádro systému samotné nebude poskytovat žádná konkrétní pravidla pro val
 
 \end{table}
 
-Vztahy mezi jednotlivými komponentami jádra systému jsou znázorněny na obrázku \ref{design-archval_core}. Komponenta \emph{ArchVal} bude zastřešovat přístup k funkcionalitám jádra. Díky tomu budeme moci komponenty \emph{GraphModelGenerator}, \emph{ValidationModelGenerator} a \emph{ValidationTask} skrýt za vhodná rozhraní a v případě potřeby je reimplementovat. Všimněme si komponent \emph{GraphGeneratorsRegisterIface}, \emph{OperatorsRegisterIface} a \emph{AnalysesRegisterIface}. Ty představují rozhraní samostatných komponent, které nám budou schopny poskytnout poskytovatele implementace existujících rozšíření (generátory grafů, operátory a analýzy). Díky této abstrakci bude jádro systému možné zakomponovat do jakékoliv platformy bez nutnosti uvažovat mechanismy pro registraci poskytovatelů služeb\footnote{Jak uvidíme dále v části \emph{Implementace}, registrace poskytovatelů je vždy nějakým způsobem nutná a různé platformy ji podporují různým způsobem. Zmiňme \emph{Lookup} na platformě NetBeans nebo nově přidanou vlastnost jazyka Java verze 6 \emph{ServiceLoader}.}.  
+Vztahy mezi jednotlivými komponentami jádra systému jsou znázorněny na obrázku \ref{design-archval_core}. Komponenta \emph{ArchVal} bude zastřešovat přístup k funkcionalitám jádra. Díky tomu budeme moci komponenty \emph{GraphModelGenerator}, \emph{ValidationModelGenerator} a \emph{ValidationTask} skrýt za vhodná rozhraní a v případě potřeby je reimplementovat. Všimněme si komponent \emph{GraphGeneratorsRegisterIface}, \emph{OperatorsRegisterIface} a \emph{AnalysesRegisterIface}. Ty představují rozhraní samostatných komponent, které nám budou schopny poskytnout poskytovatele implementace existujících rozšíření (generátory grafů, operátory a analýzy). Díky této abstrakci bude jádro systému možné zakomponovat do jakékoliv platformy bez nutnosti uvažovat mechanismy pro registraci poskytovatelů služeb\footnote{Jak uvidíme dále v části \emph{Implementace}, registrace poskytovatelů je vždy nějakým způsobem nutná a různé platformy ji podporují různým způsobem. Zmiňme \emph{Lookup} na platformě NetBeans nebo nově přidanou vlastnost jazyka Java verze 6 \emph{ServiceLoader}.}.
 
 \begin{figure}[h!]
   \centering
@@ -368,24 +368,24 @@ Znázornění vstupů a výstupů komponenty \emph{ValidationModelGenerator} je 
 \end{itemize}
 
 \subsubsection{Komponenta ValidationTask}
+Centrální komponentou umožňující spuštění validačního procesu bude \emph{ValidationTask} (implementace skrytá za \emph{ValidationTaskIface}). Tato komponenta bude mít na starosti provedení validačního procesu pomocí komponent \emph{ValidationModel} a \emph{GraphModel}. Implementace bude poměrně triviální, vzhledem k faktu, že veškerá logika potřebná k provedení validace bude zapouzdřena již v komponentě \emph{ValidationModel}. Komponenta \emph{ValidationTask} tak bude mít na starosti zajištění bezpečného spouštění procesu validace a to jak synchronním způsobem tak asynchronně (v samostaném vlákně).
 
-Samostatné vlákno s~řízením celého validačního procesu. Synchronized sekce. Vstupem bude vhodná specifikace umístění analyzovaného projektu.
-
-\paragraph{ValidationTaskIface}
+\paragraph{Rozhraní} Rozhraní komponenty \emph{ValidationTask} bude představováno následujícími metodami:
 \begin{itemize}
-\item \verb-runSynchronous() : void-
-\item \verb-runAsynchronous() : void- -- synchronized blok
+\item \verb-runSynchronous() : void- -- synchronní spuštění validace
+\item \verb-runAsynchronous() : void- -- běh validace v samostatném vlákně
 \item \begin{verbatim}registerValidationCompletedListener(
     ValidationCompletedListener validationCompletedListener
-) : void\end{verbatim}
-\item \verb-getReport() : ValidationReport-
+) : void\end{verbatim} -- registrace listeneru, který bude notifikován o doběhnutí procesu validace
+\item \verb-getReport() : ValidationReport- -- vrátí instanci třídy \emph{ValidationReport}
 \end{itemize}
 
-Výstupem bude \emph{ValidationReport} (vnitřní struktura, která se bude posléze převádět na vhodnou vnější reprezentaci).
+Výsledný objekt \emph{ValidationReport} si volající může zpracovat libovolným způsobem. Například je možné ji reprezentovat ve vhodné swing komponentě (JTree).
 
 \subsubsection{Komponenta ArchVal (fasáda)}
-% TODO: popsat účel (fasáda) a způsob použití
-\paragraph{Rozhraní}
+Předchozí komponenty zapouzdříme pomocí návrhového vzoru fasáda, za nímž skryjeme detaily implmentace. Poskytneme tak službu pro získání hotových komponent pro generování modelů. Navíc můžeme tímto způsobem zajistit, aby pro každou instanci třídy \emph{ArchVal} byly k dispozici třídy \emph{ValidationModelGenerator} a \emph{GraphModelGenerator} pouze v jedné instanci.
+
+\paragraph{Rozhraní} Rozhraní je představováno následujícími metodami:
 \begin{itemize}
 \item \begin{verbatim}ArchVal(
     GraphGeneratorsRegisterIface graphGeneratorsRegister,
@@ -397,6 +397,8 @@ Výstupem bude \emph{ValidationReport} (vnitřní struktura, která se bude posl
     GraphModel graphModel,
     ValidationModelIface validationModel) : GraphModel\end{verbatim}
 \end{itemize}
+
+Metoda \verb-createValidationTask()- představuje tovární metodu, která vrátí pokaždé nový objekt \emph{ValidationTask}\footnote{Vzhledem k možnosti asynchronního provolávání metod třídy \emph{ValidationTask} je požadováno, aby každá instance \emph{ValidationTask} byla použita nejvýše jednou.}.
 
 \subsubsection{Rozhraní registrů poskytovatelů implementací}
 
