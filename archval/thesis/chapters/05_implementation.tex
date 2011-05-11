@@ -76,33 +76,38 @@ Přesto byla realizována programová podpora, která umožní snadné přidán�
 Konkrétní informace a rešeše týkající se těchto principů byly rozebrány v kapitole \ref{analysis}.
 
 \section{Implementace jádra systému}
-% TODO: incorporate
-Implementujeme jako netbeans modul av-core
+Jádro systému bylo implementováno v rámci samostatného modulu platformy NetBeans. Ačkoliv je takto svázáno s konkrétní platformou, zdrojové kódy neobsahují žádné závislosti na prvky této platformy a je tedy možné je znovupoužít v jiných projektech.
+
+V této sekci nebudeme procházet úplně všechny implementované komponenty systému. Jednak byly popsány již v části návrhu a kromě toho jsou jejich implementace k dispozici v rámci zdrojových kódů. Při implementaci byla snaha o maximální zdokumentovanost -- většina klíčových tříd je řádně opatřena dokumentací \verb-Javadoc-.
+
+Zde se podíváme na implementaci formátu pro zadávání pravidel (AVD specifikace). Dále na způsob sestavování vyhodnocovacího stromu a nakonec ukážeme implementaci zajímavých operátorů, které jsou základem systému pro vyhodnocování pravidel.
 
 \subsection{Implementace formátu AVD}
-%% TODO: sort and formulate
-ValidationModel v~sobě bude zapouzdřovat data z~AVD souborů. AVD soubory budou mít samostatné jmenné prostory pro následující typy jmen:
+Formát AVD byl vytvořen snahou o namapování dříve definovaných matematických výrazů do vhodné serializace. Pro zpracování existujícího souboru byl použit lexikální a syntaktický analyzátor vygenerovaný pomocí nástroje ANTLR. Tento nástroj umí kromě vytvoření čistého \emph{parse tree} vytvořit i vhodný AST pomocí jednoduchých přepisovacích pravidel (konkrétní příklady pravidel si můžete prohlédnout v příloze \ref{avd_grammar}, kde je pro refrenci uvedna celá vstupní gramatika pro nástroj ANTLR).
+
+V rámci AVD specifikace bylo nutné definovat několik nezávislých jmenných prostorů:
 
 \begin{itemize}
 \item názvy analýz
 \item jména typů grafů
 \item jména atomických a složených pravidel (jmenný prostor pro atomická i složená pravidla je sdílený)
 \item jména operátorů
-\item datové typy v modelu
 \end{itemize}
 
-\begin{itemize}
-\item AVD formát
-\item definice gramatiky
-\end{itemize}
+Proto je například možné použít stejný název pro typ grafu a pro atomické pravidlo, ale není možné použít shodný název pro dvě pravidla (ať už atomická nebo složená).
 
 \subsection{Implementace sestavování validačního modelu}
-\begin{itemize}
-\item ANTLR -- vybudování ast
-\item postupné sestavování vyhodnocovacího stromu
-\end{itemize}
+Na základě AST, který byl získán pomocí syntaktického parseru vygenerovaného pomocí nástroje ANTLR byl postupně budován vyhodnocovací strom odpovídající zpracovávanému AVD souboru.
+
+Zpracování AST probíhá tím způsobem, že je nejprve zkontrolována bezkoliznost použitých jmen (viz výše zmíněné jmenné prostory). Následně jsou procházeny jednotlivé listy představující pravidla a jsou postupně doplňovány názvy nalezených pravidel do tabulky symbolů. Pro každé pravidlo je nutné sestoupit do syntaktických stromů představujících např. logické výrazy a pro každý takto nalezených vrchol (např. operátor OR) je nutné vytvořit nový vrchol vyhodnocovacího stromu.
+
+Tyto nově vytvářené vrcholy jsou realizované pro základní operátory jako samostatné třídy. Pro uživatelské operátory potom existují vrcholy, kterým je při konstrukci možné nastavit operátor, který mají provádět. Předtím, než jsou ale tyto vrcholy vytvořeny, je provedena kontrola, zda počty argumentů a návratová hodnota odpovídá očekávaným hodnotám (např. při zpracování predikátu kontrolujeme, zda množina operandů odpovídá množině deklarované operátorem nalezeným v registru operátorů.).
+
+Při budování stromu je současně budována infrastruktura pro generování stromu výsledků. V každém pridáváném vrcholu (představován třídou) je tedy již přítomen kód, který při vyhodnocení uzlu (metoda \verb-evaluate()-) naplní datovou strukturu předanou jako parametr.
 
 \subsection{Implementace základních operátorů}
+V této podsekci se podíváme na některé zajímavé operátory a jejich implementaci. Konkrétně na existenční $\exists$ a univerzální $\forall$ kvantifikátor.
+
 Vyhodnocení univerzálního kvantifikátoru $\forall v \in V$ lze přepsat jako jednoduchý cyklus přes vrcholy vrácené zpřesňující operátorem, která vybírá nějakou podmnožinu z~množiny vrcholů analyzovaného grafu. Získáme tak kód podobný listingu \ref{listing-forall}. V~tomto kódu, který je fragmentem metody, používáme symoblický název \verb+condition+ pro podmínku, kterou musí splňovat každý prvek \emph{v} iterované kolekce vrcholů \emph{vertices}.
 
 \begin{lstlisting}[
@@ -134,6 +139,8 @@ return false;
 \end{lstlisting}
 
 Můžeme si všimnout, že se obě implementace liší pouze přehozením podmínek -- zatímco v~prvním případě ($\forall$) musíme projít všechny prvky, abychom zjistili, zda všechny prvky splňují požadovanou vlastnost, ve druhém případě ($\exists$) budeme všechny prvky procházet pouze v~krajním případě, kdy vlastnost neplatí pro žádný z~prvků.
+
+Podobným způsobem jsou realizovány i další operátory. Například sjednocení množin využívá operací poskytovaných třídou \verb-HashSet- programovacího jazyka Java.
 
 \section{Implementace modulů rozšíření}
 
