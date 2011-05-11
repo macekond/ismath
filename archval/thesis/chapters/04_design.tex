@@ -1,5 +1,6 @@
 \chapter{Návrh}
 % TODO: dopsat úvodní text této kapitoly
+% TODO: zmínit rozšiřitelnost (jeden z požadavků ze zadání)
 
 \section{Návrh způsobu specifikace pravidel}
 
@@ -293,7 +294,7 @@ Strom výsledků dekomponujeme podobným způsobem, jakým jsme dekomponovali t�
 Generování objektů třídy \emph{ValidationReport} bude součástí průběhu zpracování validace. Metoda \emph{validate()} třídy \emph{ValidationModel} provede vytvoření objektu \emph{ValidationReport} a příslušných podobjektů (\emph{AtomicRuleResult}, atd.). Tyto objekty následně předá prostřednictvím \emph{evaluate()} metod do dalších vyhodnocovacích uzlů. Ty provedou totéž o úroveň níže. Každý uzel po provedení příslušné operace uloží do předaného objektu svou návratovou hodnotu. Díky tomu získáme strom obsahující data umožňující rekonstruovat průběh zpracování.
 
 \subsection{Jádro systému}
-Jádro systému bude poskytovat třídy a rozhraní popsané v~tabulce \ref{design-archval_core_components}.
+Jádro systému samotné nebude poskytovat žádná konkrétní pravidla pro validaci ani žádné analýzy. Bude se jednat o platformu, která umožní přidávání nových komponent, které toto budou provádět na základě textového popisu pravidel. Součástí jádra budou komponenty nezbytné pro zpracování vstupního souboru definic do podoby vhodné k provedení (vytvoření modelů, navázání poskytovaných operátorů). Přehled navrhovaných komponent a rozhraní jádra uvádíme v tabulce v~tabulce \ref{design-archval_core_components}.
 
 \begin{table}
   \caption{Tabulka komponent jádra systému. \label{design-archval_core_components}}
@@ -320,14 +321,7 @@ Jádro systému bude poskytovat třídy a rozhraní popsané v~tabulce \ref{desi
 
 \end{table}
 
-\begin{itemize}
-\item \emph{GraphModelGenerator} -- updateGraphModel() -- přegeneruje graph model -- pouze doplní požadované chybějící grafy, regenerate() -- kompletně zruší všechny grafy a vygeneruje nové (všechny požadované)
-\end{itemize}
-
-Na obrázku \ref{design-archval_core} jsou zobrazeny komponenty modulu \emph{archval-core}.
-
-% TODO: připsat k rozhraní graph generator:
-Reprezentuje komponentu, která provede převod zdrojových kódů na graf (zobrazení, které vybraným elementům AST přiřadí množinu vrcholů $V$ grafu $G$).
+Vztahy mezi jednotlivými komponentami jádra systému jsou znázorněny na obrázku \ref{design-archval_core}. Komponenta \emph{ArchVal} bude zastřešovat přístup k funkcionalitám jádra. Díky tomu budeme moci komponenty \emph{GraphModelGenerator}, \emph{ValidationModelGenerator} a \emph{ValidationTask} skrýt za vhodná rozhraní a v případě potřeby je reimplementovat. Všimněme si komponent \emph{GraphGeneratorsRegisterIface}, \emph{OperatorsRegisterIface} a \emph{AnalysesRegisterIface}. Ty představují rozhraní samostatných komponent, které nám budou schopny poskytnout poskytovatele implementace existujících rozšíření (generátory grafů, operátory a analýzy). Díky této abstrakci bude jádro systému možné zakomponovat do jakékoliv platformy bez nutnosti uvažovat mechanismy pro registraci poskytovatelů služeb\footnote{Jak uvidíme dále v části \emph{Implementace}, registrace poskytovatelů je vždy nějakým způsobem nutná a různé platformy ji podporují různým způsobem. Zmiňme \emph{Lookup} na platformě NetBeans nebo nově přidanou vlastnost jazyka Java verze 6 \emph{ServiceLoader}.}.  
 
 \begin{figure}[h!]
   \centering
@@ -338,6 +332,13 @@ Reprezentuje komponentu, která provede převod zdrojových kódů na graf (zobr
 \subsubsection{Komponenta GraphModelGenerator}
 % TODO: rozepsat
 GraphModelGeneratorIface
+
+% TODO: připsat k rozhraní graph generator:
+Reprezentuje komponentu, která provede převod zdrojových kódů na graf (zobrazení, které vybraným elementům AST přiřadí množinu vrcholů $V$ grafu $G$).
+
+\begin{itemize}
+\item \emph{GraphModelGenerator} -- updateGraphModel() -- přegeneruje graph model -- pouze doplní požadované chybějící grafy, regenerate() -- kompletně zruší všechny grafy a vygeneruje nové (všechny požadované)
+\end{itemize}
 
 Komponenta typu \emph{GraphModelGeneratorIface} je znázorněna na obrázku \ref{design-graph_generator_io}.
 

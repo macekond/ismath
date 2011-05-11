@@ -1,4 +1,6 @@
 \chapter{Implementace}
+
+% TODO: někde rozebrat možnosti rozšiřitelnosti (možná i v návrhu)
 % TODO: napsat přehled, co bude v této kapitole
 
 % TODO: použít nebo smazat (případně zařadit jinam)
@@ -21,6 +23,7 @@
 \section{Specifikace pravidel požadovaných zadáním práce}
 Pro specifikaci Demeter law definujeme predikát, který nám umožní vybrat vhodné množiny vrcholů. Vybrané množiny potom ověřeíme pomocí predikátu, který uřčí, zda jsou tyto množiny v~pořádku, či zda porušují \emph{LoD} princip.
 
+% TODO: zkontrolovat!!!
 \begin{definition}
 Mějme graf $G = \langle V, E, \rho, K, C, N, \mathit{Kind}, \mathit{Classifier}, \mathit{Name}\rangle$ se zobrazeními definovanými dříve. Definujme selektor vrcholů $F(G, v', k', c')$, $v' \in V$, $k' \in K$, $c' \in C$ jako množinu vrcholů grafu $G$, které jsou dostupné z~vrcholu $v'$ pomocí orientované cesty, pro jejíž všechny vrcholy $v''$ s~výjimkou posledního platí $Kind(v) \ne k'$ a která obsahuje hranu $e$, pro niž platí $Classifier(e) = c' $.
 \end{definition}
@@ -49,6 +52,7 @@ Mějme grafový model projektu $G = \langle V, E, \rho, K, C, \mathit{Kind}, \ma
 
 \end{designprinciple}
 
+% TODO: opravit!
 Specifikované pravidlo vyjadřuje požadavek, aby množina vrcholů do níž se dostaneme pomocí hran, které představují povolené vstupy tříd do analyzované třídy (třídní proměnné, parametry, vytvářené objekty), byla totožná s~množinou všech vrcholů, které představují všechny třídy používané (klasifikátor $``uses"$) v~rámci některé z~metod. Odečtení vrcholu $v$ z~výsledné množiny je zde kvůli tomu, abychom nemuseli navíc zavádět zbytečnou hranu identifikující, že třída je známá sama sobě.
 
 \subsection{Low coupling, high cohesion}
