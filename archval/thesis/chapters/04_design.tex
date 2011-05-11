@@ -434,15 +434,8 @@ Nyní se podívejme na vlastní rozhraní, která musí být implementovaná pos
 \item \verb+getGraphTypeId() : String+
 \item \verb+generateGraph(projectFilesSpecification) : Graph+
 \end{itemize}
-% TODO: roztřídit
-%% \item compiler
-%% \item generátor vnitřní struktury (modelu) -- modelem je v našem případě graf
-%%   \begin{itemize}
-%%   \item \emph{vstup:} množina cest k \verb+*.java+ souborům (kompilačním jednotkám), z nichž se skládá softwarový projekt
-%%   \item \emph{výstup:} graf, reprezentující konkrétní analyzovanou doménu vhodný pro další zpracování (graf podle \ref{design-graph_formalization} \nameref{design-graph_formalization})
-%%   \end{itemize}
 \begin{itemize}
-\item \emph{vstup:} vhodná reprezentace zdrojových kódů projektu (např. seznam všech souborů)
+\item \emph{vstup:} adresář vstupního projektu
 \item \emph{výstup:} graf konkrétního typu (např. demeter graph)
 \end{itemize}
 
