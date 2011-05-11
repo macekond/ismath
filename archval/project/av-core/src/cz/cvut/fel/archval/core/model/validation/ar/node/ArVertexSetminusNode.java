@@ -42,8 +42,10 @@ public class ArVertexSetminusNode implements ArVertexSetNodeIface {
         dataResult.addChild(leftResult);
         dataResult.addChild(rightResult);
         HashSet<Vertex> hashSet = new HashSet<Vertex>();
-        hashSet.addAll(left.evaluate(graph, vertex, leftResult));
-        hashSet.removeAll(right.evaluate(graph, vertex, rightResult));
+        HashSet<Vertex> leftHashSet = (HashSet<Vertex>) left.evaluate(graph, vertex, leftResult);
+        hashSet.addAll(leftHashSet);
+        HashSet<Vertex> rightHashSet = (HashSet<Vertex>) right.evaluate(graph, vertex, rightResult);
+        hashSet.removeAll(rightHashSet);
         dataResult.setResult(hashSet);
         dataResult.setDataType(DataType.VERTEX_SET);
         return hashSet;

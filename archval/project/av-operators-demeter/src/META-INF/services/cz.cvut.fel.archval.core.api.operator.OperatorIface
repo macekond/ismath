@@ -2,3 +2,5 @@ cz.cvut.fel.archval.demeter.operators.EmptyVertexSetPredicate
 cz.cvut.fel.archval.demeter.operators.FVertexSetSelector
 cz.cvut.fel.archval.demeter.operators.OneVertexSetSelector
 cz.cvut.fel.archval.demeter.operators.VertexKindPredicate
+cz.cvut.fel.archval.demeter.operators.LVertexSetSelector
+cz.cvut.fel.archval.demeter.operators.LevelTwoVertexSelector

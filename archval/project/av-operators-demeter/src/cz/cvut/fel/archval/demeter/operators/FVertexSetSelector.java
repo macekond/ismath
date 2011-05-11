@@ -49,23 +49,22 @@ public class FVertexSetSelector implements OperatorIface {
         String edgeLabel = (String) operands.get(2);
 
         Set<Vertex> resultSet = new HashSet<Vertex>();
-        Set<Vertex> visitedVertices = new HashSet<Vertex>();
+       // Set<Vertex> visitedVertices = new HashSet<Vertex>();
+        Set<Edge> visitedEdges = new HashSet<Edge>();
         collectVertices(graph, vertex, vertexLabel, edgeLabel, resultSet,
-                false, visitedVertices);
+                false, visitedEdges);
 
         return resultSet;
     }
 
     private void collectVertices(Graph g, Vertex v, String kind,
             String classifier, Set<Vertex> result, boolean labelFound,
-            Set<Vertex> visitedVertices) {
-
+            Set<Edge> visitedEdges) {
+/*
         if (visitedVertices.contains(v)) {
             return; // this vertex was already visited
         }
-
-        visitedVertices.add(v); // add this vertex to visited
-
+*/
         // if this vertex has required kind and was accessed using path
         // containing required label, add it to the resultset and return
         if (v.getKind().equals(kind) && labelFound) {
@@ -75,13 +74,20 @@ public class FVertexSetSelector implements OperatorIface {
 
         // process outgoing edges
         for (Edge edge : g.getVertexOutgoingEdges(v)) {
+            if (visitedEdges.contains(edge)) {
+                continue;
+            }
+            visitedEdges.add(edge);
             if (edge.getClassifier().equals(classifier)) {
                 collectVertices(g, edge.getHead(), kind, classifier, result, true,
-                        visitedVertices);
+                        visitedEdges);
             } else {
                 collectVertices(g, edge.getHead(), kind, classifier, result, false,
-                        visitedVertices);
+                        visitedEdges);
             }
         }
+
+        // visitedEdges.add(v); // add this vertex to visited
+
     }
 }

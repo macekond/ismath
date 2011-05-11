@@ -31,6 +31,12 @@ public class Graph {
 
     @Deprecated
     public Set<Vertex> getVertices() {
+        for (Vertex vertex : vertices) {
+
+            System.out.println("vertex: " + vertex.getName());
+        }
+        System.out.println();
+        System.out.println();
         return vertices;
     }
 

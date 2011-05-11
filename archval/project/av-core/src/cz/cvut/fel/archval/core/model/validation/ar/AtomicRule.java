@@ -122,6 +122,7 @@ public class AtomicRule extends Rule {
 
                 result = true;
                 for (Vertex vertex : selectedVertices) {
+                    System.out.println("processing vertex: " + vertex.getName());
                     DataResult elementResult = new DataResult();
                     atomicRuleResult.addElementResult(vertex.getId(), elementResult);
                     result = atomicRuleEpressionRoot.evaluate(graph, vertex, elementResult);
