@@ -1,6 +1,6 @@
 \chapter{Implementace}
 
-% TODO: napsat úvod kapitoly (přehled, co bude v této kapitole)
+\emph{Implementační} část práce se skládala z několika součástí. Za nejvýzamnější součást lze považovat formální specifikaci pravidla \emph{Law of Demeter}, která je uváděna jako první v rámci této sekce. V dalších částech kapitoly se potom zabýváme vybranými poznámkami z implementace jádra systému ArchVal, který má sloužit jako platforma pro provádění matematických formulací návrhových pravidel a implementací rozšíření tohoto systému. V poslední části je rozebírán způsob integrace systému do platformy NetBeans.
 
 \section{Specifikace pravidel požadovaných zadáním práce}
 Nejprve definujeme vhodný predikát, který nám umožní vybrat množiny vrcholů tak, abychom mohli specifikova LoD. Vybrané množiny potom ověříme pomocí predikátu, který určí, zda jsou tyto množiny v~pořádku, či zda porušují \emph{LoD} princip.
@@ -165,16 +165,8 @@ Implementace oprátorů je poměrně přímočará. Zajímavý je snad jen oper�
 
 \section{Integrace do NetBeans IDE}
 
+Pro demonstraci jádra systému bylo nutné jej zaintegrovat do vhodného běhového prostředí. K tomu dobře posloužila platforma NetBeans. Při implementaci bylo hojně využíváno informací z~\cite{netbeans_platform}. Integrace byla provedena realizací vhodných integračních komponent v rámci modulu \verb+av-platform-integration+. Jejich seznam je k~dispozici v~tabulce \ref{implementation-integration_components}.
 
-%% TODO: incorporate
-%% (modul av-platform-integration)
-
-Při implementaci bylo hojně využíváno informací z~\cite{netbeans_platform}.
-
-% TODO: write about actions, about usage of the ArchVal API
-Seznam integračních komponent je k~dispozici v~tabulce \ref{implementation-integration_components}.
-
-% TODO: zkontrolovat tabulku integračních komponent
 \begin{table}
   \caption{Tabulka integračních komponent systému. \label{implementation-integration_components}}
   \begin{center}
@@ -183,8 +175,8 @@ Seznam integračních komponent je k~dispozici v~tabulce \ref{implementation-int
       \textbf{Název} & \textbf{Typ} & \textbf{Zodpovědnost} \\
       \hline
       \hline
+      ArchvalInstance & class (singleton) & zabaluje jednotnou instanci jádra Archval \\ \hline
       ValidateMainProject & class & integrace s~běhovou platformou, vstupní/aktivační bod \\ \hline
-      %% TODO: 'třída implementující rozhraní...'
       GraphGeneratorRegister & class & třída poskytující přístup k~informacím o~existujících poskytovatelích generátorů grafu \\ \hline
       OperatorRegister & class & třída poskytující přístup k~informacím o~existujících poskytovatelích operátorů \\ \hline
       AnalysesRegister & class & třída poskytující přístup k~informacím o~existujících poskytovatelích komponent analýzy \\ \hline
@@ -193,39 +185,24 @@ Seznam integračních komponent je k~dispozici v~tabulce \ref{implementation-int
 \end{table}
 
 \subsection{Použití jádra systému ArchVal}
-% TODO: rozepsat
-Zabalení třídy ArchVal do singletonu ArchvalInstance
+Vstupním bodem pro použití rozhraní jádra systému ArchVal v rámci integračního modulu je třída \emph{ArchvalInstance}. Tato třída je implementována jako návrhový vzor \emph{singleton} a poskytuje jedinou instanci třídy \emph{ArchVal} pro celý systém. Díky tomu je možné se dále dostat k důležitým komponentám jako \emph{ValidationModelGenerator}, \emph{GraphModelGenerator} a vygenerovat instanci \emph{ValidationTask}, která umí provést výslednou validaci.
 
 \subsection{Přidání uživatelské akce do nabídky prostředí}
-Třída \emph{ValidateMainProject}
-
-Integrace do běhové platformy. Reprezentuje uživatelskou akci. Bude implementováno na základě zvolené implementační platformy (akce v~GUI).
-
-\subsection{Vstupní rozhraní}
-% TODO: write something about reading avd input and projects
+Aby bylo možné vyvolat validaci, bylo nutné provést integraci akce do nabídky Netbeans IDE. Akce představovaná třídou \emph{ValidateMainProject} byla realizována jako podmíněně povolená akce, která je k dispozici pouze pokud je vybrán soubor konkrétního typu. V tomto případě se jedná o soubor typu AVD. Celý případ užití funguje potom tím způsobem, že uživatel klepne pravým tlačítkem na AVD soubor a vybere položku \emph{Validate main project}. Pokud není žádný projekt vybrán jako hlavní, v oznamovací oblasti se pouze objeví upozornění a není provedena žádná akce. V opačném případě máme k dispozici oba vstupy potřebné k provedení validace (pomocí \emph{Project API} získáme informace o hlavním projektu a tedy i vstupním adresáři a cesta k AVD souboru je poskytována v rámci handleru kontextové akce AVD souboru).
 
 \subsection{Výstupní rozhraní}
-% TODO: zde popsat implementované výstupní rozhraní (alternativy by měly být diskutovány v návrhu)
-% TODO: textový výstup
+Pro zobrazení výstupu použijeme netbeans \emph{I/O API}, které nám umožňuje využít jednoduché textové okno, které se používá v NetBeans IDE například pro zobrazení výstupů z logu nebo informace o průběhu kompilace. Poskytované aplikační rozhraní nám umžňuje otevřít novou záložku, kde můžeme samostatně logovat výsledky validační akce. V základní verzi nástroj implementuje pouze výstup ve tvaru \emph{[název pravidla] OK} nebo \emph{[název pravidla] Violation found.}
 
 \subsection{Implementace registrů poskytovatelů služeb}
-% TODO: rozepsat, přidat ukázku kódu
-\begin{itemize}
-\item SPI
-\item NetBeans lookup -- /META-INF/services
-\end{itemize}
+Díky systému \emph{Lookup} poskytovanému platformou Netbeans je implementace registrů poskytovatelů služeb velmi pohodlná. Pro každé rozhraní, pro něž chceme využívat lookup stačí přidat seznam implementujících tříd do konkrétního souboru v adresáři \emph{META-INF/services}. Následně pak můžeme využít jednoduché volání pro zisk všech instancí implementujících dané rozhraní v celém systému:
 
-% TODO: rozepsat
-\begin{itemize}
-\item SPI -- implementace rozhraní
-\item pojem \emph{poskytovatel služby}
-\item lookup, META-INF/services, registrace služeb
-\end{itemize}
+\begin{verbatim}
+Lookup.getDefault().lookupAll(OperatorIface.class)
+\end{verbatim}
+
+Zmíněný příklad slouží k získání všech existujících tříd poskytujících rozhraní operátorů. Získané reference si v implementovaných registračních třídách ponecháváme uložené v kolekcích, abychom nemuseli opakovaně vyhledávat instance v lookupu, zvláště když víme, že tam vzhledem k jejich povaze žádné nemohou přibýt.
 
 \subsection{Podpora editace AVD souborů}
-% TODO: rozepsat
-\begin{itemize}
-\item experimentální mime typ \verb+text/x-avd+
-\item třída \emph{AvdCookie}
-\item zvýrazňování syntaxe (modul av-avd-highlighter)
-\end{itemize}
+Pro zjednodušení zadávání AVD souboru byla realizována podpora zvýrazňování syntaxe. Ta je ralizována v rámci samostatného modulu \verb-av-avd-highlighter-, který využívá služeb jádra (ANTLR lexer pro tokenizing AVD souborů). Zvýrazňování syntaxe bylo integrováno do platformy NetBeans pomocí několika jednoduchých adaptérů, které zapouzdřují lexer vygenerovaný pomocí nástroje ANTLR (který se používá již v modulu \verb+av-core+).
+
+Aby platforma NetBeans mohla soubory rozpoznat a pracovat s nimi stejně jako s ostatními datovými uzly, je nutné zaregistrovat do platformy nový typ souboru. Pro potřeby této práce byl použit experimentální MIME typ \verb+text/x-avd+.
