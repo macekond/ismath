@@ -346,7 +346,7 @@ Komponenta \emph{GraphModelGenerator} bude mít na zodpovědnosti vygenerování
 
 \begin{figure}[h!]
   \centering
-  \includegraphics[width=0.6\textwidth]{./graphs/graph_generator_io_graph.png}
+  \includegraphics[width=0.65\textwidth]{./graphs/graph_generator_io_graph.png}
   \caption{Znázornění vstupů a výstupů komponenty typu \emph{GraphModelGenerator}.\label{design-graph_generator_io}}
 \end{figure}
 
@@ -427,14 +427,14 @@ Jak bylo zmíněno již v sekci \ref{desing-global_system_structure}, rozšíře
 Zde požadujeme pouze zisk existujícího operátoru na základě jména. Pokud by bylo časem nutné podpořit editaci AVD souborů, zcela jistě by bylo potřeba získat i úplný seznam operátorů, případně implementovat vyhledávání i podle jiných kritérií (např. návratová hodnota).
 
 \begin{itemize}
-\item getOperatorByName(String name) : OperatorIface
+\item \verb-getOperatorByName(String name) : OperatorIface-
 \end{itemize}
 
 \paragraph{Rozhraní AnalysesRegisterIface} Zpravidla budeme potřebovat pouze metodu na zisk existujícího analytického modulu na základě jeho názvu. Přesto poskytujeme i metodu, která umožní získat seznam všech existujících analytických modulů.
 
 \begin{itemize}
-\item getAnalysesList() : List<AnalysisIface>
-\item getAnalysisByName(String name) : AnalysisIface
+\item \verb-getAnalysesList() : List<AnalysisIface>-
+\item \verb-getAnalysisByName(String name) : AnalysisIface-
 \end{itemize}
 
 \subsection{Rozhraní rozšíření systému}

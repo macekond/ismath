@@ -21,16 +21,37 @@
 
 
 \section{Specifikace pravidel požadovaných zadáním práce}
-Pro specifikaci Demeter law definujeme predikát, který nám umožní vybrat vhodné množiny vrcholů. Vybrané množiny potom ověřeíme pomocí predikátu, který uřčí, zda jsou tyto množiny v~pořádku, či zda porušují \emph{LoD} princip.
+Pro specifikaci Demeter law definujeme predikát, který nám umožní vybrat vhodné množiny vrcholů. Vybrané množiny potom ověřeíme pomocí predikátu, který určí, zda jsou tyto množiny v~pořádku, či zda porušují \emph{LoD} princip.
 
 % TODO: zkontrolovat!!!
 \begin{definition}
-Mějme graf $G = \langle V, E, \rho, K, C, N, \mathit{Kind}, \mathit{Classifier}, \mathit{Name}\rangle$ se zobrazeními definovanými dříve. Definujme selektor vrcholů $F(G, v', k', c')$, $v' \in V$, $k' \in K$, $c' \in C$ jako množinu vrcholů grafu $G$, které jsou dostupné z~vrcholu $v'$ pomocí orientované cesty, pro jejíž všechny vrcholy $v''$ s~výjimkou posledního platí $Kind(v) \ne k'$ a která obsahuje hranu $e$, pro niž platí $Classifier(e) = c' $.
+Mějme grafový model projektu $G = \langle V, E, \rho, K, C, N, \mathit{Kind}, \mathit{Classifier}, \mathit{Name}\rangle$. Definujme selektor vrcholů $F(G, v', k', c')$, $v' \in V$, $k' \in K$, $c' \in C$ jako množinu vrcholů $v \in V, Kind(v) = k'$, které jsou dostupné z~vrcholu $v'$ pomocí orientované cesty, pro jejíž všechny vrcholy $v''$ s~výjimkou posledního platí $Kind(v'') \ne k'$ a která obsahuje hranu $e$, pro niž platí $Classifier(e) = c' $.
 \end{definition}
 
 \subsection{Law of Demeter}
+\label{implementation-lod_specification}
+% TODO: definovat typ grafu \emph{demeter graph}
+\begin{align*}
+K = \{ ``class", ``method" \}
+\end{align*}
+
+\begin{align*}
+C = \{ ``field", ``self", ``arg", ``constr", ``use" \}
+\end{align*}
+
+\begin{align*}
+GT = &\{ \\
+&(``field" (``class", ``class")), \\
+&(``self" (``method", ``class")), \\
+&(``arg" (``method", ``class")), \\
+&(``use" (``method", ``class")), \\
+&(``use" (``method", ``class")) \\
+&\}
+\end{align*}
+
 Pro provedení validace princip LoD využijeme graf podobný tomu na obrázku \ref{implementation-lod_graph}. Lze jej získat ze zdrojových kódů pogramu. Vazba $``uses"$ představuje všechna použití (přístup k~\emph{public} a \emph{protected} polím a \emph{volání metod}) jiných tříd v~rámci metody.
 
+% TODO: aktualizovat graf!!!
 \begin{figure}[h!]
   \centering
   \includegraphics[width=1.0\textwidth]{./graphs/demeter_graph.png}
@@ -59,7 +80,14 @@ Specifikované pravidlo vyjadřuje požadavek, aby množina vrcholů do níž se
 % TODO:
 % odkázat na rešeši v analýze a přidat poznámku o tom, že tato pravidla nebyla specifikována s tím, že je možné je realizovat jako analýzu pomocí rozhraní AnalysisIface
 
-\section{Implementace jádra systému (modul av-core)}
+\section{Implementace jádra systému}
+% TODO: incorporate
+%  (modul av-core)
+\subsection{Implementace sestavování validačního modelu}
+\begin{itemize}
+\item ANTLR -- vybudování ast
+\item postupné sestavování vyhodnocovacího stromu
+\end{itemize}
 
 \subsection{Implementace základních operátorů}
 Vyhodnocení univerzálního kvantifikátoru $\forall v \in V$ lze přepsat jako jednoduchý cyklus přes vrcholy vrácené zpřesňující operátorem, která vybírá nějakou podmnožinu z~množiny vrcholů analyzovaného grafu. Získáme tak kód podobný listingu \ref{listing-forall}. V~tomto kódu, který je fragmentem metody, používáme symoblický název \verb+condition+ pro podmínku, kterou musí splňovat každý prvek \emph{v} iterované kolekce vrcholů \emph{vertices}.
@@ -94,7 +122,36 @@ return false;
 
 Můžeme si všimnout, že se obě implementace liší pouze přehozením podmínek -- zatímco v~prvním případě ($\forall$) musíme projít všechny prvky, abychom zjistili, zda všechny prvky splňují požadovanou vlastnost, ve druhém případě ($\exists$) budeme všechny prvky procházet pouze v~krajním případě, kdy vlastnost neplatí pro žádný z~prvků.
 
-\section{Integrace do NetBeans IDE (modul av-platform-integration)}
+\section{Implementace modulů rozšíření}
+
+% TODO: rozepsat
+\begin{itemize}
+\item SPI -- implementace rozhraní
+\item pojem \emph{poskytovatel služby}
+\item lookup, META-INF/services, registrace služeb
+\end{itemize}
+
+\subsection{Modul av-graphgen-demeter (generátor grafu)}
+ukázkový poskytovatel generátoru grafu
+
+% TODO: roztřídit
+%% \item compiler
+%% \item generátor vnitřní struktury (modelu) -- modelem je v našem případě graf
+%%   \begin{itemize}
+%%   \item \emph{výstup:} graf, reprezentující konkrétní analyzovanou doménu vhodný pro další zpracování (graf podle \ref{design-graph_formalization} \nameref{design-graph_formalization})
+%%   \end{itemize}
+
+\emph{DemeterGraphGeneratorProvider} implementuje \emph{GraphGeneratorIface}.
+
+\subsection{Modul av-operators-demeter (operátory pro LoD)}
+ukázkový balíček operátorů pro ověřování principu LoD
+
+Obsahuje sadu tříd implementující operátory potřebné pro definování pravidla pro validaci LoD. Tyto třídy implementují rozhraní \emph{OperatorIface} (resp. jeho podtypy).
+
+\section{Integrace do NetBeans IDE}
+
+%% TODO: incorporate
+%% (modul av-platform-integration)
 
 Při implementaci bylo hojně využíváno informací z~\cite{netbeans_platform}.
 
@@ -134,7 +191,7 @@ Integrace do běhové platformy. Reprezentuje uživatelskou akci. Bude implement
 \subsubsection{Ukázka vstupního formátu}
 \lstinputlisting[
   label=avdgrammar,
-  caption={Ukázka vstupního AVD souboru.}
+  caption={Ukázka vstupního AVD souboru odpovídajícího pravidlu specifikovanému v podsekci \ref{implementation-lod_specification} (LoD).}
 ]{./listings/example.avd}
 
 \subsubsection{Podpora editace AVD souborů}
@@ -146,29 +203,3 @@ Integrace do běhové platformy. Reprezentuje uživatelskou akci. Bude implement
 \subsection{Výstupní rozhraní}
 % TODO: zde popsat implementované výstupní rozhraní (alternativy by měly být diskutovány v návrhu)
 % TODO: textový výstup
-
-\section{Implementace modulů rozšíření}
-
-% TODO: rozepsat
-\begin{itemize}
-\item SPI -- implementace rozhraní
-\item pojem \emph{poskytovatel služby}
-\item lookup, META-INF/services, registrace služeb
-\end{itemize}
-
-\subsection{Modul av-graphgen-demeter}
-ukázkový poskytovatel generátoru grafu
-
-% TODO: roztřídit
-%% \item compiler
-%% \item generátor vnitřní struktury (modelu) -- modelem je v našem případě graf
-%%   \begin{itemize}
-%%   \item \emph{výstup:} graf, reprezentující konkrétní analyzovanou doménu vhodný pro další zpracování (graf podle \ref{design-graph_formalization} \nameref{design-graph_formalization})
-%%   \end{itemize}
-
-\emph{DemeterGraphGeneratorProvider} implementuje \emph{GraphGeneratorIface}.
-
-\subsection{Modul av-operators-demeter}
-ukázkový balíček operátorů pro ověřování principu LoD
-
-Obsahuje sadu tříd implementující operátory potřebné pro definování pravidla pro validaci LoD. Tyto třídy implementují rozhraní \emph{OperatorIface} (resp. jeho podtypy).
