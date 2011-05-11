@@ -5,22 +5,33 @@
 \section{Specifikace pravidel požadovaných zadáním práce}
 Nejprve definujeme vhodný predikát, který nám umožní vybrat množiny vrcholů tak, abychom mohli specifikova LoD. Vybrané množiny potom ověříme pomocí predikátu, který určí, zda jsou tyto množiny v~pořádku, či zda porušují \emph{LoD} princip.
 
-% TODO: zkontrolovat!!!
 \begin{definition}
 Mějme grafový model projektu $G = \langle V, E, \rho, K, C, N, \mathit{Kind}, \mathit{Classifier}, \mathit{Name}\rangle$. Definujme selektor vrcholů $F(G, v', k', c')$, $v' \in V$, $k' \in K$, $c' \in C$ jako množinu vrcholů $v \in V, Kind(v) = k'$, které jsou dostupné z~vrcholu $v'$ pomocí orientované cesty, pro jejíž všechny vrcholy $v''$ s~výjimkou posledního platí $Kind(v'') \ne k'$ a která obsahuje hranu $e$, pro niž platí $Classifier(e) = c' $.
 \end{definition}
 
 \subsection{Law of Demeter}
 \label{implementation-lod_specification}
-% TODO: definovat typ grafu \emph{demeter graph} (použít následující množiny)
+Pro definici princip LoD si zavedeme speciální typ grafového modelu. Ačkoliv jsme pojem \emph{typ grafového modelu}  přesně nedefinovali a zavedli jej pouze intuitivně, pokusíme se nyní vymezit pojem \emph{demeter graph model}, který zde budeme dále používat, přesněji.
+
+U grafového modelu typu \emph{Demeter graph type} povolíme libovolná označení vrcholů (konkrétně pro potřeby LoD se bude jednat o plně kvalifikované názvy tříd a metod). Množinu typů vrcholů omezíme na následující množinu:
 \begin{align*}
 K = \{ ``class", ``method" \}
 \end{align*}
+Význam těchto typů je zřejmý. Typ \emph{class} použijeme pro vrcholy, které budou odpovídat deklarovaným třídám v existujícím projektu a typ \emph{method} bude označovat jejich metody.
 
+Taktéž množina klasifikátorů hran nebude libovolná, ale bude přesně daná:
 \begin{align*}
 C = \{ ``field", ``self", ``arg", ``constr", ``use" \}
 \end{align*}
-
+Podívejme se na význam těchto označení:
+\begin{itemize}
+\item $``field"$ -- hrana vede do třídy, které reprezentuje třídní promenou nebo do její nadtřídy
+\item $``self"$ -- hrana vede do třídy, která je vlastníkem této metody nebo do její nadtřídy
+\item $``arg"$ -- hrana vede do třídy argumentu metody nebo do její nadtřídy
+\item $``constr"$ -- hrana vede do třídy použité pro konstrukci nového objektu v těle metody nebo do její nadtřídy
+\item $``use"$ -- hrana vede do třídy, jejíž použití (vyvolání metody nebo přístup k poli) se vyskytuje v těle metody
+\end{itemize}
+Je patrné, že tyto hrany zčásti odpovídají požadavkům LoD. Prozatím jsme uvedli množiny klasifikátorů bez vymezení, kde lze přesně tyto klasifikátory použít. Uvažujme následující množinu, která reprezentuje zobrazení množiny klasifiktároů do množiny dvojic typů vrcholů:
 \begin{align*}
 GT = &\{ \\
 &(``field" (``class", ``class")), \\
@@ -30,8 +41,11 @@ GT = &\{ \\
 &(``use" (``method", ``class")) \\
 &\}
 \end{align*}
+Pokud budeme uvažovat koncové vrcholy jednotlivých hran a jejich zobrazení do množiny typů, potom musí platit, že obraz jednotlivých komponent hrany (vrcholů) bude shodný s~obrazem hrany provedeného pomocí zobrazení GT.
 
-Pro provedení validace princip LoD využijeme graf podobný tomu na obrázku \ref{implementation-lod_graph}. Lze jej získat ze zdrojových kódů pogramu. Vazba $``uses"$ představuje všechna použití (přístup k~\emph{public} a \emph{protected} polím a \emph{volání metod}) jiných tříd v~rámci metody.
+Pokud \emph{grafový model projektu splní} všechny tyto podmínky, řekneme o něm, že je typu \emph{demeter graph model}.
+
+Příklad takového grafu je na obrázku \ref{implementation-lod_graph}. Lze jej získat ze zdrojových kódů pogramu.
 
 % TODO: aktualizovat graf!!!
 \begin{figure}[h!]
