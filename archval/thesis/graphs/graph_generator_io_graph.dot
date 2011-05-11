@@ -19,7 +19,7 @@ digraph GraphModelGeneratorManagerIOGraph {
     ];
     InputProject[
         shape="plaintext",
-        label="seznam souborů\nvstupního projektu"
+        label="adresář vstupního projektu"
     ];
 
     GraphTypes -> GraphGenerator;

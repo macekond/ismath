@@ -175,7 +175,7 @@ Pro výše zmíněné operátory umožníme libovolný počet parametrů. Pro po
 
 Ve výše uvedeném příkladu ($LessThan(...)$) má predikát \emph{LessThan} dva parametry, kde první je typu \emph{množina vrcholů} druhý typu celé číslo. Na místě prvního operátoru vystupuje operátor typu \emph{hranový selektor}, jehož návratovou hodnotou je množina hran. Parametry tohoto selektoru jsou potom element typu \emph{vrchol} a \emph{řetězec}.
 
-Protože výše zmíněná formalizace pravidel není zcela vhodná pro zadávání do počítače. Poskytneme vhodnou formu serializace této matematické notace do formátu vhodného pro zadávání. Jedná se o jednoduhé mapování, které však nezmění podstatu navrženého formalismu. Formálně je způsob zadávání pravidel popsán dále pomocí gramatiky specifikované v~příloze \ref{avd_grammar}. Gramatika je popsána ve vstupním formátu nástroje ANTLR (zmiňovaného v sekci \ref{analysis-java_source_processing}). Protože se však jedná o pouze drobně modifikovanou formu EBNF, používáme ji současně jako referenční příručku pro zápis nových pravidel.
+Protože výše zmíněná formalizace pravidel není zcela vhodná pro zadávání do počítače. Poskytneme vhodnou formu serializace této matematické notace do formátu vhodného pro zadávání. Jedná se o jednoduhé mapování, které však nezmění podstatu navrženého formalismu. Formálně je způsob zadávání pravidel popsán dále pomocí gramatiky specifikované v~příloze \ref{avd_grammar}. Gramatika je popsána ve vstupním formátu nástroje ANTLR (zmiňovaného v sekci \ref{analysis-java_source_processing}). Protože se však jedná o pouze drobně modifikovanou formu EBNF, používáme ji současně jako referenční příručku pro zápis nových pravidel. Jazyk pro definici pravidel, který tímto způsobem vznikl budeme označovat zkratkou AVD (ArchVal definitions) a soubory pravidel generované zmíněnou gramatikou budeme dále nazývat jako AVD soubory.
 
 \subsection{Typy analýzy}
 
@@ -330,37 +330,27 @@ Vztahy mezi jednotlivými komponentami jádra systému jsou znázorněny na obr�
 \end{figure}
 
 \subsubsection{Komponenta GraphModelGenerator}
-% TODO: rozepsat
-GraphModelGeneratorIface
-
-% TODO: připsat k rozhraní graph generator:
-Reprezentuje komponentu, která provede převod zdrojových kódů na graf (zobrazení, které vybraným elementům AST přiřadí množinu vrcholů $V$ grafu $G$).
-
-\begin{itemize}
-\item \emph{GraphModelGenerator} -- updateGraphModel() -- přegeneruje graph model -- pouze doplní požadované chybějící grafy, regenerate() -- kompletně zruší všechny grafy a vygeneruje nové (všechny požadované)
-\end{itemize}
-
-Komponenta typu \emph{GraphModelGeneratorIface} je znázorněna na obrázku \ref{design-graph_generator_io}.
-
-\begin{itemize}
-\item \emph{Vstup:} adresář obsahující Java soubory analyzovaného projektu, identifikátory požadovaných typů grafů
-\item \emph{Výstup:} instance třídy \emph{GraphModel}
-\end{itemize}
+Komponenta \emph{GraphModelGenerator} bude mít na zodpovědnosti vygenerování všech grafů potřebných pro provedení analýzy. Abychom mohli časem komponentu reimplementovat, skryjeme její implementaci za rozraní \emph{GraphModelGeneratorIface}. To bude vystupovat v kontaktu s \uv{vnějšími} entitami jádra (u klientského uživatele knihovny jádra ArchVal). Jak je patrné již z obrázku \ref{design-archval_core}, tato komponenta má závislost na rozhraní \emph{GraphGeneratorsRegisterIface}. Samotná komponenta \emph{GraphModelGenerator} vlastně žádné grafy generovat přímo nebude. Bude k tomuto úkolu využívat některé z dostupných generátorů grafů dostupných prostřednictvím registru.
 
 \begin{figure}[h!]
   \centering
-  \includegraphics[width=0.55\textwidth]{./graphs/graph_generator_io_graph.png}
+  \includegraphics[width=0.6\textwidth]{./graphs/graph_generator_io_graph.png}
   \caption{Znázornění vstupů a výstupů komponenty typu \emph{GraphModelGenerator}.\label{design-graph_generator_io}}
 \end{figure}
 
+Vstupy a výstupy komponenty jsou znázorněny na obrázku \ref{design-graph_generator_io}. U vstupů se jedná o adresář obsahující vstupní Java soubory analyzovaného projektu a seznam identifikátorů typů grafů, které chceme vygenerovat. Výstup je potom představován instancí třídy \emph{GraphModel}. Je možné, že komponenta  \emph{GraphModelGenerator} nebude mít k dispozici potřebné generátory grafů. V tom případě vyhodí výjimku.
+
+\paragraph{Rozhraní}
+Rozhraní této komponenty bude představováno jedinou metodou:
+\begin{itemize}
+\item \begin{verbatim}generateModel(Set<String> requiredGraphTypes,
+              File projectDirectory) : GraphModel\end{verbatim}
+\end{itemize}
+
+Poznamenejme, že v rozhraních budeme uvádět datové typy jazyka Java, což není z~hlediská návrhu zcela správné, nicméně pro potřeby této práce to bude postačující.
+
 \subsubsection{Komponenta ValidationModelGenerator}
-% TODO: formulate
-\emph{ValidationModelGeneratorIface}
-
-Znázornění vstupů a výstupů komponenty \emph{ValidationModelGenerator} je na obrázku \ref{design-validation_model_generator_io}.
-
-% TODO: zkontrolovat, že 'výše popsaných pravidel' odkazuje na nějaká předchozí pravidla dříve v práci
-Vstupem je množina pravidel zapsaná ve vhodné serializaci výše popsaných matematických pravidel.
+Druhou významnou vstupní komponentou je vedle genrátoru modelu grafu komponenta \emph{ValidationModelGenerator}, která bude sloužit k vygenerování instance dříve popsané doménové třídy \emph{ValidationModel}. Tato komponenta má na zodpovědnosti zpracování vstupního souboru, který jí bude ve vhodné podobě předán a vytvoření stromové struktury třídy \emph{ValidationModel}, která bude umět provést vyhodnocení pravidel specifikovaných vstupním souborem, vyhodnocení analýz a vygenerování výsledného objektu třídy \emph{ValidationReport}. Podobně jako předchozí komponentu i tuto zpřístupníme jako rozhraní, v tomto případě rozhraní \emph{ValidationModelGeneratorIface}.
 
 \begin{figure}[h!]
   \centering
@@ -368,9 +358,13 @@ Vstupem je množina pravidel zapsaná ve vhodné serializaci výše popsaných m
   \caption{Znázornění vstupů a výstupů komponenty \emph{ValidationModelGenerator}.\label{design-validation_model_generator_io}}
 \end{figure}
 
+Znázornění vstupů a výstupů komponenty \emph{ValidationModelGenerator} je na obrázku \ref{design-validation_model_generator_io}. Vstupem je množina pravidel zapsaná ve formátu AVD. Ta může být zadána buď jako vstupní \emph{stream} nebo řetězec\footnote{Tato možnost zde byla přidána z ohledem na možnost přímé integrace, kdy by uživatel mohl zadávat pravidla do nějakého textového vstupu aplikace a tato pravidla byla rovnou použita pro validaci projektu.}. Výstupem kpomonenty je instance třídy \emph{ValidationModel}.
+
+\paragraph{Rozhraní} Rozhraní komponenty je představováno metodami:
+
 \begin{itemize}
-\item \emph{Vstup:} stream, string
-\item \emph{Výstup:} instance třídy \emph{ValidationModel}
+\item \verb-constructValidationModel(InputStream is) : ValidationModelIface-
+\item \verb-constructValidationModel(String string) : ValidationModelIface-
 \end{itemize}
 
 \subsubsection{Komponenta ValidationTask}
