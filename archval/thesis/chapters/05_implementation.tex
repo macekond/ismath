@@ -1,27 +1,9 @@
 \chapter{Implementace}
 
-% TODO: někde rozebrat možnosti rozšiřitelnosti (možná i v návrhu)
-% TODO: napsat přehled, co bude v této kapitole
-
-% TODO: použít nebo smazat (případně zařadit jinam)
-% TODO: moduly popsané v části \ref{design-architecture} implementujeme jako jednotlivé moduly platformy NetBeans.
-
- %% Nejprve se zaměříme Vytvoříme jednoduchý jazyk (DSL) pro specifikaci validačních parametrů. Jazyk popíšeme jednoduchou gramatikou. U~této gramatiky předpokládáme, že bílé znaky jsou ignorovány (pokud nejsou uvnitř řetězce).
-
-% TODO: zapracovat
-%% ValidationModel v~sobě bude zapouzdřovat data z~AVD souborů. AVD soubory budou mít samostatné jmenné prostory pro následující typy jmen:
-
-%% \begin{itemize}
-%% \item názvy analýz
-%% \item jména typů grafů
-%% \item jména atomických a složených pravidel (jmenný prostor pro atomická i složená pravidla je sdílený)
-%% \item jména operátorů
-%% \item datové typy v modelu
-%% \end{itemize}
-
+% TODO: napsat úvod kapitoly (přehled, co bude v této kapitole)
 
 \section{Specifikace pravidel požadovaných zadáním práce}
-Pro specifikaci Demeter law definujeme predikát, který nám umožní vybrat vhodné množiny vrcholů. Vybrané množiny potom ověřeíme pomocí predikátu, který určí, zda jsou tyto množiny v~pořádku, či zda porušují \emph{LoD} princip.
+Nejprve definujeme vhodný predikát, který nám umožní vybrat množiny vrcholů tak, abychom mohli specifikova LoD. Vybrané množiny potom ověříme pomocí predikátu, který určí, zda jsou tyto množiny v~pořádku, či zda porušují \emph{LoD} princip.
 
 % TODO: zkontrolovat!!!
 \begin{definition}
@@ -30,7 +12,7 @@ Mějme grafový model projektu $G = \langle V, E, \rho, K, C, N, \mathit{Kind}, 
 
 \subsection{Law of Demeter}
 \label{implementation-lod_specification}
-% TODO: definovat typ grafu \emph{demeter graph}
+% TODO: definovat typ grafu \emph{demeter graph} (použít následující množiny)
 \begin{align*}
 K = \{ ``class", ``method" \}
 \end{align*}
@@ -82,7 +64,25 @@ Specifikované pravidlo vyjadřuje požadavek, aby množina vrcholů do níž se
 
 \section{Implementace jádra systému}
 % TODO: incorporate
-%  (modul av-core)
+Implementujeme jako netbeans modul av-core
+
+\subsection{Implementace formátu AVD}
+%% TODO: sort and formulate
+ValidationModel v~sobě bude zapouzdřovat data z~AVD souborů. AVD soubory budou mít samostatné jmenné prostory pro následující typy jmen:
+
+\begin{itemize}
+\item názvy analýz
+\item jména typů grafů
+\item jména atomických a složených pravidel (jmenný prostor pro atomická i složená pravidla je sdílený)
+\item jména operátorů
+\item datové typy v modelu
+\end{itemize}
+
+\begin{itemize}
+\item AVD formát
+\item definice gramatiky
+\end{itemize}
+
 \subsection{Implementace sestavování validačního modelu}
 \begin{itemize}
 \item ANTLR -- vybudování ast
@@ -134,17 +134,44 @@ Můžeme si všimnout, že se obě implementace liší pouze přehozením podmí
 \subsection{Modul av-graphgen-demeter (generátor grafu)}
 ukázkový poskytovatel generátoru grafu
 
-% TODO: roztřídit
-%% \item compiler
-%% \item generátor vnitřní struktury (modelu) -- modelem je v našem případě graf
-%%   \begin{itemize}
-%%   \item \emph{výstup:} graf, reprezentující konkrétní analyzovanou doménu vhodný pro další zpracování (graf podle \ref{design-graph_formalization} \nameref{design-graph_formalization})
-%%   \end{itemize}
+Implementujeme jako samostatný netbeans modul.
 
-\emph{DemeterGraphGeneratorProvider} implementuje \emph{GraphGeneratorIface}.
+\emph{DemeterGraphGenerator} implementuje \emph{GraphGeneratorIface}.
+
+Zpracovávání AST:
+Vyhledávali jsme:
+\begin{itemize}
+\item visitClass
+\item visitMethod
+\item visitVariable
+\item visitIdentifier
+\item visitMethodInvocation
+\item visitMemberSelect
+\item visitNewClass
+\item visitNewArray
+\end{itemize}
+
+\begin{itemize}
+\item použití zásobníku
+\item generování hran
+\end{itemize}
+
+\begin{itemize}
+\item ``field" -- visitVariable, visitIdentifier
+\item ``self" -- enclosing element
+\item ``arg" -- visitVariable (level 3)
+\item ``constr" -- new, new array
+\item ``use" -- method invocation, member select (přístup k polím třídy)
+\end{itemize}
 
 \subsection{Modul av-operators-demeter (operátory pro LoD)}
 ukázkový balíček operátorů pro ověřování principu LoD
+
+\begin{itemize}
+\item třída \emph{EmptyVertexSetPredicate} -- \uv{empty} -- $P() = \emptyset$
+\item třída \emph{FVertexSetSelector} -- \uv{F} -- popsáno výše
+\item třída \emph{VertexKindPredicate} -- \uv{kind} -- $Kind(v, ``label")$
+\end{itemize}
 
 Obsahuje sadu tříd implementující operátory potřebné pro definování pravidla pro validaci LoD. Tyto třídy implementují rozhraní \emph{OperatorIface} (resp. jeho podtypy).
 
@@ -158,6 +185,7 @@ Při implementaci bylo hojně využíváno informací z~\cite{netbeans_platform}
 % TODO: write about actions, about usage of the ArchVal API
 Seznam integračních komponent je k~dispozici v~tabulce \ref{implementation-integration_components}.
 
+% TODO: zkontrolovat tabulku integračních komponent
 \begin{table}
   \caption{Tabulka integračních komponent systému. \label{implementation-integration_components}}
   \begin{center}
@@ -175,11 +203,9 @@ Seznam integračních komponent je k~dispozici v~tabulce \ref{implementation-int
   \end{center}
 \end{table}
 
-\subsection{Implementace registrů poskytovatelů služeb}
-\begin{itemize}
-\item SPI
-\item NetBeans lookup -- /META-INF/services
-\end{itemize}
+\subsection{Použití jádra systému ArchVal}
+% TODO: rozepsat
+Zabalení třídy ArchVal do singletonu ArchvalInstance
 
 \subsection{Přidání uživatelské akce do nabídky prostředí}
 Třída \emph{ValidateMainProject}
@@ -194,12 +220,21 @@ Integrace do běhové platformy. Reprezentuje uživatelskou akci. Bude implement
   caption={Ukázka vstupního AVD souboru odpovídajícího pravidlu specifikovanému v podsekci \ref{implementation-lod_specification} (LoD).}
 ]{./listings/example.avd}
 
-\subsubsection{Podpora editace AVD souborů}
-\begin{itemize}
-\item experimentální mime typ \verb+text/x-avd+
-\item zvýrazňování syntaxe (modul av-avd-highlighter)
-\end{itemize}
-
 \subsection{Výstupní rozhraní}
 % TODO: zde popsat implementované výstupní rozhraní (alternativy by měly být diskutovány v návrhu)
 % TODO: textový výstup
+
+\subsection{Implementace registrů poskytovatelů služeb}
+% TODO: rozepsat, přidat ukázku kódu
+\begin{itemize}
+\item SPI
+\item NetBeans lookup -- /META-INF/services
+\end{itemize}
+
+\subsubsection{Podpora editace AVD souborů}
+% TODO: rozepsat
+\begin{itemize}
+\item experimentální mime typ \verb+text/x-avd+
+\item třída \emph{AvdCookie}
+\item zvýrazňování syntaxe (modul av-avd-highlighter)
+\end{itemize}
