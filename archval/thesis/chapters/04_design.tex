@@ -1,6 +1,12 @@
 \chapter{Návrh}
-% TODO: dopsat úvodní text této kapitoly
-% TODO: zmínit rozšiřitelnost (jeden z požadavků ze zadání)
+
+V kapitole \emph{návrh} postupně projdeme jednotlivé součásti a výsledného systému. Nejprve se budeme zabývat formalizací způsobu specifikace pravidel správného návrhu software.
+
+Část druhá je věnována rozboru navrhované architektury systému. Systém je postupně dekomponován shora dolů. Hlavní funkční bloky jsou postupně dekomponovány na komponenty, jejichž realizace je triviální. Je navrhováno rozdělení systému na jádro (core) a moduly, které budou poskytovat konkrétní funkčionalitu.
+
+Další části se věnují postupně návrhu vstupního rozhraní, výstupního rozhraní a způsobu integrace jádra do různých prostředí.
+
+Poslední část je věnována návrhu konkrétních technologií, v nichž bude výsledný systém realizován.
 
 \section{Návrh způsobu specifikace pravidel}
 
@@ -288,11 +294,16 @@ Třídu dekomponujeme dále na třídy \emph{AtomicRule} a \emph{CompoundRule} (
 Pro vybudování zmíněného stromového modelu vytvoříme samostanou komponentu \emph{ValidationModelGenerator}, jejíž rozhraní bude definováno dále.
 
 \subsubsection{Třída ValidationReport}
+\label{design-class_validation_report}
 Výstupem validačního procesu bude objekt třídy \emph{ValidationReport}. Ačkoliv matematická pravidla popsaná výše mají jako výstup pouze logickou hodnotu. Je vhodné, aby bylo možné nějakým způsobem zjistit, v jaké fázi vyhodnocování došlo k nesplnění pravidla. Proto poskytneme právě datovou třídu \emph{ValidationReport}. Ta ponese nejen elementární výsledky pravidel, ale také mezivýsledky vyhodnocení jednotlivých uzlů syntaktického stromu popsaného dříve.
 
-Strom výsledků dekomponujeme podobným způsobem, jakým jsme dekomponovali třídu \emph{ValidationModel}. Poskytneme třídy \emph{AtomicRuleResult} a \emph{ComopundRuleResult}. Tyto třídy opět oddědíme od společného předka, abychom je mohli uchovávat v rámci jednoho seznamu výsledků. Kromě toho přidáme ještě třídu \emph{AnalysisResult}, která ponese informaci o konkrétní prováděné analýze.
+Strom výsledků dekomponujeme podobným způsobem, jakým jsme dekomponovali třídu \emph{ValidationModel}. Poskytneme třídy \emph{AtomicRuleResult} a \emph{ComopundRuleResult}. Tyto třídy opět oddědíme od společného předka, abychom je mohli uchovávat v rámci jednoho seznamu výsledků.
+
+Kromě toho přidáme ještě třídu \emph{AnalysisResult}, která ponese informaci o konkrétní prováděné analýze. Pro třídu \emph{AnalysisResult} strom generovat nebudeme, protože neznáme přesný způsob práce konkrétního analytického modulu. Třída \emph{AnalysisResult} bude obsahovat seznam tvrzení o množinách vrcholů nebo hran. Každý záznam bude obsahovat vždy množinu vrcholů nebo hran a k ní řetězec, který bude obsahovat výrok, který platí. Způsob provádění analýz a zpracovávání výsledků je oblast, kterou je možné řešit samostatně v rámci dalších návazností této práce.
 
 Generování objektů třídy \emph{ValidationReport} bude součástí průběhu zpracování validace. Metoda \emph{validate()} třídy \emph{ValidationModel} provede vytvoření objektu \emph{ValidationReport} a příslušných podobjektů (\emph{AtomicRuleResult}, atd.). Tyto objekty následně předá prostřednictvím \emph{evaluate()} metod do dalších vyhodnocovacích uzlů. Ty provedou totéž o úroveň níže. Každý uzel po provedení příslušné operace uloží do předaného objektu svou návratovou hodnotu. Díky tomu získáme strom obsahující data umožňující rekonstruovat průběh zpracování.
+
+
 
 \subsection{Jádro systému}
 Jádro systému samotné nebude poskytovat žádná konkrétní pravidla pro validaci ani žádné analýzy. Bude se jednat o platformu, která umožní přidávání nových komponent, které toto budou provádět na základě textového popisu pravidel. Součástí jádra budou komponenty nezbytné pro zpracování vstupního souboru definic do podoby vhodné k provedení (vytvoření modelů, navázání poskytovaných operátorů). Přehled navrhovaných komponent a rozhraní jádra uvádíme v tabulce v~tabulce \ref{design-archval_core_components}.
@@ -369,6 +380,7 @@ Znázornění vstupů a výstupů komponenty \emph{ValidationModelGenerator} je 
 \end{itemize}
 
 \subsubsection{Komponenta ValidationTask}
+\label{design-component_validation_task}
 Centrální komponentou umožňující spuštění validačního procesu bude \emph{ValidationTask} (implementace skrytá za \emph{ValidationTaskIface}). Tato komponenta bude mít na starosti provedení validačního procesu pomocí komponent \emph{ValidationModel} a \emph{GraphModel}. Implementace bude poměrně triviální, vzhledem k faktu, že veškerá logika potřebná k provedení validace bude zapouzdřena již v komponentě \emph{ValidationModel}. Komponenta \emph{ValidationTask} tak bude mít na starosti zajištění bezpečného spouštění procesu validace a to jak synchronním způsobem tak asynchronně (v samostaném vlákně).
 
 \paragraph{Rozhraní} Rozhraní komponenty \emph{ValidationTask} bude představováno následujícími metodami:
@@ -427,100 +439,80 @@ Zde požadujeme pouze zisk existujícího operátoru na základě jména. Pokud 
 
 \subsection{Rozhraní rozšíření systému}
 
-Nyní se podívejme na vlastní rozhraní, která musí být implementovaná poskytovali služeb poskytovaných prostřednictvím výše zmíněných registrů.
+Nyní se podívejme na vlastní rozhraní, která musí být implementovaná poskytovali služeb poskytovaných prostřednictvím výše zmíněných registrů. Jedná se o rozhraní \emph{GraphGeneratorIface}, \emph{OperatorIface} a \emph{AnalysisIface}.
 
 \subsubsection{Rozhraní GraphGeneratorIface}
+Úkolem implementátora generátoru grafu je zaimplementovat rozhraní \emph{GraphGeneratorIface}. Toto rozhraní bude definovat následující operace:
 \begin{itemize}
-\item \verb+getGraphTypeId() : String+
-\item \verb+generateGraph(projectFilesSpecification) : Graph+
-\end{itemize}
-\begin{itemize}
-\item \emph{vstup:} adresář vstupního projektu
-\item \emph{výstup:} graf konkrétního typu (např. demeter graph)
+\item \verb-getGraphType() : String- -- typ grafu, který produkuje tento generátor grafu
+\item \verb-getGraph(File projectDirectory) : Graph- -- metoda, která provede vlastní vygenerování grafu
 \end{itemize}
 
-Každý graph generátor (resp. graf) musí mít specifikované jedinečné id grafu. (To bude dále použito např. při specifikaci pravidel, kde je potřeba sdělit validátoru, nad kterým grafem má pravidlo platit).
+Vstupem pro metodu pro generování grafu je specifikace adresáře, který obsahuje projekt, z něhož má být vygenerován grafový model. Každý generátor musí vracet id typu grafu, který generuje. Systém odmítne spustit validaci, pokud bude obsahovat více poskytovatelů generátoru grafu, kteří poskytují generování grafu stejného typu.
 
 \subsubsection{Rozhraní OperatorIface}
+Soubory specifikací pravidel mohou obsahovat volání predikátů a selektorů. Všechny tyto operátory musí implementovat rozhraní \emph{OperatorIface}. Rozhraní obsahuje všechny potřebné metody, které jsou nezbytné pro vykonání operátoru. Jedná se o jméno operátoru (odpovídá jménu uvedenému v AVD souboru), počet a typ operandů a jeho návratovou hodnotu.
 
 \begin{itemize}
-\item \verb-getName() : String-
-\item \verb-getOperandsCount() : int-
-\item \verb-getOperandType(int index) : DataType-
-\item \verb-getReturnType() : DataType-
-\item \verb-execute(Graph graph, List<Object> operands) : Object-
+\item \verb-getName() : String- -- název operátoru
+\item \verb-getOperandsCount() : int- -- počet operandů
+\item \verb-getOperandType(int index) : DataType- -- typy operátoru na pozici udávané indexem
+\item \verb-getReturnType() : DataType- -- návratový typ
+\item \verb-execute(Graph graph, List<Object> operands) : Object- -- metoda umožňující provedení operátoru se specifikovanými parametry
 \end{itemize}
 
+Datové typy používané u opratorů odpovídají datovým typům zmiňovaným dříve v podsekci \ref{design-rules_formalization} (množina vrcholů, množina hran, atd.). V Jazyce java můžeme identifikátory těchto typů realizovat jako výčtový datový typ \verb-enum-.
+
 \subsubsection{Rozhraní AnalysisIface}
+Rozhraní \emph{AnalysisIface} reprezentuje jednu konkrétní analýzu, kterou je možné provést nad grafem konkrétního typu. To, nad jakým grafem lze analýzu spustit deklaruje analýza prostřednictvím metody -getRequiredGraphType() : String-. Podobně jako ostatní komponenty rozšíření musí i analýza specifikovat své jméno.
+
 \begin{itemize}
 \item \verb-getAnalysisName() : String-
 \item \verb-getRequiredGraphType() : String-
 \item \verb-evaluate(Graph graph) : AnalysisResult-
 \end{itemize}
 
+Výsledkem provedené analýzy je instance třídy \emph{AnalysisResult} zmiňovaná dříve v podsekci \ref{design-class_validation_report}.
+
 \subsection{Základní průběh validačního procesu}
+Hlavním vstupním bodem pro provedení validačního procesu je komponenta \emph{ValidationTask} popsaná dříve v podsekci \ref{design-component_validation_task}.
 
-%% TODO: zapracovat || přesunout || smazat
-%% * source code references resolution/resolving
-%% * dependency graph construction
-%% * dependency graph visualization
-%% * GUI design and implementation
-%% * graph analysis
-%% * graph data mining
+Systém nejprve vygeneruje validační model pomocí komponenty \emph{ValidationModelGenerator}. Na základě vygenerovaného modelu je potom možné získat seznam požadovaných typů grafů, které jsou nezbytné pro provedení validace a analýzy.
 
-%TODO: add activity and/or sequence diagram
-%TODO: popis validačního procesu: rozepsat následující itemize
-%% TODO: sjednotit s realitou
-\begin{itemize}
-\item systém načte moduly
-\item systém zkontroluje základní předpoklady - existuje alespoň jeden modul pro generování grafu, alespoň jeden modul operátorů (nebo poskytovatel analyzerů) a alespoň jeden modul s~poskytovatelem generátoru výstupu
-\item systém zparsuje soubor pravidel a vygeneruje AST
-\item systém zkontroluje, zda pro AST pravidel existují potřebné providery grafů
-\item systém zkontroluje, zda pro AST pravidel existují všechny operátory
-\item systém provede nabindování operátoru na uzly AST pravidel
-\item systém vygeneruje pro projekt všechny požadované grafy
-\item systém vyhodnotí AST nad grafy pomocí operátorů, zjištěná porušení pravidel bude zapisovat do validačního reportu
-\item systém projde všechny analyzátory a nechá je vygenerovat analyzační report
-\item systém pomocí výstupních modulů vygeneruje reporty (na základě konfigurace ???)
-\end{itemize}
+Seznam požadovaných typů grafů je následně předán komponěntě \emph{GraphModelGenerator}, která vygeneruje instanci třídy \emph{GraphModel} (resp. \emph{GraphModelIface}).
+
+\emph{ValidationTask} následně předá získanou instanci \emph{GraphModelIface} validačnímu modelu (pomocí metody \emph{validate()}.
+
+Po provedení validace (ať už synchronním nebo asynchronním\footnote{V případě asynchronního způsobu je nutné si zaregistrovat listener, který bude notifikován o doběhnutí vlákna validace.} způsobem) lze získat výsledky validace pomocí metody \emph{getReport()} třídy \emph{ValidationTask} výslednou instanci třídy \emph{ValidationReport}, kterou je možné vhodným způsobem prezentovat uživateli nebo jinak využít.
 
 \section{Návrh vstupního rozhraní (zadávání pravidel)}
-%% TODO: zapracovat:
-U~každého pravidla musí být deklarace typu grafu, nad nímž má platit.
-%% rozhraní pro zadávání pravidel bude dáno jazykem, který se pro definici pravidel bude používat - možná kompilátor DSL jazyka, výrazy, atd.
-\begin{itemize}
-\item rozhraní pro zadávání pravidel
-\item formát zadávání pravidel (serializace formalismu tak, aby jej bylo možné textově nebo jinak zadávat)
-\item zvýrazňování syntaxe (\uv{nice-to-have} feature)
-\end{itemize}
+V sekci \ref{design-rules_formalization} byl stanoven způsob specifikace validačních pravidel. To, jakým způsobem budeme pravidla do systému zadávat, závisí do značné míry na případech užití realizovaného nástroje. Jednou možností je přímá specifikace pravidel prostřednictvím nějakého textového pole v grafickém uživatelském prostředí, jinou možností je zadání cesty k existujícímu AVD souboru.
+
+Pro navrhovaný systém použijeme kombinovanou možnost. Umožníme přímou editaci editaci AVD souboru v prostředí nástroje a bude-li to možné, poskytneme další formy podpory editace (zvýrazňování syntaxe). Při vlastním procesu validace však budeme načítat již pravidla z vybraného existujícího souboru.
 
 \section{Návrh výstupního rozhraní (provádění validace)}
-% TODO: sort and formulate
-Podpora pro různé formáty výstupu. Popsat vnitřní reprezentaci reportu, tak aby jej bylo možné převést na vhodnou vnější reprezentaci. Podpora pro dopsání různých výstupních formátu jako např.:
+
+Vzhledem k navržené architektuře je definice způsobu výstupu ponechána jako oblast, kterou lze řešit poměrně nezávisle. Po provedení validační úlohy (třída \emph{ValidationTask} je možné získat výstup třídy \emph{ValiationReport}. Tento výstup je následně možné zpracovat libovolným způsobem.
+
+Uveďme možnosti dalšího zpracování výstupního reportu:
+
 \begin{itemize}
-\item HTML export
-\item export prostého textového výstupu
-\item textový výstup v okně
-\item reprezentace swing komponentou (např. JTree komponenta)
+\item export v některém existujícím standardním formátu - html, pdf, tex, ad.,
+\item export prostého textového výstupu ve vlastním formátu,
+\item textový výstup v okně aplikace,
+\item reprezentace výstupu vhodnou swing komponentou (např. JTree komponenta).
 \end{itemize}
+
+Pro potřeby této práce postačí jednoduchý textový výstup, který pro realizovaná pravidla vypíše pouze zda pro daný vstup platí či nikoliv. Zpětné procházení stromu a vyhledávání příčin porušení konkrétního pravidla je ponecháno pro budoucí zpracování\footnote{Nicméně model byl záměrně navržen tak, aby toto podporoval -- výsledkem validace bude strom výsledků pro jednotlivé uzly pravidla, jak bylo popsáno dříve v podsekci \ref{design-class_validation_report}.}.
 
 \section{Návrh způsobu integrace do různých typů prostředí}
-%% TODO: zapracovat
-%% návrh je řešen tak, aby bylo možné poskytnout další rozhraní k systému (např. CLI, TUI, atd.) - ValidationTask lze zabudovat do jiných programů a lze jej řídit, při poskytnutí rozhraní *Register je možné dodávat poskytovatele služeb i z jiných zdrojů (na platformě NetBeans je řešeno pomocí lookupů <- tohle patří ale spíš do implementace)
+Aplikační rozhraní systému \emph{ArchVal} je od začátku navrhováno tak, aby bylo možné jej zaintegrovat do libovolné aplikace. Díky nezávislosti na konkrétním způsobu poskytování implementátorů služeb je možné integrovat výsledný vyhodnocovací systém například do:
 
-Rozhraní ArchVal API je záměrně navrženo tak, aby jej bylo možné integrovat do různých typů prostředí, např:
+\paragraph{CLI programy} V~případě integrace prostředí ArchVal do samostatných skriptů a programů pro příkazovou řádku by bylo nutné zaimplementovat nějaký způsob registrace poskytovatelů služeb. To ale mohou být prosté texové soubory s~výčtem tříd, které se mají načíst. Případně mohou být seznamy operátorů definovány přímo v konkrétní implementaci registru operátoru, apod. U řádkových rozhraní je komplikovaná podpora editace AVD souborů.
 
-\begin{itemize}
-\item CLI -- skripty, readline, atd.
-\item TUI -- jednoduché textové rozhraní pro validaci
-\item GUI -- zde NetBeans platforma
-\end{itemize}
+\paragraph{GUI prostředí} Systém může být integrován do existujících prostředí IDE. V této práci navrhujeme a realizujeme integraci systému do prostředí NetBeans IDE. Současně využíváme výhod existujícího parseru zdrojových kódů jazyka Java. Podobně bychom mohli využít platformu \emph{Eclipse} nebo jiné prostředí. Na platormně NetBeans je možné implementovat registry poskytovatlů služeb velmi pohodlně pomocí tzv. \emph{Lookup API}, které je schopné poskytnout existující implementace konkrétního rozhraní\footnote{Stačí zaregistrovat poskytovatele služby v souboru \emph{META-INF/services}.}.
 
 \section{Návrh technologií pro implementaci}
-  % TODO: vytvorit prehled technologii i s jejich popisy
-\begin{itemize}
-\item NetBeans platform
-\item Java 1.6
-\item vstupem bude Java Maven projekt
-\item \ldots
-\end{itemize}
+Pro implementaci systému použijeme jazyk \emph{Java 1.6} a platformu \emph{NetBeans} verze \emph{9.6.1}\footnote{V době realizace práce majoritní verze.}.  Pro zpracovávání zdrojových kódů využijeme prostředků poskytovaných touto platformou (\emph{Java Source API}).
+
+Abychom mohli předpokládat pevnou strukturu vstupních projektů, omezíme možné vstupní projekty na standardní \emph{Maven Java projekty}.
