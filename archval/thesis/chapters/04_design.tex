@@ -206,6 +206,7 @@ Ve druhé fázi budeme dekomponovat jádro systému. Zodpovědnost jádra předs
 Definujeme proto veřejná rozhraní (SPI) \cite{spi}, která budou implementována poskytovateli služeb. Každému z~těchto rozhraní bude věnována jedna podsekce.
 
 \subsection{Globální struktura systému}
+\label{desing-global_system_structure}
 
 Prvním stupněm dekompozice systému je jeho rozdělení na části, které budou \emph{neměnné} a~na \emph{rozšíření}, která bude možné přidávat a odebírat, a která tak umožní běh systému v~různých konfiguracích.
 
@@ -402,15 +403,33 @@ Metoda \verb-createValidationTask()- představuje tovární metodu, která vrát
 
 \subsubsection{Rozhraní registrů poskytovatelů implementací}
 
-Aby bylo možné systém rozšiřovat přidáváním dalších operátorů, generátorů grafů nových typů a analýz, musíme poskytnout vhodný mechanismus, který umožní zapojení nových modulů do programu.
+Jak bylo zmíněno již v sekci \ref{desing-global_system_structure}, rozšíření budou získávána pomocí rozhraní \emph{GraphGeneratorsRegisterIface}, \emph{OperatorsRegisterIface} a \emph{AnalysesRegisterIface}. Zde uveďme operace, které požadujeme od těchto rozhraní:
 
+\paragraph{Rozhraní GraphGeneratorsRegisterIface} Od registru generátorů grafů budeme požadovat, aby byl schopen vrátit seznam všech dostupných typů generátorů a dále konkrétní generátor na základě typu.
 \begin{itemize}
-\item GraphGeneratorsRegisterIface
-\item OperatorsRegisterIface
-\item AnalysesRegisterIface
+\item \verb-getAvaliableGeneratorTypes() : Set<String>-
+\item \verb-getGraphGeneratorByType(String type) : GraphGeneratorIface-
 \end{itemize}
 
-\subsection{Rozhraní GraphGeneratorIface}
+\paragraph{Rozhraní OperatorsRegisterIface}
+Zde požadujeme pouze zisk existujícího operátoru na základě jména. Pokud by bylo časem nutné podpořit editaci AVD souborů, zcela jistě by bylo potřeba získat i úplný seznam operátorů, případně implementovat vyhledávání i podle jiných kritérií (např. návratová hodnota).
+
+\begin{itemize}
+\item getOperatorByName(String name) : OperatorIface
+\end{itemize}
+
+\paragraph{Rozhraní AnalysesRegisterIface} Zpravidla budeme potřebovat pouze metodu na zisk existujícího analytického modulu na základě jeho názvu. Přesto poskytujeme i metodu, která umožní získat seznam všech existujících analytických modulů.
+
+\begin{itemize}
+\item getAnalysesList() : List<AnalysisIface>
+\item getAnalysisByName(String name) : AnalysisIface
+\end{itemize}
+
+\subsection{Rozhraní rozšíření systému}
+
+Nyní se podívejme na vlastní rozhraní, která musí být implementovaná poskytovali služeb poskytovaných prostřednictvím výše zmíněných registrů.
+
+\subsubsection{Rozhraní GraphGeneratorIface}
 \begin{itemize}
 \item \verb+getGraphTypeId() : String+
 \item \verb+generateGraph(projectFilesSpecification) : Graph+
@@ -429,7 +448,7 @@ Aby bylo možné systém rozšiřovat přidáváním dalších operátorů, gene
 
 Každý graph generátor (resp. graf) musí mít specifikované jedinečné id grafu. (To bude dále použito např. při specifikaci pravidel, kde je potřeba sdělit validátoru, nad kterým grafem má pravidlo platit).
 
-\subsection{Rozhraní OperatorIface}
+\subsubsection{Rozhraní OperatorIface}
 
 \begin{itemize}
 \item \verb-getName() : String-
@@ -439,7 +458,7 @@ Každý graph generátor (resp. graf) musí mít specifikované jedinečné id g
 \item \verb-execute(Graph graph, List<Object> operands) : Object-
 \end{itemize}
 
-\subsection{Rozhraní AnalysisIface}
+\subsubsection{Rozhraní AnalysisIface}
 \begin{itemize}
 \item \verb-getAnalysisName() : String-
 \item \verb-getRequiredGraphType() : String-
