@@ -9,8 +9,7 @@
 # Author: Martin Vejmelka <martin.vejmelka@fel.cvut.cz>
 #
 
-#
-# TBD
-#
+cp ./thesis/archval.pdf ./cd/text/
+cp -a project/av-core/build/javadoc/ ./cd/html/
 
 #

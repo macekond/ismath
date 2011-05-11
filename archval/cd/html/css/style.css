@@ -1,0 +1,24 @@
+a img {
+    border-style: none;
+}
+html {
+    font-family: Verdana, helvetica, arial, sans-serif;
+    font-size: 0.7em;
+    background-color: #fffff;
+    color:#333333;
+    padding: 0.4em;
+}
+#treeControl a {
+    width: 10em;
+    display: block;
+    float: left;
+    text-decoration: none;
+}
+.clearing {
+    clear: both;
+}
+#treeViewContainer {
+    border: 1px solid gray;
+    margin-top: 0.5em;
+    padding: 0.8em;
+}
