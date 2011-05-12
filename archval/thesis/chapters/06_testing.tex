@@ -2,17 +2,17 @@
 
 Výsledný systém byl testován jednak během vývoje a následně i po dokončení. Testování zahrnovalo jednak \emph{testy jednotek}, které jsou popsány v první sekci této kapitoly a dále \emph{ověřování činnosti nástroje na vzorových příkladech kódu} jak bylo požadováno zadáním práce.
 
-Pro ověření činnosti nástroje byly vytvořeny příklady ruzných typů. Zabýváme se zde příklady, které princip LoD porušují, dále příklady, pro něž systém vyhodnocuje chybně správné příklady jako nevalidní a speciálními případy.
+Pro ověření činnosti nástroje byly vytvořeny příklady různých typů. Zabýváme se zde příklady, které princip LoD porušují, dále příklady, pro něž systém vyhodnocuje chybně správné příklady jako nevalidní a speciálními případy.
 
 \section{Testování jednotek}
 Pro zajištění kvalitního zdrojového kódu byly použity testy jednotek. Fáze návrhu již bere jednotkové testování v potaz. Díky specifikaci rozhraní pro většinu komponent bylo možné poskytnout vlastní testovací implementace objektů (mock objekty). Například třída \emph{MockOperatorsRegister} implementuje rozhraní \emph{OperatorsRegisterIface} a poskytuje falešné instance operátorů, aby bylo možné otestovat, zda vytváření vyhodnocovacího stromu probíhá dle očekávání.
 
 Vzhledem k časové náročnosti realizace testů jsou napsány pouze testy klíčových komponent systému. Jednotkové testování bylo velmi pohodlným nástrojem zejména v počátečních fázích projektu, kdy celý projekt nebyl spustitelný a nebylo jej možné otestovat navíc ručně.
 
-Kromě testování jednotek byla provedena řešerše možností testování na platformě NetBeans. Platforma NetBeans v posledních verzích podporuje nejen jednotkové testování ale i testy funkčnosti prostřednictvím tzv. operátorů. Tyto operátory jsou schopné realizovat uživatelské akce jako výběr položky z menu, založení projektu atd. Byl realizován pouze elementární test funkčnosti, který sloužil ke kontrole toho, jestli se aplikace správně spustí (podaří se načtení všech modulů).
+Kromě testování jednotek byla provedena rešerše možností testování na platformě NetBeans. Platforma NetBeans v posledních verzích podporuje nejen jednotkové testování ale i testy funkčnosti prostřednictvím tzv. operátorů. Tyto operátory jsou schopné realizovat uživatelské akce jako výběr položky z menu, založení projektu atd. Byl realizován pouze elementární test funkčnosti, který sloužil ke kontrole toho, jestli se aplikace správně spustí (podaří se načtení všech modulů).
 
 \section{Ověřování funkčnosti na příkladech}
-Abychom demonstrovali funčnost vytvořeného systému, bylo provedeno testování na konkrétních příkladech. Tyto příklady jsou zahrnuty v podadresáři \verb+samples+ na CD, které je nedílnou součástí této práce. Podívejme se na jednotlivé případy, které byly ověřovány:
+Abychom demonstrovali funkčnost vytvořeného systému, bylo provedeno testování na konkrétních příkladech. Tyto příklady jsou zahrnuty v podadresáři \verb+samples+ na CD, které je nedílnou součástí této práce. Podívejme se na jednotlivé případy, které byly ověřovány:
 
 \subsection{Příklady porušení principu LoD}
 

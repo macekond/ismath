@@ -10,7 +10,7 @@ Na konci kapitoly rozebereme v~rámci jedné sekce existující podobná řešen
 \label{requirements-principle_analysis}
 Zadání práce specifikuje konkrétně tři návrhové principy -- \emph{low coupling}, \emph{high cohesion} a \emph{Law of Demeter}. Tyto principy jsou si v~mnohém podobné. Všechny se zabývají zejména závislostmi mezi částmi zdrojových kódů a jejich propojeností.
 
-V~části analýzy je nutné projít postupně tyto návrhové principy a určit jejich vlastnosti a možnosti ověřování. To zahrnuje zejména provedení rešerší a specifikaci konkrétních tvrzení, která bude následně možné převést na pravidla. Může se ukázat, že ne všechny principy jsou exaktně definované, ověřitelné a vynutitelné. V~takových případech je možné uvažovat spíše statistický přístup oproti ověřování pravidel. Výsledkem by potom nebyl výsledek splňuje/nesplňuje, ale např. množina statistických atributů (feature), na níž by bylo možné provádět další druhy analýzy (klasifikaci, pattern matching, \ldots).
+V~části analýzy je nutné projít postupně tyto návrhové principy a určit jejich vlastnosti a možnosti ověřování. To zahrnuje zejména provedení rešerší a specifikaci konkrétních tvrzení, která bude následně možné převést na pravidla. Může se ukázat, že ne všechny principy jsou exaktně definované, ověřitelné a vynutitelné. V~takových případech je možné uvažovat spíše statistický přístup oproti ověřování pravidel. Výsledkem by potom nebyl výsledek splňuje/nesplňuje, ale např. množina statistických atributů (features), na níž by bylo možné provádět další druhy analýzy (klasifikaci, pattern matching, \ldots).
 
 Výsledkem analýzy principů by mělo být především vymezení oblasti, kterou se budeme zabývat v~další části -- \emph{formalizaci pravidel}.
 
@@ -67,7 +67,7 @@ Nástroj \emph{FindBugs} \cite{existingtools:findbugs} vyhledává potenciální
 Podobně jako předchozí nástroj pracuje i \emph{JDepend} \cite{existingtools:jdepend} nad zkompilovanými \verb+*.class+ soubory jazyka Java. Funguje však na jiném principu a na daleko vyšší úrovni. Zabývá se analýzou závislostí mezi třídami a balíčky. Systém poskytuje výpis základních metrik, jako je počet tříd a rozhraní v~balíčcích, počet závislých balíčků (to je zde označováno jako \uv{zodpovědnost} -- čím více tříd na balíčku závisí, tím větší je jeho zodpovědnost). Vesměs se jedná o~metriky založené na počtech elementů v~projektu. Za zmínku stojí odhalování cyklů v~závislostech balíčků.
 
 \subsection{Macker}
-Velmi zajímavým nástrojem je \emph{Macker} \cite{existingtools:macker}. Pracuje na strukturální úrovni během kompilace a umožňuje kontrolovat nejrůznější strukturalní pravidla. Stejně jako předchozí dva nástroje operuje nad zkompilovanými \verb+*.class+ soubory. Mezi zajímavá pravidla, která je schopen vynutit patří například:
+Velmi zajímavým nástrojem je \emph{Macker} \cite{existingtools:macker}. Pracuje na strukturální úrovni během kompilace a umožňuje kontrolovat nejrůznější strukturální pravidla. Stejně jako předchozí dva nástroje operuje nad zkompilovanými \verb+*.class+ soubory. Mezi zajímavá pravidla, která je schopen vynutit patří například:
 
 \begin{itemize}
 \item \uv{třídy z~UI vrstvy nesmí přímo přistupovat k~objektům v~datové vrstvě nebo používat třídy v~balíčku \verb-java.sql-}
@@ -83,9 +83,9 @@ Velmi rozšířený nástroj \emph{PMD} \cite{existingtools:pmd} prochází zdro
 
 \begin{itemize}
 \item možné chyby -- prázdné příkazy \emph{try/catch/finally/switch}
-\item mrtvý kód -- nepoužité lokální promenné, parametry a privátní metody\footnote{To je dnes běžné téměř pro všechna nejčastěji používaná IDE pro vývoj v~jazyce Java.}
+\item mrtvý kód -- nepoužité lokální proměnné, parametry a privátní metody\footnote{To je dnes běžné téměř pro všechna nejčastěji používaná IDE pro vývoj v~jazyce Java.}
 \item neoptimální kód -- neefektivní využívání tříd String/StringBuffer
-\item příliš komplikované výrazy -- zbytečné if příkazy, cykly for, které mohou být realizovány pomocí while
+\item příliš komplikované výrazy -- zbytečné \verb+if+ příkazy, cykly \verb+for+, které mohou být realizovány pomocí \verb+while+
 \item \ldots
 \end{itemize}
 
