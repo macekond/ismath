@@ -75,7 +75,7 @@ Specifikované pravidlo vyjadřuje požadavek, aby množina vrcholů (představu
 \subsection{Low coupling, high cohesion}
 Zatímco princip LoD se nám podařilo přesně specifikovat pomocí množin. U principů \emph{low coupling} a \emph{high cohesion} bychom spíše uvažovali o realizaci vhodné analýzy. Tyto analýzy však nebyly cílem této práce.
 
-Přesto byla realizována programová podpora, která umožní snadné přidání modulu, který může pracovat nad libovolným grafem poskytovaným některým z existujících poskytovatelů generátorů grafů a tyto nebo jiné podobné vlastnosti analyzovat.
+Přesto byla realizována programová podpora, která umožní snadné přidání modulu, který může pracovat nad libovolným grafem poskytovaným některým z existujících poskytovatelů generátorů grafů a tyto nebo jiné podobné vlastnosti analyzovat. Většinou by se jednalo o nejrůznější statistické analýzy založené na počtech hran, seskupování nebo generování histogramů.
 
 Konkrétní informace a rešeše týkající se těchto principů byly rozebrány v kapitole \ref{analysis}.
 
@@ -113,7 +113,7 @@ Při budování stromu je současně budována infrastruktura pro generování s
 V této podsekci se podíváme na některé zajímavé operátory a jejich implementaci. Konkrétně na existenční $\exists$ a univerzální $\forall$ kvantifikátor.
 
 Vyhodnocení univerzálního kvantifikátoru $\forall v \in V$ lze přepsat jako jednoduchý cyklus přes vrcholy vrácené zpřesňující operátorem, která vybírá nějakou podmnožinu z~množiny vrcholů analyzovaného grafu. Získáme tak kód podobný listingu \ref{listing-forall}. V~tomto kódu, který je fragmentem metody, používáme symoblický název \verb+condition+ pro podmínku, kterou musí splňovat každý prvek \emph{v} iterované kolekce vrcholů \emph{vertices}.
-
+\vspace{0.5cm}
 \begin{lstlisting}[
     language=java,
     caption={Implementace univerzálního kvantifikátoru $\forall$.},
@@ -129,6 +129,7 @@ return true;
 
 Analogicky budeme postupovat u~existenčního kvantifikátoru $\exists$. Zde nám stačí nalézt alespoň jeden element, pro který vyhodnocovaná vlastnost platí. Listing \ref{listing-exists} představuje fragment metody. Pokud se podaří nalézt alespoň jeden prvek, který splňuje požadovanou podmínku, metoda vrátí hodnotu \emph{true}. Vzhledem k~použití příkazu \emph{return} je zřejmé, že dochází k~\uv{línemu} vyhodnocování -- vyhodnocení je ukončeno nalezením prvního vyhovujícího elementu (další se neprohledávají). Stejně jako u~operátoru $\forall$ i zde název \verb+condition+ symbolizuje konkrétní podmínku, která má platit nad alespoň jedním prvkem množiny uzlů.
 
+\vspace{0.5cm}
 \begin{lstlisting}[
     language=java,
     caption={Implementace existenčního kvantifikátoru $\exists$.},

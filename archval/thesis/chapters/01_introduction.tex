@@ -35,7 +35,7 @@ V~této práci se pokusíme zmíněné konvence zachytit jako pravidla, která l
 \end{figure}
 Množina pravidel zpřesní meta-model tvořený gramatikou jazyka -- omezí množiny instancí daného jazyka na podmnožinu, která splňuje požadovaná pravidla.
 
-Jistou analogii můžeme vidět ve značkovacím jazyku XML v~pojmech \emph{well-formedness} versus \emph{validita}. Gramatika udává, že se v~textu mohou vyskytovat elementy a atributy, že se nesmí \uv{křížit} jednotlivé tagy atd. Další dodatečná informace (DTD, XSchema, RELAX NG, atd.) potom zpřesní, jaké tagy, v~jakém pořadí a počtu se smí ve výsledné instanci XML dokumentu vyskytovat.
+Jistou analogii můžeme vidět ve značkovacím jazyku XML v~pojmech \emph{well-formedness} versus \emph{validity}. Gramatika udává, že se v~textu mohou vyskytovat elementy a atributy, že se nesmí \uv{křížit} jednotlivé tagy atd. Další dodatečná informace (DTD, XSchema, RELAX NG, atd.) potom zpřesní, jaké tagy, v~jakém pořadí a počtu se smí ve výsledné instanci XML dokumentu vyskytovat.
 
 \section{Úvod do řešené problematiky}
 
@@ -51,7 +51,6 @@ Prostředky jazyka, které podporují správný návrh software rozšíříme na
 \item \uv{v~běžném kódu by se neměla vyskytovat (nestatická) pole s~modifikátorem \emph{public}, pouze \emph{private}, k~nimž se přistupuje pomocí \emph{getterů} a \emph{setterů}},
 \item \uv{třídy z~balíčku A~nesmí záviset na jiných nesystémových \emph{třídách}, ale nejvýše na \emph{rozhraních} balíčku B} (programování proti rozhraní namísto proti konkrétní implementaci),
 \item \uv{třídy v~tomto balíčku smí mít maximálně pět metod, z~nichž každá smí mít nejvýše tři parametry} (může být konvence v~nějaké firmě),
-\item Law of Demeter.
 \end{itemize}
 
 Podobné neformální specifikace se pokusíme přeformulovat pomocí vhodně zvoleného formalismu do pravidel, která bude možné následně vyhodnotit a na základě výstupu buď navrhnout nebo (je-li to možné) opravit návrh tak, aby pravidla splňoval.
