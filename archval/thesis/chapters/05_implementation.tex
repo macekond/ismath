@@ -112,7 +112,7 @@ Při budování stromu je současně budována infrastruktura pro generování s
 \subsection{Implementace základních operátorů}
 V~této podsekci se podíváme na některé zajímavé operátory a jejich implementaci. Konkrétně na existenční $\exists$ a univerzální $\forall$ kvantifikátor.
 
-Vyhodnocení univerzálního kvantifikátoru $\forall v \in V$ lze přepsat jako jednoduchý cyklus přes vrcholy vrácené zpřesňující operátorem, která vybírá nějakou podmnožinu z~množiny vrcholů analyzovaného grafu. Získáme tak kód podobný listingu \ref{listing-forall}. V~tomto kódu, který je fragmentem metody, používáme symbolický název \verb+condition+ pro podmínku, kterou musí splňovat každý prvek \emph{v} iterované kolekce vrcholů \emph{vertices}.
+Vyhodnocení univerzálního kvantifikátoru $\forall v \in V$ lze přepsat jako jednoduchý cyklus přes vrcholy vrácené zpřesňující operátorem, která vybírá nějakou podmnožinu z~množiny vrcholů analyzovaného grafu. Získáme tak kód podobný výpisu \ref{listing-forall}. V~tomto kódu, který je fragmentem metody, používáme symbolický název \verb+condition+ pro podmínku, kterou musí splňovat každý prvek \emph{v} iterované kolekce vrcholů \emph{vertices}.
 \vspace{0.5cm}
 \begin{lstlisting}[
     language=java,
@@ -127,7 +127,7 @@ for (Vertex v : vertices) {
 return true;
 \end{lstlisting}
 
-Analogicky budeme postupovat u~existenčního kvantifikátoru $\exists$. Zde nám stačí nalézt alespoň jeden element, pro který vyhodnocovaná vlastnost platí. Listing \ref{listing-exists} představuje fragment metody. Pokud se podaří nalézt alespoň jeden prvek, který splňuje požadovanou podmínku, metoda vrátí hodnotu \emph{true}. Vzhledem k~použití příkazu \emph{return} je zřejmé, že dochází k~\uv{línému} vyhodnocování -- vyhodnocení je ukončeno nalezením prvního vyhovujícího elementu (další se neprohledávají). Stejně jako u~operátoru $\forall$ i zde název \verb+condition+ symbolizuje konkrétní podmínku, která má platit nad alespoň jedním prvkem množiny uzlů.
+Analogicky budeme postupovat u~existenčního kvantifikátoru $\exists$. Zde nám stačí nalézt alespoň jeden element, pro který vyhodnocovaná vlastnost platí. Výpis \ref{listing-exists} představuje fragment metody. Pokud se podaří nalézt alespoň jeden prvek, který splňuje požadovanou podmínku, metoda vrátí hodnotu \emph{true}. Vzhledem k~použití příkazu \emph{return} je zřejmé, že dochází k~\uv{línému} vyhodnocování -- vyhodnocení je ukončeno nalezením prvního vyhovujícího elementu (další se neprohledávají). Stejně jako u~operátoru $\forall$ i zde název \verb+condition+ symbolizuje konkrétní podmínku, která má platit nad alespoň jedním prvkem množiny uzlů.
 
 \vspace{0.5cm}
 \begin{lstlisting}[
