@@ -1,6 +1,6 @@
 digraph DemeterLawTypes {
 
-graph[rankdir=LR];
+graph[rankdir=LR,dpi=300];
 node[shape=plaintext,fontsize=13,fontname=Georgia];
 
 lod[label="Law of Demeter"];

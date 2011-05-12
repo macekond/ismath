@@ -1,6 +1,6 @@
 graph JavaTopElements {
 
-graph[rankdir=LR];
+graph[rankdir=LR,dpi=300];
 node[shape=rectangle,fontsize=13,fontname=Georgia];
 
 CompilationUnit[shape=note];

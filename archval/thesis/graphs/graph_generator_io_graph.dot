@@ -1,8 +1,6 @@
 digraph GraphModelGeneratorManagerIOGraph {
 
-    // TODO: change resolution to 600 for printing!
-    // it slows down randering of the document in preview
-    graph[dpi=92];
+    graph[dpi=300];
     node[fontsize=13,fontname=Georgia,shape=box];
     edge[fontsize=13,fontname=Georgia];
 

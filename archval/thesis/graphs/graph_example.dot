@@ -1,8 +1,6 @@
 digraph GraphExample {
 
-    // TODO: change resolution to 600 for printing!
-    // it slows down randering of the document in preview
-    graph[rankdir=LR,dpi=92];
+    graph[rankdir=LR,dpi=300];
     node[shape=plaintext,fontsize=13,fontname=Georgia];
     edge[dir="back",fontsize=13,fontname=Georgia];
 

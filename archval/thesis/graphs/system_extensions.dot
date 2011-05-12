@@ -1,6 +1,6 @@
 digraph SystemExtension {
 
-graph[rankdir=LR];
+graph[rankdir=LR,dpi=300];
 node[shape=rectangle,fontsize=13,fontname=Georgia];
 
 avcore[label="av-core"];

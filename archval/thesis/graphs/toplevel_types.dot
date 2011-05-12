@@ -1,6 +1,6 @@
 digraph ToplevelTypes {
 
-graph[rankdir=LR];
+graph[rankdir=LR,dpi=300];
 node[fontname=Georgia,fontsize=13,shape=plaintext];
 
 TypeDeclaration -> ClassDeclaration;
