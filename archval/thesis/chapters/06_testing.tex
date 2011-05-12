@@ -1,25 +1,37 @@
 \chapter{Testování}
 
-% TODO: na úvod této sekce popsat všechny prováděné testy
-% TODO: popsat průběh a výsledky všech typů testování
+Výsledný systém byl testován jednak během vývoje a následně i po dokončení. Testování zahrnovalo jednak \emph{testy jednotek}, které jsou popsány v první sekci této kapitoly a dále \emph{ověřování činnosti nástroje na vzorových příkladech kódu} jak bylo požadováno zadáním práce.
+
+Pro ověření činnosti nástroje byly vytvořeny příklady ruzných typů. Zabýváme se zde příklady, které princip LoD porušují, dále příklady, pro něž systém vyhodnocuje chybně správné příklady jako nevalidní a speciálními případy.
 
 \section{Testování jednotek}
-\begin{itemize}
-\item testovatelnost komponent
-\item realizované jednotkové testy
-\end{itemize}
+Pro zajištění kvalitního zdrojového kódu byly použity testy jednotek. Fáze návrhu již bere jednotkové testování v potaz. Díky specifikaci rozhraní pro většinu komponent bylo možné poskytnout vlastní testovací implementace objektů (mock objekty). Například třída \emph{MockOperatorsRegister} implementuje rozhraní \emph{OperatorsRegisterIface} a poskytuje falešné instance operátorů, aby bylo možné otestovat, zda vytváření vyhodnocovacího stromu probíhá dle očekávání.
 
-\section{Validace výsledků práce}
-\begin{itemize}
-\item splňuje práce očekávaný výsledek?
-\end{itemize}
+Vzhledem k časové náročnosti realizace testů jsou napsány pouze testy klíčových komponent systému. Jednotkové testování bylo velmi pohodlným nástrojem zejména v počátečních fázích projektu, kdy celý projekt nebyl spustitelný a nebylo jej možné otestovat navíc ručně.
+
+Kromě testování jednotek byla provedena řešerše možností testování na platformě NetBeans. Platforma NetBeans v posledních verzích podporuje nejen jednotkové testování ale i testy funkčnosti prostřednictvím tzv. operátorů. Tyto operátory jsou schopné realizovat uživatelské akce jako výběr položky z menu, založení projektu atd. Byl realizován pouze elementární test funkčnosti, který sloužil ke kontrole toho, jestli se aplikace správně spustí (podaří se načtení všech modulů).
 
 \section{Ověřování funkčnosti na příkladech}
-\begin{itemize}
-\item testování práce na vstupech různých typů
-\end{itemize}
+Abychom demonstrovali funčnost vytvořeného systému, bylo provedeno testování na konkrétních příkladech. Tyto příklady jsou zahrnuty v podadresáři \verb+samples+ na CD, které je nedílnou součástí této práce. Podívejme se na jednotlivé případy, které byly ověřovány:
 
-\section{Srovnání práce s~existujícími řešeními}
-\begin{itemize}
-\item srovnání s \ref{requirements-existing_tools} -- \nameref{requirements-existing_tools})
-\end{itemize}
+\subsection{Příklady porušení principu LoD}
+
+Ukázka \verb+method_return_access+ demonstruje přístup k rozhraní třetí třídy na základě reference vrácené voláním metody na jiné třídě, k níž máme přístup. Podobně funguje i ukázka \verb+member_field_access+.
+
+Příklad \verb+hidden_violation+ ukazuje další porušení principu LoD. Současně je zde demonstrováno, jak by mělo zpracování probíhat správně.
+
+Všechny tyto příklady vyhodnotí ArchVal správně jako \verb+Violation found+.
+
+\subsection{Falešně pozitivní případy}
+
+Na základě testování se ukázalo, že systém pro některé příklady, které princip LoD neporušují vrací informaci o porušení tohoto principu. Při bližším zkoumání se ukázalo, že se jedná o výjimky, jejichž použití je běžné nebo zvláštní vlastnosti jazyka, s nímž nepočítá generátor grafu.
+
+Příklad \verb+string_literal_invalid+ demonstruje falešně pozitivní detekci porušení principu LoD ačkoliv z hlediska LoD se jedná o případ, kdy konstruujeme nový objekt. Protože ale generátor grafu vyhledává volání konstruktorů, je konstrukce řetězce pomocí uvozovek vynechána. Pokud bychom nahradili tyto řetězce voláním konstruktoru pro objekt \verb+String+, systém bude reagovat správně.
+
+Dalším příkladem, který vyhodnotí systém jako porušení je výstup pomocí \verb+System.out.println()+.
+
+Pro nasazení na reálných projektech je nutné tyto výjimky zohlednit a uměle rozšířit množiny hran v grafu tak, aby tyto případy byly ignorovány.
+
+\subsection{Speciální případy}
+
+Kromě testování na běžných projektech bylo provedeno ještě testování na specifickém případu, kdy projekt obsahuje prázdné \verb+*.java+ soubory nebo soubory, které obsahují pouze deklarace \verb+import+. Systém se v takových případech choval správně -- žádné porušení principu LoD nebylo detekováno.
