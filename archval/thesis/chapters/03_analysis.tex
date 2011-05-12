@@ -6,7 +6,7 @@ V~části první se zabýváme obecnou problematikou návrhu software, často po
 
 Druhá část se zabývá konkrétními principy objektového návrhu, konkrétně principy \emph{low coupling}, \emph{high cohesion} a \emph{Law of Demeter}. Kromě rešerše týkající se těchto principů jsou zde demonstrovány jednoduché ukázky jejich porušení.
 
-Poslední část se zabývá analýzou Java projektů, které budou vstupem pro validaci a analýzu. Je zde rozebráno, z~jakých souborů se projekt realizovaný v~jazyce Java skládá a~jaká je základní struktura zdrojových \verb+*.java+ souborů. Dále pak tato část obsahuje rešerši existujících nástrojů pro předzpracování zdrojových kódů do podoby vhodné pro další práci.
+Poslední část se zabývá analýzou Java projektů, které budou vstupem pro validaci a analýzu. Je zde rozebráno, z~jakých souborů se projekt realizovaný v~jazyce Java skládá a~jaká je základní struktura zdrojových \verb+*.java+ souborů. Dále tato část obsahuje rešerši existujících nástrojů pro předzpracování zdrojových kódů do podoby vhodné pro další práci.
 \section{Problematika návrhu software}
 Při návrhu software se uplatňují nejrůznější přístupy, vzory, pravidla. Cílem této sekce je podat rychlý přehled o~používaných návrhových konceptech, aspektech návrhu software a objektově orientovaném návrhu. U~některých aspektů uvažujeme možnost jejich podpory pomocí vhodného nástroje. Mnoho z~uvedených pojmů a postupů je dále použito při návrhu nástroje, jehož vytvoření je jedním z~cílů této práce.
 
@@ -33,7 +33,7 @@ Existující koncepty návrhu software poskytují vývojářům základ, z~něho
 
 \subsection{Aspekty návrhu software}
 \label{analysis-sw_design_aspects}
-Při návrhu software musíme vzít v~potaz velké množství aspektů \cite{wiki:software_design}. Důležitost přikládaná jednotlivým aspektům je odvozena od účelu, za nímž je software realizován. Pro některé systémy může být klíčové rozšiřitelnost, pro jiné stabilita. Mezi základní aspekty patří:
+Při návrhu software musíme vzít v~potaz velké množství aspektů \cite{wiki:software_design}. Důležitost přikládaná jednotlivým aspektům je odvozena od účelu, za nímž je software realizován. Pro některé systémy může být klíčová rozšiřitelnost, pro jiné stabilita. Mezi základní aspekty patří:
 
 \begin{itemize}
 \item \emph{kompatibilita (compatibility)},
@@ -53,24 +53,24 @@ Zatímco některé aspekty jsou pro tuto práci zcela nepodstatné (dobrým př�
 
 \paragraph{Rozšiřitelnost} Tato vlastnost znamená praktický důsledek, kdy nové funkčnosti mohou být do existujícího systému přidány bez majoritních změn ve \emph{výchozí architektuře}. Pokud by bylo možné určit pravidla, která určují základní architekturu a která je možné vynutit, bylo by možné při rozšiřování systému tato pravidla opět aplikovat, což by vedlo k~dodržení výchozí architektury.
 
-\paragraph{Udržovatelnost} Klíčovou charakteristikou \emph{udržovatelnosti} je možnost obnovit stav systému v~rozumném čase. Příkladem mohou být aktualizace virové báze antivirových programů. Jiným příkladem může být instalace bezpečnostních aktualizací. Tuto vlastnost nelze podpořit zcela přímo, je však důsledkem ostatních vlastností (zejména \emph{rozšiřitelnost} a \emph{modularita}).
+\paragraph{Udržovatelnost} Klíčovou charakteristikou \emph{udržovatelnosti} je možnost aktualizovat stav systému v~rozumném čase. Příkladem mohou být aktualizace virové báze antivirových programů. Jiným příkladem může být instalace bezpečnostních aktualizací. Tuto vlastnost nelze podpořit zcela přímo, je však důsledkem ostatních vlastností (zejména \emph{rozšiřitelnost} a \emph{modularita}).
 
 \paragraph{Modularita} \emph{Modularita} znamená, že výsledný systém sestává z~dobře definovaných a~nezávislých komponent. To vede k~lepší \emph{udržovatelnosti}. Komponenty mohou být v~takovém případě vyvíjeny a testovány izolovaně předtím než jsou integrovány do výsledného požadovaného softwarového systému. Navíc získáme dobrou možnost dělby práce v~rámci vývojového týmu pracujícího na softwarovém projektu.
 
 \paragraph{Znovupoužitelnost} Je důležité, aby bylo možné přidávat nové vlastnosti (features) systému a provádět modifikace s~pouze omezenou nebo žádnou modifikací existujících komponent (možnost použít komponenty znovu pro jiné případy užití).
 
 \subsection{Objektově orientovaný návrh software}
-Základním vstupem pro objektově orientovaný návrh bývá (mimo jiné) \emph{konceptuální model}, případně seznam \emph{případů užití} systému. To jsou výsledky předešlé fáze analýzy. Na základě těchto informací je poté zpravidla sestavován návrh systému, který pracuje nad dříve definovanými doménovými objekty.
+Základním vstupem pro objektově orientovaný návrh bývá (mimo jiné) \emph{konceptuální model}, případně seznam \emph{případů užití} systému. To jsou výsledky předešlé fáze \emph{analýzy}. Na základě těchto informací je potom zpravidla sestavován návrh systému, který pracuje nad dříve definovanými doménovými objekty.
 
 Klíčovými pojmy při objektově orientovaném návrhu jsou \cite{wiki:oop_design}:
 
 \paragraph{Objekt/třída}  Objekt/třída představují těsné propojení mezi datovými strukturami a metodami/funkcemi, které nad těmito daty pracují. Každý objekt by měl sloužit samostatné funkci. Je definován svými atributy/vlastnostmi, tím co je a tím co může dělat.
 \paragraph{Zapouzdření} Zapouzdření je schopnost chránit některé součásti objektu před externími entitami. To je zpravidla realizováno klíčovými slovy implementujícího programovacího jazyka, která umožňují deklarovat proměnnou jako privátní nebo chráněnou uvnitř vlastnické třídy.
-\paragraph{Dědičnost} Dědičnost umožňuje nové třídě rozšířit nebo i přepsat funkcionalitu jiné třídy. Výsledná podtřída má kompletní část, která je derivována z~nadtřídy a navíc své vlastní funkce a data.
+\paragraph{Dědičnost} Dědičnost umožňuje nové třídě rozšířit nebo i přepsat funkcionalitu jiné třídy. Výsledná podtřída má kompletní část, která je derivována z~nadtřídy a navíc své vlastní funkce a svá data.
 \paragraph{Rozhraní} Rozhraní představuje možnost odložení implementace metod. Je možné definovat signatury funkcí nebo metod, aniž by bylo nutné tyto metody implementovat.
 \paragraph{Polymorfismus} Polymorfismus nám umožňuje nahradit objekt jeho podobjektem (instancí podtřídy). Proměnná tedy může obsahovat buď objekt nebo kterýkoliv jeho podobjekt.
 
-Při vlastním návrhu systému se používají principy objektového návrhu (popsáno dále v~sekci \ref{analysis-oop_design_principles}) a návrhové vzory. Pro realizaci objektových systému se potom používají nejrůznější frameworky a knihovny.
+Při vlastním návrhu systému se používají principy objektového návrhu (popsáno dále v~sekci \ref{analysis-oop_design_principles}) a návrhové vzory. Realizace objektových systému se provádí často za pomocí vhodných frameworků a knihoven.
 
 \section{Analýza principů objektového návrhu}
 \label{analysis-oop_design_principles}
@@ -79,7 +79,7 @@ Principy objektového návrhu reprezentují množinu pokynů, které nám pomáh
 
 \begin{itemize}
 \item \emph{rigidity} -- je obtížné provést změnu v~systému protože každá změna ovlivňuje příliš mnoho dalších částí systému,
-\item \emph{fragility} -- pokud provedete změnu, mohou přestat fungovat části systému u~nichž se to nečeká,
+\item \emph{fragility} -- pokud je provedena změna, mohou přestat fungovat části systému u~nichž se to nečeká,
 \item \emph{immobility} -- je obtížné znovupoužití části systému v~jiné aplikaci, protože tato část nemůže být \uv{vymotána} z~aktuální aplikace.
 \end{itemize}
 
@@ -124,7 +124,7 @@ V~\cite{wiki:coupling} a \cite{STVR:STVR162} (podrobnější a formálnější d
 
 \vspace{0.5cm}
 
-\paragraph{Subclass coupling} Pro objektově orientovaný návrh můžeme navíc uvažovat závislost typu \emph{Subclass coupling}, která popisuje vztah mezi třídou a její rodičovskou třídou. Dětská třída má závislost na rodičovské, rodičovská však žádnou závislost vzhledem k~dětské třídě nemá.
+\paragraph{Subclass coupling} Pro objektově orientovaný návrh můžeme navíc uvažovat závislost typu \emph{subclass coupling}, která popisuje vztah mezi třídou a její rodičovskou třídou. Dětská třída má závislost na rodičovské, rodičovská však žádnou závislost vzhledem k~dětské třídě nemá.
 
 \vspace{1.0cm}
 
@@ -141,14 +141,14 @@ Ke snížení koheze dochází když:
 \item metody provádějí velké množství rozdílných aktivit často nad rozsáhlými nebo nesouvisejícími daty.
 \end{itemize}
 
-Nevýhodou nízké koheze je:
+\noindent{}Nevýhodou nízké koheze je:
 \begin{itemize}
 \item obtížnější porozumění modulům,
-\item obtížnější údržbu systému -- logické změny v~řešené doméně ovlivňují více modulů a~také proto, že změny v~jednom modulu vyžadují změny v~modulu jiném,
+\item obtížnější údržba systému -- logické změny v~řešené doméně ovlivňují více modulů a~také proto, že změny v~jednom modulu vyžadují změny v~modulu jiném,
 \item obtížnější znovupoužití modulu -- většina aplikací nepotřebuje náhodnou množinu operací, kterou modul poskytuje.
 \end{itemize}
 
-Kohezi můžeme uvažovat na různých úrovních. Jako úroveň můžeme zvolit např. metodu, třídu, balíček, modul nebo projekt. Program může mít vysokou kohezi na úrovni tříd (metody jsou dobře seskupené ve třídách podle funkcionality a pracují nad shodnými daty), zatímco na úrovni balíčků může vykazovat nižší kohezi (třídy v~rámci balíčku spolu logicky nesouvisí).
+Kohezi můžeme uvažovat na různých úrovních. Jako úroveň můžeme zvolit např. \emph{metodu}, \emph{třídu}, \emph{balíček}, \emph{modul} nebo \emph{projekt}. Program může mít vysokou kohezi na úrovni tříd (metody jsou dobře seskupené ve třídách podle funkcionality a pracují nad shodnými daty), zatímco na úrovni balíčků může vykazovat nižší kohezi (třídy v~rámci balíčku spolu logicky nesouvisí).
 
 Problematikou soudržnosti programových modulů se zabývá článek \cite{Kang:1996:DCM:872750.873361}, který představuje dvě různé metriky používané k~jejímu měření.
 
@@ -169,7 +169,7 @@ Problematikou soudržnosti programových modulů se zabývá článek \cite{Kang
 \paragraph{Functional association} Oba elementy jsou nezbytné pro provedení jedné funkce/operace.
 
 \subsubsection{Law of Demeter}
-Jak bylo zmíněno v~sekci \ref{analysis-principles_analyzed}, lze na \emph{LoD} pohlížet jako na část principu pro zachování nízké vazby. \emph{LoD} je také někdy nazýván jako princip nejmenší znalosti (Principle of Least Knowledge) \cite{wiki:lod}. Určuje, že každá jednotka by měla mít pouze omezenou znalost ostatních jednotek. Měla by komunikovat pouze s~omezeným počtem jednotek úzce souvisejících s~logikou této jednotky. Zde se nám částečně prolínají principy \emph{low coupling} a \emph{high cohesion}. Zatímco princip \emph{low coupling} požaduje, aby modul nezávisel na příliš detailních znalostech o~implementaci druhého modulu, \emph{high cohesion} vyžaduje, aby úzce souvisela logika modulu s~logikou závislých modulů (aby se nevolaly vzdálené logicky nesouvisející části kódu).
+Jak bylo zmíněno v~sekci \ref{analysis-principles_analyzed}, lze na \emph{LoD} pohlížet jako na speciální případ principu pro zachování nízké vazby. \emph{LoD} je také někdy nazýván jako princip nejmenší znalosti (Principle of Least Knowledge) \cite{wiki:lod}. Určuje, že každá jednotka by měla mít pouze omezenou znalost ostatních jednotek. Měla by komunikovat pouze s~omezeným počtem jednotek úzce souvisejících s~logikou této jednotky. Zde se nám částečně prolínají principy \emph{low coupling} a \emph{high cohesion}. Zatímco princip \emph{low coupling} požaduje, aby modul nezávisel na příliš detailních znalostech o~implementaci druhého modulu, \emph{high cohesion} vyžaduje, aby úzce souvisela logika modulu s~logikou závislých modulů (aby se nevolaly vzdálené logicky nesouvisející části kódu).
 
 Princip \emph{Law of Demeter} je velmi dobře popsán v~\cite{35588}. Článek pojednává o~třídě jako o~\uv{dodavateli funkcionality}. \emph{LoD} potom specifikuje, kteří dodavatelé funkcionality jsou pro konkrétní třídu preferovaní (tzv. \uv{preferred suppliers}). To nám vymezuje množinu tříd/objektů, na něž se smí vyskytnout reference v~rámci definované třídy. V~článku je rozebráno více forem principu, které jsou vhodné pro různé způsoby aplikace. Klasifikace těchto forem je znázorněna na obrázku \ref{demeter_law_types}.
 
@@ -181,7 +181,7 @@ Princip \emph{Law of Demeter} je velmi dobře popsán v~\cite{35588}. Článek p
 
 Kromě striktní formy, která vyžaduje, aby všechny třídy dodržovaly pravidla daná principem \emph{LoD}, existuje ještě minimalizační verze, která se snaží minimalizovat počet porušení pravidla pod přijatelnou mez\footnote{Například umožní porušení principu \emph{LoD} v~privátním API, ale bude vyžadovat dodržení ve veřejně přístupných API.}.
 
-Pro statickou analýzu je vhodné použití \emph{class formy} pravidla \emph{LoD}. Class forma a objektová forma se lehce liší v~tom, které třídy jsou preferovanými dodavateli funkcionality. Pro praktické použití (udržovatelnost kódu, modularita, atd.) to však nemá až takový význam.
+Pro statickou analýzu je vhodné použití \emph{class formy} pravidla \emph{LoD}. \emph{Class forma} a \emph{objektová forma} se lehce liší v~tom, které třídy jsou preferovanými dodavateli funkcionality. Pro praktické použití (udržovatelnost kódu, modularita, atd.) to však nemá až takový význam.
 
 Uveďme nyní \emph{striktní třídní formu} pravidla \emph{Law of Demeter}:
 
@@ -293,7 +293,7 @@ class B {
 }
 \end{lstlisting}
 
-Tento kus kódu je špatný jednak z~hlediska zapouzdření (proměnná \verb+pieceOfData+ má být definována jako \verb+protected+ nebo \verb+private+) a dále také z~důvodu přílišné závislosti třídy B na třídě A. V~případě, že by se nám nelíbil název nebo způsob uložení proměnné \verb+pieceOfData+, změnou dojde k~nutnosti úpravy ve třídě B. Jedná se o~nejvyšší formu závislosti -- \emph{content coupling}.
+Tento kus kódu je špatný jednak z~hlediska zapouzdření (proměnná \verb+pieceOfData+ má být definována jako \verb+protected+ nebo \verb+private+) a dále také z~důvodu přílišné závislosti třídy \textbf{B} na třídě \textbf{A}. V~případě, že by se nám nelíbil název nebo způsob uložení proměnné \verb+pieceOfData+, její změnou dojde k~nutnosti úpravy ve třídě \textbf{B}. Jedná se o~nejvyšší formu závislosti -- \emph{content coupling}.
 
 Podíváme-li se na jinou úroveň závislostí, můžeme se setkat s~kódem podobným následujícímu:
 
@@ -308,6 +308,7 @@ class A {
             // do another action
             return 1;
         }
+    }
 }
 
 class B {
@@ -318,7 +319,7 @@ class B {
 }
 \end{lstlisting}
 
-To je typická ukázka \emph{control coupling}. Třída B využívá služeb třídy A. Metoda \verb+do+ je řízena vstupní proměnnou předávanou z~metody třídy B. To má tu nevýhodu, že v~případě změny způsobu, jakým pracuje metoda \verb+do+ (např. přidání dalšího stavu řídící proměnné) může být nutné provést reimplementaci metody třídy B, která nepočítá s~jinou návratovou hodnotou nebo jiným průběhem zpracování.
+To je typická ukázka \emph{control coupling}. Třída \textbf{B} využívá služeb třídy \textbf{A}. Metoda \verb+do+ je řízena vstupní proměnnou předávanou z~metody třídy \textbf{B}. To má tu nevýhodu, že v~případě změny způsobu, jakým pracuje metoda \verb+do+ (např. přidání dalšího stavu řídící proměnné) může být nutné provést reimplementaci metody třídy \textbf{B}, která nepočítá s~jinou návratovou hodnotou nebo jiným průběhem zpracování.
 
 \subsubsection{Ukázka kódu s~nízkou úrovní koheze}
 Nejnižší úrovní koheze je \emph{coincidental cohesion}. Typicky se jedná o~různé balíky funkcionality označované jako \verb+Utils+, \verb+Helper+ a podobně. Funkce v~takovém balíčku většinou nemají téměř žádnou příbuznost. Často se též jedná o~velké bloky funkcionality, které provádějí celou řadu nesouvisejících věcí, ale zůstávají v~jednom velkém bloku jednoduše proto, že se jich programátoři \uv{bojí dotknout}.
@@ -351,7 +352,7 @@ V~rámci této sekce se podíváme nejprve na to, z~čeho se skládá softwarov�
 \subsection{Statický model programu v~Javě}
 Vstupem pro validační systém budou zdrojové kódy existujícího Java projektu ve vhodné podobě. Jedná se vlastně o~fyzický model programu. V~případě Java projektu sestává tento model z~nějaké množiny souborů, které obsahují data různých typů. První podsekce této sekce se zabývá typy souborů, které se mohou vyskytnout v~projektu, ve druhé podsekci je potom rozebírán obsah a formát souborů programovacího jazyka Java.
 
-Zastavme se ještě nad pojmem \emph{fyzický model} programu. Tento model je zpravidla výsledkem vhodné transformace (ať už automatizované nebo ruční) nějakého předešlého modelu (většinou UML model, textová specifikace atd.). S~tímto modelem můžeme dále pracovat a provádět nad ním transformace. To je ostatně cílem různých nástrojů pro refaktoring a automatizované zvyšování kvality kódu. Konkrétně refaktoring je příkladem endogenní horizontální transformace (zdrojový i cílový meta-model je shodný a úroveň abstrakce zůstává nezměněna) \cite{Mens05ataxonomy}.
+Zastavme se ještě nad pojmem \emph{fyzický model} programu. Tento model je zpravidla výsledkem vhodné transformace (ať už automatizované nebo ruční) nějakého předešlého modelu (většinou UML model, textová specifikace atd.). S~tímto modelem můžeme dále pracovat a provádět nad ním transformace. To je ostatně cílem různých nástrojů pro refaktoring a automatizované zvyšování kvality kódu. Konkrétně refaktoring je příkladem \emph{endogenní horizontální transformace} (zdrojový i cílový meta-model je shodný a úroveň abstrakce zůstává nezměněna) \cite{Mens05ataxonomy}.
 
 \subsubsection{Struktura softwarového projektu v~Javě}
 Existuje velké množství způsobů, kterými jsou organizovány softwarové projekty. Téměř každé Java IDE má navíc svůj vlastní formát, ve kterém ukládá metadata o~projektu. Přesto všechny tyto projekty zahrnují stejnou podmnožinu konkrétních zdrojových souborů, z~nichž se skládá vlastní softwarový projekt. Podívejme se, jaké soubory můžeme nalézt v~běžném Java projektu:
@@ -368,7 +369,7 @@ Existuje velké množství způsobů, kterými jsou organizovány softwarové pr
 \item jiné soubory.
 \end{itemize}
 
-Pro potřeby této práce jsou podstaní v~zásadě pouze soubory obsahující zdrojový kód -- soubory \verb+*.java+. Při analýze nebudeme program spouštět nebo uvažovat jeho dynamické chování (běh). Bude se jednat o~analýzu statického stavu programu (analýza struktury). Práce bude probíhat nad definicemi tříd, nikoliv nad jejich instancemi v~paměti JVM. Nejsou tedy uvažovány všechny možné běhové instance programu (všechny možné stavy objektů v~paměti virtuálního stroje).
+Pro potřeby této práce jsou podstatné v~zásadě pouze soubory obsahující zdrojový kód -- soubory \verb+*.java+. Při analýze nebudeme program spouštět nebo uvažovat jeho dynamické chování (běh). Bude se jednat o~analýzu statického stavu programu (analýza struktury). Práce bude probíhat nad definicemi tříd, nikoliv nad jejich instancemi v~paměti JVM. Nejsou tedy uvažovány všechny možné běhové instance programu (všechny možné stavy objektů v~paměti virtuálního stroje).
 
 Projekt může záviset na velkém množství dalších tříd, které nejsou součástí zdrojových kódů projektu. Tyto třídy zpracovávat nebudeme. Jedná se například o:
 
@@ -384,7 +385,7 @@ Některé z~těchto tříd budou povolenými závislostmi pro všechny třídy p
 \label{analysis-java_grammar_elements}
 Jak již bylo zmíněno v~předchozí sekci, základním kořenovým elementem gramatiky programovacího jazyka Java je \emph{CompilationUnit}. Kompletní popis všech elementů jazyka poskytuje specifikace jazyka Java \cite{Gosling:2005:JLS:1036643}.
 
-Element \emph{CompilationUnit} dále obsahuje volitelně \emph{deklaraci balíčku}, \emph{příkazy importu} prvků z~jiných jmenných prostorů a \emph{deklarace datových typů} (obrázek \ref{toplevel_elements}). Ty jsou pro prováděnou validaci a analýzu nejdůležitější.
+Element \emph{CompilationUnit} obsahuje volitelně \emph{deklaraci balíčku}, \emph{příkazy importu} prvků z~jiných jmenných prostorů a \emph{deklarace datových typů} (obrázek \ref{toplevel_elements}). Ty jsou pro prováděnou validaci a analýzu nejdůležitější.
 
 \begin{figure}[h!]
   \centering
@@ -406,7 +407,7 @@ Datové typy budou výchozími body při sestavování vnitřní reprezentace pr
 \label{analysis-java_source_processing}
 Protože navrhované ověřované principy přesahují rámec jedné kompilační jednotky, je nutné provést vhodné předzpracování zdrojových kódů tak, aby bylo možné analyzovat vztahy částí kódu i mezi jednotlivými kompilačními jednotkami.
 
-V~principu to znamená provést podobnou množinu operací, jakou provádí první kompilátor jazyka Java při kompilaci \cite{hackers_guide_to_javac}. Ten nejprve načte všechny \verb+*.java+ soubory a namapuje sekvence tokenů na uzly AST stromu. Následně vloží všechny nalezené symboly do tabulky symbolů (např. jména datových typů, proměnných atd.). Provede zpracování anotací nalezených v~kompilačních jednotkách. Ve fázi \emph{attribute} jsou provedeny operace jako rozlišení jmen, kontrola datových typů a zjednodušení konstantních výrazů. Následuje kontrola datových toků v~programu (pracuje na stromu získaném v~předchozích krocích), která má za cíl určit např. nedostupné části zdrojového kódu (po příkazu return apod.). Předposlední fáze \emph{desugar} přepíše AST a zjednoduší některé výrazy používané jako \uv{syntaktický cukr} na jednodušší výrazy. Na závěr provede kompilátor vlastní vygenerování zdrojových kódů nebo class souborů.
+V~principu to znamená provést podobnou množinu operací, jakou provádí první kompilátor jazyka Java při kompilaci \cite{hackers_guide_to_javac}. Ten nejprve načte všechny \verb+*.java+ soubory a namapuje sekvence tokenů na uzly AST stromu. Následně vloží všechny nalezené symboly do tabulky symbolů (jména datových typů, proměnných). Provede zpracování anotací nalezených v~kompilačních jednotkách. Ve fázi \emph{attribute} jsou provedeny operace jako rozlišení jmen, kontrola datových typů a zjednodušení konstantních výrazů. Následuje kontrola datových toků v~programu (pracuje na stromu získaném v~předchozích krocích), která má za cíl určit např. nedostupné části zdrojového kódu (po příkazu \verb+return+ apod.). Předposlední fáze -- \emph{desugar} -- přepíše AST a zjednoduší některé výrazy používané jako \uv{syntaktický cukr} na jednodušší výrazy. Na závěr provede kompilátor vlastní vygenerování zdrojových kódů nebo class souborů.
 
 Pro provedení analýzy nám postačí zdrojové kódy zpracované do fáze \emph{attribute}. Jedná se o~AST s~rozlišenými jmény datových typů a proměnných. Nad těmito stromy můžeme dále pracovat.
 
@@ -422,9 +423,9 @@ Pro zpracování zdrojových kódů a různě formátovaného textu se často po
 
 Nejčastěji používanými nástroji jsou:
 
-\paragraph{JavaCC} \emph{JavaCC} \cite{parsertools:javacc} je systém, pro který existuje velké množství gramatik. Mimo jiné také pro jazyk Java 1.5. Součástí distribuce tohoto nástroje je i program \emph{JJTree}, který je schopen na základě rozšířeného textového popisu gramatiky vygenerovat AST.
+\paragraph{JavaCC} \emph{JavaCC} \cite{parsertools:javacc} je systém, pro který existuje velké množství gramatik. Mimo jiné také gramatika pro jazyk Java 1.5. Součástí distribuce tohoto nástroje je i program \emph{JJTree}, který je schopen na základě rozšířeného textového popisu gramatiky vygenerovat AST.
 
-\paragraph{ANTLR} \emph{ANTLR} \cite{parsertools:antlr} je velmi pokročilý \emph{compiler-compiler} systém. Disponuje kompletním vývojovým prostředím, kterému nechybí vlastnosti jako zvýrazňování syntaxe, doplňování výrazů a podpora debugování (umožňuje krokovat generování syntaktického stromu).
+\paragraph{ANTLR} \emph{ANTLR} \cite{parsertools:antlr} je velmi pokročilý \emph{compiler-compiler} systém. Disponuje kompletním vývojovým prostředím, kterému nechybí vlastnosti jako zvýrazňování syntaxe, doplňování výrazů a podpora lazení (umožňuje krokovat generování syntaktického i AST stromu).
 
 \vspace{0.5cm}
 
@@ -437,7 +438,7 @@ Další možností jsou existující knihovny a nástroje pro zpracování kód�
 
 Jako příklad můžeme uvést knihovnu \emph{JavaParser} \cite{parsertools:javaparser}. Jedná se o~samostatný Java projekt, který je možné zaintegrovat prostřednictvím nástroje Maven do vlastního projektu. Při bližším prozkoumání zjistíme, že se jedná vlastně o~aplikaci nástroje JavaCC (resp. JJTree) distribuovaného spolu s~gramatikou jazyka Java 1.5.
 
-Jiným nástrojem je \emph{spoon} \cite{parsertools:spoon}. Je to volně dostupný nástroj, preprocesor kódu v~jazyce Java. Poskytuje úplný a detailní meta-model jazyka Java, kde každý element může být jak čten tak i modifikován. Dalším významným faktem je integrace nástroje do platformy Eclipse formou pluginu.
+Jiným nástrojem je \emph{spoon} \cite{parsertools:spoon}. Je to volně dostupný nástroj, preprocesor kódu v~jazyce Java. Poskytuje úplný a detailní meta-model jazyka Java, kde každý element může být jak čten tak i modifikován. Další významnou vlastností je jeho integrovanost do platformy Eclipse formou pluginu.
 
 Zatímco nástroj \emph{JavaParser} neprovádí rezoluci jmen, nástroj \emph{spoon} vnitřně deleguje parsování a attribution na \verb+javac+ kompiler. Proto se v~dalších sekcích zaměříme na možnost využití některého z~nástrojů, které podobným způsobem poskytují zpracování až do požadované fáze.
 
@@ -464,7 +465,7 @@ Jazyk Java od verze 6 poskytuje zajímavé možnosti integrace volání kompilá
   \end{itemize}
 \end{itemize}
 
-Pomocí těchto nástrojů je možné získat poměrně snadno přístup do průběhu zpracování zdrojového kódu pomocí \verb+javac+ kompilátoru. Přístup však je na úrovni zpracovávání anotací (viz výše) a probíhá po částech (rounds). Nemáme tak k~dispozici plný AST strom, nad kterým by byla již provedena fáze \emph{attribute} \cite{hackers_guide_to_javac}.
+Pomocí těchto nástrojů je možné získat poměrně snadno přístup k průběhu zpracování zdrojového kódu pomocí \verb+javac+ kompilátoru. Přístup však je na úrovni zpracovávání anotací (viz výše) a probíhá po částech (rounds). Nemáme tak k~dispozici plný AST strom, nad kterým by byla již provedena fáze \emph{attribute} \cite{hackers_guide_to_javac}.
 
 \subsubsection{Použití prostředků současných vývojových IDE}
 Většina majoritních integrovaných prostředí pro vývoj v~jazyce Java (IntelliJ Idea, Eclipse, NetBeans) provádí rozsáhlou kontrolu zdrojových kódů přímo během psaní. Programátor je upozorňován na to, že některá metoda nebo třída není definována nebo je definována s~jinými parametry. A~to v~případě, že daná třída se nachází ve zcela jiné kompilační jednotce.
@@ -475,4 +476,4 @@ Platforma Eclipse poskytuje rozhraní, které reprezentuje Java projekt jako DOM
 
 Podobnou podporou poskytuje i platforma NetBeans. Ta vnitřně používá instanci \verb+javac+ kompilátoru. Přístup k~AST v~libovolné fázi (před resolvováním jmen i po této fázi) poskytuje prostřednictvím svého \emph{Java Source API} \cite{parsertools:javasourcejavadoc}.
 
-Výhodou použití některé z~existujících platforem je navíc možnost přímé integrace do vývojového prostředí. Nevýhodou je ovšem svázanost s~tímto prostředím. To se však dá zčásti řešit vhodným návrhem jádra systému, které může být realizováno tak, aby bylo na platformě zcela nezávislé a závislost na platformě byla přidávána až integrací do konkrétního prostředí.
+Výhodou použití některé z~existujících platforem je navíc možnost přímé integrace výsledného nástroje do vývojového prostředí. Nevýhodou je potom svázanost s~tímto prostředím. To je však možné zčásti vyřešit vhodným návrhem jádra systému, které může být realizováno tak, aby bylo na platformě zcela nezávislé a závislost na platformě byla přidávána až integrací do konkrétního prostředí.
