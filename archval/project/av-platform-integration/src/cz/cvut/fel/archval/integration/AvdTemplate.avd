@@ -1,16 +1,15 @@
 atomic_rule law_of_demeter(demeter_graph) {
     ALL v IN V : kind(v, "method") {
         vertex_set_is_empty(
-                F(v, "class", "use")
-                SETMINUS (
-                    F(v, "class", "self")
-                    UNION
-                    F(v, "class", "field")
-                    UNION
-                    F(v, "class", "arg")
-                    UNION
-                    F(v, "class", "constr")
-                )
+            level_zero_vertex_selector(v, "use")
+            SETMINUS (
+                level_zero_vertex_selector(v, "self")
+                UNION
+                level_one_vertex_selector(v, "self", "field")
+                UNION
+                level_zero_vertex_selector(v, "arg")
+                UNION
+                level_zero_vertex_selector(v, "constr")
             )
         )
     }

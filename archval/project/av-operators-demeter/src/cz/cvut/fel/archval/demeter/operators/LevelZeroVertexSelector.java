@@ -14,20 +14,19 @@ import java.util.Set;
  *
  * @author Martin Vejmelka (martin.vejmelka@fel.cvut.cz)
  */
-public class LevelTwoVertexSelector implements OperatorIface {
+public class LevelZeroVertexSelector implements OperatorIface {
 
     private List<DataType> operandTypes;
 
-    public LevelTwoVertexSelector() {
+    public LevelZeroVertexSelector() {
         operandTypes = new LinkedList<DataType>();
         operandTypes.add(DataType.VERTEX);
-        operandTypes.add(DataType.LABEL);
         operandTypes.add(DataType.LABEL);
     }
 
     @Override
     public String getName() {
-        return "level_two_vertex_selector";
+        return "level_zero_vertex_selector";
     }
 
     @Override
@@ -48,26 +47,17 @@ public class LevelTwoVertexSelector implements OperatorIface {
     @Override
     public Object execute(Graph graph, List<Object> operands) {
         Vertex vertex = (Vertex) operands.get(0);
-        String first = (String) operands.get(1);
-        String second = (String) operands.get(2);
-
+        String label = (String) operands.get(1);
         Set<Vertex> resultSet = new HashSet<Vertex>();
-        collectVertices(graph, vertex, 0, first, second, resultSet);
+        collectVertices(graph, vertex, label, resultSet);
         return resultSet;
+
     }
 
-    private void collectVertices(Graph graph, Vertex vertex, int level, String first,
-            String second, Set<Vertex> resultSet) {
-        if (level == 0) {
-            for (Edge edge : graph.getVertexOutgoingEdges(vertex)) {
-                if (edge.getClassifier().equals(first)) {
-                    collectVertices(graph, edge.getHead(), level + 1, first, second, resultSet);
-
-                }
-            }
-            return;
-        } else if (level == 1) {
-            for (Edge edge : graph.getVertexOutgoingEdges(vertex)) {
+    private void collectVertices(Graph graph, Vertex vertex, String label,
+            Set<Vertex> resultSet) {
+        for (Edge edge : graph.getVertexOutgoingEdges(vertex)) {
+            if (edge.getClassifier().equals(label)) {
                 resultSet.add(edge.getHead());
             }
         }
