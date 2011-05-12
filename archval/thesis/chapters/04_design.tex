@@ -154,11 +154,11 @@ V~uvedeném případě bychom chtěli vyjádřit požadavek, aby počet argument
 
 Výraz uvedený ve druhé části pravidla (v~našem případě $CountLessThan(...)$) může být jakýkoliv logický výraz, jehož elementy jsou predikáty platící nad nějakými objekty. Mezi predikáty budeme uvažovat \emph{úplný systém logických spojek}. Ten nám pokryje množina logických spojek $\{\wedge, \vee, \neg\}$\footnote{Jeden z~operátorů $\wedge$ a $\vee$ je ve zmíněném systému logických spojek nadbytečný, ale pro pohodlnost použití jej ponecháme.}. Výsledkem výrazu bude logická hodnota, která nám bude udávat splnění resp. nesplnění požadovaného pravidla. Celou konstrukci (vymezení typu grafu, pojmenování pravidla, kvantifikace a logický výraz) označíme pojmem \emph{atomické pravidlo}.
 
-Abychom umožnili větší flexibilitu při definování pravidel. Můžeme atomická pravidla dále použít pro definici pravidel složených. Jediné, co k~tomu potřebujeme, je úplný systém logických spojek tak, jak byl zmíněn výše. Složené pravidlo potom může vypadat např. takto:
+Abychom umožnili větší flexibilitu při definování pravidel. Můžeme atomická pravidla dále použít pro definici pravidel složených. Jediné, co k~tomu potřebujeme, je úplný systém logických spojek tak, jak byl zmíněn výše. Složené pravidlo potom bude vypadat takto:
 \begin{align*}
 P1 \wedge A1 \vee ( A2 \vee \neg P3)
 \end{align*}
-kde všechna zmíněná pravidla musí být definována dříve. Pravidla mohou být jak atomická tak složená. Díky tomu můžeme vytvořit na základě dříve definovaných primitiv složitější požadavky na platnost pravidel.
+kde všechna použitá pravidla musí být před použitím definována. Pravidla mohou být jak atomická tak složená. Díky tomu můžeme vytvořit na základě dříve definovaných primitiv složitější požadavky na platnost pravidel.
 
 V~uvedených výrazech používáme různé funkce/operátory. Typy těchto funkcí omezíme na následující:
 
