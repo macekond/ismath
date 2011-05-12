@@ -28,7 +28,11 @@ Na základě testování se ukázalo, že systém pro některé příklady, kter
 
 Příklad \verb+string_literal_invalid+ demonstruje falešně pozitivní detekci porušení principu LoD ačkoliv z hlediska LoD se jedná o případ, kdy konstruujeme nový objekt. Protože ale generátor grafu vyhledává volání konstruktorů, je konstrukce řetězce pomocí uvozovek vynechána. Pokud bychom nahradili tyto řetězce voláním konstruktoru pro objekt \verb+String+, systém bude reagovat správně.
 
-Dalším příkladem, který vyhodnotí systém jako porušení je výstup pomocí \verb+System.out.println()+.
+Dalším příkladem, který vyhodnotí systém jako porušení je běžný výpis řetězce na standardní výstup:
+
+\begin{verbatim}
+System.out.println()
+\end{verbatim}
 
 Pro nasazení na reálných projektech je nutné tyto výjimky zohlednit a uměle rozšířit množiny hran v grafu tak, aby tyto případy byly ignorovány.
 
