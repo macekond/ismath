@@ -208,7 +208,7 @@ První částí ukázky je jednoduchá datová třída modelující zákazníka:
 
 \lstset{
   basicstyle=\ttfamily,
-  numbers=left,
+  numbers=none,
   numberstyle=\tiny,
   commentstyle=\color{gray}\textit
 }
@@ -232,9 +232,7 @@ public class Customer {
     }
 }
 \end{lstlisting}
-
 Třída \verb+Wallet+ má následující definici:
-
 \begin{lstlisting}[language=java]
 public class Wallet {
 
@@ -257,7 +255,6 @@ public class Wallet {
     }
 }
 \end{lstlisting}
-
 Kód pro zaplacení prodavači novin potom vypadá takto:
 \begin{lstlisting}
 // code from some method inside the Paperboy class

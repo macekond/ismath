@@ -355,11 +355,10 @@ Vstupy a výstupy komponenty jsou znázorněny na obrázku \ref{design-graph_gen
 \paragraph{Rozhraní}
 Rozhraní této komponenty bude představováno jedinou metodou:
 \begin{itemize}
-\item \begin{verbatim}generateModel(Set<String> requiredGraphTypes,
-              File projectDirectory) : GraphModel\end{verbatim}
+\item \emph{generateModel(Set<String> requiredGraphTypes, File projectDirectory) : GraphModel}
 \end{itemize}
 
-Poznamenejme, že v~rozhraních budeme uvádět datové typy jazyka Java, což není z~hlediska návrhu zcela správné, nicméně pro potřeby této práce to bude postačující.
+Poznamenejme, že v~rozhraních budeme uvádět datové typy jazyka Java, což není z~hlediska návrhu zcela správné\footnote{Na úrovni návrhu bychom se měli snažit být maximálně nezávislí na platformě. Jistá závislost je však nutná vždy.}, nicméně pro potřeby této práce to bude postačující.
 
 \subsubsection{Komponenta ValidationModelGenerator}
 Druhou významnou vstupní komponentou je vedle generátoru modelu grafu komponenta \emph{ValidationModelGenerator}, která bude sloužit k~vygenerování instance dříve popsané doménové třídy \emph{ValidationModel}. Tato komponenta má na zodpovědnosti zpracování vstupního souboru, který jí bude ve vhodné podobě předán a vytvoření stromové struktury třídy \emph{ValidationModel}, která bude umět provést vyhodnocení pravidel specifikovaných vstupním souborem, vyhodnocení analýz a vygenerování výsledného objektu třídy \emph{ValidationReport}. Podobně jako předchozí komponentu i tuto zpřístupníme jako rozhraní, v~tomto případě rozhraní \emph{ValidationModelGeneratorIface}.
@@ -375,8 +374,8 @@ Znázornění vstupů a výstupů komponenty \emph{ValidationModelGenerator} je 
 \paragraph{Rozhraní} Rozhraní komponenty je představováno metodami:
 
 \begin{itemize}
-\item \verb-constructValidationModel(InputStream is) : ValidationModelIface-
-\item \verb-constructValidationModel(String string) : ValidationModelIface-
+\item \emph{constructValidationModel(InputStream is) : ValidationModelIface}
+\item \emph{constructValidationModel(String string) : ValidationModelIface}
 \end{itemize}
 
 \subsubsection{Komponenta ValidationTask}
@@ -385,12 +384,10 @@ Centrální komponentou umožňující spuštění validačního procesu bude \e
 
 \paragraph{Rozhraní} Rozhraní komponenty \emph{ValidationTask} bude představováno následujícími metodami:
 \begin{itemize}
-\item \verb-runSynchronous() : void- -- synchronní spuštění validace
-\item \verb-runAsynchronous() : void- -- běh validace v~samostatném vlákně
-\item \begin{verbatim}registerValidationCompletedListener(
-    ValidationCompletedListener validationCompletedListener
-) : void\end{verbatim} -- registrace listeneru, který bude notifikován o~doběhnutí procesu validace
-\item \verb-getReport() : ValidationReport- -- vrátí instanci třídy \emph{ValidationReport}
+\item \emph{runSynchronous() : void} -- synchronní spuštění validace
+\item \emph{runAsynchronous() : void} -- běh validace v~samostatném vlákně
+\item \emph{registerValidationCompletedListener(ValidationCompletedListener \\ validationCompletedListener) : void} -- registrace listeneru, který bude notifikován \\ o~doběhnutí procesu validace
+\item \emph{getReport() : ValidationReport} -- vrátí instanci třídy \emph{ValidationReport}
 \end{itemize}
 
 Výsledný objekt \emph{ValidationReport} si volající může zpracovat libovolným způsobem. Například je možné ji reprezentovat ve vhodné swing komponentě (JTree).
@@ -400,18 +397,17 @@ Předchozí komponenty zapouzdříme pomocí návrhového vzoru fasáda, za ním
 
 \paragraph{Rozhraní} Rozhraní je představováno následujícími metodami:
 \begin{itemize}
-\item \begin{verbatim}ArchVal(
-    GraphGeneratorsRegisterIface graphGeneratorsRegister,
-    OperatorsRegisterIface operatorsRegister,
-    AnalysesRegisterIface analysesRegister) : ArchVal\end{verbatim}
-\item \verb-GraphModelGeneratorIface getGraphModelGenerator()-
-\item \verb-ValidationModelGeneratorIface getValidationModelGenerator()-
-\item \begin{verbatim}ValidationTaskIface createValidationTask(
-    GraphModel graphModel,
-    ValidationModelIface validationModel) : GraphModel\end{verbatim}
+\item \emph{ArchVal(GraphGeneratorsRegisterIface graphGeneratorsRegister, \\
+OperatorsRegisterIface operatorsRegister, \\
+AnalysesRegisterIface analysesRegister) : ArchVal}
+\item \emph{GraphModelGeneratorIface getGraphModelGenerator()}
+\item \emph{ValidationModelGeneratorIface getValidationModelGenerator()}
+\item \emph{ValidationTaskIface createValidationTask(\\
+    GraphModel graphModel, \\
+    ValidationModelIface validationModel) : GraphModel}
 \end{itemize}
 
-Metoda \verb-createValidationTask()- představuje tovární metodu, která vrátí pokaždé nový objekt \emph{ValidationTask}\footnote{Vzhledem k~možnosti asynchronního provolávání metod třídy \emph{ValidationTask} je požadováno, aby každá instance \emph{ValidationTask} byla použita nejvýše jednou.}.
+Metoda \emph{createValidationTask()} představuje tovární metodu, která vrátí pokaždé novou instanci třídy \emph{ValidationTask}\footnote{Vzhledem k~možnosti asynchronního provolávání metod třídy \emph{ValidationTask} je požadováno, aby každá instance \emph{ValidationTask} byla použita nejvýše jednou.}.
 
 \subsubsection{Rozhraní registrů poskytovatelů implementací}
 
@@ -419,22 +415,22 @@ Jak bylo zmíněno již v~sekci \ref{desing-global_system_structure}, rozšíře
 
 \paragraph{Rozhraní GraphGeneratorsRegisterIface} Od registru generátorů grafů budeme požadovat, aby byl schopen vrátit seznam všech dostupných typů generátorů a dále konkrétní generátor na základě typu.
 \begin{itemize}
-\item \verb-getAvaliableGeneratorTypes() : Set<String>-
-\item \verb-getGraphGeneratorByType(String type) : GraphGeneratorIface-
+\item \emph{getAvaliableGeneratorTypes() : Set<String>}
+\item \emph{getGraphGeneratorByType(String type) : GraphGeneratorIface}
 \end{itemize}
 
 \paragraph{Rozhraní OperatorsRegisterIface}
 Zde požadujeme pouze zisk existujícího operátoru na základě jména. Pokud by bylo časem nutné podpořit editaci AVD souborů, zcela jistě by bylo potřeba získat i úplný seznam operátorů, případně implementovat vyhledávání i podle jiných kritérií (např. návratová hodnota).
 
 \begin{itemize}
-\item \verb-getOperatorByName(String name) : OperatorIface-
+\item \emph{getOperatorByName(String name) : OperatorIface}
 \end{itemize}
 
 \paragraph{Rozhraní AnalysesRegisterIface} Zpravidla budeme potřebovat pouze metodu na zisk existujícího analytického modulu na základě jeho názvu. Přesto poskytujeme i metodu, která umožní získat seznam všech existujících analytických modulů.
 
 \begin{itemize}
-\item \verb-getAnalysesList() : List<AnalysisIface>-
-\item \verb-getAnalysisByName(String name) : AnalysisIface-
+\item \emph{getAnalysesList() : List<AnalysisIface>}
+\item \emph{getAnalysisByName(String name) : AnalysisIface}
 \end{itemize}
 
 \subsection{Rozhraní rozšíření systému}
@@ -444,8 +440,8 @@ Nyní se podívejme na vlastní rozhraní, která musí být implementovaná pos
 \subsubsection{Rozhraní GraphGeneratorIface}
 Úkolem implementátora generátoru grafu je zaimplementovat rozhraní \emph{GraphGeneratorIface}. Toto rozhraní bude definovat následující operace:
 \begin{itemize}
-\item \verb-getGraphType() : String- -- typ grafu, který produkuje tento generátor grafu
-\item \verb-getGraph(File projectDirectory) : Graph- -- metoda, která provede vlastní vygenerování grafu
+\item \emph{getGraphType() : String} -- typ grafu, který produkuje tento generátor grafu
+\item \emph{getGraph(File projectDirectory) : Graph} -- metoda, která provede vlastní vygenerování grafu
 \end{itemize}
 
 Vstupem pro metodu pro generování grafu je specifikace adresáře, který obsahuje projekt, z~něhož má být vygenerován grafový model. Každý generátor musí vracet identifikátor typu grafu, který generuje. Systém odmítne spustit validaci, pokud bude obsahovat více poskytovatelů generátoru grafu, kteří poskytují generování grafu stejného typu.
@@ -467,9 +463,9 @@ Datové typy používané u~operátorů odpovídají datovým typům zmiňovaný
 Rozhraní \emph{AnalysisIface} reprezentuje jednu konkrétní analýzu, kterou je možné provést nad grafem konkrétního typu. To, nad jakým grafem lze analýzu spustit deklaruje analýza prostřednictvím metody \verb-getRequiredGraphType() : String-. Podobně jako ostatní komponenty rozšíření musí i analýza specifikovat své jméno.
 
 \begin{itemize}
-\item \verb-getAnalysisName() : String-
-\item \verb-getRequiredGraphType() : String-
-\item \verb-evaluate(Graph graph) : AnalysisResult-
+\item \emph{getAnalysisName() : String}
+\item \emph{getRequiredGraphType() : String}
+\item \emph{evaluate(Graph graph) : AnalysisResult}
 \end{itemize}
 
 Výsledkem provedené analýzy je instance třídy \emph{AnalysisResult} zmiňovaná dříve v~podsekci \ref{design-class_validation_report}.
