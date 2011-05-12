@@ -203,7 +203,7 @@ Zajímavou možností je právě využití klasifikátorů. Každý graf má vel
 
 Při návrhu architektury systému postupujeme metodou shora dolů. Nejprve budeme systém uvažovat jako jeden velký celek s~globální zodpovědností (funkcionalitou). Tento velký blok následně dekomponujeme na jednotlivé komponenty, kterým přidělíme jasně definované zodpovědnosti.
 
-Pro výsledný systém budeme používat kódové jméno ArchVal (Architecture validator), zkracované často v~názvech modulů jako \verb+av+.
+Pro výsledný systém budeme používat kódové jméno \emph{ArchVal} (\textbf{Arch}itecture \textbf{Val}idator), zkracované často v~názvech modulů jako \verb+av+.
 
 Globální pohled na systém byl zaveden již v~části \ref{requirements-rules_evaluation} na obrázku \ref{requirements-system_structure}. Toto znázornění je velmi obecné. Vidíme však, že systém má dva hlavní vstupy\footnote{Jako vstupy/výstupy neuvažujeme další běžné součásti systému jako např. načítání konfiguračních souborů nebo logování.} a jeden výstup. Vstupy a výstupy představují podstatnou část doménových dat nad nimiž budeme dále pracovat. V~části \ref{design-domain_objects} popíšeme jednotlivé datové objekty, které postupně \uv{protékají} celým systémem. Ty budou popsány a dekomponovány jako první, protože jejich popis je nezbytný pro definici ostatních komponent systému.
 
@@ -297,7 +297,7 @@ Pro vybudování zmíněného stromového modelu vytvoříme samostatnou kompone
 \label{design-class_validation_report}
 Výstupem validačního procesu bude objekt třídy \emph{ValidationReport}. Ačkoliv matematická pravidla popsaná výše mají jako výstup pouze logickou hodnotu. Je vhodné, aby bylo možné nějakým způsobem zjistit, v~jaké fázi vyhodnocování došlo k~nesplnění pravidla. Proto poskytneme právě datovou třídu \emph{ValidationReport}. Ta ponese nejen elementární výsledky pravidel, ale také mezivýsledky vyhodnocení jednotlivých uzlů syntaktického stromu popsaného dříve.
 
-Strom výsledků dekomponujeme podobným způsobem, jakým jsme dekomponovali třídu \emph{ValidationModel}. Poskytneme třídy \emph{AtomicRuleResult} a \emph{ComopundRuleResult}. Tyto třídy opět podědíme od společného předka, abychom je mohli uchovávat v~rámci jednoho seznamu výsledků.
+Strom výsledků dekomponujeme podobným způsobem, jakým jsme dekomponovali třídu \emph{ValidationModel}. Poskytneme třídy \emph{AtomicRuleResult} a \emph{CompoundRuleResult}. Tyto třídy opět podědíme od společného předka, abychom je mohli uchovávat v~rámci jednoho seznamu výsledků.
 
 Kromě toho přidáme ještě třídu \emph{AnalysisResult}, která ponese informaci o~konkrétní prováděné analýze. Pro třídu \emph{AnalysisResult} strom generovat nebudeme, protože neznáme přesný způsob práce konkrétního analytického modulu. Třída \emph{AnalysisResult} bude obsahovat seznam tvrzení o~množinách vrcholů nebo hran. Každý záznam bude obsahovat vždy množinu vrcholů nebo hran a k~ní řetězec, který bude obsahovat výrok, který platí. Způsob provádění analýz a zpracovávání výsledků je oblast, kterou je možné řešit samostatně v~rámci dalších návazností této práce.
 
@@ -323,7 +323,7 @@ Jádro systému samotné nebude poskytovat žádná konkrétní pravidla pro val
       \emph{ValidationTask} & class & hlavní proces validace \\ \hline
       \emph{ValidationTaskIface} & interface & rozhraní předchozí komponenty \\ \hline
       \hline
-      \emph{ArchVal} & class & fasáda ArchVal systému -- bude poskytovat instance výše specifikovaných komponent \\ \hline
+      \emph{ArchVal} & class & fasáda \emph{ArchVal} systému -- bude poskytovat instance výše specifikovaných komponent \\ \hline
       \hline
       \emph{GraphGeneratorsRegisterIface} & interface & rozhraní registru existujících poskytovatelů generátorů grafu \\ \hline
       \emph{OperatorsRegisterIface} & interface & rozhraní registru existujících poskytovatelů operátorů \\ \hline
@@ -338,11 +338,11 @@ Vztahy mezi jednotlivými komponentami jádra systému jsou znázorněny na obr�
 \begin{figure}[h!]
   \centering
   \includegraphics[width=1.0\textwidth]{./uml/archval_core_cmp.png}
-  \caption{Komponenty jádra systému ArchVal.\label{design-archval_core}}
+  \caption{Komponenty jádra systému \emph{ArchVal}.\label{design-archval_core}}
 \end{figure}
 
 \subsubsection{Komponenta GraphModelGenerator}
-Komponenta \emph{GraphModelGenerator} bude mít na zodpovědnosti vygenerování všech grafů potřebných pro provedení analýzy. Abychom mohli časem komponentu reimplementovat, skryjeme její implementaci za rozhraní \emph{GraphModelGeneratorIface}. To bude vystupovat v~kontaktu s~\uv{vnějšími} entitami jádra (u~klientského uživatele knihovny jádra ArchVal). Jak je patrné již z~obrázku \ref{design-archval_core}, tato komponenta má závislost na rozhraní \emph{GraphGeneratorsRegisterIface}. Samotná komponenta \emph{GraphModelGenerator} vlastně žádné grafy generovat přímo nebude. Bude k~tomuto úkolu využívat některé z~dostupných generátorů grafů dostupných prostřednictvím registru.
+Komponenta \emph{GraphModelGenerator} bude mít na zodpovědnosti vygenerování všech grafů potřebných pro provedení analýzy. Abychom mohli časem komponentu reimplementovat, skryjeme její implementaci za rozhraní \emph{GraphModelGeneratorIface}. To bude vystupovat v~kontaktu s~\uv{vnějšími} entitami jádra (u~klientského uživatele knihovny jádra \emph{ArchVal}). Jak je patrné již z~obrázku \ref{design-archval_core}, tato komponenta má závislost na rozhraní \emph{GraphGeneratorsRegisterIface}. Samotná komponenta \emph{GraphModelGenerator} vlastně žádné grafy generovat přímo nebude. Bude k~tomuto úkolu využívat některé z~dostupných generátorů grafů dostupných prostřednictvím registru.
 
 \begin{figure}[h!]
   \centering
@@ -504,7 +504,7 @@ Pro potřeby této práce postačí jednoduchý textový výstup, který pro rea
 \section{Návrh způsobu integrace do různých typů prostředí}
 Aplikační rozhraní systému \emph{ArchVal} je od začátku navrhováno tak, aby bylo možné jej zaintegrovat do libovolné aplikace. Díky nezávislosti na konkrétním způsobu poskytování implementátorů služeb je možné integrovat výsledný vyhodnocovací systém například do:
 
-\paragraph{CLI programy} V~případě integrace prostředí ArchVal do samostatných skriptů a programů pro příkazovou řádku by bylo nutné zaimplementovat nějaký způsob registrace poskytovatelů služeb. To ale mohou být prosté textové soubory s~výčtem tříd, které se mají načíst. Případně mohou být seznamy operátorů definovány přímo v~konkrétní implementaci registru operátoru, apod. U~řádkových rozhraní je komplikovaná podpora editace AVD souborů.
+\paragraph{CLI programy} V~případě integrace prostředí \emph{ArchVal} do samostatných skriptů a programů pro příkazovou řádku by bylo nutné zaimplementovat nějaký způsob registrace poskytovatelů služeb. To ale mohou být prosté textové soubory s~výčtem tříd, které se mají načíst. Případně mohou být seznamy operátorů definovány přímo v~konkrétní implementaci registru operátoru, apod. U~řádkových rozhraní je komplikovaná podpora editace AVD souborů.
 
 \paragraph{GUI prostředí} Systém může být integrován do existujících prostředí IDE. V~této práci navrhujeme a realizujeme integraci systému do prostředí NetBeans IDE. Současně využíváme výhod existujícího parseru zdrojových kódů jazyka Java. Podobně bychom mohli využít platformu \emph{Eclipse} nebo jiné prostředí. Na platformě NetBeans je možné implementovat registry poskytovatelů služeb velmi pohodlně pomocí tzv. \emph{Lookup API}, které je schopné poskytnout existující implementace konkrétního rozhraní\footnote{Stačí zaregistrovat poskytovatele služby v~souboru \emph{META-INF/services}.}.
 

@@ -1,6 +1,6 @@
 \chapter{Implementace}
 \label{implementation}
-\emph{Implementační} část práce se skládala z~několika součástí. Za nejvýznamnější součást lze považovat formální specifikaci pravidla \emph{Law of Demeter}, která je uváděna jako první v~rámci této sekce. V~dalších částech kapitoly se potom zabýváme vybranými poznámkami z~implementace jádra systému ArchVal, který má sloužit jako platforma pro provádění matematických formulací návrhových pravidel a implementací rozšíření tohoto systému. V~poslední části je rozebírán způsob integrace systému do platformy NetBeans.
+\emph{Implementační} část práce se skládala z~několika součástí. Za nejvýznamnější součást lze považovat formální specifikaci pravidla \emph{Law of Demeter}, která je uváděna jako první v~rámci této sekce. V~dalších částech kapitoly se potom zabýváme vybranými poznámkami z~implementace jádra systému \emph{ArchVal}, který má sloužit jako platforma pro provádění matematických formulací návrhových pravidel a implementací rozšíření tohoto systému. V~poslední části je rozebírán způsob integrace systému do platformy NetBeans.
 
 \section{Specifikace pravidel požadovaných zadáním práce}
 Nejprve definujeme vhodné operátory, které nám umožní vybrat množiny vrcholů tak, abychom mohli specifikovat \emph{LoD}. Vybrané množiny potom ověříme pomocí predikátu, který určí, zda jsou tyto množiny v~pořádku, či zda porušují \emph{LoD} princip.
@@ -181,7 +181,7 @@ Pro demonstraci jádra systému bylo nutné jej zaintegrovat do vhodného běhov
       \textbf{Název} & \textbf{Typ} & \textbf{Zodpovědnost} \\
       \hline
       \hline
-      ArchvalInstance & class (singleton) & zabaluje jednotnou instanci jádra ArchVal \\ \hline
+      ArchvalInstance & class (singleton) & zabaluje jednotnou instanci jádra \emph{ArchVal} \\ \hline
       ValidateMainProject & class & integrace s~běhovou platformou, vstupní/aktivační bod \\ \hline
       GraphGeneratorRegister & class & třída poskytující přístup k~informacím o~existujících poskytovatelích generátorů grafu \\ \hline
       OperatorRegister & class & třída poskytující přístup k~informacím o~existujících poskytovatelích operátorů \\ \hline
@@ -191,7 +191,7 @@ Pro demonstraci jádra systému bylo nutné jej zaintegrovat do vhodného běhov
 \end{table}
 
 \subsection{Použití jádra systému ArchVal}
-Vstupním bodem pro použití rozhraní jádra systému ArchVal v~rámci integračního modulu je třída \emph{ArchvalInstance}. Tato třída je implementována jako návrhový vzor \emph{singleton} a poskytuje jedinou instanci třídy \emph{ArchVal} pro celý systém. Díky tomu je možné se dále dostat k~důležitým komponentám jako \emph{ValidationModelGenerator}, \emph{GraphModelGenerator} a vygenerovat instanci \emph{ValidationTask}, která umí provést výslednou validaci.
+Vstupním bodem pro použití rozhraní jádra systému \emph{ArchVal} v~rámci integračního modulu je třída \emph{ArchvalInstance}. Tato třída je implementována jako návrhový vzor \emph{singleton} a poskytuje jedinou instanci třídy \emph{ArchVal} pro celý systém. Díky tomu je možné se dále dostat k~důležitým komponentám jako \emph{ValidationModelGenerator}, \emph{GraphModelGenerator} a vygenerovat instanci \emph{ValidationTask}, která umí provést výslednou validaci.
 
 \subsection{Přidání uživatelské akce do nabídky prostředí}
 Aby bylo možné vyvolat validaci, bylo nutné provést integraci akce do nabídky NetBeans IDE. Akce představovaná třídou \emph{ValidateMainProject} byla realizována jako podmíněně povolená akce, která je k~dispozici pouze pokud je vybrán soubor konkrétního typu. V~tomto případě se jedná o~soubor typu AVD. Celý případ užití funguje potom tím způsobem, že uživatel klepne pravým tlačítkem na AVD soubor a vybere položku \emph{Validate main project}. Pokud není žádný projekt vybrán jako hlavní, v~oznamovací oblasti se pouze objeví upozornění a není provedena žádná akce. V~opačném případě máme k~dispozici oba vstupy potřebné k~provedení validace (pomocí \emph{Project API} získáme informace o~hlavním projektu a tedy i vstupním adresáři a cesta k~AVD souboru je poskytována v~rámci handleru kontextové akce AVD souboru).
