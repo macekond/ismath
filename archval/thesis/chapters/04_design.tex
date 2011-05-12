@@ -25,16 +25,16 @@ Analyzovaný softwarový projekt abstrahujeme jako orientovaný multigraf rozš�
 \end{displaymath}
 v~níž platí:
 \begin{itemize}
-\item $V$ je množina elementů (v~našem případě části kódu)
-\item $E$ je množina hran (v~našem případě vztahy mezi částmi kódu - např. volání funkce, dědičnost)
-\item $V \cap E = \emptyset$
-\item $\rho: E \mapsto V \times V$ je zobrazení množiny hran do množiny uspořádaných dvojic vrcholů (incidence)
+\item $V$ je množina elementů (v~našem případě části kódu),
+\item $E$ je množina hran (v~našem případě vztahy mezi částmi kódu - např. volání funkce, dědičnost),
+\item $V \cap E = \emptyset$,
+\item $\rho: E \mapsto V \times V$ je zobrazení množiny hran do množiny uspořádaných dvojic vrcholů (incidence),
 \item $K$ je libovolná množina označení typů vrcholů,
 \item $C$ je množina klasifikátorů hran,
-\item $N$ je množina jmen (řetězců)
+\item $N$ je množina jmen (řetězců),
 \item $\mathit{Kind}: V \mapsto K$ je zobrazení, které přiřadí každému vrcholu jeho typ,
-\item $\mathit{Classifier}: E \mapsto C$ je zobrazení, které přiřadí každé hraně její klasifikátor (zda se jedná o~vyvolání metody, dědičnost, apod.)
-\item $\mathit{Name}: V \mapsto N$ je zobrazení, které přiřadí vrcholu jeho jméno (např. jméno třídy, jméno metody)
+\item $\mathit{Classifier}: E \mapsto C$ je zobrazení, které přiřadí každé hraně její klasifikátor (zda se jedná o~vyvolání metody, dědičnost, apod.),
+\item $\mathit{Name}: V \mapsto N$ je zobrazení, které přiřadí vrcholu jeho jméno (např. jméno třídy, jméno metody).
 \end{itemize}
 \end{definition}
 
@@ -150,9 +150,9 @@ V~uvedeném případě bychom chtěli vyjádřit požadavek, aby počet argument
 \item jméno pravidla (to sice není podstatné pro definici pravidla, v~dalším textu však umožníme definici složených pravidel, pro která bude zavedení identifikace pravidel nezbytné),
 \item vymezení množiny, nad kterou má pravidlo platit,
 \item logický výraz skládající se z~predikátů.
-\end{itemize}.
+\end{itemize}
 
-Výraz uvedený ve druhé části pravidla (v~našem případě $CountLessThan(...)$) může být jakýkoliv logický výraz, jehož elementy jsou predikáty platící nad nějakými objekty. Mezi predikáty budeme uvažovat \emph{úplný systém logických spojek}. Ten nám pokryje množina logických spojek $\{\wedge, \vee, \neg\}$ \footnote{Jeden z~operátorů $\wedge$ a $\vee$ je ve zmíněném systému logických spojek nadbytečný, ale pro pohodlnost použití jej ponecháme.}. Výsledkem výrazu bude logická hodnota, která nám bude udávat splnění resp. nesplnění požadovaného pravidla. Celou konstrukci (vymezení typu grafu, pojmenování pravidla, kvantifikace a logický výraz) označíme pojmem \emph{atomické pravidlo}.
+Výraz uvedený ve druhé části pravidla (v~našem případě $CountLessThan(...)$) může být jakýkoliv logický výraz, jehož elementy jsou predikáty platící nad nějakými objekty. Mezi predikáty budeme uvažovat \emph{úplný systém logických spojek}. Ten nám pokryje množina logických spojek $\{\wedge, \vee, \neg\}$\footnote{Jeden z~operátorů $\wedge$ a $\vee$ je ve zmíněném systému logických spojek nadbytečný, ale pro pohodlnost použití jej ponecháme.}. Výsledkem výrazu bude logická hodnota, která nám bude udávat splnění resp. nesplnění požadovaného pravidla. Celou konstrukci (vymezení typu grafu, pojmenování pravidla, kvantifikace a logický výraz) označíme pojmem \emph{atomické pravidlo}.
 
 Abychom umožnili větší flexibilitu při definování pravidel. Můžeme atomická pravidla dále použít pro definici pravidel složených. Jediné, co k~tomu potřebujeme, je úplný systém logických spojek tak, jak byl zmíněn výše. Složené pravidlo potom může vypadat např. takto:
 \begin{align*}
@@ -163,9 +163,9 @@ kde všechna zmíněná pravidla musí být definována dříve. Pravidla mohou 
 V~uvedených výrazech používáme různé funkce/operátory. Typy těchto funkcí omezíme na následující:
 
 \begin{itemize}
-\item Predikát (Predicate) -- operátor, který na základě vstupních parametrů a poskytované rozhodovací funkce vrací booleovskou hodnotu (true/false)
-\item Vrcholový selektor (Vertex selector) -- vrací množinu vrcholů na základě vstupních parametrů a poskytované výběrové funkce
-\item Hranový selector (Edge selector) -- vrací množinu hran na základě vstupních parametrů a poskytované výběrové funkce
+\item \emph{predikát (predicate)} -- operátor, který na základě vstupních parametrů a poskytované rozhodovací funkce vrací booleovskou hodnotu (true/false),
+\item \emph{vrcholový selektor (vertex selector)} -- vrací množinu vrcholů na základě vstupních parametrů a poskytované výběrové funkce,
+\item \emph{hranový selector (edge selector)} -- vrací množinu hran na základě vstupních parametrů a poskytované výběrové funkce.
 \end{itemize}
 Pro výše zmíněné operátory umožníme libovolný počet parametrů. Pro potřeby této práce však vymezíme typy elementů, které mohou být parametry. Budeme pracovat s~následujícími typy:
 
@@ -185,7 +185,7 @@ Protože výše zmíněná formalizace pravidel není zcela vhodná pro zadává
 
 \subsection{Typy analýzy}
 
-Ne všechny aspekty návrhu je možné zachytit pomocí konkrétně vymezitelných požadavků.  Mnohdy můžeme kvalitu návrhu posuzovat pouze kvalitativně a statisticky (dobrý návrh, lepší, moc vazeb, málo vazeb, atd.). Některé návrhové principy (např. low coupling\footnote{LoD je již konkretizací principu \emph{low coupling}, u~které lze uvažovat hodnoty \emph{splněno}/\emph{nesplněno}.}, high cohesion) může být vhodnější poskytnou statistický přístup pro vyhodnocování (použití vhodného klasifikátoru).
+Ne všechny aspekty návrhu je možné zachytit pomocí konkrétně vymezitelných požadavků.  Mnohdy můžeme kvalitu návrhu posuzovat pouze kvalitativně a statisticky (dobrý návrh, lepší, moc vazeb, málo vazeb, atd.). Některé návrhové principy (např. low coupling\footnote{\emph{LoD} je již konkretizací principu \emph{low coupling}, u~které lze uvažovat hodnoty \emph{splněno}/\emph{nesplněno}.}, high cohesion) může být vhodnější poskytnou statistický přístup pro vyhodnocování (použití vhodného klasifikátoru).
 
 Kromě exaktního zadávání a vyhodnocování pravidel, která mají platit nad konkrétním grafem, můžeme uvažovat ještě nejrůznější druhy analýzy. Můžeme použít např.
 
@@ -196,7 +196,7 @@ Kromě exaktního zadávání a vyhodnocování pravidel, která mají platit na
 \item použití vytěžování dat (klasifikace modelů na základě vhodné trénovací množiny, shlukování).
 \end{itemize}
 
-Zajímavou možností je právě využití klasifikátorů. Každý graf má velké množství zajímavých statistických znaků (features), které je možné využít. Můžeme vytvořit klasifikátor na základě existujících vzorků "dobrých" a "špatných" architektonických návrhů (přípravou vhodných trénovacích a testovacích příkladů lze ovlivňovat chování klasifikátoru pro různé účely použití) a ten následně použít pro ověření návrhu zcela neznámých projektů.
+Zajímavou možností je právě využití klasifikátorů. Každý graf má velké množství zajímavých statistických znaků (features), které je možné využít. Můžeme vytvořit klasifikátor na základě existujících vzorků \uv{dobrých} a \uv{špatných} architektonických návrhů (přípravou vhodných trénovacích a testovacích příkladů lze ovlivňovat chování klasifikátoru pro různé účely použití) a ten následně použít pro ověření návrhu zcela neznámých projektů.
 
 \section{Návrh architektury systému}
 \label{design-architecture}
@@ -222,7 +222,7 @@ Znázornění základních bodů rozšíření jádra je na obrázku \ref{design
 
 \begin{figure}[h!]
   \centering
-  \includegraphics[width=0.8\textwidth]{./graphs/system_extensions.png}
+  \includegraphics[width=0.85\textwidth]{./graphs/system_extensions.png}
   \caption{Body rozšíření systému.\label{design-system_extensions}}
 \end{figure}
 
@@ -454,17 +454,17 @@ Vstupem pro metodu pro generování grafu je specifikace adresáře, který obsa
 Soubory specifikací pravidel mohou obsahovat volání predikátů a selektorů. Všechny tyto operátory musí implementovat rozhraní \emph{OperatorIface}. Rozhraní obsahuje všechny potřebné metody, které jsou nezbytné pro vykonání operátoru. Jedná se o~jméno operátoru (odpovídá jménu uvedenému v~AVD souboru), počet a typ operandů a jeho návratovou hodnotu.
 
 \begin{itemize}
-\item \verb-getName() : String- -- název operátoru
-\item \verb-getOperandsCount() : int- -- počet operandů
-\item \verb-getOperandType(int index) : DataType- -- typy operátoru na pozici udávané indexem
-\item \verb-getReturnType() : DataType- -- návratový typ
-\item \verb-execute(Graph graph, List<Object> operands) : Object- -- metoda umožňující provedení operátoru se specifikovanými parametry
+\item \emph{getName() : String} -- název operátoru
+\item \emph{getOperandsCount() : int} -- počet operandů
+\item \emph{getOperandType(int index) : DataType} -- typy operátoru na pozici udávané indexem
+\item \emph{getReturnType() : DataType} -- návratový typ
+\item \emph{execute(Graph graph, List<Object> operands) : Object} -- metoda umožňující provedení operátoru se specifikovanými parametry
 \end{itemize}
 
-Datové typy používané u~operátorů odpovídají datovým typům zmiňovaným dříve v~podsekci \ref{design-rules_formalization} (množina vrcholů, množina hran, atd.). V~Jazyce java můžeme identifikátory těchto typů realizovat jako výčtový datový typ \verb-enum-.
+Datové typy používané u~operátorů odpovídají datovým typům zmiňovaným dříve v~podsekci \ref{design-rules_formalization} (množina vrcholů, množina hran, atd.). V~jazyce java můžeme identifikátory těchto typů realizovat jako výčtový datový typ \verb-enum-.
 
 \subsubsection{Rozhraní AnalysisIface}
-Rozhraní \emph{AnalysisIface} reprezentuje jednu konkrétní analýzu, kterou je možné provést nad grafem konkrétního typu. To, nad jakým grafem lze analýzu spustit deklaruje analýza prostřednictvím metody -getRequiredGraphType() : String-. Podobně jako ostatní komponenty rozšíření musí i analýza specifikovat své jméno.
+Rozhraní \emph{AnalysisIface} reprezentuje jednu konkrétní analýzu, kterou je možné provést nad grafem konkrétního typu. To, nad jakým grafem lze analýzu spustit deklaruje analýza prostřednictvím metody \verb-getRequiredGraphType() : String-. Podobně jako ostatní komponenty rozšíření musí i analýza specifikovat své jméno.
 
 \begin{itemize}
 \item \verb-getAnalysisName() : String-

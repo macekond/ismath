@@ -3,7 +3,7 @@
 \emph{Implementační} část práce se skládala z~několika součástí. Za nejvýznamnější součást lze považovat formální specifikaci pravidla \emph{Law of Demeter}, která je uváděna jako první v~rámci této sekce. V~dalších částech kapitoly se potom zabýváme vybranými poznámkami z~implementace jádra systému ArchVal, který má sloužit jako platforma pro provádění matematických formulací návrhových pravidel a implementací rozšíření tohoto systému. V~poslední části je rozebírán způsob integrace systému do platformy NetBeans.
 
 \section{Specifikace pravidel požadovaných zadáním práce}
-Nejprve definujeme vhodné operátory, které nám umožní vybrat množiny vrcholů tak, abychom mohli specifikovat LoD. Vybrané množiny potom ověříme pomocí predikátu, který určí, zda jsou tyto množiny v~pořádku, či zda porušují \emph{LoD} princip.
+Nejprve definujeme vhodné operátory, které nám umožní vybrat množiny vrcholů tak, abychom mohli specifikovat \emph{LoD}. Vybrané množiny potom ověříme pomocí predikátu, který určí, zda jsou tyto množiny v~pořádku, či zda porušují \emph{LoD} princip.
 
 \begin{definition}
 Mějme grafový model projektu $G = \langle V, E, \rho, K, C, N, \mathit{Kind}, \mathit{Classifier}, \mathit{Name}\rangle$. Definujme selektor vrcholů $L_0(G, v', c')$, $v' \in V$, $c' \in C$ jako množinu vrcholů $v \in V$, které jsou přímými následníky vrcholu $v'$, do kterých se dostaneme po hraně $e \in E$, pro kterou platí $Classifier(e) = c' $.
@@ -15,9 +15,9 @@ Mějme grafový model projektu $G = \langle V, E, \rho, K, C, N, \mathit{Kind}, 
 
 \subsection{Law of Demeter}
 \label{implementation-lod_specification}
-Pro definici princip LoD si zavedeme speciální typ grafového modelu. Ačkoliv jsme pojem \emph{typ grafového modelu}  přesně nedefinovali a zavedli jej pouze intuitivně, pokusíme se nyní vymezit pojem \emph{demeter graph model}, který zde budeme dále používat, přesněji.
+Pro definici princip \emph{LoD} si zavedeme speciální typ grafového modelu. Ačkoliv jsme pojem \emph{typ grafového modelu}  přesně nedefinovali a zavedli jej pouze intuitivně, pokusíme se nyní vymezit pojem \emph{demeter graph model}, který zde budeme dále používat, přesněji.
 
-U~grafového modelu typu \emph{Demeter graph type} povolíme libovolná označení vrcholů (konkrétně pro potřeby LoD se bude jednat o~plně kvalifikované názvy tříd a metod). Množinu typů vrcholů omezíme na následující množinu:
+U~grafového modelu typu \emph{Demeter graph type} povolíme libovolná označení vrcholů (konkrétně pro potřeby \emph{LoD} se bude jednat o~plně kvalifikované názvy tříd a metod). Množinu typů vrcholů omezíme na následující množinu:
 \begin{align*}
 K = \{ ``class", ``method" \}
 \end{align*}
@@ -29,13 +29,13 @@ C = \{ ``field", ``self", ``arg", ``constr", ``use" \}
 \end{align*}
 Podívejme se na význam těchto označení:
 \begin{itemize}
-\item $``field"$ -- hrana vede do třídy, které reprezentuje třídní proměnnou nebo do její nadtřídy
-\item $``self"$ -- hrana vede do třídy, která je vlastníkem této metody nebo do její nadtřídy
-\item $``arg"$ -- hrana vede do třídy argumentu metody nebo do její nadtřídy
-\item $``constr"$ -- hrana vede do třídy použité pro konstrukci nového objektu v~těle metody nebo do její nadtřídy
-\item $``use"$ -- hrana vede do třídy, jejíž použití (vyvolání metody nebo přístup k~poli) se vyskytuje v~těle metody
+\item $``field"$ -- hrana vede do třídy, které reprezentuje třídní proměnnou nebo do její nadtřídy,
+\item $``self"$ -- hrana vede do třídy, která je vlastníkem této metody nebo do její nadtřídy,
+\item $``arg"$ -- hrana vede do třídy argumentu metody nebo do její nadtřídy,
+\item $``constr"$ -- hrana vede do třídy použité pro konstrukci nového objektu v~těle metody nebo do její nadtřídy,
+\item $``use"$ -- hrana vede do třídy, jejíž použití (vyvolání metody nebo přístup k~poli) se vyskytuje v~těle metody.
 \end{itemize}
-Je patrné, že tyto hrany zčásti odpovídají požadavkům LoD. Prozatím jsme uvedli množiny klasifikátorů bez vymezení, kde lze přesně tyto klasifikátory použít. Uvažujme následující množinu, která reprezentuje zobrazení množiny klasifikátorů do množiny dvojic typů vrcholů:
+Je patrné, že tyto hrany zčásti odpovídají požadavkům \emph{LoD}. Prozatím jsme uvedli množiny klasifikátorů bez vymezení, kde lze přesně tyto klasifikátory použít. Uvažujme následující množinu, která reprezentuje zobrazení množiny klasifikátorů do množiny dvojic typů vrcholů:
 \begin{align*}
 GT = &\{ \\
 &(``field" (``class", ``class")), \\
@@ -49,16 +49,16 @@ Pokud budeme uvažovat koncové vrcholy jednotlivých hran a jejich zobrazení d
 
 Pokud \emph{grafový model projektu} splní všechny tyto podmínky, řekneme o~něm, že je typu \emph{demeter}.
 
-Příklad takového grafu je na obrázku \ref{implementation-lod_graph}. V~uvedeném obrázku princip LoD porušuje metoda \verb-method1_2-, která používá třídu \verb-Class2-, ačkoliv není ani jednou z~dovolených tříd principu LoD (třída pole vlastnické třídy metody, argument metody, atd.).
+Příklad takového grafu je na obrázku \ref{implementation-lod_graph}. V~uvedeném obrázku princip \emph{LoD} porušuje metoda \verb-method1_2-, která používá třídu \verb-Class2-, ačkoliv není ani jednou z~dovolených tříd principu \emph{LoD} (třída pole vlastnické třídy metody, argument metody, atd.).
 
 \begin{figure}[h!]
   \centering
   \includegraphics[width=1.0\textwidth]{./graphs/demeter_graph.png}
-  \caption{Graf \uv{typu demeter} použitý pro validaci principu LoD.\label{implementation-lod_graph}}
+  \caption{Graf \uv{typu demeter} použitý pro validaci principu \emph{LoD}.\label{implementation-lod_graph}}
 \end{figure}
 
 \begin{designprinciple}
-Mějme grafový model projektu $G = \langle V, E, \rho, K, C, \mathit{Kind}, \mathit{Classifier}\rangle$ typu demeter. Model $G$ splňuje návrhový princip LoD, pokud pro něj platí:
+Mějme grafový model projektu $G = \langle V, E, \rho, K, C, \mathit{Kind}, \mathit{Classifier}\rangle$ typu demeter. Model $G$ splňuje návrhový princip \emph{LoD}, pokud pro něj platí:
 
 \begin{align*}
 \forall v \in V: Kind(v) = ``method"\\
@@ -70,10 +70,10 @@ Mějme grafový model projektu $G = \langle V, E, \rho, K, C, \mathit{Kind}, \ma
 
 \end{designprinciple}
 
-Specifikované pravidlo vyjadřuje požadavek, aby množina vrcholů (představujících třídy) do níž se dostaneme pomocí hran s~klasifikátorem $``use"$ (všechna použití tříd uvnitř metody) byla podmnožinou sjednocení vrcholů, které pro danou metodu představují povolená použití tříd (vlastní třída metody, třída třídní proměnné, argument metody nebo konstruovaná třída). Je-li totiž množina ``use" vrcholů podmnožinou sjednocení ostatních množin, množinový rozdíl bude roven prázdné množině. V~opačném případě bude množinový rozdíl nenulový, což bude znamenat porušení principu LoD.
+Specifikované pravidlo vyjadřuje požadavek, aby množina vrcholů (představujících třídy) do níž se dostaneme pomocí hran s~klasifikátorem $``use"$ (všechna použití tříd uvnitř metody) byla podmnožinou sjednocení vrcholů, které pro danou metodu představují povolená použití tříd (vlastní třída metody, třída třídní proměnné, argument metody nebo konstruovaná třída). Je-li totiž množina $``use"$ vrcholů podmnožinou sjednocení ostatních množin, množinový rozdíl bude roven prázdné množině. V~opačném případě bude množinový rozdíl nenulový, což bude znamenat porušení principu \emph{LoD}.
 
 \subsection{Low coupling, high cohesion}
-Zatímco princip LoD se nám podařilo přesně specifikovat pomocí množin. U~principů \emph{low coupling} a \emph{high cohesion} bychom spíše uvažovali o~realizaci vhodné analýzy. Tyto analýzy však nebyly cílem této práce.
+Zatímco princip \emph{LoD} se nám podařilo přesně specifikovat pomocí množin. U~principů \emph{low coupling} a \emph{high cohesion} bychom spíše uvažovali o~realizaci vhodné analýzy. Tyto analýzy však nebyly cílem této práce.
 
 Přesto byla realizována programová podpora, která umožní snadné přidání modulu, který může pracovat nad libovolným grafem poskytovaným některým z~existujících poskytovatelů generátorů grafů a tyto nebo jiné podobné vlastnosti analyzovat. Většinou by se jednalo o~nejrůznější statistické analýzy založené na počtech hran, seskupování nebo generování histogramů.
 
@@ -82,7 +82,7 @@ Konkrétní informace a rešerše týkající se těchto principů byly rozebrá
 \section{Implementace jádra systému}
 Jádro systému bylo implementováno v~rámci samostatného modulu platformy NetBeans. Ačkoliv je takto svázáno s~konkrétní platformou, zdrojové kódy neobsahují žádné závislosti na prvky této platformy a je tedy možné je znovu-použít v~jiných projektech.
 
-V~této sekci nebudeme procházet úplně všechny implementované komponenty systému. Jednak byly popsány již v~části návrhu a kromě toho jsou jejich implementace k~dispozici v~rámci zdrojových kódů. Při implementaci byla snaha o~maximální zdokumentovanost -- většina klíčových tříd je řádně opatřena dokumentací \verb-Javadoc-.
+V~této sekci nebudeme procházet úplně všechny implementované komponenty systému. Jednak byly popsány již v~části návrhu a kromě toho jsou jejich implementace k~dispozici v~rámci zdrojových kódů. Při implementaci byla snaha o~maximální zdokumentovanost -- většina klíčových tříd je řádně opatřena dokumentací \verb-javadoc-.
 
 Zde se podíváme na implementaci formátu pro zadávání pravidel (AVD specifikace). Dále na způsob sestavování vyhodnocovacího stromu a nakonec ukážeme implementaci zajímavých operátorů, které jsou základem systému pro vyhodnocování pravidel.
 
@@ -92,10 +92,10 @@ Formát AVD byl vytvořen snahou o~namapování dříve definovaných matematick
 V~rámci AVD specifikace bylo nutné definovat několik nezávislých jmenných prostorů:
 
 \begin{itemize}
-\item názvy analýz
-\item jména typů grafů
-\item jména atomických a složených pravidel (jmenný prostor pro atomická i složená pravidla je sdílený)
-\item jména operátorů
+\item názvy analýz,
+\item jména typů grafů,
+\item jména atomických a složených pravidel (jmenný prostor pro atomická i složená pravidla je sdílený),
+\item jména operátorů.
 \end{itemize}
 
 Proto je například možné použít stejný název pro typ grafu a pro atomické pravidlo, ale není možné použít shodný název pro dvě pravidla (ať už atomická nebo složená).
@@ -151,7 +151,7 @@ Podobným způsobem jsou realizovány i další operátory. Například sjednoce
 V~rámci této práce byly realizovány celkem dva netbeans moduly realizující rozšíření. Tyto moduly mohou současně sloužit jako návod k~implementaci dalších rozšíření. Jedná se o~poskytovatele generátoru grafu typu \emph{demeter} a balíček operátorů, které jsou nezbytné k~provedení pravidla \emph{LoD}. Tyto operátory nicméně nejsou vázány pouze na princip \emph{Law of Demeter}. Například operátor, který testuje, zda je množina vrcholů prázdná má zcela jistě obecné použití.
 
 \subsection{Modul av-graphgen-demeter (generátor grafu)}
-Modul pro generování grafu nad nímž je možné provést kontrolu principu LoD, je realizován díky možnosti využít existující infrastrukturu platformy NetBeans pro práci se zdrojovými kódy v~jazyce Java a jejich syntaktickými stromy. Jak již bylo zmíněno dříve v~rámci analýzy, platforma NetBeans poskytuje AST stromy, které mají již rozlišené symboly. Díky tomu můžeme stromy postupně procházet a dotazovat se na plně kvalifikovaná jména elementů představujících třídy, rozhraní atd.
+Modul pro generování grafu nad nímž je možné provést kontrolu principu \emph{LoD}, je realizován díky možnosti využít existující infrastrukturu platformy NetBeans pro práci se zdrojovými kódy v~jazyce Java a jejich syntaktickými stromy. Jak již bylo zmíněno dříve v~rámci analýzy, platforma NetBeans poskytuje AST stromy, které mají již rozlišené symboly. Díky tomu můžeme stromy postupně procházet a dotazovat se na plně kvalifikovaná jména elementů představujících třídy, rozhraní atd.
 
 Generátor grafu je realizován v~rámci třídy \emph{DemeterGraphGenerator} (implementuje rozhraní \emph{GraphGeneratorIface}). Protože vstupním parametrem pro generátor grafu je \uv{pouze} adresář projektu. Je nutné vylistovat všechny soubory, které mohou obsahovat zdrojový kód v~jazyce Java (\verb+*.java+ soubory). Následně je pro každý takový soubor získána instance třídy \emph{JavaSource} poskytované platformou NetBeans. Tato třída je vstupním bodem k~funkcionalitám poskytovaným kompilátorem jazyka Java (třída JavaSource tato rozhraní zabaluje). Díky tomu je možné využít \emph{Java Tree API} pro iteraci všech syntaktických elementů v~rámci kompilační jednotky.
 
@@ -161,10 +161,10 @@ To je provedeno formou návrhového vzoru \emph{Visitor}. Při generování deme
 Balík operátorů poskytovaný modulem \verb+av-operators-demeter+ obsahuje následující operátory:
 
 \begin{itemize}
-\item \verb+vertex_set_is_empty+ -- třída \emph{EmptyVertexSetPredicate} -- operátor, který vrátí \verb+true+ v~případě, že je množina vrcholů předaná jako parametr prázdná
-\item \verb+level_zero_vertex_selector+ -- třída \emph{LevelZerorVertexSelector} -- implementace operátoru $L_0$ tak jak byl definován dříve
-\item \verb+level_one_vertex_selector+ -- třída \emph{LevelOneVertexSelector} -- implementace operátoru $L_1$ tak jak byl definován dříve
-\item \verb+kind+ -- třída \emph{VertexKindPredicate} -- predikát, který vrátí \verb+true+, pokud má vrchol předaný jako první parametr typ shodný s~řetězcem předaným jako druhý parametr
+\item \verb+vertex_set_is_empty+ -- třída \emph{EmptyVertexSetPredicate} -- operátor, který vrátí \verb+true+ v~případě, že je množina vrcholů předaná jako parametr prázdná,
+\item \verb+level_zero_vertex_selector+ -- třída \emph{LevelZerorVertexSelector} -- implementace operátoru $L_0$ tak jak byl definován dříve,
+\item \verb+level_one_vertex_selector+ -- třída \emph{LevelOneVertexSelector} -- implementace operátoru $L_1$ tak jak byl definován dříve,
+\item \verb+kind+ -- třída \emph{VertexKindPredicate} -- predikát, který vrátí \verb+true+, pokud má vrchol předaný jako první parametr typ shodný s~řetězcem předaným jako druhý parametr.
 \end{itemize}
 
 Implementace operátorů je poměrně přímočará. Zajímavý je snad jen operátor \emph{F}, který pomocí jednoduché rekurze implementuje modifikované prohledávání do hloubky, aby získal množinu potřebných vrcholů.

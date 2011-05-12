@@ -78,12 +78,12 @@ Při vlastním návrhu systému se používají principy objektového návrhu (p
 Principy objektového návrhu reprezentují množinu pokynů, které nám pomáhají vyhnout se špatnému návrhu \cite{oop_design_principles}. Špatný návrh vykazuje zejména následující vlastnosti \cite{oop_design_principles_and_patterns}:
 
 \begin{itemize}
-\item \emph{Rigidity} -- je obtížné provést změnu v~systému protože každá změna ovlivňuje příliš mnoho dalších částí systému,
-\item \emph{Fragility} -- pokud provedete změnu, mohou přestat fungovat části systému u~nichž se to nečeká,
-\item \emph{Immobility} -- je obtížné znovupoužití části systému v~jiné aplikaci, protože tato část nemůže být \uv{vymotána} z~aktuální aplikace.
+\item \emph{rigidity} -- je obtížné provést změnu v~systému protože každá změna ovlivňuje příliš mnoho dalších částí systému,
+\item \emph{fragility} -- pokud provedete změnu, mohou přestat fungovat části systému u~nichž se to nečeká,
+\item \emph{immobility} -- je obtížné znovupoužití části systému v~jiné aplikaci, protože tato část nemůže být \uv{vymotána} z~aktuální aplikace.
 \end{itemize}
 
-Autor výše zmíněného článku (\cite{oop_design_principles_and_patterns}) cituje zajímavé návrhové principy. Například \emph{Open Closed Principle}, který vyžaduje, aby se existující třídy a řešení nemodifikovaly, ale rozšiřovaly. Dalším principem je \emph{Liskov's substitution principle}, který vymezuje pravidla pro dědění tak, aby instance podtřídy mohla bezpečně vystupovat na místě své nadtřídy\footnote{Ve článku je rozebráno, jaké operace bychom neměli provádět v~děděné třídě -- je totiž možné změnit chování oddělené třídy tak, že již nemůže bezpečně vystupovat na místě svého předka.}.
+Autor výše zmíněného článku \cite{oop_design_principles_and_patterns} cituje zajímavé návrhové principy. Například \emph{Open Closed Principle}, který vyžaduje, aby se existující třídy a řešení nemodifikovaly, ale rozšiřovaly. Dalším principem je \emph{Liskov's substitution principle}, který vymezuje pravidla pro dědění tak, aby instance podtřídy mohla bezpečně vystupovat na místě své nadtřídy\footnote{Ve článku je rozebráno, jaké operace bychom neměli provádět v~děděné třídě -- je totiž možné změnit chování oddělené třídy tak, že již nemůže bezpečně vystupovat na místě svého předka.}.
 
 Důležité je srovnání \emph{návrhových principů} s~\emph{návrhovými vzory}. Toto srovnání podává článek \cite{612257}. Zatímco aplikace návrhového vzoru představuje znovupoužití \uv{úspěšného} návrhu, princip představuje spíše obecně platné pravidlo, jehož dodržováním během návrhu bychom měli získat návrh přijatelné kvality. V~případě přesného stanovení potřebných principů by bylo možné provádět automatizovaný systematický návrh (což není, vzhledem k~mnoha aspektům popisovaným v~článku, dobře možné).
 
@@ -137,8 +137,8 @@ Moduly s~vysokou kohezí jsou zpravidla preferovány, protože jejich vlastnosti
 
 Ke snížení koheze dochází když:
 \begin{itemize}
-\item funkcionalita vyjádřená třídou, ke které přistupujeme pomocí metod, nemá mnoho společného
-\item metody provádějí velké množství rozdílných aktivit často nad rozsáhlými nebo nesouvisejícími daty
+\item funkcionalita vyjádřená třídou, ke které přistupujeme pomocí metod, nemá mnoho společného,
+\item metody provádějí velké množství rozdílných aktivit často nad rozsáhlými nebo nesouvisejícími daty.
 \end{itemize}
 
 Nevýhodou nízké koheze je:
@@ -169,19 +169,19 @@ Problematikou soudržnosti programových modulů se zabývá článek \cite{Kang
 \paragraph{Functional association} Oba elementy jsou nezbytné pro provedení jedné funkce/operace.
 
 \subsubsection{Law of Demeter}
-Jak bylo zmíněno v~sekci \ref{analysis-principles_analyzed}, lze na LoD pohlížet jako na část principu pro zachování nízké vazby. LoD je také někdy nazýván jako princip nejmenší znalosti (Principle of Least Knowledge) \cite{wiki:lod}. Určuje, že každá jednotka by měla mít pouze omezenou znalost ostatních jednotek. Měla by komunikovat pouze s~omezeným počtem jednotek úzce souvisejících s~logikou této jednotky. Zde se nám částečně prolínají principy \emph{low coupling} a \emph{high cohesion}. Zatímco princip \emph{low coupling} požaduje, aby modul nezávisel na příliš detailních znalostech o~implementaci druhého modulu, \emph{high cohesion} vyžaduje, aby úzce souvisela logika modulu s~logikou závislých modulů (aby se nevolaly vzdálené logicky nesouvisející části kódu).
+Jak bylo zmíněno v~sekci \ref{analysis-principles_analyzed}, lze na \emph{LoD} pohlížet jako na část principu pro zachování nízké vazby. \emph{LoD} je také někdy nazýván jako princip nejmenší znalosti (Principle of Least Knowledge) \cite{wiki:lod}. Určuje, že každá jednotka by měla mít pouze omezenou znalost ostatních jednotek. Měla by komunikovat pouze s~omezeným počtem jednotek úzce souvisejících s~logikou této jednotky. Zde se nám částečně prolínají principy \emph{low coupling} a \emph{high cohesion}. Zatímco princip \emph{low coupling} požaduje, aby modul nezávisel na příliš detailních znalostech o~implementaci druhého modulu, \emph{high cohesion} vyžaduje, aby úzce souvisela logika modulu s~logikou závislých modulů (aby se nevolaly vzdálené logicky nesouvisející části kódu).
 
-Princip \emph{Law of Demeter} je velmi dobře popsán v~\cite{35588}. Článek pojednává o~třídě jako o~\uv{dodavateli funkcionality}. LoD potom specifikuje, kteří dodavatelé funkcionality jsou pro konkrétní třídu preferovaní (tzv. \uv{preferred suppliers}). To nám vymezuje množinu tříd/objektů, na něž se smí vyskytnout reference v~rámci definované třídy. V~článku je rozebráno více forem principu, které jsou vhodné pro různé způsoby aplikace. Klasifikace těchto forem je znázorněna na obrázku \ref{demeter_law_types}.
+Princip \emph{Law of Demeter} je velmi dobře popsán v~\cite{35588}. Článek pojednává o~třídě jako o~\uv{dodavateli funkcionality}. \emph{LoD} potom specifikuje, kteří dodavatelé funkcionality jsou pro konkrétní třídu preferovaní (tzv. \uv{preferred suppliers}). To nám vymezuje množinu tříd/objektů, na něž se smí vyskytnout reference v~rámci definované třídy. V~článku je rozebráno více forem principu, které jsou vhodné pro různé způsoby aplikace. Klasifikace těchto forem je znázorněna na obrázku \ref{demeter_law_types}.
 
 \begin{figure}[h!]
   \centering
   \includegraphics[width=0.7\textwidth]{./graphs/demeter_law_types.png}
-  \caption{Formy návrhového principu LoD.\label{demeter_law_types}}
+  \caption{Formy návrhového principu \emph{LoD}.\label{demeter_law_types}}
 \end{figure}
 
-Kromě striktní formy, která vyžaduje, aby všechny třídy dodržovaly pravidla daná principem LoD, existuje ještě minimalizační verze, která se snaží minimalizovat počet porušení pravidla pod přijatelnou mez\footnote{Například umožní porušení principu LoD v~privátním API, ale bude vyžadovat dodržení ve veřejně přístupných API.}.
+Kromě striktní formy, která vyžaduje, aby všechny třídy dodržovaly pravidla daná principem \emph{LoD}, existuje ještě minimalizační verze, která se snaží minimalizovat počet porušení pravidla pod přijatelnou mez\footnote{Například umožní porušení principu \emph{LoD} v~privátním API, ale bude vyžadovat dodržení ve veřejně přístupných API.}.
 
-Pro statickou analýzu je vhodné použití \emph{class formy} pravidla LoD. Class forma a objektová forma se lehce liší v~tom, které třídy jsou preferovanými dodavateli funkcionality. Pro praktické použití (udržovatelnost kódu, modularita, atd.) to však nemá až takový význam.
+Pro statickou analýzu je vhodné použití \emph{class formy} pravidla \emph{LoD}. Class forma a objektová forma se lehce liší v~tom, které třídy jsou preferovanými dodavateli funkcionality. Pro praktické použití (udržovatelnost kódu, modularita, atd.) to však nemá až takový význam.
 
 Uveďme nyní \emph{striktní třídní formu} pravidla \emph{Law of Demeter}:
 
@@ -202,7 +202,7 @@ Tento princip budeme implementovat jako ukázkové pravidlo vyvíjeného systém
 Abychom demonstrovali, jak vypadá kód, který není vyhovující z~hlediska návrhu, pojďme se podívat na ukázky porušení návrhových principů. U~principu \emph{LoD} můžeme uvažovat konkrétní porušení. Pro \emph{low coupling} a \emph{high cohesion} se můžeme podívat na rozdíly mezi \emph{úrovněmi vazby} a \emph{koheze}.
 
 \subsubsection{Porušení principu law of Demeter}
-Podívejme se na nejtypičtější ukázku porušení LoD, která je uváděna v~\cite{lod:paperboy}. Zde autor demonstruje porušení principu LoD a současně modeluje reálnou situaci. Je patrné, že dodržení LoD vede k~přirozenějšímu mapování reálných objektů na objekty v~programovacím jazyce.
+Podívejme se na nejtypičtější ukázku porušení \emph{LoD}, která je uváděna v~\cite{lod:paperboy}. Zde autor demonstruje porušení principu \emph{LoD} a současně modeluje reálnou situaci. Je patrné, že dodržení \emph{LoD} vede k~přirozenějšímu mapování reálných objektů na objekty v~programovacím jazyce.
 
 První částí ukázky je jednoduchá datová třída modelující zákazníka:
 
@@ -273,7 +273,7 @@ if (theWallet.getTotalMoney() > payment) {
 
 Autor výše uvedené ukázky dále rozebírá, že je chybné předpokládat, že si od nás vezme pouliční prodavač novin naši peněženku, vezme si z~ní patřičný obnos a peněženku nám opět vrátí. Celá situace je vyřešena přidáním nové třídy reprezentující platbu a speciální metodou \verb+getPayment+ třídy \verb+Customer+. Zákazník se tak o~svou peněženku stará sám a prodavači pouze předá požadovaný obnos.
 
-Ukázka nevyhoví definované class verzi principu LoD. Kód který se stará o~získání platby podle všeho dostává referenci na zákazníka. Na základě této reference získá referenci na objekt třídy \verb+Wallet+. A~právě objekt třídy \verb+Wallet+ nespadá ani do jedné z~kategorií povolených dodavatelů funkcionality (není třídou třídní proměnné, ani třídou předávanou v~parametrech, není ve třídě konstruován a není ani globální proměnnou).
+Ukázka nevyhoví definované class verzi principu \emph{LoD}. Kód který se stará o~získání platby podle všeho dostává referenci na zákazníka. Na základě této reference získá referenci na objekt třídy \verb+Wallet+. A~právě objekt třídy \verb+Wallet+ nespadá ani do jedné z~kategorií povolených dodavatelů funkcionality (není třídou třídní proměnné, ani třídou předávanou v~parametrech, není ve třídě konstruován a není ani globální proměnnou).
 
 \subsubsection{Ukázka kódu s~příliš vysokou úrovní závislosti}
 Nejhorší variantou závislosti je závislost na konkrétním obsahu jiného modulu. Typickým příkladem může být přímý přístup k~proměnným konkrétní třídy.
@@ -324,7 +324,7 @@ class B {
 To je typická ukázka \emph{control coupling}. Třída B využívá služeb třídy A. Metoda \verb+do+ je řízena vstupní proměnnou předávanou z~metody třídy B. To má tu nevýhodu, že v~případě změny způsobu, jakým pracuje metoda \verb+do+ (např. přidání dalšího stavu řídící proměnné) může být nutné provést reimplementaci metody třídy B, která nepočítá s~jinou návratovou hodnotou nebo jiným průběhem zpracování.
 
 \subsubsection{Ukázka kódu s~nízkou úrovní koheze}
-Nejnižší úrovní koheze je \emph{coincidental cohesion}. Typicky se jedná o~různé balíky funkcionality označované jako \verb+Utils+, \verb+Helper+ a podobně. Funkce v~takovém balíčku typicky nemají téměř žádnou příbuznost. Často se též jedná o~velké bloky funkcionality, které provádějí celou řadu nesouvisejících věcí, ale zůstávají v~jednom velkém bloku jednoduše proto, že se jich programátoři \uv{bojí dotknout}.
+Nejnižší úrovní koheze je \emph{coincidental cohesion}. Typicky se jedná o~různé balíky funkcionality označované jako \verb+Utils+, \verb+Helper+ a podobně. Funkce v~takovém balíčku většinou nemají téměř žádnou příbuznost. Často se též jedná o~velké bloky funkcionality, které provádějí celou řadu nesouvisejících věcí, ale zůstávají v~jednom velkém bloku jednoduše proto, že se jich programátoři \uv{bojí dotknout}.
 
 Příkladem úrovně \emph{logical cohesion} může být následující třída:
 
@@ -361,14 +361,14 @@ Existuje velké množství způsobů, kterými jsou organizovány softwarové pr
 
 \begin{itemize}
 \item soubory \verb+*.java+ -- soubory se zdrojovými kódy v~jazyce Java, tyto soubory představují z~hlediska gramatiky jazyka Java kořenový element \emph{CompilationUnit} (o~něm bude dále pojednáno v~podsekci \ref{analysis-java_grammar_elements}),
-\item binární součásti projektu -- soubory \verb+*.jar+ a \verb+*.class+, často se jedná o~různé knihovny, zkompilované \verb+*.java+ soubory atd.
+\item binární součásti projektu -- soubory \verb+*.jar+ a \verb+*.class+, často se jedná o~různé knihovny, zkompilované \verb+*.java+ soubory atd.,
 \item build scripty a konfigurační soubory sestavovacích nástrojů (\verb+build.xml+, \verb+pom.xml+, \ldots),
-\item soubory zdrojů (resources, resource bundles) -- read-only data využívaná programem (ikony, lokalizační řetězce, atd.)
+\item soubory zdrojů (resources, resource bundles) -- read-only data využívaná programem (ikony, lokalizační řetězce, atd.),
 \item dokumentace (\verb+javadoc+, uživatelská příručka),
 \item soubory gramatik pro parsery a \emph{compiler-compiler} systémy (např. pro \verb+lex+, \verb+flex+, \verb+javacc+, \verb+antlr+),
 \item šablony (typické třeba pro webové projekty, \verb+*.xhtml+ a jiné přípony),
 \item konfigurační soubory (zpravidla \verb+*.xml+ soubory, často odkazují konkrétní třídy programovacího jazyka Java),
-\item jiné soubory
+\item jiné soubory.
 \end{itemize}
 
 Pro potřeby této práce jsou podstaní v~zásadě pouze soubory obsahující zdrojový kód -- soubory \verb+*.java+. Při analýze nebudeme program spouštět nebo uvažovat jeho dynamické chování (běh). Bude se jednat o~analýzu statického stavu programu (analýza struktury). Práce bude probíhat nad definicemi tříd, nikoliv nad jejich instancemi v~paměti JVM. Nejsou tedy uvažovány všechny možné běhové instance programu (všechny možné stavy objektů v~paměti virtuálního stroje).

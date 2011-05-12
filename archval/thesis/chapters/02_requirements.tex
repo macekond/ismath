@@ -40,14 +40,14 @@ Výstupem systému by měl být \emph{validační report}, který vypíše, kter
 
 Na základě obecných požadavků můžeme specifikovat základní funkční požadavky. Požadujeme, aby systém uměl provádět následující funkčnosti:
 \begin{itemize}
-\item načíst vhodně předzpracovaný projekt a vytvořit vnitřní model pro další analýzu,
+\item načíst vhodně předzpracovaný projekt realizovaný v jazyce Java a vytvořit vnitřní model pro další analýzu,
 \item načíst ze vstupního souboru množinu pravidel v~definovaném formátu,
 \item provést validaci načteného modelu pomocí množiny pravidel,
 \item vypsat report obsahující informace o~splnění resp. porušení pravidel.
 \end{itemize}
 
 \subsection{Nefunkční požadavky na výsledný systém}
-Z~nefunkčních požadavků můžeme zmínit podporu pro zpracování projektů realizovaných v~programovacího jazyce Java. Druhým významným nefunkčním požadavkem je požadavek na rozšiřitelnost. Systém by mělo být možné rozšířit o~další modely a možnosti specifikace nových/složitějších pravidel nad modely.
+Z~nefunkční požadavků je zadáním práce dán požadavek na \emph{rozšiřitelnost}. Systém by mělo být možné rozšířit o~další modely a možnosti specifikace nových/složitějších pravidel nad modely.
 
 \section{Rešerše existujících řešení}
 \label{requirements-existing_tools}
@@ -61,7 +61,7 @@ V~této sekci se postupně podíváme na různé nástroje, které si kladou za 
 Autoři článku \cite{4273268} a nástroje \emph{DP-Miner} \cite{existingtools:dp-miner} se zabývají výzkumem v~oblasti návrhových vzorů. Ukazuje se, že návrhové vzory jsou velmi důležité a extenzivně využívané ve fázi návrhu software. Při realizaci v~konkrétním zdrojovém kódu se však informace o~návrhových vzorech zpravidla ztrácí. Cílem nástroje \emph{DP-Miner} je objevování návrhových vzorů v~existujících projektech, k~nimž neexistuje vývojová dokumentace. Ve článku \cite{4273268} jsou demonstrovány schopnosti odhalit návrhové vzory na reálných projektech jako např. \emph{JUnit}, \emph{JEdit}, \emph{Java.AWT} a dalších. Pro odhalování vzorů používají autoři matici vztahů mezi třídami analyzovaného systému.
 
 \subsection{FindBugs}
-Nástroj \emph{FindBugs} \cite{existingtools:findbugs} vyhledává potenciální zdroje chyb v~Java programech. Vyhledává chyby podle chybových vzorů. Chybové zdroje jsou idiomy, které se ve zdrojových kódech často vyskytují chybně použity. Většinou se jedná o~obtížněji zvládnutelné vlastnosti jazyka, nepochopení rozhraní některého API atd. (Typickým příkladem může být porovnávání objektů \verb+String+ pomocí operátoru \verb+==+.) Pro odhalování chyb je používána statická analýza. \emph{FindBugs} pracuje nad byte kódem (analyzuje zkompilované třídní \verb-*.class- soubory) -- je tedy možné analyzovat i programy, k~nimž nemáme k~dispozici zdrojové kódy. Analýza je mnohdy nepřesná (ne všechny vzory chyb jsou vždy opravdu chybami -- může se jednat o~záměrné použití). Nástroj v~takovém případě chybně vypisuje varování, která neznamenají chybu (falešně pozitivní případy).
+Nástroj \emph{FindBugs} \cite{existingtools:findbugs} vyhledává potenciální zdroje chyb v~Java programech. Vyhledává chyby podle chybových vzorů. Chybové zdroje jsou idiomy, které se ve zdrojových kódech často vyskytují chybně použity. Většinou se jedná o~obtížněji zvládnutelné vlastnosti jazyka, nepochopení rozhraní některého API atd. (Typickým příkladem může být porovnávání objektů \verb+String+ pomocí operátoru \verb+==+.) Pro odhalování chyb je používána statická analýza. \emph{FindBugs} pracuje nad byte kódem (analyzuje zkompilované třídní \verb-*.class- soubory) -- \mbox{je tedy} možné analyzovat i programy, k~nimž nemáme k~dispozici zdrojové kódy. Analýza je mnohdy nepřesná (ne všechny vzory chyb jsou vždy opravdu chybami -- může se jednat o~záměrné použití). Nástroj v~takovém případě chybně vypisuje varování, která neznamenají chybu (falešně pozitivní případy).
 
 \subsection{JDepend}
 Podobně jako předchozí nástroj pracuje i \emph{JDepend} \cite{existingtools:jdepend} nad zkompilovanými \verb+*.class+ soubory jazyka Java. Funguje však na jiném principu a na daleko vyšší úrovni. Zabývá se analýzou závislostí mezi třídami a balíčky. Systém poskytuje výpis základních metrik, jako je počet tříd a rozhraní v~balíčcích, počet závislých balíčků (to je zde označováno jako \uv{zodpovědnost} -- čím více tříd na balíčku závisí, tím větší je jeho zodpovědnost). Vesměs se jedná o~metriky založené na počtech elementů v~projektu. Za zmínku stojí odhalování cyklů v~závislostech balíčků.
@@ -70,10 +70,9 @@ Podobně jako předchozí nástroj pracuje i \emph{JDepend} \cite{existingtools:
 Velmi zajímavým nástrojem je \emph{Macker} \cite{existingtools:macker}. Pracuje na strukturální úrovni během kompilace a umožňuje kontrolovat nejrůznější strukturální pravidla. Stejně jako předchozí dva nástroje operuje nad zkompilovanými \verb+*.class+ soubory. Mezi zajímavá pravidla, která je schopen vynutit patří například:
 
 \begin{itemize}
-\item \uv{třídy z~UI vrstvy nesmí přímo přistupovat k~objektům v~datové vrstvě nebo používat třídy v~balíčku \verb-java.sql-}
-\item \uv{externí systémy nesmí přistupovat k~interním implementačním třídám (které mají sufix 'Impl')}
-\item \uv{jeden funkční modul smí přistupovat ke druhému pouze přes jeho API}
-\item \ldots
+\item \uv{třídy z~UI vrstvy nesmí přímo přistupovat k~objektům v~datové vrstvě nebo používat třídy v~balíčku \verb-java.sql-},
+\item \uv{externí systémy nesmí přistupovat k~interním implementačním třídám (které mají sufix 'Impl')},
+\item \uv{jeden funkční modul smí přistupovat ke druhému pouze přes jeho API}.
 \end{itemize}
 
 Z~uvedených pravidel je patrné, že \emph{Macker} operuje na globální strukturální úrovni a je schopen vynutit dodatečnou kontrolu přístupu (vedle standardních prostředků jazyka Java, kterými jsou modifikátory přístupu).
@@ -82,11 +81,10 @@ Z~uvedených pravidel je patrné, že \emph{Macker} operuje na globální strukt
 Velmi rozšířený nástroj \emph{PMD} \cite{existingtools:pmd} prochází zdrojové kódy jazyka Java a vyhledává potenciální zdroje problémů (srov. s~nástrojem \emph{FindBugs}). Příkladem vyhledávaných vzorů jsou:
 
 \begin{itemize}
-\item možné chyby -- prázdné příkazy \emph{try/catch/finally/switch}
-\item mrtvý kód -- nepoužité lokální proměnné, parametry a privátní metody\footnote{To je dnes běžné téměř pro všechna nejčastěji používaná IDE pro vývoj v~jazyce Java.}
-\item neoptimální kód -- neefektivní využívání tříd String/StringBuffer
-\item příliš komplikované výrazy -- zbytečné \verb+if+ příkazy, cykly \verb+for+, které mohou být realizovány pomocí \verb+while+
-\item \ldots
+\item možné chyby -- prázdné příkazy \emph{try/catch/finally/switch},
+\item mrtvý kód -- nepoužité lokální proměnné, parametry a privátní metody\footnote{To je dnes běžné téměř pro všechna nejčastěji používaná IDE pro vývoj v~jazyce Java.},
+\item neoptimální kód -- neefektivní využívání tříd String/StringBuffer,
+\item příliš komplikované výrazy -- zbytečné \verb+if+ příkazy, cykly \verb+for+, které mohou být realizovány pomocí \verb+while+.
 \end{itemize}
 
 Výhodou \emph{PMD} je integrovanost s~velkým množstvím nástrojů (JDeveloper, Eclipse, JEdit, JBuilder, ItelliJ IDEA, Maven, Emacs, a další).
