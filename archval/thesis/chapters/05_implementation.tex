@@ -3,10 +3,14 @@
 \emph{Implementační} část práce se skládala z několika součástí. Za nejvýzamnější součást lze považovat formální specifikaci pravidla \emph{Law of Demeter}, která je uváděna jako první v rámci této sekce. V dalších částech kapitoly se potom zabýváme vybranými poznámkami z implementace jádra systému ArchVal, který má sloužit jako platforma pro provádění matematických formulací návrhových pravidel a implementací rozšíření tohoto systému. V poslední části je rozebírán způsob integrace systému do platformy NetBeans.
 
 \section{Specifikace pravidel požadovaných zadáním práce}
-Nejprve definujeme vhodný predikát, který nám umožní vybrat množiny vrcholů tak, abychom mohli specifikova LoD. Vybrané množiny potom ověříme pomocí predikátu, který určí, zda jsou tyto množiny v~pořádku, či zda porušují \emph{LoD} princip.
+Nejprve definujeme vhodné operátory, které nám umožní vybrat množiny vrcholů tak, abychom mohli specifikova LoD. Vybrané množiny potom ověříme pomocí predikátu, který určí, zda jsou tyto množiny v~pořádku, či zda porušují \emph{LoD} princip.
 
 \begin{definition}
-Mějme grafový model projektu $G = \langle V, E, \rho, K, C, N, \mathit{Kind}, \mathit{Classifier}, \mathit{Name}\rangle$. Definujme selektor vrcholů $F(G, v', k', c')$, $v' \in V$, $k' \in K$, $c' \in C$ jako množinu vrcholů $v \in V, Kind(v) = k'$, které jsou dostupné z~vrcholu $v'$ pomocí orientované cesty, pro jejíž všechny vrcholy $v''$ s~výjimkou posledního platí $Kind(v'') \ne k'$ a která obsahuje hranu $e$, pro niž platí $Classifier(e) = c' $.
+Mějme grafový model projektu $G = \langle V, E, \rho, K, C, N, \mathit{Kind}, \mathit{Classifier}, \mathit{Name}\rangle$. Definujme selektor vrcholů $L_0(G, v', c')$, $v' \in V$, $c' \in C$ jako množinu vrcholů $v \in V$, které jsou přímými následníky vrcholu $v'$, do kterých se dostaneme po hraně $e \in E$, pro kterou platí $Classifier(e) = c' $.
+\end{definition}
+
+\begin{definition}
+Mějme grafový model projektu $G = \langle V, E, \rho, K, C, N, \mathit{Kind}, \mathit{Classifier}, \mathit{Name}\rangle$. Definujme selektor vrcholů $L_1(G, v', c_1, c_2)$, $v' \in V$, $c_1 \in C$, $c_2 \in C$ jako množinu vrcholů $v \in V$, do nichž se dostaneme z vrcholu $v'$ po orientované cestě délky 2, pro jejíž první hranu $e_1$ platí $Classifier(e_1) = c_1$ a pro druhou hranu $e_2$ platí $Classifier(e_2) = c_2$.
 \end{definition}
 
 \subsection{Law of Demeter}
@@ -60,8 +64,8 @@ Mějme grafový model projektu $G = \langle V, E, \rho, K, C, \mathit{Kind}, \ma
 \forall v \in V: Kind(v) = ``method"\\
 \end{align*}
 \begin{align*}
-&F(v, ``method", ``use") \setminus ( F(v, ``method", ``self") \cup F(v, ``method", ``field") \cup \\
-&F(v, ``method", ``arg") \cup F(v, ``method", ``constr")) = \emptyset
+&L_0(G, v, ``use") \setminus (G, L_0(v, ``self") \cup L_1(G, v, ``self", ``field") \cup \\
+&L_0(G, v, ``arg") \cup L_0(G, v, ``constr")) = \emptyset
 \end{align*}
 
 \end{designprinciple}
