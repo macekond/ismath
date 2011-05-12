@@ -1,34 +1,33 @@
 \chapter{Instalační a uživatelská příručka}
 
 \section{Instalace programu}
-% TODO: instalace programu
-\begin{itemize}
-\item distribuce jako zip
-\item instalační skript pro Linux (průvodce)
-\end{itemize}
+
+K dispozici jsou dvě varianty programu (adresář \verb+dist+ na přiloženém cd). Soubor \verb+archval.zip+ obsahuje spustitelnou variantu projektu. Pro platformu Linux je možné využít instalátor (soubor \verb+achval-linux.sh+).
+
+V případě instalace ze zip soubor stačí tento soubor rozbalit do vhodného umístění. Pro spuštění instalátoru může být nutná nastavit executable bit pomocí příkazu:
+
+\begin{verbatim}
+chmod u+x archval-linux.sh
+\end{verbatim}
+
+U obou typů instalací je však nutné provést konfiguraci systému v souboru \verb+etc/archval.conf+ v cílovém adresáři. Důvodem je přímá závislost projektu na souborech \emph{Sun JDK API}. V souboru je nutné nastavit proměnnou \verb+jdkhome+ na úplnou cestu k Java JDK.
+
+Program je možné spustit pomocí spouštěcích souborů v adresáři \verb+bin/+.
 
 \section{Používání programu}
-% TODO: používání programu
-\begin{itemize}
-\item editace AVD souborů
-\item spuštění validace (validate main project) -- screenshot
-\end{itemize}
+Po spuštění programu je k dispozici základní verze NetBeans IDE. Systém podporuje jednak vytváření a editaci AVD souborů a dále provedení validace Maven Java projektů na základě existujícího AVD souboru.
+
+Práce s AVD soubory je podobná jako práce s jinými typy souborů na platformě Netbeans. Nový AVD soubor vytvoříme pomocí posloupnosti akcí \emph{File | New file... | Other | Empty Avd file}.
+
+Editace souborů je stejná jako pro kterýkoliv jiný soubor projektu. Soubor je otevřen v editoru, který podporuje zvýrazňování AVD syntaxe.
+
+Máme-li k dispozici AVD soubor, můžeme jej použít k validaci projektu, který je vybrán jako hlavní projekt. Klepneme pravým tlačítkem na AVD soubor a vybereme položku \emph{Validate main project}. Není-li vybrán žádný projekt jako hlavní, je zobrazena informace o absenci výběru ve status baru a není provedena žádná akce. V opačném případě je provedena validace projektu a výstup je zobrazen ve standardním výstupním okně NetBeans IDE.
 
 \section{Gramatika jazyka pro specifikaci pravidel}
 \label{avd_grammar}
+Výpis \ref{avdgrammar} poskytuje k dispozici gramatiku jazyka AVD pro specifikaci pravidel. Tuto gramatiku je možné používat jako referenci při psaní AVD specifikací a také při realizaci rozšíření.
+
 \lstinputlisting[
   label=avdgrammar,
   caption={Gramatika jazyka pro specifikaci pravidel (AVD soubory).}
 ]{./listings/ArchvalRulesetGrammar.g}
-
-\section{Návod na implementaci rozšíření}
-\begin{itemize}
-\item poskytování služeb META-INF/services
-\item typy služeb
-\end{itemize}
-
-\begin{itemize}
-\item poskytovatel generátoru grafu
-\item poskytovatel operátoru
-\item poskytovatel analýzy
-\end{itemize}
