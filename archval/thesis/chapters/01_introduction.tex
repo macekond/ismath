@@ -3,13 +3,13 @@
 \section{Motivace projektu, záměr práce}
 \label{introduction-motivation}
 
-Při realizaci softwarových projektů zpravidla postupujeme od sběru požadavků, přes \emph{analýzu} a \emph{návrh} až k~\emph{fyzické realizaci} programového produktu ve zdrojovém kódu vhodného programovacího jazyka \cite{wiki:sdlc}. Vytvořením reprezentace systému ve zdrojovém kódu však životní cyklus softwarového díla nekončí. Vedle \emph{testování}, \emph{integrace}, \emph{akceptace} a \emph{dodávky} je nutné ještě uvažovat o~další fázi -- \emph{údržbě}. Pro tyto fáze, které jsou neméně důležité, leč mnohdy opomíjené, je kritická především \emph{architektura systému}.
+Při realizaci softwarových projektů zpravidla postupujeme od \emph{sběru požadavků}, přes \emph{analýzu} a \emph{návrh} až k~\emph{fyzické realizaci} programového produktu ve zdrojovém kódu vhodného programovacího jazyka \cite{wiki:sdlc}. Vytvořením reprezentace systému ve zdrojovém kódu však životní cyklus softwarového díla nekončí. Vedle \emph{testování}, \emph{integrace}, \emph{akceptace} a \emph{dodávky} je nutné ještě uvažovat o~další fázi -- \emph{údržbě}. Pro tyto fáze, které jsou neméně důležité, leč mnohdy opomíjené, je kritická především \emph{architektura systému}.
 
 Architektura existujícího systému je většinou definována poměrně vágně. Při dalších úpravách se tak můžeme spolehnout na malou podmnožinu pravidel, kterou u~daného systému předpokládáme a která často ani nemusí platit. Vždy se však můžeme spolehnout na to, že pokud zdrojový kód programového produktu projde bez chyb překladačem nebo interpretrem programovacího/skriptovacího jazyka, v~němž je napsán, jedná se o~kód podléhající pravidlům tohoto jazyka.
 
-Syntaxe jazyka je definována gramatikou, sémantika potom dává jednotlivým konstruktům jazyka jejich význam (např. \verb+for+ bude znamenat opakované provádění kódu mezi počáteční \verb+{+ a koncovou \verb+}+ složenou závorkou následujícího bloku).
+Syntaxe jazyka je definována gramatikou, sémantika potom dává jednotlivým konstruktům jazyka jejich význam (např.: \verb+for+ bude znamenat opakované provádění kódu mezi počáteční \verb+{+ a koncovou \verb+}+ složenou závorkou následujícího bloku).
 
-Kromě struktury, kterou vynucuje překladač jazyka bývá často zavedena množina kódových konvencí. Vedle konvencí pro formátování zdrojového kódu (které nemají z~hlediska analýzy architektury systému význam) můžeme zmínit konvence, které zakazují aby měla metoda více než nějaký daný počet příkazů/parametrů, konvence, které nařizují, aby se v~kódu nevyskytovaly neprovolávané (mrtvé) části kódu, a další.
+Kromě struktury, kterou vynucuje překladač jazyka bývá často zavedena množina kódových konvencí. Vedle konvencí pro formátování zdrojového kódu (které nemají z~hlediska analýzy architektury systému význam) můžeme zmínit konvence, které zakazují aby měla metoda více než nějaký daný počet příkazů/parametrů, konvence, které nařizují, aby se v~kódu nevyskytovaly neprovolávané (\uv{mrtvé}) části kódu, a další.
 
 V~této práci se pokusíme zmíněné konvence zachytit jako pravidla, která lze vhodným způsobem ověřit. Znázornění tohoto konceptu je na obrázku \ref{work_scope}.
 \begin{figure}[h!]
@@ -35,7 +35,7 @@ V~této práci se pokusíme zmíněné konvence zachytit jako pravidla, která l
 \end{figure}
 Množina pravidel zpřesní meta-model tvořený gramatikou jazyka -- omezí množiny instancí daného jazyka na podmnožinu, která splňuje požadovaná pravidla.
 
-Jistou analogii můžeme vidět ve značkovacím jazyce XML v~pojmech \emph{well-formedness} versus \emph{validity}. Gramatika udává, že se v~textu mohou vyskytovat elementy a atributy, že se nesmí \uv{křížit} jednotlivé tagy atd. Další dodatečná informace (DTD, XSchema, RELAX NG, atd.) potom zpřesní, jaké tagy, v~jakém pořadí a počtu se smí ve výsledné instanci XML dokumentu vyskytovat.
+Jistou analogii můžeme vidět ve značkovacím jazyce XML v~pojmech \emph{well-formedness} versus \emph{validity}. Gramatika udává, že se v~textu mohou vyskytovat elementy a atributy, že se nesmí \uv{křížit} jednotlivé tagy atd. Další dodatečná informace (DTD, XSchema, RELAX NG) potom zpřesní, jaké tagy, v~jakém pořadí a počtu se smí ve výsledné instanci XML dokumentu vyskytovat.
 
 \section{Úvod do řešené problematiky}
 
@@ -48,15 +48,15 @@ Základní prostředky pro dělení softwarového díla na vhodné funkční mod
 Prostředky jazyka, které podporují správný návrh software rozšíříme navíc o~množinu pravidel tak, jak bylo uvedeno v~sekci \ref{introduction-motivation}. Množina těchto pravidel může být formulována neformálně ve formě požadavků na to, co by měla splňovat výsledná architektura. Uveďme příklady takových formulací:
 
 \begin{itemize}
-\item \uv{v~běžném kódu by se neměla vyskytovat (nestatická) pole s~modifikátorem \emph{public}, pouze \emph{private}, k~nimž se přistupuje pomocí \emph{getterů} a \emph{setterů}},
-\item \uv{třídy z~balíčku A~nesmí záviset na jiných nesystémových \emph{třídách}, ale nejvýše na \emph{rozhraních} balíčku B} (programování proti rozhraní namísto proti konkrétní implementaci),
-\item \uv{třídy v~tomto balíčku smí mít maximálně pět metod, z~nichž každá smí mít nejvýše tři parametry} (může být konvence v~nějaké firmě).
+\item \uv{v~běžném kódu by se \emph{neměla vyskytovat} (nestatická) pole s~modifikátorem \verb-public-, pouze \verb-private-, k~nimž se přistupuje pomocí \emph{getterů} a \emph{setterů}},
+\item \uv{třídy z~balíčku A~\emph{nesmí záviset} na jiných nesystémových \emph{třídách}, ale nejvýše na \emph{rozhraních} balíčku B} (programování proti rozhraní namísto proti konkrétní implementaci),
+\item \uv{třídy v~tomto balíčku smí mít \emph{maximálně pět metod}, z~nichž každá smí mít \emph{nejvýše tři parametry}} (může být konvence v~nějaké firmě).
 \end{itemize}
 
-Podobné neformální specifikace se pokusíme přeformulovat pomocí vhodně zvoleného formalismu do pravidel, která bude možné následně vyhodnotit a na základě výstupu buď navrhnout nebo (je-li to možné) opravit návrh tak, aby pravidla splňoval.
+Pro podobné neformální specifikace se pokusíme stanovit formalismus pomocí kterého bude možné uvedená pravidla zapsat a následně vyhodnotit. V optimálním případě by bylo možné na základě výstupu z validačního nástroje buď navrhnout nebo (je-li to možné) dokonce opravit návrh tak, aby pravidla splňoval.
 
 \section{Struktura práce}
 
-Práce je strukturována na základě běžného životního cyklu softwarového projektu. \emph{Úvodní kapitola} zahrnuje motivaci a deklaraci záměru práce a poskytuje úvod do řešené problematiky. V~kapitole druhé (\emph{specifikace cílů práce}) jsou specifikovány konkrétní požadavky na výsledky práce. Fáze \emph{analýzy} (kapitola \ref{analysis}) postupně provádí rešerši problematiky správného návrhu software, zabývá se analýzou projektů, které budou vstupem pro vyvíjený nástroj a poskytuje přehled o~existujících možnostech zpracování zdrojového kódu v~jazyce Java. \emph{Návrh} řešení je poskytován v~kapitole \ref{design}. Zde se zabýváme jednak návrhem formalizace pravidel pomocí vhodné matematické reprezentace a dále návrhem samotného nástroje pro ověřování těchto pravidel. Popis implementace návrhu je poskytován v~kapitole \ref{implementation}. V~této kapitole se zaměřujeme na podstatné části implementace. Je zde provedena formalizace pravidla \emph{Law of Demeter} pomocí navrženého formalismu. Taktéž jsou na tomto místě popsány zajímavé implementační detaily vyvíjeného systému. Kapitola \emph{testování} popisuje prováděné testování systému. \emph{Závěr} shrnuje obsah a výsledky práce.
+Práce je strukturována na základě běžného životního cyklu softwarového projektu. \emph{Úvodní kapitola} zahrnuje motivaci a deklaraci záměru práce a poskytuje úvod do řešené problematiky. V~kapitole druhé (\emph{specifikace cílů práce}) jsou specifikovány konkrétní požadavky na výsledky práce. Fáze \emph{analýzy} (kapitola \ref{analysis}) postupně provádí rešerši problematiky správného návrhu software, zabývá se analýzou projektů, které budou vstupem pro vyvíjený nástroj a poskytuje přehled o~existujících možnostech zpracování zdrojového kódu v~jazyce Java. \emph{Návrh} řešení je poskytován v~kapitole \ref{design}. Zde se zabýváme jednak návrhem formalizace pravidel pomocí vhodné matematické reprezentace a dále návrhem samotného nástroje pro ověřování těchto pravidel. Popis implementace návrhu je poskytován v~kapitole \ref{implementation}, kde se zaměřujeme na podstatné části implementace. Je zde provedena formalizace pravidla \emph{Law of Demeter} pomocí navrženého formalismu. Taktéž jsou na tomto místě popsány zajímavé implementační detaily vyvíjeného systému. Kapitola \emph{testování} popisuje prováděné testování systému. \emph{Závěr} shrnuje obsah a výsledky práce.
 
 V~přílohách nalezne čtenář seznam zkratek použitých v~textu této práce, instalační a uživatelskou příručku realizovaného systému a popis obsahu přiloženého CD, které je nedílnou součástí této práce.
