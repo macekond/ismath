@@ -95,13 +95,13 @@ public class SourceMemberVisitor extends TreePathScanner<Void, Void> {
             stack.push(vertex);
 
             // add references to this class and supertypes
-            printIndented("[add edge " + tel.getQualifiedName() + "(self)]", level);
+            printIndented("[add edge " + tel.getQualifiedName() + " (self)]", level);
             Vertex target = ensureVertex(tel.getQualifiedName().toString(),
                     KIND_CLASS);
             ensureEdge(stack.peek(), target, "self");
             for (TypeElement typeElement : getSupertypes(tel)) {
                 printIndented("[add edge "
-                        + typeElement.getQualifiedName() + "(self)]", level);
+                        + typeElement.getQualifiedName() + " (self)]", level);
                 target = ensureVertex(typeElement.getQualifiedName().toString(),
                         KIND_CLASS);
                 ensureEdge(stack.peek(), target, "self");
