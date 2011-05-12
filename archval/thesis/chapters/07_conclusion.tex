@@ -2,15 +2,15 @@
 
 Práce řeší problematiku kontroly správného objektového návrhu software na základ analýzy zdrojových kódů.
 
-V práci navrhuji použití teorie grafů a jednoduchého matematického aparátu skládajícího se z kvantifikátorů, predikátů a selektorů pro zobecnění definice návrhových principů. Tento návrh je podpořen vytvořením nástroje, který umí takto specifikovaná pravidla vyhodnocovat.
+V~práci navrhuji použití teorie grafů a jednoduchého matematického aparátu skládajícího se z~kvantifikátorů, predikátů a selektorů pro zobecnění definice návrhových principů. Tento návrh je podpořen vytvořením nástroje, který umí takto specifikovaná pravidla vyhodnocovat.
 
-Při návrhu systému je uvažována zejména jeho rozšiřitelnost. Je možné snadno přidávat nové operátory implementací jednoduchého rozhraní a registrací tohoto operátoru do systému. Taktéž je možné systém rozšířit o různé druhy analýzy prováděné nad grafovými reprezentacemi projektů. Systém byl záměrně navržen tak, aby bylo možné přidáním generátoru grafů tento nástroj využít nejen pro analýzu kódu v jazyce Java, ale v libovolném jazyce, pro nějž poskytneme příslušnou komponentu na jeho převedení do grafové reprezentace.
+Při návrhu systému je uvažována zejména jeho rozšiřitelnost. Je možné snadno přidávat nové operátory implementací jednoduchého rozhraní a registrací tohoto operátoru do systému. Taktéž je možné systém rozšířit o~různé druhy analýzy prováděné nad grafovými reprezentacemi projektů. Systém byl záměrně navržen tak, aby bylo možné přidáním generátoru grafů tento nástroj využít nejen pro analýzu kódu v~jazyce Java, ale v~libovolném jazyce, pro nějž poskytneme příslušnou komponentu na jeho převedení do grafové reprezentace.
 
-V rámci vyhodnocovacího systému bylo realizováno pravidlo \emph{Law of Demeter}. Pravidlo je formulováno pomocí jednoduchého predikátu předpokládajícího prázdnou množinu a několika selektorů, které vybírají vhodné množiny vrcholů z grafu.
+V~rámci vyhodnocovacího systému bylo realizováno pravidlo \emph{Law of Demeter}. Pravidlo je formulováno pomocí jednoduchého predikátu předpokládajícího prázdnou množinu a několika selektorů, které vybírají vhodné množiny vrcholů z~grafu.
 
 Výsledkem práce je jednak návrh přístupu ke strukturální analýze softwarových projektů a dále existující nástroj pro vyhodnocování matematických pravidel nad vhodnými grafovými reprezentacemi zdrojových kódů analyzovaných projektů.
 
 \subsection*{Možná pokračování práce}
-Při realizaci systému bylo realizováno vyhodnocovací jádro, které vyžaduje ke své činnosti další operátory a rozšíření. Ukázková implementace detekce porušování principu \emph{Law of Demter} je velmi striktní. Pro nasazení nástroje v praxi by bylo nutné rozšířit nástroj o povolené výjimky z pravidla \emph{LoD}.
+Při realizaci systému bylo realizováno vyhodnocovací jádro, které vyžaduje ke své činnosti další operátory a rozšíření. Ukázková implementace detekce porušování principu \emph{Law of Demter} je velmi striktní. Pro nasazení nástroje v~praxi by bylo nutné rozšířit nástroj o~povolené výjimky z~pravidla \emph{LoD}.
 
-Dalším důležitým pokračováním je zlepšení výstupu nástroje. Během realizace vyhodnocovacího systému byly již ve fázi návrhu uvažovány možnosti lepšího výstupu. Systém během vyhodnocování generuje strom výsledků pro každý uzel vyhodnocovacího stromu. Vhodným zpracováním zmíněného stromu by bylo možné zobrazit konkrétní místa, kde došlo k porušení požadovaného principu.
+Dalším důležitým pokračováním je zlepšení výstupu nástroje. Během realizace vyhodnocovacího systému byly již ve fázi návrhu uvažovány možnosti lepšího výstupu. Systém během vyhodnocování generuje strom výsledků pro každý uzel vyhodnocovacího stromu. Vhodným zpracováním zmíněného stromu by bylo možné zobrazit konkrétní místa, kde došlo k~porušení požadovaného principu.
