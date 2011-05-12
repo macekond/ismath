@@ -1,13 +1,20 @@
 \chapter{Závěr}
 
-% TODO: zdůraznit rozšiřitelnost
-\begin{itemize}
-\item Zhodnocení splnění cílů DP/BP a  vlastního přínosu práce (při formulaci je třeba vzít v~potaz zadání práce).
-\end{itemize}
+Práce řeší problematiku správného objektového návrhu software. V prvních částech práce je provedna analýza základních principů používaných při objektově orientovaném návrhu. Je zde rozebrán princip \emph{Law of Demeter} a principy \emph{low coupling} a \emph{high cohesion}.
+
+Autor práce dále navrhuje použití teorie grafů a jednoduchého matematického aparátu skládajícího se z kvantifikátorů, predikátů a selektorů pro zobecnění definice návrhových principů. Tento návrh je podpořen vytvořením nástroje, který umí takto specifikovaná pravidla vyhodnocovat.
+
+Při návrhu systému je uvažována zejména jeho rozšiřitelnost. Je možné snadno přidávat nové operátory implementací jednoduchého rozhraní a registrací tohoto operátoru do systému. Taktéž je možné systém rozšířit o různé druhy analýzy prováděné nad grafovými reprezentacemi projektů. Systém byl záměrně navržen tak, aby bylo možné přidáním generátoru grafů tento nástroj využít nejen pro analýzu kódu v jazyce Java, ale v libovolném jazyce, pro nějž poskytneme příslušnou komponentu na jeho převedení do grafové reprezentace.
+
+V rámci vyhodnocovacího systému bylo realizováno pravidlo \emph{Law of Demeter}. Pravidlo je formulováno pomocí jednoduchého predikátu předpokládajícího prázdnou množinu a několika selektorů, které vybírají vhodné množiny vrcholů z grafu.
+
+Systém je otestován na několika ukázkových příkladech, které demonstrují porušení principu \emph{LoD}.
+
+Výsledkem práce je jednak návrh přístupu ke strukturální analýze softwarových projektů a dále existující nástroj pro vyhodnocování matematických pravidel nad vhodnými grafovými reprezentacemi zdrojových kódů analyzovaných projektů.
 
 \subsection*{Možná pokračování práce}
-\begin{itemize}
-\item implementace statistických analýz
-\item realizace dalších operátorů a pravidel
-\item Diskuse dalšího možného pokračování práce -- future works -- rozšíření řešení o~další grafy a pravidla, integrace do NetBeans IDE.
-\end{itemize}
+Při realizaci systému bylo realizováno vyhodnocovací jádro, které vyžaduje ke své činnosti další operátory a rozšíření. Ukázková implementace detekce porušování principu \emph{Law of Demter} je velmi striktní. Pro nasazení nástroje v praxi by bylo nutné rozšířit nástroj o povolené výjimky z pravidla \emph{LoD}.
+
+Dalším důležitým pokračováním je zlepšení výstupu nástroje. Během realizace vyhodnocovacího systému byly již ve fázi návrhu uvažovány možnosti lepšího výstupu. Systém během vyhodnocování generuje strom výsledků pro každý uzel vyhodnocovacího stromu. Vhodným zpracováním zmíněného stromu by bylo možné zobzrazit konkrétní místa, kde došlo k porušení požadovaného principu.
+
+Systém disponuje rozhraním pro přidání nových typů analýz, které je možné provádět nad grafovými modely. Je žádoucí aby byl systém rozšířen o analýzy zabývající se rozborem vztahů mezi softwarovými součástmi a jejich složitostí.
