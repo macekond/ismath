@@ -1,13 +1,13 @@
 \chapter{Testování}
 
-Výsledný systém byl testován jednak během vývoje a následně i po dokončení. Testování zahrnovalo jednak \emph{testy jednotek}, které jsou popsány v~první sekci této kapitoly a dále \emph{ověřování činnosti nástroje na vzorových příkladech kódu} jak bylo požadováno zadáním práce.
+Výsledný systém byl testován jednak během vývoje a následně i po jeho dokončení. Testování zahrnovalo jednak \emph{testy jednotek}, které jsou popsány v~první sekci této kapitoly a dále \emph{ověřování činnosti nástroje na vzorových příkladech kódu}, jak bylo požadováno zadáním práce.
 
 Pro ověření činnosti nástroje byly vytvořeny příklady různých typů. Zabýváme se zde příklady, které princip \emph{LoD} porušují, dále příklady, pro něž systém vyhodnocuje chybně správné příklady jako nevalidní a speciálními případy.
 
 \section{Testování jednotek}
 Pro zajištění kvalitního zdrojového kódu byly použity testy jednotek. Fáze návrhu již bere jednotkové testování v~potaz. Díky specifikaci rozhraní pro většinu komponent bylo možné poskytnout vlastní testovací implementace objektů (mock objekty). Například třída \emph{MockOperatorsRegister} implementuje rozhraní \emph{OperatorsRegisterIface} a poskytuje falešné instance operátorů, aby bylo možné otestovat, zda vytváření vyhodnocovacího stromu probíhá dle očekávání.
 
-Vzhledem k~časové náročnosti realizace testů jsou napsány pouze testy klíčových komponent systému. Jednotkové testování bylo velmi pohodlným nástrojem zejména v~počátečních fázích projektu, kdy celý projekt nebyl spustitelný a nebylo jej možné otestovat navíc ručně.
+Vzhledem k~časové náročnosti realizace testů jsou napsány pouze testy klíčových komponent systému. Jednotkové testování bylo velmi pohodlným nástrojem zejména v~počátečních fázích projektu, kdy celý projekt nebyl spustitelný a nebylo jej možné otestovat ručně.
 
 Kromě testování jednotek byla provedena rešerše možností testování na platformě NetBeans. Platforma NetBeans v~posledních verzích podporuje nejen jednotkové testování ale i testy funkčnosti prostřednictvím tzv. operátorů. Tyto operátory jsou schopné realizovat uživatelské akce jako výběr položky z~menu, založení projektu atd. Byl realizován pouze elementární test funkčnosti, který sloužil ke kontrole toho, jestli se aplikace správně spustí (podaří se načtení všech modulů).
 
@@ -31,7 +31,7 @@ Příklad \verb+string_literal_invalid+ demonstruje falešně pozitivní detekci
 Dalším příkladem, který vyhodnotí systém jako porušení je běžný výpis řetězce na standardní výstup:
 
 \begin{verbatim}
-System.out.println()
+System.out.println();
 \end{verbatim}
 
 Pro nasazení na reálných projektech je nutné tyto výjimky zohlednit a uměle rozšířit množiny hran v~grafu tak, aby tyto případy byly ignorovány.
