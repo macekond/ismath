@@ -1,0 +1,11 @@
+cz.cvut.fel.archval.core.api
+cz.cvut.fel.archval.core.api.analysis
+cz.cvut.fel.archval.core.api.ex
+cz.cvut.fel.archval.core.api.graphgen
+cz.cvut.fel.archval.core.api.model.graph
+cz.cvut.fel.archval.core.api.model.graph.visitor
+cz.cvut.fel.archval.core.api.model.report
+cz.cvut.fel.archval.core.api.operator
+cz.cvut.fel.archval.core.api.register
+cz.cvut.fel.archval.core.api.types
+cz.cvut.fel.archval.core.avd.parser
