@@ -1,4 +1,26 @@
 ArchVal README file
--------------------
+===================
 
-TODO: z README musí být rovněž zřejmé, jak programy instalovat, spouštět a jaké požadavky mají tyto programy na hardware.
+Pro běh programu ArchVal je nutná verze Javy 1.6 a vyšší.
+
+Instalace:
+----------
+
+K dispozici jsou dvě varianty instalace programu (v adresáři _dist_ na
+přiloženém cd). Soubor _archval.zip- obsahuje spustitelnou variantu
+projektu. Pro platformu Linux je možné využít instalátor (soubor
+achval-linux.sh).
+
+V případě instalace ze zip souboru stačí tento soubor rozbalit do
+vhodného umístění. Pro spuštění instalátoru může být nutné nastavit
+executable bit pomocí příkazu::
+    
+    chmod u+x archval-linux.sh
+
+U obou typů instalací je nutné provést konfiguraci systému v souboru
+etc/archval.conf v cílovém adresáři. Důvodem je přímá závislost
+projektu na souborech Sun JDK API. V souboru je nutné nastavit
+proměnnou jdkhome na úplnou cestu k JDK.
+
+Program je možné spustit pomocí spouštěcích souborů, které jsou k
+dispozici v adresáři bin/ (verze pro Linux a pro Windows).
