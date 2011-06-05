@@ -1,0 +1,152 @@
+%% IDEAS:
+
+
+%% popis řešeného problému (zadání)
+%% realizace:
+%%    - formalizace
+%%    - screenshot jazyka pro zápis pravidel (syntax highlighting)
+%%    - realizace nástroje pro ověřování
+%% výsledky práce
+%%    - návrh matematického přístupu k formulaci pravidel
+%%    - rozšiřitelný nástroj
+
+\documentclass{beamer}
+
+\usepackage[utf8]{inputenc}
+\usepackage{czech}
+\usepackage{graphicx}
+\usepackage{amsmath}
+\usepackage{amsfonts}
+\usepackage{amssymb}
+\usepackage{hyperref}
+
+\usetheme{Dresden}
+\useinnertheme{rounded}
+
+\newtheorem*{question}{Otázka}
+\newtheorem*{response}{Odpověď}
+\newtheorem*{motivation}{Motivace}
+\newtheorem*{taskspec}{Zadání}
+
+\title{Validace principů objektového návrhu v~kódu}
+\author{Martin Vejmelka}
+
+\linespread{1.3}
+
+\begin{document}
+
+\begin{frame}
+  \titlepage
+\end{frame}
+
+\begin{frame}
+  \tableofcontents
+\end{frame}
+
+\section{Motivace a zadání práce}
+\begin{frame}
+\frametitle{Motivace projektu}
+    Popsat motivaci a základy řešené problematiky (převzít přímo z práce a zjednodušit na body)
+\end{frame}
+
+\begin{frame}
+\frametitle{Zadání práce}
+\textit{Seznamte se se základními principy používanými při objektově orientovaném návrhu a implementaci, konkrétně s low coupling, high cohesion a Law of Demeter. Popište pravidla, která umožní ověřování těchto principů. Vytvořte nástroj, který umožní analyzovat kód v jazyce Java a vyhodnocovat vámi definovaná pravidla. Činnost nástroje ověřte na vzorových příkladech kódu. Při návrhu nástroje se zaměřte na jeho budoucí rozšiřitelnost.}
+\end{frame}
+
+\begin{frame}
+\frametitle{Zadání práce - dekompozice}
+Zadání práce bylo dekomponováno na následující části:
+
+\begin{itemize}
+\item seznámení se s principy objektově orientovaného návrhu (rešeršní část)
+\item návrh formalizace popisu pravidel objektově orientovaného návrhu
+\item realizace nástroje pro vyhodnocování pravidel popsaných v navrženém formalismu
+\item testování výsledného řešení
+\end{itemize}
+
+\end{frame}
+%% popis řešeného problému (zadání)
+%% realizace:
+%%    - formalizace
+%%    - screenshot jazyka pro zápis pravidel (syntax highlighting)
+%%    - realizace nástroje pro ověřování
+%% výsledky práce
+%%    - návrh matematického přístupu k formulaci pravidel
+%%    - rozšiřitelný nástroj
+
+\section{Návrh formalizace pravidel}
+\begin{frame}
+\frametitle{Návrh formalizace pravidel}
+\end{frame}
+
+\section{Realizace vyhodnocovacího nástroje}
+\begin{frame}
+\frametitle{Realizace vyhodnocovacího nástroje}
+\end{frame}
+
+\section{Závěr}
+\begin{frame}
+\frametitle{Závěr}
+\begin{itemize}
+\item shrnutí výsledků práce (převzít ze závěru práce)
+\end{itemize}
+\end{frame}
+
+\section{Otázky}
+\begin{frame}
+  \frametitle{Otázky}
+  \begin{question}
+    Jak hodnotíte váš nástroj v porovnání s obdobnými nástroji uvedenými v analytické části práce?
+  \end{question}
+  \begin{response}
+    \begin{itemize}
+      \item odpověď here
+    \end{itemize}
+  \end{response}
+\end{frame}
+
+\begin{frame}
+  \frametitle{Otázky}
+  \begin{question}
+    Je možné některý z nástrojů upravit tak, aby byl schopný pracovat s navrženým způsobem ověřování?
+  \end{question}
+  \begin{response}
+    \begin{itemize}
+      \item odpověď here
+    \end{itemize}
+  \end{response}
+\end{frame}
+
+\begin{frame}
+  \frametitle{Otázky}
+  \begin{question}
+    Nebylo možné použít některý ze stávajících formalismů (např. Featherweight Java) pro popis pravidel?
+  \end{question}
+  \begin{response}
+    \begin{itemize}
+    \item nástroj je realizován na vyšší úrovni abstrakce,
+    \item pravidla jsou definována nad obecným grafovým modelem,
+    \item FJ by určitě bylo možné využít -- jako elementy v pravidlech by vystupovaly elementy jazyka FJ (příp. FGJ),
+    \item pro exaktní formalizaci bychom zvolili vhodné zobrazení programu ve FJ do grafu,
+    \item nástroj pracuje nad programy v jazyce Java ($FJ \subset Java$).
+    \end{itemize}
+  \end{response}
+\end{frame}
+
+\section*{Reference}
+\begin{frame}
+  \frametitle{Reference}
+  \bibliographystyle{abbrv} {
+    \def\CS{$\cal C\kern-0.1667em\lower.5ex\hbox{$\cal S$}\kern-0.075em $}
+    \bibliography{../paper/references}
+  }
+\end{frame}
+
+\begin{frame}
+  \begin{center}
+    {\huge Děkuji za pozornost\ldots}
+  \end{center}
+\end{frame}
+
+\end{document}
