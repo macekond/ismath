@@ -10,7 +10,6 @@
 \usepackage{tikz}
 
 \usetheme{Frankfurt}
-%% \useinnertheme{rounded}
 
 \newtheorem*{question}{Otázka}
 \newtheorem*{response}{Odpověď}
@@ -133,7 +132,7 @@
       \item operátory (predikáty, selektory)
       \item analýzy
       \item generátory grafů
-    \end{itemize}      
+    \end{itemize}
   \end{itemize}
 \end{frame}
 
@@ -180,7 +179,9 @@
   \end{question}
   \begin{response}
     \begin{itemize}
-    \item odpověď here
+    \item zmíněné nástroje jsou vyspělejší a dobře integrované do vývojových IDE
+    \item tato práce je \emph{proof of concept}
+    \item existující nástroje nezavádí matematický přístup k formalizaci pravidel (poskytují předdefinované množiny pravidel)
     \end{itemize}
   \end{response}
 \end{frame}
@@ -191,9 +192,7 @@
     Je možné některý z nástrojů upravit tak, aby byl schopný pracovat s navrženým způsobem ověřování?
   \end{question}
   \begin{response}
-    \begin{itemize}
-    \item odpověď here
-    \end{itemize}
+    Nástroj byl navržen záměrně tak, aby jej bylo možné snadno integrovat do dalších prostředí. Jádro nástroje nemá přímé závislosti na konkrétní platformě. V případě využití některého z existujích nástrojů by bylo nutné poskytnout kompletní grafový model a implementaci potřebných operátorů, což může být pro různé nástroje náročné na implementaci. Proto je vhodnější při integraci využít platformu poskytovanou touto prací, která zmíněné komponenty již poskytuje.
   \end{response}
 \end{frame}
 
