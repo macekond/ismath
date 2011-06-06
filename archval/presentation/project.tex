@@ -9,13 +9,16 @@
 \usepackage{hyperref}
 \usepackage{tikz}
 
-\usetheme{Dresden}
-\useinnertheme{rounded}
+\usetheme{Frankfurt}
+%% \useinnertheme{rounded}
 
 \newtheorem*{question}{Otázka}
 \newtheorem*{response}{Odpověď}
 \newtheorem*{motivation}{Motivace}
 \newtheorem*{taskspec}{Zadání}
+\newtheorem*{rulespec}{Pravidlo}
+\newtheorem*{rulemathspec}{Specifikace pravidla}
+\newtheorem*{graphmodel}{Grafový model}
 
 \title{Validace principů objektového návrhu v~kódu}
 \author{Martin Vejmelka}
@@ -34,71 +37,139 @@
 
 \section{Motivace a zadání práce}
 \begin{frame}
-\frametitle{Motivace projektu}
-\begin{figure}[h!]
-  \centering
-  \scriptsize
-  \begin{tikzpicture}[scale=0.7]
-    \shadedraw  (0,0) rectangle (4,4);
-    \shadedraw  (4.2,0) rectangle (8.2,4);
-    \draw  (0,4.2) rectangle (4.0,8.2);
-    \draw  (4.2,4.2) rectangle (8.2,8.2);
+  \frametitle{Motivace projektu}
+  \begin{figure}[h!]
+    \centering
+    \scriptsize
+    \begin{tikzpicture}[scale=0.7]
+      \shadedraw  (0,0) rectangle (4,4);
+      \shadedraw  (4.2,0) rectangle (8.2,4);
+      \draw  (0,4.2) rectangle (4.0,8.2);
+      \draw  (4.2,4.2) rectangle (8.2,8.2);
 
-    \draw  (2,2) node[text width=2.5cm, text centered] {množina pravidel};
-    \draw  (6.2,2) node[text width=2.5cm, text centered] {instance splňující pravidla};
-    \draw  (2,6.2) node[text width=2.5cm, text centered] {gramatika a standardní knihovny};
-    \draw  (6.2,6.2) node[text width=2.5cm, text centered] {instance jazyka generovaného gramatikou};
+      \draw  (2,2) node[text width=2.5cm, text centered] {množina pravidel};
+      \draw  (6.2,2) node[text width=2.5cm, text centered] {instance splňující pravidla};
+      \draw  (2,6.2) node[text width=2.5cm, text centered] {gramatika a standardní knihovny};
+      \draw  (6.2,6.2) node[text width=2.5cm, text centered] {instance jazyka generovaného gramatikou};
 
-    \draw (-2,2) node[text width=2.5cm, text centered] {kódové konvence (těžko vynutitelné)};
-    \draw (-2,6.2) node[text width=2.5cm, text centered] {definice programovacího jazyka};
+      \draw (-2,2) node[text width=2.5cm, text centered] {kódové konvence (těžko vynutitelné)};
+      \draw (-2,6.2) node[text width=2.5cm, text centered] {definice programovacího jazyka};
 
-    \draw (2,8.6) node[text width=2.5cm, text centered] {meta-model};
-    \draw (6.2,8.6) node[text width=2.5cm, text centered] {model};
-  \end{tikzpicture}
-\end{figure}
+      \draw (2,8.6) node[text width=2.5cm, text centered] {meta-model};
+      \draw (6.2,8.6) node[text width=2.5cm, text centered] {model};
+    \end{tikzpicture}
+  \end{figure}
 
 
 \end{frame}
 
 \begin{frame}
-\frametitle{Zadání práce}
-\textit{Seznamte se se základními principy používanými při objektově orientovaném návrhu a implementaci, konkrétně s low coupling, high cohesion a Law of Demeter. Popište pravidla, která umožní ověřování těchto principů. Vytvořte nástroj, který umožní analyzovat kód v jazyce Java a vyhodnocovat vámi definovaná pravidla. Činnost nástroje ověřte na vzorových příkladech kódu. Při návrhu nástroje se zaměřte na jeho budoucí rozšiřitelnost.}
+  \frametitle{Zadání práce}
+  \textit{Seznamte se se základními principy používanými při objektově orientovaném návrhu a implementaci, konkrétně s low coupling, high cohesion a Law of Demeter. Popište pravidla, která umožní ověřování těchto principů. Vytvořte nástroj, který umožní analyzovat kód v jazyce Java a vyhodnocovat vámi definovaná pravidla. Činnost nástroje ověřte na vzorových příkladech kódu. Při návrhu nástroje se zaměřte na jeho budoucí rozšiřitelnost.}
 \end{frame}
 
 \begin{frame}
-\frametitle{Zadání práce - dekompozice}
-Zadání práce bylo dekomponováno na následující části:
-\begin{itemize}
-\item seznámení se s principy objektově orientovaného návrhu (rešeršní část)
-\item návrh formalizace popisu pravidel objektově orientovaného návrhu
-\item realizace nástroje pro vyhodnocování pravidel popsaných v navrženém formalismu
-\item testování výsledného řešení na vzorových příkladech kódu
-\end{itemize}
+  \frametitle{Zadání práce - dekompozice}
+  Zadání práce bylo dekomponováno na následující části:
+  \begin{itemize}
+  \item rešerše souvisejících prací, seznámení se s principy objektově orientovaného návrhu, analýza problémové domény
+  \item návrh formalizace popisu pravidel objektově orientovaného návrhu
+  \item realizace nástroje pro vyhodnocování pravidel popsaných v navrženém formalismu
+  \item testování výsledného řešení na vzorových příkladech kódu
+  \end{itemize}
+\end{frame}
+
+\section{Analýza}
+\begin{frame}
+  \frametitle{Analýza}
+  \begin{itemize}
+  \item průzkum existujících řešení
+  \item analýza návrhových konceptů a principů
+  \item analýza problémové domény
+    \begin{itemize}
+    \item analýza vstupů -- projekty v jazyce Java
+    \item rešerše nástrojů pro předzpracování kódů do vhodné podoby
+    \end{itemize}
+  \end{itemize}
 \end{frame}
 
 \section{Návrh formalizace pravidel}
 \begin{frame}
-\frametitle{Návrh formalizace pravidel}
-%     - ukázka grafu nad nímž jsou specifikována pravidla
-%     - ukázka matematického zápisu pravidel
+  \frametitle{Návrh formalizace pravidel - grafový model}
+  \begin{graphmodel}
+    \begin{displaymath}
+      G = \langle V, E, \rho, K, C, N, \mathit{Kind}, \mathit{Classifier}, \mathit{Name}\rangle
+    \end{displaymath}
+  \end{graphmodel}
+    \begin{figure}[h!]
+      \centering
+      \includegraphics[width=1.0\textwidth]{../thesis/graphs/graph_example.png}
+    \end{figure}
+\end{frame}
+
+\begin{frame}
+  \frametitle{Návrh formalizace pravidel - specifikace pravidla}
+  \begin{rulespec}
+    Pro počet argumentů $n$ každé metody platí $n \leq 4$.
+  \end{rulespec}
+  \begin{rulemathspec}
+    \begin{align*}
+      \forall v \in V &: HasKind(v, ``function\_name") \\
+      \\
+      CountLessThan&(OutgoingEdges(v, ``argument"), 4)
+    \end{align*}
+  \end{rulemathspec}
 \end{frame}
 
 \section{Realizace vyhodnocovacího nástroje}
 \begin{frame}
-\frametitle{Realizace vyhodnocovacího nástroje}
-%%    - screenshot syntax highlighting (ukázka formulace pravidel)
-%%    - ukázka celého rozrhaní včetně pravého menu a výstupního okna
+  \frametitle{Realizace vyhodnocovacího nástroje - architektura}
+  \begin{itemize}
+    \item \emph{GraphModel} -- množina grafů různých typů pro analyzovaný projekt
+    \item \emph{ValidationModel} -- stromová struktura pravidel (operátorů) vygenerovaná z AVD souborů
+    \item \emph{AVD} -- ArchVal Definitions -- DSL pro serializaci matematických pravidel
+    \item \emph{body rozšíření systému}
+    \begin{itemize}
+      \item operátory (predikáty, selektory)
+      \item analýzy
+      \item generátory grafů
+    \end{itemize}      
+  \end{itemize}
+\end{frame}
+
+\begin{frame}
+\frametitle{Použité technologie}
+\begin{itemize}
+\item Java 1.6
+\item NetBeans Platform 6.9.1
+\begin{itemize}
+\item Java Source API
+\item Lookup
+\item Project API
+\item \ldots
+\end{itemize}
+\item ANTLR -- zpracování AVD souborů, syntax highlighting
+\item Maven (vstupní projekty)
+\end{itemize}
+\end{frame}
+
+\begin{frame}
+  \frametitle{Realizace vyhodnocovacího nástroje - grafické rozhraní}
+    \begin{figure}[h!]
+      \centering
+      \includegraphics[width=1.0\textwidth]{./figures/archval.png}
+    \end{figure}
 \end{frame}
 
 \section{Závěr}
 \begin{frame}
-\frametitle{Závěr}
-\begin{itemize}
-\item shrnutí výsledků práce (převzít ze závěru práce)
-\end{itemize}
-%% výsledky práce
-%%    - návrh matematického přístupu k formulaci pravidel
-%%    - rozšiřitelný nástroj
+  \frametitle{Závěr}
+  \begin{itemize}
+  \item použití běžného matematického zápisu pro formalizaci pravidel
+  \item rozšiřitelný nástroj pro vyhodnocování pravidel v zavedeném formalismu
+  \item proof of concept - realizace pravidla Law of Demeter
+  \item otestování práce na vzorových příkladech
+  \end{itemize}
 \end{frame}
 
 \section{Otázky}
@@ -109,7 +180,7 @@ Zadání práce bylo dekomponováno na následující části:
   \end{question}
   \begin{response}
     \begin{itemize}
-      \item odpověď here
+    \item odpověď here
     \end{itemize}
   \end{response}
 \end{frame}
@@ -121,7 +192,7 @@ Zadání práce bylo dekomponováno na následující části:
   \end{question}
   \begin{response}
     \begin{itemize}
-      \item odpověď here
+    \item odpověď here
     \end{itemize}
   \end{response}
 \end{frame}
@@ -140,15 +211,6 @@ Zadání práce bylo dekomponováno na následující části:
     \item nástroj pracuje nad programy v jazyce Java ($FJ \subset Java$).
     \end{itemize}
   \end{response}
-\end{frame}
-
-\section*{Reference}
-\begin{frame}
-  \frametitle{Reference}
-  \bibliographystyle{abbrv} {
-    \def\CS{$\cal C\kern-0.1667em\lower.5ex\hbox{$\cal S$}\kern-0.075em $}
-    \bibliography{../paper/references}
-  }
 \end{frame}
 
 \begin{frame}
