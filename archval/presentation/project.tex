@@ -94,30 +94,67 @@
 
 \section{Návrh formalizace pravidel}
 \begin{frame}
-  \frametitle{Návrh formalizace pravidel - grafový model}
-  \begin{graphmodel}
-    \begin{displaymath}
-      G = \langle V, E, \rho, K, C, N, \mathit{Kind}, \mathit{Classifier}, \mathit{Name}\rangle
-    \end{displaymath}
-  \end{graphmodel}
+  \frametitle{Návrh formalizace pravidel}
+  \only<1> {
+    \begin{graphmodel}
+      \begin{displaymath}
+        G = \langle V, E, \rho, K, C, N, \mathit{Kind}, \mathit{Classifier}, \mathit{Name}\rangle
+      \end{displaymath}
+      \tiny
+      \begin{itemize}
+      \item $V$ je množina elementů (v~našem případě části kódu),
+      \item $E$ je množina hran (v~našem případě vztahy mezi částmi kódu -- např. volání funkce, dědičnost),
+      \item $V \cap E = \emptyset$,
+      \item $\rho: E \mapsto V \times V$ je zobrazení množiny hran do množiny uspořádaných dvojic vrcholů (incidence),
+      \item $K$ je libovolná množina označení typů vrcholů,
+      \item $C$ je množina klasifikátorů hran,
+      \item $N$ je množina jmen (řetězců),
+      \item $\mathit{Kind}: V \mapsto K$ je zobrazení, které přiřadí každému vrcholu jeho typ,
+      \item $\mathit{Classifier}: E \mapsto C$ je zobrazení, které přiřadí každé hraně její klasifikátor (zda se jedná o~vyvolání metody, dědičnost, apod.),
+      \item $\mathit{Name}: V \mapsto N$ je zobrazení, které přiřadí vrcholu jeho jméno (např. jméno třídy, jméno metody).
+      \end{itemize}
+    \end{graphmodel}
+  }
+  \only<2> {
+    \begin{rulespec}
+      Pro počet parametrů $n$ každé metody platí $n \leq 2$.
+    \end{rulespec}
+    \begin{rulemathspec}
+      \begin{align*}
+        \forall v \in V &: HasKind(v, ``method") \\
+        \\
+        CountLessThan&(OutgoingEdges(v, ``param"), 2)
+      \end{align*}
+    \end{rulemathspec}
+  }
+  \only<3> {
     \begin{figure}[h!]
       \centering
-      \includegraphics[width=1.0\textwidth]{../thesis/graphs/graph_example.png}
+      \includegraphics[width=1.0\textwidth]{./graphs/graph_example1.png}
+      \caption{Příklad grafového modelu.}
     \end{figure}
-\end{frame}
-
-\begin{frame}
-  \frametitle{Návrh formalizace pravidel - specifikace pravidla}
-  \begin{rulespec}
-    Pro počet argumentů $n$ každé metody platí $n \leq 4$.
-  \end{rulespec}
-  \begin{rulemathspec}
-    \begin{align*}
-      \forall v \in V &: HasKind(v, ``function\_name") \\
-      \\
-      CountLessThan&(OutgoingEdges(v, ``argument"), 4)
-    \end{align*}
-  \end{rulemathspec}
+  }
+  \only<4> {
+    \begin{figure}[h!]
+      \centering
+      \includegraphics[width=1.0\textwidth]{./graphs/graph_example2.png}
+      \caption{Výběr vrcholů: $\forall v \in V : HasKind(v, ``method")$.}
+    \end{figure}
+  }
+  \only<5> {
+    \begin{figure}[h!]
+      \centering
+      \includegraphics[width=1.0\textwidth]{./graphs/graph_example3.png}
+      \caption{Výběr množiny hran: $OutgoingEdges(v, ``has\_param")$.}
+    \end{figure}
+  }
+  \only<6> {
+    \begin{figure}[h!]
+      \centering
+      \includegraphics[width=1.0\textwidth]{./graphs/graph_example4.png}
+      \caption{Chyba: $CountLessThan(OutgoingEdges(v, ``has\_param"), 2)$.}
+    \end{figure}
+  }
 \end{frame}
 
 \section{Realizace vyhodnocovacího nástroje}
@@ -137,23 +174,7 @@
 \end{frame}
 
 \begin{frame}
-\frametitle{Použité technologie}
-\begin{itemize}
-\item Java 1.6
-\item NetBeans Platform 6.9.1
-\begin{itemize}
-\item Java Source API
-\item Lookup
-\item Project API
-\item \ldots
-\end{itemize}
-\item ANTLR -- zpracování AVD souborů, syntax highlighting
-\item Maven (vstupní projekty)
-\end{itemize}
-\end{frame}
-
-\begin{frame}
-  \frametitle{Realizace vyhodnocovacího nástroje - grafické rozhraní}
+  \frametitle{Realizace vyhodnocovacího nástroje - editor AVD}
     \begin{figure}[h!]
       \centering
       \includegraphics[width=1.0\textwidth]{./figures/archval.png}
@@ -179,9 +200,9 @@
   \end{question}
   \begin{response}
     \begin{itemize}
-    \item zmíněné nástroje jsou vyspělejší a dobře integrované do vývojových IDE
-    \item tato práce je \emph{proof of concept}
-    \item existující nástroje nezavádí matematický přístup k formalizaci pravidel (poskytují předdefinované množiny pravidel)
+    \item zmíněné nástroje jsou vyspělejší a dobře integrované do vývojových IDE,
+    \item existující nástroje nezavádí matematický přístup k formalizaci pravidel (poskytují předdefinované množiny pravidel),
+    \item práce neměla (alespoň prozatím) za cíl konkurovat existujícím nástrojům, ale vyzkoušet nový/jiný přístup.
     \end{itemize}
   \end{response}
 \end{frame}
@@ -192,7 +213,11 @@
     Je možné některý z nástrojů upravit tak, aby byl schopný pracovat s navrženým způsobem ověřování?
   \end{question}
   \begin{response}
-    Nástroj byl navržen záměrně tak, aby jej bylo možné snadno integrovat do dalších prostředí. Jádro nástroje nemá přímé závislosti na konkrétní platformě. V případě využití některého z existujích nástrojů by bylo nutné poskytnout kompletní grafový model a implementaci potřebných operátorů, což může být pro různé nástroje náročné na implementaci. Proto je vhodnější při integraci využít platformu poskytovanou touto prací, která zmíněné komponenty již poskytuje.
+    \begin{itemize}
+    \item jádro vyvinutého nástroje nemá přímé závislosti na konkrétní platformě,
+    \item nutnost poskytnout kompletní grafový model, případně i přídatné operátory,
+    \item možnost využít platformu poskytovanou touto prací.
+\end{itemize}
   \end{response}
 \end{frame}
 
@@ -208,6 +233,20 @@
     \item FJ by určitě bylo možné využít -- jako elementy v pravidlech by vystupovaly elementy jazyka FJ (příp. FGJ),
     \item pro exaktní formalizaci bychom zvolili vhodné zobrazení programu ve FJ do grafu,
     \item nástroj pracuje nad programy v jazyce Java ($FJ \subset Java$).
+    \end{itemize}
+  \end{response}
+\end{frame}
+
+\begin{frame}
+  \frametitle{Otázky}
+  \begin{question}
+    Chybějící formální sémantika formátu AVD.
+  \end{question}
+  \begin{response}
+    \begin{itemize}
+    \item AVD je pouze serializací zápisu pravidel popsaných v práci,
+    \item jednalo se o nástroj jak vložit pravidla pro testování ve vhodné podobě do počítače (proof of concept),
+    \item v případě budoucího rozvoje práce je určitě vhodné rozšířit existující ANTLR gramatiku o popis významu jednotlivých konstruktů.
     \end{itemize}
   \end{response}
 \end{frame}

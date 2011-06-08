@@ -1,0 +1,26 @@
+digraph GraphExample {
+
+    graph[rankdir=LR,dpi=300];
+    node[shape=plaintext,fontsize=13,fontname=Georgia];
+    edge[dir="back",fontsize=13,fontname=Georgia];
+
+    Car[label="Name: \"Car\"\nKind: \"class\""];
+
+    setACParams[label="Name: \"setACParams\"\nKind: \"method\"",color=blue,shape=oval];
+    gearUp[label="Name: \"gearUp\"\nKind: \"method\"",color=blue,shape=oval];
+    gearDown[label="Name: \"gearDown\"\nKind: \"method\"",color=blue,shape=oval];
+
+    humidity[label="Name: \"humidity\"\nKind: \"param\""];
+    temperature[label="Name: \"temperature\"\nKind: \"param\""];
+    circulation[label="Name: \"circulation\"\nKind: \"param\""];
+
+    edge[dir="forward",fontsize=13,fontname=Georgia];
+
+    Car -> setACParams[label="Class: \"has_method\""];
+    Car -> gearUp[label="Class: \"has_method\""];
+    Car -> gearDown[label="Class: \"has_method\""];
+
+    setACParams -> humidity[label="Class: \"has_param\"",color=green];
+    setACParams -> temperature[label="Class: \"has_param\"",color=green];
+    setACParams -> circulation[label="Class: \"has_param\"",color=green];
+};
